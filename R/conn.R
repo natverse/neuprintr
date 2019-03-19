@@ -1,11 +1,13 @@
-#' @title Connect to/authenticate with a neuPrint server and its Neo4j database, returning a neuPrint connection object
+#' @title Connect to/authenticate with a neuPrint server and its Neo4j database,
+#'   returning a neuPrint connection object
 #'
 #' @description \code{neuprint_login} allows you to login to a neuPrint server
 #'   specified by a \code{neuprint_connection} object. If such an object is not
 #'   specified, then the last successful connection in this R session is reused
 #'   if possible otherwise a new connection object is created using
-#'   \code{options} of the form "neuprint_*" (see details). It is also very useful to
-#'   set the dafualt neuPrint dataset you want to work with, if the server hosts multiple datasets, see details.
+#'   \code{options} of the form "neuprint_*" (see details). It is also very
+#'   useful to set the default neuPrint dataset you want to work with, if the
+#'   server hosts multiple datasets, see details.
 #'
 #'   The connection object returned by \code{neuprint_login} (or cached when
 #'   \code{Cache=TRUE}, the default) can then be used for future requests to the
@@ -13,44 +15,51 @@
 #'
 #' @details After successful login, the \code{neuprint_connection} object will
 #'   contain a \code{cookie} field that includes a sessionid that is required
-#'   for subsequent GET/POST operations using the package \code{httr}. When \code{Cache=TRUE} (the default)
-#'   the open connection object is cached and will be used when EITHER
-#'   \code{neuprint_login} is called with enough information to indicate that the
-#'   same server is desired OR (when no information about the server is passed
-#'   to \code{neuprint_login}) the last opened connection will be used.
-#'   A new connection can be made using \code{Force = TRUE}, which is advisable as a first call for debugging if you
-#'   are having issues querying the server.
+#'   for subsequent GET/POST operations using the package \code{httr}. When
+#'   \code{Cache=TRUE} (the default) the open connection object is cached and
+#'   will be used when EITHER \code{neuprint_login} is called with enough
+#'   information to indicate that the same server is desired OR (when no
+#'   information about the server is passed to \code{neuprint_login}) the last
+#'   opened connection will be used. A new connection can be made using
+#'   \code{Force = TRUE}, which is advisable as a first call for debugging if
+#'   you are having issues querying the server.
 #'
 #' @section Token based authentication: neuPrint requires Bearer token based
-#'   authentication. You can get your token by going to your neuPrint server's webpage and right clicking on the icon showing your Google account on the top right coern, and selecting \bold{AUTH_TOKEN},
-#'   or often at your server's address \code{/token}, once you havw signed in via your approved Google account. Contact the server's administrators if you do not have access, but think that you should.
-#'   You can then set the \code{catmaid.token} package option, but no
+#'   authentication. You can get your token by going to your neuPrint server's
+#'   webpage and right clicking on the icon showing your Google account on the
+#'   top right corner, and selecting \bold{AUTH_TOKEN}, or often at your
+#'   server's address \code{/token}, once you havw signed in via your approved
+#'   Google account. Contact the server's administrators if you do not have
+#'   access, but think that you should. You can then set the
+#'   \code{catmaid.token} package option, but no
 #'
 #'   Note that you must \bold{NOT} reveal this token e.g. by checking it into a
 #'   version controlled script as it gives complete access to your neuPrint
 #'   account.
 #' @param server the neuprint server
 #' @param token your personal Bearer token
-#' @param conn a neuptrintr connection object
+#' @param conn a neuprintr connection object
 #' @param Cache Whether to cache open connections at login so that they can be
 #'   reused automatically.
 #' @param Force Whether to force a new login to the CATMAID server (default
 #'   \code{FALSE})
 #' @param ... methods passed to neuprint_connection
 #' @return a \code{neuprint_connection} object that can be used to make
-#'   authenticated https requests to a neuPrint server, specifically by making use
-#'   of its \code{$config} field.
+#'   authenticated https requests to a neuPrint server, specifically by making
+#'   use of its \code{$config} field.
 #'
 #' @section Environment variables:
 #'
 #'   You will very likely want to set the following environment variables in
 #'   your \code{.Renviron} file (see \code{\link{Startup}} for details). This
 #'   file is read by R on startup. In this way the catmaid package will
-#'   automatically login to your preferred neuPrint server. Note that environment
-#'   variables will also be inherited by child R sessions. This means for
-#'   example that they will be available when running knitr reports, tests or R
-#'   CMD Check from Rstudio. In orer to edit your R.profile or R.environ files easily and directly, try using
-#'   \code{usethis::usethis::edit_r_environ()} and \code{usethis::usethis::edit_r_profile()}
+#'   automatically login to your preferred neuPrint server. Note that
+#'   environment variables will also be inherited by child R sessions. This
+#'   means for example that they will be available when running knitr reports,
+#'   tests or R CMD Check from RStudio. In order to edit your R.profile or
+#'   R.environ files easily and directly, try using
+#'   \code{usethis::usethis::edit_r_environ()} and
+#'   \code{usethis::usethis::edit_r_profile()}
 #'
 #'   \itemize{
 #'
@@ -62,13 +71,14 @@
 #'
 #'   } An example \code{.Renviron} file might look like:
 #'
-#'   \preformatted{
-#'neuprint_server = 'https://emdata1.int.janelia.org:11000'
-#'neuprint_token = "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
-#'neuprint_dataset = 'hemibrain'
-#'   }
+#'   \preformatted{ neuprint_server = 'https://emdata1.int.janelia.org:11000'
+#'   neuprint_token =
+#'   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
+#'    neuprint_dataset = 'hemibrain' }
 #'
-#'   and \bold{must} finish with a return at the end of the last line. Your \code{neuprint_token} is unique to you and must be obtaned from a neuPrint web page once you havw logged in with an approved Google account.
+#'   and \bold{must} finish with a return at the end of the last line. Your
+#'   \code{neuprint_token} is unique to you and must be obtained from a neuPrint
+#'   web page once you havw logged in with an approved Google account.
 #'
 #' @section Options: Although setting environment variables is the recommended
 #'   approach, you can also set R startup options e.g. in your \code{.Rprofile}
@@ -77,15 +87,16 @@
 #'   listed above, so you can place code along the lines of:
 #'
 #'   \code{options(neuprint_server = 'https://emdata1.int.janelia.org:11000',
-#'neuprint_token = "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
-#'neuprint_dataset = 'hemibrain'
-#' )}
+#'   neuprint_token =
+#'   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
+#'    neuprint_dataset = 'hemibrain' )}
 #'
 #'   in your \code{.Rprofile} (see \code{\link{Startup}} for details). Note that
 #'   it is important to have a final return at the end of your \code{.Rprofile}
 #'   file.
 #'
-#' @seealso \code{\link{options}}, \code{\link{Startup}}, \code{\link{neuprint_datasets}}
+#' @seealso \code{\link{options}}, \code{\link{Startup}},
+#'   \code{\link{neuprint_datasets}}
 #' @examples
 #' \dontrun{
 #' ## example explicitly specifying connection options

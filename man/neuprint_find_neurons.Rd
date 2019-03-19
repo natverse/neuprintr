@@ -12,7 +12,7 @@ neuprint_find_neurons(input_ROIs, output_ROIs = NULL, statuses = NULL,
 
 \item{output_ROIs}{a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.}
 
-\item{statuses}{if not NULL, only bodies with the given status are considerd. Statuses include:
+\item{statuses}{if not NULL, only bodies with the given status are considered. Statuses include:
 Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}

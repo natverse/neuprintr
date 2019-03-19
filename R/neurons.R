@@ -1,13 +1,19 @@
 #' @title Read bodies from the neuPrint server
 #'
-#' @description  Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retreivable from a neuPrint server
+#' @description  Get \code{nat::neuronlist} objects or data frames in the format
+#'   of SWC files, for neurons retrievable from a neuPrint server
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
-#' @param nat whether or not to read neurons are nat::neuronlist objects (TRUE) or get SWC data frame (FALSE)
-#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
+#' @param nat whether or not to read neurons as \code{nat::neuronlist} objects
+#'   (TRUE) or get SWC data frame (FALSE)
+#' @param dataset optional, a dataset you want to query. If NULL, the default
+#'   specified by your R environ file is used. See \code{neuprint_login} for
+#'   details.
+#' @param conn optional, a neuprintr connection object, which also specifies the
+#'   neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
+#'   your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
-#' @return a n x n matrix, where the rows are input neurons and the columns are their targets
+#' @return a n x n matrix, where the rows are input neurons and the columns are
+#'   their targets
 #' @seealso \code{\link{neuprint_fetch_custom}}
 #' @export
 #' @rdname neuprint_read_neurons

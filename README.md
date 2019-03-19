@@ -4,7 +4,7 @@
 neuprintr
 =========
 
-The goal of *neuprintr* is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analyzing connectome data into a Neo4j database. You can find [neurprint](https://github.com/connectome-neuprint/neuPrint) on Github. There is also a great python client available from Philipp Schlegel, [neuprint-python](https://github.com/schlegelp/neuprint-python) if that's your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. Using this R package in concert with the [nat](https://github.com/jefferis/nat) ecosystem developed primarily by Greg Jefferis is highly recommended.
+The goal of *neuprintr* is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find [neuprint](https://github.com/connectome-neuprint/neuPrint) on Github. There is also a great python client available from Philipp Schlegel, [neuprint-python](https://github.com/schlegelp/neuprint-python) if that's your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. Using this R package in concert with the [nat](https://github.com/jefferis/nat) ecosystem developed primarily by Greg Jefferis is highly recommended.
 
 Installation
 ------------
@@ -49,7 +49,7 @@ Now we can have a look at what is available
 neuprint_datasets()
 
 # What's the underlying database
-neurprint_database()
+neuprint_database()
 
 # What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)
 neuprint_ROIs()

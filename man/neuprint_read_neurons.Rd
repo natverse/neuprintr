@@ -10,20 +10,26 @@ neuprint_read_neurons(bodyids, nat = TRUE, dataset = NULL,
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
-\item{nat}{whether or not to read neurons are nat::neuronlist objects (TRUE) or get SWC data frame (FALSE)}
+\item{nat}{whether or not to read neurons as \code{nat::neuronlist} objects
+(TRUE) or get SWC data frame (FALSE)}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{dataset}{optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See \code{neuprint_login} for
+details.}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
+your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a n x n matrix, where the rows are input neurons and the columns are their targets
+a n x n matrix, where the rows are input neurons and the columns are
+  their targets
 }
 \description{
-Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retreivable from a neuPrint server
+Get \code{nat::neuronlist} objects or data frames in the format
+  of SWC files, for neurons retrievable from a neuPrint server
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}

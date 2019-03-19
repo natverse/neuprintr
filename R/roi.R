@@ -3,7 +3,7 @@
 #' @description  Find bodies that input/output within certain ROIs (i.e. they must have synapses in these areas)
 #' @param input_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
 #' @param output_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
-#' @param statuses if not NULL, only bodies with the given status are considerd. Statuses include:
+#' @param statuses if not NULL, only bodies with the given status are considered. Statuses include:
 #' Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
