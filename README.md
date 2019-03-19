@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-![Travis-CI Build Status](https://api.travis-ci.org/alexanderbates/neuprintr.svg?branch=master)
+![Travis-CI Build Status](https://travis-ci.org/alexanderbates/neuprintr)
 
 neuprintr
 =========
