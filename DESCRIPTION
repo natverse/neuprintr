@@ -1,0 +1,19 @@
+Package: neuprintr
+Type: Package
+Title: R client utilties for interacting with the neuPrint connectome analysis service
+Version: 0.1.0
+Author: c(
+    person("Alexander", "Bates", email = "abates@mrc-lmb.cam.ac.uk", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1195-0445")),
+    )
+Maintainer: Alexander Bates <alexander.shakeel.bates@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL-3
+LazyData: true
+Suggests: drvid, nat
+Depends: R (>= 2.10), httr, jsonlite
+Remotes: 
+    jefferis/drvid
+Encoding: UTF-8
+Language: en-GB
+RoxygenNote: 6.1.1
