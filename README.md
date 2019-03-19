@@ -23,7 +23,7 @@ Authentication
 
 In order to use *neuprintr* you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. Currently this means you have to be on the network, SECURE WiFi or have a VPN for the Janelia network, and have an authorised account.
 
-![access your bearer token](inst/images/bearertoken.png)
+![access your bearer token](https://raw.githubusercontent.com/jefferislab/neuprintr/master/inst/images/bearertoken.png)
 
 To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. For detailed instructions use:
 

@@ -47,7 +47,14 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/jefferislab/neuprintr">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -73,7 +80,7 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install</span>
 <span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"alexanderbates/neuprintr"</span>)
+devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"jefferislab/neuprintr"</span>)
 
 <span class="co"># use </span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(neuprintr)</code></pre></div>
@@ -83,7 +90,7 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <a href="#authentication" class="anchor"></a>Authentication</h2>
 <p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. Currently this means you have to be on the network, SECURE WiFi or have a VPN for the Janelia network, and have an authorised account.</p>
 <div class="figure">
-<img src="inst/images/bearertoken.png" alt="access your bearer token"><p class="caption">access your bearer token</p>
+<img src="https://raw.githubusercontent.com/jefferislab/neuprintr/master/inst/images/bearertoken.png" alt="access your bearer token"><p class="caption">access your bearer token</p>
 </div>
 <p>To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. For detailed instructions use:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?neuprint_login</code></pre></div>
@@ -115,7 +122,16 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/jefferislab/neuprintr">https://​github.com/​jefferislab/​neuprintr</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/jefferislab/neuprintr/issues">https://​github.com/​jefferislab/​neuprintr/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
@@ -131,7 +147,7 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
       <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/alexanderbates/neuprintr"><img src="https://api.travis-ci.org/alexanderbates/neuprintr.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://travis-ci.org/jefferislab/neuprintr"><img src="https://api.travis-ci.org/jefferislab/neuprintr.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 </ul>
 </div>
 </div>
