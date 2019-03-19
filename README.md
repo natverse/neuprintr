@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://api.travis-ci.org/alexanderbates/neuprintr.svg?branch=master)](https://travis-ci.org/alexanderbates/neuprintr)
+[![Travis-CI Build Status](https://api.travis-ci.org/jefferislab/neuprintr.svg?branch=master)](https://travis-ci.org/jefferislab/neuprintr)
 
 neuprintr
 =========
@@ -12,7 +12,7 @@ Installation
 ``` r
 # install
 if (!require("devtools")) install.packages("devtools")
-devtools::install_github("alexanderbates/neuprintr")
+devtools::install_github("jefferislab/neuprintr")
 
 # use 
 library(neuprintr)
