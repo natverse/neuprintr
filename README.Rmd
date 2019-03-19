@@ -59,7 +59,7 @@ Now we can have a look at what is available
 neuprint_datasets()
 
 # What's the underlying database
-neurprint_database()
+neuprint_database()
 
 # What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)
 neuprint_ROIs()

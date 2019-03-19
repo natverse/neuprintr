@@ -13,7 +13,7 @@ neuprint_datasets <- function(conn = NULL, ...){
 
 #' @export
 #' @rdname neuprint_info
-neurprint_database <- function(conn = NULL, ...){
+neuprint_database <- function(conn = NULL, ...){
   neuprint_fetch(path = 'api/dbmeta/database', conn = conn, ...)
 }
 
