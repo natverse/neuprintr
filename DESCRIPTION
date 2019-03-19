@@ -8,8 +8,9 @@ Author: c(
     person("Gregory", "Jefferis", email = "jefferis@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-0587-9355"))
     )
 Maintainer: Alexander Bates <alexander.shakeel.bates@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Access to the neuprint connectommie analysis service, including 
+    functions to fetch skeletons, synapses and ROIs, query connnectivity data
+    and develop new low level queries.
 License: GPL-3
 LazyData: true
 Suggests: 
