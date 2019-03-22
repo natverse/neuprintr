@@ -3,6 +3,7 @@
 #' @description  Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 #' If NULL, your defaults set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
@@ -10,12 +11,14 @@
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
-neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, conn = NULL, ...){
+neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
-  cypher = sprintf("WITH %s AS input MATCH (n:`%s-Neuron`)-[c:ConnectsTo]->(m) WHERE n.bodyId IN input AND m.bodyId IN input RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.name AS upName, m.name AS downName",
+  all_segments = ifelse(all_segments,"Segment","Neuron")
+  cypher = sprintf("WITH %s AS input MATCH (n:`%s-%s`)-[c:ConnectsTo]->(m) WHERE n.bodyId IN input AND m.bodyId IN input RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.name AS upName, m.name AS downName",
                    dataset,
+                   all_segments,
                    jsonlite::toJSON(bodyids))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
