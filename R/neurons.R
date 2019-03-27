@@ -99,7 +99,7 @@ neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL,
     bodyids = x$bodyid
   }
   synapses = neuprint_get_synapses(bodyid = bodyids, dataset = dataset, roi = "all", conn = conn, ...)
-  near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(d),k=1)$nn.idx
+  near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(x$d),k=1)$nn.idx
   synapses$treenode_id = n$d[near,"PointNo"]
   n$connectors = synapses
   n
