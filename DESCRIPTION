@@ -17,8 +17,8 @@ Suggests:
     drvid,
     nat,
     spelling
-Depends: R (>= 2.10), httr, jsonlite, nabor
-Imports: igraph
+Depends: R (>= 2.10)
+Imports: httr, jsonlite, nabor, igraph
 Remotes: 
     jefferis/drvid
 Encoding: UTF-8
