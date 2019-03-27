@@ -41,7 +41,7 @@
 #' @param conn a neuprintr connection object
 #' @param config an \code{httr::\link[httr]{config}} object that can be used to
 #'   set advanced curl options (e.g. additional authentication, proxy settings
-#'   etc)
+#'   etc). See \bold{Curl options} section and \bold{Examples}.
 #' @param Cache Whether to cache open connections at login so that they can be
 #'   reused automatically.
 #' @param Force Whether to force a new login to the CATMAID server (default
@@ -96,13 +96,25 @@
 #'   in your \code{.Rprofile} (see \code{\link{Startup}} for details). Note that
 #'   it is important to have a final return at the end of your \code{.Rprofile}
 #'   file.
+#' @section Curl options: \bold{neuprintr} uses the curl library provided by the
+#'   \code{httr} and \code{curl} packages to carry out remote requests. You can
+#'   set curl options by passing an \code{httr::\link[httr]{config}} object that
+#'   can be used to set advanced curl options (e.g. additional authentication,
+#'   proxy settings etc). See \code{\link[curl]{handle}} and
+#'   \code{\link[curl]{curl_options}} for a full list of possible options.
 #'
+#'   You can also set default curl options using environment variables with
+#'   names of the form \code{neuprint_curl_<curloption>}. For example the
+#'   following entry in you \code{\link{Renviron}} file will set the curl
+#'   \code{ssl_verifyhost} option:
+#'
+#'   \verb{neuprint_curl_ssl_verifyhost=0}
+
 #' @seealso \code{\link{options}}, \code{\link{Startup}},
 #'   \code{\link{neuprint_datasets}}
 #' @examples
 #' \dontrun{
 #' ## example explicitly specifying connection options
-#' # using modern token based authentication
 #' conn = neuprint_login(server= "https://emdata1.int.janelia.org:11000",
 #'   token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU")
 #'
@@ -134,6 +146,8 @@ neuprint_connection <- function(server=NULL, token=NULL, conn=NULL, config=httr:
   if(missing(server)) {
     neuprint_token=defaultToken
   }
+  # collect any curl options defined as environment variables
+  config=neuprint_curl_options(config)
   conn=list(server = neuprint_server, token = neuprint_token, config=config)
   class(conn)='dv_conn'
   conn
@@ -246,3 +260,21 @@ getenvoroption <- function(vars, prefix="neuprint_"){
   names(res)=vars
   res
 }
+
+# for curl options defined as environment variables
+neuprint_curl_options <- function(extra_opts=httr::config()) {
+  envs=Sys.getenv()
+  curlopts=envs[grepl("^neuprint_curl_", names(envs))]
+  if (length(curlopts)) {
+    names(curlopts) = sub("neuprint_curl_", "", names(curlopts))
+  } else {
+    curlopts = list()
+  }
+
+  keep=setdiff(names(curlopts), names(extra_opts$options))
+  curlopts=as.list(curlopts[keep])
+  # environment variables come in as strings, but sometimes we want numbers
+  curlopts <- sapply(curlopts, function(x) switch(x, `0`=0L, `1`=1L, x), simplify = F)
+  c(extra_opts, do.call(httr::config, curlopts))
+}
+
