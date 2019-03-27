@@ -26,7 +26,7 @@ neuprint_get_neuron_name <- function(bodyid, dataset = NULL, all_segments = TRUE
   df
 }
 
-neuprint_search_neuron_name <- function(search = "MBON.*", all_segments = TRUE){
+neuprint_search_neuron_name <- function(search = "MBON.*", all_segments = TRUE, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
@@ -35,5 +35,5 @@ neuprint_search_neuron_name <- function(search = "MBON.*", all_segments = TRUE){
                    dataset,
                    all_segments,
                    search)
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, ...)
 }
