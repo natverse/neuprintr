@@ -117,7 +117,6 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = NULL, dataset = 
 #' @return a cohesive SWC like data frame, or a cohesive neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @seealso \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
 #' @export
-#' @rdname heal_skeleton
 heal_skeleton <- function(x, ...){
   n = nat::as.ngraph(x)
   mstree = igraph::mst(graph = n, ...)
@@ -130,14 +129,3 @@ heal_skeleton <- function(x, ...){
     healed$d
   }
 }
-
-
-
-
-
-
-
-
-
-
-
