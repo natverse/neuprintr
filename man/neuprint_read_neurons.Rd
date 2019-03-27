@@ -2,29 +2,53 @@
 % Please edit documentation in R/neurons.R
 \name{neuprint_read_neurons}
 \alias{neuprint_read_neurons}
-\title{Read bodies from the neuPrint server}
+\alias{neuprint_read_neuron}
+\title{Read bodies from the neuPrint server as skeletons}
 \usage{
-neuprint_read_neurons(bodyids, nat = TRUE, dataset = NULL,
-  conn = NULL, ...)
+neuprint_read_neurons(bodyids, name = TRUE, nat = TRUE, soma = TRUE,
+  heal = TRUE, connectors = TRUE, all_segments = TRUE,
+  dataset = NULL, resample = FALSE, conn = NULL, ...)
+
+neuprint_read_neuron(bodyid, nat = TRUE, soma = TRUE, heal = TRUE,
+  connectors = TRUE, dataset = NULL, all_segments = TRUE,
+  resample = FALSE, conn = NULL, ...)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
+\item{name}{whether or not to fetch a name for the given bodyids, using \code{neuprint_get_neuron_names}}
+
 \item{nat}{whether or not to read neurons are nat::neuronlist objects (TRUE) or get SWC data frame (FALSE)}
 
+\item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
+
+\item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}}
+
+\item{connectors}{whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
+This can be doen for synapse-less skeletons using \code{neuprint_assign_connectors}}
+
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+
+\item{resample}{if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 If NULL, your defaults set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
+
+\item{bodyids}{a single body ID for a neuron/segment (body) you wish to query}
+
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 }
 \value{
-a n x n matrix, where the rows are input neurons and the columns are their targets
+a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
 }
 \description{
-Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retreivable from a neuPrint server
+Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retreivable from a neuPrint server.
+Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to appxorimate treenode positions, in the style of neuron objects used by the rcatmaid package
 }
 \seealso{
-\code{\link{neuprint_fetch_custom}}
+\code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 }

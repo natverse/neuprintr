@@ -11,7 +11,7 @@ Description: More about what it does (maybe more than one line)
 License: GPL-3
 LazyData: true
 Suggests: drvid, nat
-Depends: R (>= 2.10), httr, jsonlite
+Depends: R (>= 2.10), httr, jsonlite, nabor
 Remotes: 
     jefferis/drvid
 Encoding: UTF-8
