@@ -56,21 +56,20 @@ neuprint_find_neurons <- function(input_ROIs,
 
 #' @export
 #' @rdname neuprint_find_neurons
-neuprint_bodies_in_ROI <- function(roi = "LH", dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
   all_segments = ifelse(all_segments,"Segment","Neuron")
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-  cypher = sprintf("MATCH (n :`%s-%s`) WHERE n.%s WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.status AS status, n.pre, n.post, roiInfo.%s.pre, roiInfo.%s.post",
+  cypher = sprintf("MATCH (n :`%s-%s`) WHERE n.%s WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.pre, n.post, roiInfo.%s.pre, roiInfo.%s.post",
                 dataset,
                 all_segments,
                 roi,
                 roi,
                 roi)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
-  d = do.call(rbind,nc$data)
-  d = as.data.frame(t(apply(d,1,function(r) unlist(r))))
+  d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
   colnames(d) = unlist(nc$columns)
   d
 }
