@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>neuprintr: R client utilities for interacting with the neuPrint connectome analysis service — neuprintr-package • neuprintr</title>
+<title>Heal a fragmented skeleton for a neuron — heal_skeleton • neuprintr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="neuprintr: R client utilities for interacting with the neuPrint connectome analysis service — neuprintr-package" />
+<meta property="og:title" content="Heal a fragmented skeleton for a neuron — heal_skeleton" />
 
-<meta property="og:description" content="Access to the neuprint connectome analysis service, including 
-    functions to fetch skeletons, synapses and ROIs, query connectivity data
-    and develop new low level queries." />
+<meta property="og:description" content="Mend breaks in a skeleton for a neuron, predicting merge sites using the minimum spanning tree method, utilising igraph::mst" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -101,50 +99,51 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>neuprintr: R client utilities for interacting with the neuPrint connectome analysis service</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jefferislab/neuprintr/blob/master/R/neuprintr-package.R'><code>R/neuprintr-package.R</code></a></small>
-    <div class="hidden name"><code>neuprintr-package.Rd</code></div>
+    <h1>Heal a fragmented skeleton for a neuron</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jefferislab/neuprintr/blob/master/R/neurons.R'><code>R/neurons.R</code></a></small>
+    <div class="hidden name"><code>heal_skeleton.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Access to the neuprint connectome analysis service, including 
-    functions to fetch skeletons, synapses and ROIs, query connectivity data
-    and develop new low level queries.</p>
+    <p>Mend breaks in a skeleton for a neuron, predicting merge sites using the minimum spanning tree method, utilising <code><a href='https://www.rdocumentation.org/packages/igraph/topics/mst'>igraph::mst</a></code></p>
     
     </div>
 
-        
-    <h2 class="hasAnchor" id="online-documentation"><a class="anchor" href="#online-documentation"></a>Online Documentation</h2>
+    <pre class="usage"><span class='fu'>heal_skeleton</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>either an object of class neuron, or neuronlist</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>methods passed to <code>neuprint_login</code></p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>See
-  <a href='https://jefferislab.github.io/neuprintr/'>https://jefferislab.github.io/neuprintr/</a> for structured online
-  documentation.</p>
+    <p>a cohesive SWC like data frame, or a cohesive neuron/neuronlist object as dictated used by the <code>nat</code> and <code>rcatmaid</code> packages</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://github.com/jefferislab/neuprintr'>https://github.com/jefferislab/neuprintr</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/jefferislab/neuprintr/issues'>https://github.com/jefferislab/neuprintr/issues</a></p></li>
-</ul></div>
+    <div class='dont-index'><p><code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='neuprint_read_neurons.html'>neuprint_read_neurons</a></code></p></div>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#online-documentation">Online Documentation</a></li>
+      <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>
-
-    <h2>Author</h2>
-    <p><strong>Maintainer</strong>: Alexander Bates <a href='mailto:alexander.shakeel.bates@gmail.com'>alexander.shakeel.bates@gmail.com</a> (0000-0002-1195-0445)</p>
-<p>Authors:</p><ul>
-<li><p>Gregory Jefferis <a href='mailto:jefferis@gmail.com'>jefferis@gmail.com</a> (0000-0002-0587-9355)</p></li>
-</ul>
-
 
   </div>
 </div>

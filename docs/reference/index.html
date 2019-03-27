@@ -117,15 +117,21 @@
       <tr>
         
         <td>
-          <p><code><a href="neuprint_ROIs.html">neuprint_ROIs()</a></code> </p>
+          <p><code><a href="neuprint_find_neurons.html">neuprint_find_neurons()</a></code> <code><a href="neuprint_find_neurons.html">neuprint_bodies_in_ROI()</a></code> </p>
         </td>
-        <td><p>Get a vector of all the ROIs in a specified dataset</p></td>
+        <td><p>Find bodies within a given ROI</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="neuprint_find_neurons.html">neuprint_find_neurons()</a></code> </p>
+          <p><code><a href="neuprint_get_names.html">neuprint_get_neuron_names()</a></code> </p>
         </td>
-        <td><p>Find bodies within a given ROI</p></td>
+        <td><p>Get the name of a neuron</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_read_neurons.html">neuprint_read_neurons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_neuron()</a></code> </p>
+        </td>
+        <td><p>Read bodies from the neuPrint server as skeletons</p></td>
       </tr><tr>
         
         <td>
@@ -135,9 +141,29 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="neuprint_read_neurons.html">neuprint_read_neurons()</a></code> </p>
+          <p><code><a href="neuprint_ROIs.html">neuprint_ROIs()</a></code> </p>
         </td>
-        <td><p>Read bodies from the neuPrint server</p></td>
+        <td><p>Get a vector of all the ROIs in a specified dataset</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-neuron-manipulation" class="hasAnchor"><a href="#section-neuron-manipulation" class="anchor"></a>Neuron manipulation</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="heal_skeleton.html">heal_skeleton()</a></code> </p>
+        </td>
+        <td><p>Heal a fragmented skeleton for a neuron</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_assign_connectors.html">neuprint_assign_connectors()</a></code> <code><a href="neuprint_assign_connectors.html">neuprint_locate_soma()</a></code> </p>
+        </td>
+        <td><p>Assign synapses to a neuronal tree</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -206,6 +232,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-basic-queries">Basic queries</a></li>
+      <li><a href="#section-neuron-manipulation">Neuron manipulation</a></li>
       <li><a href="#section-connectivity-between-neurons">Connectivity between neurons</a></li>
       <li><a href="#section-basic-interaction-with-neuprint-server">Basic interaction with neuPrint server</a></li>
     </ul>
@@ -214,7 +241,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
 </div>
 
 <div class="pkgdown">
