@@ -2,12 +2,11 @@ Package: neuprintr
 Type: Package
 Title: R client utilities for interacting with the neuPrint connectome analysis service
 Version: 0.1.0
-Author: c(
-    person("Alexander", "Bates", email = "abates@mrc-lmb.cam.ac.uk", role = c("aut", "cre"), 
+Authors@R: c(
+    person("Alexander", "Bates", email = "alexander.shakeel.bates@gmail.com", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-1195-0445")),
     person("Gregory", "Jefferis", email = "jefferis@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-0587-9355"))
     )
-Maintainer: Alexander Bates <alexander.shakeel.bates@gmail.com>
 Description: Access to the neuprint connectommie analysis service, including 
     functions to fetch skeletons, synapses and ROIs, query connnectivity data
     and develop new low level queries.
