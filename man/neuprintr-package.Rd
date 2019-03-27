@@ -7,8 +7,8 @@
 \alias{neuprintr}
 \title{neuprintr: R client utilities for interacting with the neuPrint connectome analysis service}
 \description{
-Access to the neuprint connectommie analysis service, including 
-    functions to fetch skeletons, synapses and ROIs, query connnectivity data
+Access to the neuprint connectome analysis service, including 
+    functions to fetch skeletons, synapses and ROIs, query connectivity data
     and develop new low level queries.
 }
 \section{Online Documentation}{
@@ -22,6 +22,15 @@ Useful links:
 \itemize{
   \item \url{https://github.com/jefferislab/neuprintr}
   \item Report bugs at \url{https://github.com/jefferislab/neuprintr/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Alexander Bates \email{alexander.shakeel.bates@gmail.com} (0000-0002-1195-0445)
+
+Authors:
+\itemize{
+  \item Gregory Jefferis \email{jefferis@gmail.com} (0000-0002-0587-9355)
 }
 
 }

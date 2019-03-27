@@ -7,8 +7,8 @@ Authors@R: c(
     comment = c(ORCID = "0000-0002-1195-0445")),
     person("Gregory", "Jefferis", email = "jefferis@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-0587-9355"))
     )
-Description: Access to the neuprint connectommie analysis service, including 
-    functions to fetch skeletons, synapses and ROIs, query connnectivity data
+Description: Access to the neuprint connectome analysis service, including 
+    functions to fetch skeletons, synapses and ROIs, query connectivity data
     and develop new low level queries.
 License: GPL-3
 LazyData: true

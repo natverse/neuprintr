@@ -1,7 +1,7 @@
 #' @title Read bodies from the neuPrint server as skeletons
 #'
 #' @description  Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-#' Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to appxorimate treenode positions, in the style of neuron objects used by the rcatmaid package
+#' Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
 #' @param bodyid a single body ID for a neuron/segment (body) you wish to query
 #' @param nat whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)
@@ -9,7 +9,7 @@
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
 #' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
 #' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
-#' This can be doen for synapse-less skeletons using \code{neuprint_assign_connectors}
+#' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param resample if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.
@@ -83,7 +83,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, soma = TRUE, heal = TRUE, c
 
 #' @title Assign synapses to a neuronal tree
 #'
-#' @description  Fetch the synapses associated with a bodyid and assign them to the nearest point in the skeleton. For this to work, the skeletons must be in the same brainsapce as the synaptic data being pulled from neuprint. I.e. do not transform them to another brainspace, untol after this step.
+#' @description  Fetch the synapses associated with a bodyid and assign them to the nearest point in the skeleton. For this to work, the skeletons must be in the same brainspace as the synaptic data being pulled from neuprint. I.e. do not transform them to another brainspace, until after this step.
 #' @inheritParams neuprint_read_neurons
 #' @param x either an object of class neuron, or neuronlist
 #' @return a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
@@ -111,7 +111,7 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = NULL, dataset = 
 
 #' @title Heal a fragmented skeleton for a neuron
 #'
-#' @description  Mend breaks in a skeleton for a neuron, predictign merge sites using the minimum spannign tree method, utilisng \code{igraph::mst}
+#' @description  Mend breaks in a skeleton for a neuron, predicting merge sites using the minimum spanning tree method, utilising \code{igraph::mst}
 #' @inheritParams neuprint_read_neurons
 #' @param x either an object of class neuron, or neuronlist
 #' @return a cohesive SWC like data frame, or a cohesive neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages

@@ -20,7 +20,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a dataframe givng a bodyid name correspondence
+a dataframe giving a bodyid name correspondence
 }
 \description{
 If a bodyID has a name associated with it, fetch that name, otherwise, return NA
