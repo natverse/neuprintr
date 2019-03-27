@@ -31,9 +31,9 @@ a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid
 a data frame of X,Y,Z coordinates, a row for each bodyid supplied
 }
 \description{
-Fetch the synapses associated with a bodyid and assign them to the nearest point in the skeleton. For this to work, the skeletons must be in the same brainsapce as the synaptic data being pulled from neuprint. I.e. do not transform them to another brainspace, untol after this step.
+Fetch the synapses associated with a bodyid and assign them to the nearest point in the skeleton. For this to work, the skeletons must be in the same brainspace as the synaptic data being pulled from neuprint. I.e. do not transform them to another brainspace, until after this step.
 
-For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotatedp pixel, you can retrieve its position.
+For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}

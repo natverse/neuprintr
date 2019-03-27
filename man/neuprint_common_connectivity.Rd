@@ -11,10 +11,10 @@ neuprint_common_connectivity(bodyids, statuses = NULL,
 \arguments{
 \item{bodyids}{the cypher by which to make your search}
 
-\item{statuses}{if not NULL, only bodies with the given status are considerd. Statuses include:
+\item{statuses}{if not NULL, only bodies with the given status are considered. Statuses include:
 Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.}
 
-\item{prepost}{whether to look for partners presynaptic ot postsynaptic to the given bodyids}
+\item{prepost}{whether to look for partners presynaptic to postsynaptic to the given bodyids}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
 

@@ -4,7 +4,7 @@
 #' @param input_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
 #' @param output_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
 #' @param roi a single ROI. Use \code{neuprint_ROIs} to see what is available.
-#' @param statuses if not NULL, only bodies with the given status are considerd. Statuses include:
+#' @param statuses if not NULL, only bodies with the given status are considered. Statuses include:
 #' Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
@@ -56,7 +56,7 @@ neuprint_find_neurons <- function(input_ROIs,
 
 #' @export
 #' @rdname neuprint_find_neurons
-neurprint_bodies_in_ROI <- function(roi = "LH", dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_bodies_in_ROI <- function(roi = "LH", dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
@@ -105,7 +105,7 @@ neuprint_ROI_connectivity <- function(rois, dataset = NULL, conn = NULL, ...){
 # hidden
 neuprint_check_roi <- function(rois, dataset = NULL, conn = NULL, ...){
   possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, ...)
-  if(sum(!roi%in%possible.rois)>0){
+  if(!all(rois%in%possible.rois)){
     stop("Regions of interest provided that are not demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
          ". Please call neuprint_ROIs() to see the available ROIs.")
   }else{

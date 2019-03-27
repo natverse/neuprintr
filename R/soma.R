@@ -1,6 +1,6 @@
 #' @title Get the annotated positions in space for somata
 #'
-#' @description  For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotatedp pixel, you can retrieve its position.
+#' @description  For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.
 #' @inheritParams neuprint_read_neurons
 #' @return a data frame of X,Y,Z coordinates, a row for each bodyid supplied
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}

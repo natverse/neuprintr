@@ -18,14 +18,14 @@ neuprint_read_neuron(bodyid, nat = TRUE, soma = TRUE, heal = TRUE,
 
 \item{name}{whether or not to fetch a name for the given bodyids, using \code{neuprint_get_neuron_names}}
 
-\item{nat}{whether or not to read neurons are nat::neuronlist objects (TRUE) or get SWC data frame (FALSE)}
+\item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
 
 \item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}}
 
 \item{connectors}{whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
-This can be doen for synapse-less skeletons using \code{neuprint_assign_connectors}}
+This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
 
@@ -38,16 +38,14 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 
-\item{bodyids}{a single body ID for a neuron/segment (body) you wish to query}
-
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
 }
 \value{
 a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
 }
 \description{
-Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retreivable from a neuPrint server.
-Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to appxorimate treenode positions, in the style of neuron objects used by the rcatmaid package
+Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
+Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}

@@ -2,13 +2,13 @@
 % Please edit documentation in R/roi.R
 \name{neuprint_find_neurons}
 \alias{neuprint_find_neurons}
-\alias{neurprint_bodies_in_ROI}
+\alias{neuprint_bodies_in_ROI}
 \title{Find bodies within a given ROI}
 \usage{
 neuprint_find_neurons(input_ROIs, output_ROIs = NULL, statuses = NULL,
   dataset = NULL, conn = NULL, all_segments = TRUE, ...)
 
-neurprint_bodies_in_ROI(roi = "LH", dataset = NULL,
+neuprint_bodies_in_ROI(roi = "LH", dataset = NULL,
   all_segments = TRUE, conn = NULL, ...)
 }
 \arguments{
@@ -16,7 +16,7 @@ neurprint_bodies_in_ROI(roi = "LH", dataset = NULL,
 
 \item{output_ROIs}{a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.}
 
-\item{statuses}{if not NULL, only bodies with the given status are considerd. Statuses include:
+\item{statuses}{if not NULL, only bodies with the given status are considered. Statuses include:
 Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}

@@ -31,9 +31,9 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 #'
 #' @description  Get the neurons that are shared synaptic partners for a set of given bodyids, either upstream or downstream.
 #' @param bodyids the cypher by which to make your search
-#' @param statuses if not NULL, only bodies with the given status are considerd. Statuses include:
+#' @param statuses if not NULL, only bodies with the given status are considered. Statuses include:
 #' Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.
-#' @param prepost whether to look for partners presynaptic ot postsynaptic to the given bodyids
+#' @param prepost whether to look for partners presynaptic to postsynaptic to the given bodyids
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
 #' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
@@ -86,15 +86,22 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
 
 #' @title Get a list of connected partners for a neuron
 #'
-#' @description  Get all of the neurons in the database that connect to the query neurons, either upstream or downstream of them
+#' @description  Get all of the neurons in the database that connect to the
+#'   query neurons, either upstream or downstream of them
 #' @param bodyids the cypher by which to make your search
-#' @param prepost whether to look for partners presynaptic ot postsynaptic to the given bodyids
-#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
+#' @param prepost whether to look for partners presynaptic to postsynaptic to
+#'   the given bodyids
+#' @param dataset optional, a dataset you want to query. If NULL, the default
+#'   specified by your R environ file is used. See \code{neuprint_login} for
+#'   details.
+#' @param conn optional, a neuprintr connection object, which also specifies the
+#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
+#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
-#' @return a n x m matrix where n correspond to the neurons that connect to m body ids
-#' @seealso \code{\link{neuprint_common_connectivity}}, \code{\link{neuprint_get_adjacency_matrix}}
+#' @return a n x m matrix where n correspond to the neurons that connect to m
+#'   body ids
+#' @seealso \code{\link{neuprint_common_connectivity}},
+#'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_simple_connectivity
 neuprint_simple_connectivity <- function(bodyids,

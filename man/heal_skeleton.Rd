@@ -15,7 +15,7 @@ heal_skeleton(x, ...)
 a cohesive SWC like data frame, or a cohesive neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
 }
 \description{
-Mend breaks in a skeleton for a neuron, predictign merge sites using the minimum spannign tree method, utilisng \code{igraph::mst}
+Mend breaks in a skeleton for a neuron, predicting merge sites using the minimum spanning tree method, utilising \code{igraph::mst}
 }
 \seealso{
 \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}

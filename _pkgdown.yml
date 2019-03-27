@@ -1,0 +1,27 @@
+reference:
+- title: Basic queries
+  desc: ~
+  contents:
+  - '`neuprint_find_neurons`'
+  - '`neuprint_get_neuron_names`'
+  - '`neuprint_read_neurons`'
+  - '`neuprint_get_synapses`'
+  - '`neuprint_ROIs`'
+- title: Neuron manipulation
+  desc: ~
+  contents:
+  - 'heal_skeleton'
+  - 'neuprint_assign_connectors'
+- title: Connectivity between neurons
+  desc: ~
+  contents:
+  - '`neuprint_ROI_connectivity`'
+  - '`neuprint_common_connectivity`'
+  - '`neuprint_get_adjacency_matrix`'
+  - '`neuprint_simple_connectivity`'
+- title: Basic interaction with neuPrint server
+  desc: ~
+  contents:
+  - '`neuprint_connection`'
+  - '`neuprint_datasets`'
+  - '`neuprint_fetch_custom`'

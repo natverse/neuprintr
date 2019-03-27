@@ -2,14 +2,14 @@
 % Please edit documentation in R/info.R
 \name{neuprint_datasets}
 \alias{neuprint_datasets}
-\alias{neurprint_database}
+\alias{neuprint_database}
 \alias{neuprint_available}
 \alias{neuprint_version}
 \title{Find out what some information about your neuPrint server}
 \usage{
 neuprint_datasets(conn = NULL, ...)
 
-neurprint_database(conn = NULL, ...)
+neuprint_database(conn = NULL, ...)
 
 neuprint_available(conn = NULL, ...)
 
