@@ -58,8 +58,8 @@
 #'   means for example that they will be available when running knitr reports,
 #'   tests or R CMD Check from RStudio. In order to edit your R.profile or
 #'   R.environ files easily and directly, try using
-#'   \code{usethis::usethis::edit_r_environ()} and
-#'   \code{usethis::usethis::edit_r_profile()}
+#'   \code{usethis::edit_r_environ()} and
+#'   \code{usethis::edit_r_profile()}
 #'
 #'   \itemize{
 #'
@@ -71,10 +71,9 @@
 #'
 #'   } An example \code{.Renviron} file might look like:
 #'
-#'   \preformatted{ neuprint_server = 'https://emdata1.int.janelia.org:11000'
-#'   neuprint_token =
-#'   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
-#'    neuprint_dataset = 'hemibrain' }
+#'   \preformatted{neuprint_server = "https://emdata1.int.janelia.org:11000"
+#' neuprint_token = "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
+#' neuprint_dataset = "hemibrain"}
 #'
 #'   and \bold{must} finish with a return at the end of the last line. Your
 #'   \code{neuprint_token} is unique to you and must be obtained from a neuPrint

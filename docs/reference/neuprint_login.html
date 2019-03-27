@@ -210,17 +210,16 @@ reused automatically.</p></td>
   means for example that they will be available when running knitr reports,
   tests or R CMD Check from RStudio. In order to edit your R.profile or
   R.environ files easily and directly, try using
-  <code>usethis::usethis::edit_r_environ()</code> and
-  <code>usethis::usethis::edit_r_profile()</code></p>
+  <code><a href='https://www.rdocumentation.org/packages/usethis/topics/edit'>usethis::edit_r_environ()</a></code> and
+  <code><a href='https://www.rdocumentation.org/packages/usethis/topics/edit'>usethis::edit_r_profile()</a></code></p>
 <p></p><ul>
 <li><p><code>neuprint_server</code></p></li>
 <li><p><code>neuprint_token</code></p></li>
 <li><p><code>neuprint_dataset</code></p></li>
 </ul><p>An example <code>.Renviron</code> file might look like:</p>
-<p></p><pre> neuprint_server = 'https://emdata1.int.janelia.org:11000'
-  neuprint_token =
-  "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
-   neuprint_dataset = 'hemibrain' </pre>
+<p></p><pre>neuprint_server = "https://emdata1.int.janelia.org:11000"
+neuprint_token = "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
+neuprint_dataset = "hemibrain"</pre>
     <p>and <b>must</b> finish with a return at the end of the last line. Your
   <code>neuprint_token</code> is unique to you and must be obtained from a neuPrint
   web page once you havw logged in with an approved Google account.</p>
