@@ -38,9 +38,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 
-\item{bodyids}{a single body ID for a neuron/segment (body) you wish to query}
-
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
 }
 \value{
 a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
