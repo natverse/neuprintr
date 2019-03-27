@@ -25,6 +25,3 @@ a dataframe givng a bodyid name correspondence
 \description{
 If a bodyID has a name associated with it, fetch that name, otherwise, return NA
 }
-\seealso{
-\code{\link{neuprint_search_name}}
-}

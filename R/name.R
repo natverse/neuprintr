@@ -3,7 +3,6 @@
 #' @description  If a bodyID has a name associated with it, fetch that name, otherwise, return NA
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @return a dataframe givng a bodyid name correspondence
-#' @seealso \code{\link{neuprint_search_name}}
 #' @export
 #' @rdname neuprint_get_names
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
