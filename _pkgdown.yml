@@ -2,10 +2,16 @@ reference:
 - title: Basic queries
   desc: ~
   contents:
-  - '`neuprint_ROIs`'
   - '`neuprint_find_neurons`'
-  - '`neuprint_get_synapses`'
+  - '`neuprint_get_neuron_names`'
   - '`neuprint_read_neurons`'
+  - '`neuprint_get_synapses`'
+  - '`neuprint_ROIs`'
+- title: Neuron manipulation
+  desc: ~
+  contents:
+  - 'heal_skeleton'
+  - 'neuprint_assign_connectors'
 - title: Connectivity between neurons
   desc: ~
   contents:
