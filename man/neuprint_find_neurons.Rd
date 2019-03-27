@@ -2,13 +2,13 @@
 % Please edit documentation in R/roi.R
 \name{neuprint_find_neurons}
 \alias{neuprint_find_neurons}
-\alias{neurprint_bodies_in_ROI}
+\alias{neuprint_bodies_in_ROI}
 \title{Find bodies within a given ROI}
 \usage{
 neuprint_find_neurons(input_ROIs, output_ROIs = NULL, statuses = NULL,
   dataset = NULL, conn = NULL, all_segments = TRUE, ...)
 
-neurprint_bodies_in_ROI(roi = "LH", dataset = NULL,
+neuprint_bodies_in_ROI(roi = "LH", dataset = NULL,
   all_segments = TRUE, conn = NULL, ...)
 }
 \arguments{

@@ -56,7 +56,7 @@ neuprint_find_neurons <- function(input_ROIs,
 
 #' @export
 #' @rdname neuprint_find_neurons
-neurprint_bodies_in_ROI <- function(roi = "LH", dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_bodies_in_ROI <- function(roi = "LH", dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
