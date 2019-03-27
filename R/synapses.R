@@ -34,6 +34,7 @@ neuprint_get_synapses <- function(bodyid = bodyid, dataset = NULL, roi = "all", 
   m = do.call(rbind,nc$data)
   colnames(m) =  nc$columns
   m = as.data.frame(m)
+  m$prepost = ifelse(m$prepost=="post",1,0)
   m$bodyid = bodyid
   m
 }

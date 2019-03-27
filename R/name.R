@@ -6,12 +6,12 @@
 #' @seealso \code{\link{neuprint_search_name}}
 #' @export
 #' @rdname neuprint_get_names
-neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, ...){
-  do.call(rbind,lapply(bodyids, neuprint_get_neuron_name, dataset = dataset, all_segments = all_segments, ...))
+neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+  do.call(rbind,lapply(bodyids, neuprint_get_neuron_name, dataset = dataset, all_segments = all_segments, conn = conn, ...))
 }
 
 # hidden
-neuprint_get_neuron_name <- function(bodyid, dataset = NULL, all_segments = TRUE, ...){
+neuprint_get_neuron_name <- function(bodyid, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
@@ -22,7 +22,9 @@ neuprint_get_neuron_name <- function(bodyid, dataset = NULL, all_segments = TRUE
                    jsonlite::toJSON(bodyid))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   name = unlist(ifelse(length(nc$data),nc$data,NA))
-  data.frame(bodyid = bodyid,neuron_name=name)
+  df = data.frame(bodyid = bodyid,neuron_name=name)
+  rownames(df) = bodyid
+  df
 }
 
 neuprint_search_neuron_name <- function(search = "MBON.*", all_segments = TRUE){

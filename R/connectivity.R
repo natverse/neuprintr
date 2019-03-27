@@ -1,12 +1,7 @@
 #' @title Get an matrix of connectivities between neurons
 #'
 #' @description  Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
-#' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
-#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
-#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
-#' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_read_neurons
 #' @return a n x n matrix, where the rows are input neurons and the columns are their targets
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export

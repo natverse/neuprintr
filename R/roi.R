@@ -3,6 +3,7 @@
 #' @description  Find bodies that input/output within certain ROIs (i.e. they must have synapses in these areas)
 #' @param input_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
 #' @param output_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
+#' @param roi a single ROI. Use \code{neuprint_ROIs} to see what is available.
 #' @param statuses if not NULL, only bodies with the given status are considered. Statuses include:
 #' Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
@@ -31,6 +32,7 @@ neuprint_find_neurons <- function(input_ROIs,
     }
   }
   all_segments = ifelse(all_segments,"true","false")
+  roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
   Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"statuses":%s,"all_segments":%s}',
                             dataset, jsonlite::toJSON(input_ROIs),
                             jsonlite::toJSON(output_ROIs),
@@ -52,6 +54,27 @@ neuprint_find_neurons <- function(input_ROIs,
   cbind(neurons,innervation)
 }
 
+#' @export
+#' @rdname neuprint_find_neurons
+neurprint_bodies_in_ROI <- function(roi = "LH", dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+  if(is.null(dataset)){ # Get a default dataset if none specified
+    dataset = unlist(getenvoroption("dataset"))
+  }
+  all_segments = ifelse(all_segments,"Segment","Neuron")
+  roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
+  cypher = sprintf("MATCH (n :`%s-%s`) WHERE n.%s WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.status AS status, n.pre, n.post, roiInfo.%s.pre, roiInfo.%s.post",
+                dataset,
+                all_segments,
+                roi,
+                roi,
+                roi)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  d = do.call(rbind,nc$data)
+  d = as.data.frame(t(apply(d,1,function(r) unlist(r))))
+  colnames(d) = unlist(nc$columns)
+  d
+}
+
 #' @title Get the connectivity between ROIs in a neuPrint dataset
 #'
 #' @description  Get summary information about the datasets hosted by the neuPrint server in which you are interested
@@ -67,11 +90,7 @@ neuprint_ROI_connectivity <- function(rois, dataset = NULL, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
-  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, ...)
-  if(sum(!rois%in%possible.rois)>0){
-    stop("Regions of interest provided that are not demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
-         ". Please call neuprint_ROIs() to see the available ROIs.")
-  }
+  roicheck = neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
   Payload = noquote(sprintf('{"dataset":"%s","rois":%s}',
                             dataset,
                             ifelse(is.null(rois),jsonlite::toJSON(list()),jsonlite::toJSON(rois))))
@@ -81,4 +100,15 @@ neuprint_ROI_connectivity <- function(rois, dataset = NULL, conn = NULL, ...){
   m = do.call(rbind, connections)
   m = m[apply(m,1,function(x) sum(x)>0),]
   rownames(m) = 1:nrow(m)
+}
+
+# hidden
+neuprint_check_roi <- function(rois, dataset = NULL, conn = NULL, ...){
+  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, ...)
+  if(sum(!roi%in%possible.rois)>0){
+    stop("Regions of interest provided that are not demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
+         ". Please call neuprint_ROIs() to see the available ROIs.")
+  }else{
+    TRUE
+  }
 }

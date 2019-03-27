@@ -2,10 +2,14 @@
 % Please edit documentation in R/roi.R
 \name{neuprint_find_neurons}
 \alias{neuprint_find_neurons}
+\alias{neurprint_bodies_in_ROI}
 \title{Find bodies within a given ROI}
 \usage{
 neuprint_find_neurons(input_ROIs, output_ROIs = NULL, statuses = NULL,
   dataset = NULL, conn = NULL, all_segments = TRUE, ...)
+
+neurprint_bodies_in_ROI(roi = "LH", dataset = NULL,
+  all_segments = TRUE, conn = NULL, ...)
 }
 \arguments{
 \item{input_ROIs}{a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.}
@@ -23,6 +27,8 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{...}{methods passed to \code{neuprint_login}}
+
+\item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
 }
 \value{
 a n x n matrix, where the rows are input neurons and the columns are their targets
