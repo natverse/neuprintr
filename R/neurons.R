@@ -75,6 +75,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, soma = TRUE, heal = TRUE, c
   }
   if(nat){
     n$bodyid = bodyid
+    class(n) = c(class(n), "neuprintneuron", "catmaidneuron")
     n
   }else{
     d
