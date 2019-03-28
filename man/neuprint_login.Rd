@@ -6,7 +6,8 @@
 \title{Connect to/authenticate with a neuPrint server and its Neo4j database,
   returning a neuPrint connection object}
 \usage{
-neuprint_connection(server = NULL, token = NULL, conn = NULL)
+neuprint_connection(server = NULL, token = NULL, conn = NULL,
+  config = httr::config())
 
 neuprint_login(conn = NULL, Cache = TRUE, Force = FALSE, ...)
 }
@@ -16,6 +17,10 @@ neuprint_login(conn = NULL, Cache = TRUE, Force = FALSE, ...)
 \item{token}{your personal Bearer token}
 
 \item{conn}{a neuprintr connection object}
+
+\item{config}{an \code{httr::\link[httr]{config}} object that can be used to
+set advanced curl options (e.g. additional authentication, proxy settings
+etc). See \bold{Curl options} section and \bold{Examples}.}
 
 \item{Cache}{Whether to cache open connections at login so that they can be
 reused automatically.}
@@ -81,8 +86,7 @@ After successful login, the \code{neuprint_connection} object will
   means for example that they will be available when running knitr reports,
   tests or R CMD Check from RStudio. In order to edit your R.profile or
   R.environ files easily and directly, try using
-  \code{usethis::usethis::edit_r_environ()} and
-  \code{usethis::usethis::edit_r_profile()}
+  \code{usethis::edit_r_environ()} and \code{usethis::edit_r_profile()}
 
   \itemize{
 
@@ -94,10 +98,10 @@ After successful login, the \code{neuprint_connection} object will
 
   } An example \code{.Renviron} file might look like:
 
-  \preformatted{ neuprint_server = 'https://emdata1.int.janelia.org:11000'
+  \preformatted{neuprint_server = "https://emdata1.int.janelia.org:11000"
   neuprint_token =
-  "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
-   neuprint_dataset = 'hemibrain' }
+  "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
+   neuprint_dataset = "hemibrain"}
 
   and \bold{must} finish with a return at the end of the last line. Your
   \code{neuprint_token} is unique to you and must be obtained from a neuPrint
@@ -121,16 +125,34 @@ After successful login, the \code{neuprint_connection} object will
   file.
 }
 
+\section{Curl options}{
+ \bold{neuprintr} uses the curl library provided by the
+  \code{httr} and \code{curl} packages to carry out remote requests. You can
+  set curl options by passing an \code{httr::\link[httr]{config}} object that
+  can be used to set advanced curl options (e.g. additional authentication,
+  proxy settings etc). See \code{\link[curl]{handle}} and
+  \code{\link[curl]{curl_options}} for a full list of possible options.
+
+  You can also set default curl options using environment variables with
+  names of the form \code{neuprint_curl_<curloption>}. For example the
+  following entry in you \code{\link{Renviron}} file will set the curl
+  \code{ssl_verifyhost} option:
+
+  \verb{neuprint_curl_ssl_verifyhost=0}
+}
+
 \examples{
 \dontrun{
 ## example explicitly specifying connection options
-# using modern token based authentication
 conn = neuprint_login(server= "https://emdata1.int.janelia.org:11000",
   token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU")
 
 
 ## examples assuming that neuprint_* environment variables/options are set
 conn = neuprint_login()
+
+## using env vars + config to set advanced curl options
+neuprint_login(config=httr::config(ssl_verifyhost=0))
 
 ## now do stuff with the connection like
 available.datasets = neuprint_datasets(conn=conn)

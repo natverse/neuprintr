@@ -74,7 +74,7 @@ The connection object returned by neuprint_login (or cached when
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -88,6 +88,9 @@ The connection object returned by neuprint_login (or cached when
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -131,7 +134,8 @@ The connection object returned by neuprint_login (or cached when
     
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_connection</span>(<span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>neuprint_connection</span>(<span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></span>())
 
 <span class='fu'>neuprint_login</span>(<span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>Force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
@@ -149,6 +153,12 @@ The connection object returned by neuprint_login (or cached when
     <tr>
       <th>conn</th>
       <td><p>a neuprintr connection object</p></td>
+    </tr>
+    <tr>
+      <th>config</th>
+      <td><p>an <code>httr::<a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></code> object that can be used to
+set advanced curl options (e.g. additional authentication, proxy settings
+etc). See <b>Curl options</b> section and <b>Examples</b>.</p></td>
     </tr>
     <tr>
       <th>Cache</th>
@@ -210,17 +220,16 @@ reused automatically.</p></td>
   means for example that they will be available when running knitr reports,
   tests or R CMD Check from RStudio. In order to edit your R.profile or
   R.environ files easily and directly, try using
-  <code>usethis::usethis::edit_r_environ()</code> and
-  <code>usethis::usethis::edit_r_profile()</code></p>
+  <code><a href='https://www.rdocumentation.org/packages/usethis/topics/edit'>usethis::edit_r_environ()</a></code> and <code><a href='https://www.rdocumentation.org/packages/usethis/topics/edit'>usethis::edit_r_profile()</a></code></p>
 <p></p><ul>
 <li><p><code>neuprint_server</code></p></li>
 <li><p><code>neuprint_token</code></p></li>
 <li><p><code>neuprint_dataset</code></p></li>
 </ul><p>An example <code>.Renviron</code> file might look like:</p>
-<p></p><pre> neuprint_server = 'https://emdata1.int.janelia.org:11000'
+<p></p><pre>neuprint_server = "https://emdata1.int.janelia.org:11000"
   neuprint_token =
-  "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
-   neuprint_dataset = 'hemibrain' </pre>
+  "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
+   neuprint_dataset = "hemibrain"</pre>
     <p>and <b>must</b> finish with a return at the end of the last line. Your
   <code>neuprint_token</code> is unique to you and must be obtained from a neuPrint
   web page once you havw logged in with an approved Google account.</p>
@@ -240,6 +249,20 @@ reused automatically.</p></td>
   it is important to have a final return at the end of your <code>.Rprofile</code>
   file.</p>
     
+    <h2 class="hasAnchor" id="curl-options"><a class="anchor" href="#curl-options"></a>Curl options</h2>
+
+    <p><b>neuprintr</b> uses the curl library provided by the
+  <code>httr</code> and <code>curl</code> packages to carry out remote requests. You can
+  set curl options by passing an <code>httr::<a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></code> object that
+  can be used to set advanced curl options (e.g. additional authentication,
+  proxy settings etc). See <code><a href='https://www.rdocumentation.org/packages/curl/topics/handle'>handle</a></code> and
+  <code><a href='https://www.rdocumentation.org/packages/curl/topics/curl_options'>curl_options</a></code> for a full list of possible options.</p>
+<p>You can also set default curl options using environment variables with
+  names of the form <code>neuprint_curl_&lt;curloption&gt;</code>. For example the
+  following entry in you <code><a href='https://www.rdocumentation.org/packages/base/topics/Startup'>Renviron</a></code> file will set the curl
+  <code>ssl_verifyhost</code> option:</p>
+<p><code>neuprint_curl_ssl_verifyhost=0</code></p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/Startup'>Startup</a></code>,
@@ -249,13 +272,15 @@ reused automatically.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'>## example explicitly specifying connection options</span>
-<span class='co'># using modern token based authentication</span>
 <span class='no'>conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_login</span>(<span class='kw'>server</span><span class='kw'>=</span> <span class='st'>"https://emdata1.int.janelia.org:11000"</span>,
   <span class='kw'>token</span><span class='kw'>=</span> <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span>)
 
 
 <span class='co'>## examples assuming that neuprint_* environment variables/options are set</span>
 <span class='no'>conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_login</span>()
+
+<span class='co'>## using env vars + config to set advanced curl options</span>
+<span class='fu'>neuprint_login</span>(<span class='kw'>config</span><span class='kw'>=</span><span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></span>(<span class='kw'>ssl_verifyhost</span><span class='kw'>=</span><span class='fl'>0</span>))
 
 <span class='co'>## now do stuff with the connection like</span>
 <span class='no'>available.datasets</span> <span class='kw'>=</span> <span class='fu'><a href='neuprint_info.html'>neuprint_datasets</a></span>(<span class='kw'>conn</span><span class='kw'>=</span><span class='no'>conn</span>)
@@ -278,6 +303,8 @@ reused automatically.</p></td>
       <li><a href="#environment-variables">Environment variables</a></li>
 
       <li><a href="#options">Options</a></li>
+
+      <li><a href="#curl-options">Curl options</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
