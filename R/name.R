@@ -32,7 +32,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     dataset = unlist(getenvoroption("dataset"))
   }
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.name AS name, n.status AS status, n.size AS voxels, pre, post",
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.name AS name, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post",
                    jsonlite::toJSON(unlist(bodyids)),
                    dataset,
                    all_segments)
@@ -42,15 +42,29 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   d
 }
 
-
-neuprint_search_neuron_name <- function(search = "MBON.*", all_segments = TRUE, ...){
+#' @title Search for body IDs based on a given name
+#'
+#' @description Search for bodyids corresponding to a given name, Reex sensitive
+#' @inheritParams neuprint_get_adjacency_matrix
+#' @param search name to search. Defaults to a search for MBONs
+#' @param meta if TRUE, meta data for found bodyids is also pulled
+#' @return a vector of body ids, or a data frame with their meta information
+#' @export
+#' @rdname neuprint_search
+neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE, dataset = NULL, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf('MATCH (n:`%s-%s`) WHERE n.name=~"%s" RETURN n.bodyId',
+  cypher = sprintf("MATCH (n:`%s-%s`) WHERE n.name=~'%s' RETURN n.bodyId",
                    dataset,
                    all_segments,
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, ...)
+  if(meta){
+    neuprint_get_meta(bodyids = unlist(nc$data), dataset = dataset, all_segments = all_segments, conn = conn, ...)
+  }else{
+    unlist(nc$data)
+
+  }
 }

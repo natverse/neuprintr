@@ -4,16 +4,16 @@
 \alias{neuprint_get_synapses}
 \title{Get the locations of pre- and post synapses associated with a body}
 \usage{
-neuprint_get_synapses(bodyid = bodyid, dataset = NULL, roi = "all",
-  conn = NULL, ...)
+neuprint_get_synapses(bodyids, roi = NULL, progress = FALSE,
+  dataset = NULL, conn = NULL, ...)
 }
 \arguments{
-\item{bodyid}{the body ID for a neuron/segment (body) you wish to query}
-
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
 \item{roi}{a roi (i.e. neuropil volume) you want to query. Use \code{neuprint_ROIs} to see what is available.
 Defaults to 'all', which will return synapses in all ROIs.}
+
+\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 If NULL, your defaults set in your R.profile or R.environ are used.}
@@ -21,7 +21,8 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a n x n matrix, where the rows are input neurons and the columns are their targets
+a data frame, where each entry is a connection between the specified bodyid and its partner, either presynaptic to the bodyid (prepost=0) or postsynaptic (prepost=1).
+Each connection is associated with a synapse that has its own unique connector_id, XYZ coordinates and a confidence in its existence.
 }
 \description{
 Get the xyz locations, IDs and confidences of pre- and post synapses associated with a body

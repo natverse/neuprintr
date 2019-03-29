@@ -25,7 +25,7 @@ set in your R.profile or R.environ are used.}
 }
 \value{
 a n x m matrix where n correspond to the neurons that connect to m
-  body ids
+  bodyids
 }
 \description{
 Get all of the neurons in the database that connect to the
