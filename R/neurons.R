@@ -5,7 +5,7 @@
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
 #' @param bodyid a single body ID for a neuron/segment (body) you wish to query
 #' @param nat whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)
-#' @param name whether or not to fetch a name for the given bodyids, using \code{neuprint_get_neuron_names}
+#' @param meta whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
 #' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
 #' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
@@ -24,7 +24,7 @@ neuprint_read_neurons <- function(bodyids, name = TRUE, nat = TRUE, soma = TRUE,
   neurons = nat::nlapply(bodyids,function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...))
   names(neurons) = bodyids
   if(name){
-    attr(neurons,"df") = neuprint_get_neuron_names(bodyids = bodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
+    attr(neurons,"df") = neuprint_get_meta(bodyids = bodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
   }else{
     attr(neurons,"df") = data.frame(bodyid=bodyids)
   }

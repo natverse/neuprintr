@@ -16,8 +16,6 @@ neuprint_read_neuron(bodyid, nat = TRUE, soma = TRUE, heal = TRUE,
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
-\item{name}{whether or not to fetch a name for the given bodyids, using \code{neuprint_get_neuron_names}}
-
 \item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
@@ -39,6 +37,8 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 
 \item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
+
+\item{meta}{whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}}
 }
 \value{
 a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
