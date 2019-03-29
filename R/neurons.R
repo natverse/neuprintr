@@ -15,13 +15,14 @@
 #' @param resample if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.
 #' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 #' If NULL, your defaults set in your R.profile or R.environ are used.
+#' @inheritParams nat::nlapply
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 #' @export
 #' @rdname neuprint_read_neurons
-neuprint_read_neurons <- function(bodyids, name = TRUE, nat = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, ...){
-  neurons = nat::nlapply(bodyids,function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...))
+neuprint_read_neurons <- function(bodyids, name = TRUE, nat = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
+  neurons = nat::nlapply(bodyids,function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
   names(neurons) = bodyids
   if(name){
     attr(neurons,"df") = neuprint_get_meta(bodyids = bodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
