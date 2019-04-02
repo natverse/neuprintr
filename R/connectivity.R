@@ -10,20 +10,19 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
-  all_segments = ifelse(all_segments,"Segment","Neuron")
+  all_segments.json = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("WITH %s AS input MATCH (n:`%s-%s`)-[c:ConnectsTo]->(m) WHERE n.bodyId IN input AND m.bodyId IN input RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.name AS upName, m.name AS downName",
+                   jsonlite::toJSON(bodyids),
                    dataset,
-                   all_segments,
-                   jsonlite::toJSON(bodyids))
+                   all_segments.json)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
-  rownames(m) = bodyids
+  rownames(m) = colnames(m) = bodyids
   for(i in 1:length(nc$data)){
     s = unlist(nc$data[[1]])
     m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
   }
   m = t(apply(m,1,as.numeric))
-  colnames(m) = bodyids
   m
 }
 
