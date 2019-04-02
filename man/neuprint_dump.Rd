@@ -5,7 +5,7 @@
 \title{Download data from neuprint for specified bodyids / a specified ROI}
 \usage{
 neuprint_dump(dir, bodyids = NULL, roi = NULL, preprocess = NULL,
-  connectivity = TRUE, volumes = TRUE, name = TRUE, nat = TRUE,
+  connectivity = TRUE, volumes = TRUE, meta = TRUE, nat = TRUE,
   soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE,
   resample = FALSE, scale = 4, voxel.thresh = 1e+07,
   dataset = NULL, conn = NULL, OmitFailures = TRUE, ...)
@@ -25,7 +25,7 @@ the neuprint server using \code{neuprint_read_neurons}}
 \item{volumes}{whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
 the package drvid}
 
-\item{name}{if TRUE \code{?neuprint_get_meta} is used to add some meta data to the final neuronlist object}
+\item{meta}{whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}}
 
 \item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
 
