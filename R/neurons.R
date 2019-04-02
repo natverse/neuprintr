@@ -26,10 +26,11 @@ neuprint_read_neurons <- function(bodyids, name = TRUE, nat = TRUE, soma = TRUE,
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(name){
-    attr(neurons,"df") = neuprint_get_meta(bodyids = names(neurons), dataset = dataset, all_segments = all_segments, conn = conn, ...)
+    attr(neurons,"df") = neuprint_get_meta(bodyids = as.numeric(names(neurons)), dataset = dataset, all_segments = all_segments, conn = conn, ...)
   }else{
     attr(neurons,"df") = data.frame(bodyid=names(neurons))
   }
+  neurons
 }
 
 #' @export
@@ -42,10 +43,10 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, soma = TRUE, heal = TRUE, c
   cypher = sprintf("MATCH (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
                    dataset,
                    all_segments_json,
-                   bodyid,
+                   as.numeric(bodyid),
                    dataset,
                    all_segments_json,
-                   bodyid)
+                   as.numeric(bodyid))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   if(!length(nc$data)){
     warning("bodyid ", bodyid, " could not be read from ", unlist(getenvoroption("server")))
@@ -79,7 +80,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, soma = TRUE, heal = TRUE, c
   }
   if(nat){
     n$bodyid = bodyid
-    #class(n) = c(class(n), "neuprintneuron", "catmaidneuron")
+    class(n) = c(class(n), "neuprintneuron", "catmaidneuron")
     n
   }else{
     d
