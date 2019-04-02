@@ -13,6 +13,8 @@ neuprint_get_synapses(bodyids, roi = NULL, progress = FALSE,
 \item{roi}{a roi (i.e. neuropil volume) you want to query. Use \code{neuprint_ROIs} to see what is available.
 Defaults to 'all', which will return synapses in all ROIs.}
 
+\item{progress}{if TRUE, a progress bar will be shown. This may slow the data fetching process.}
+
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.

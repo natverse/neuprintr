@@ -17,7 +17,7 @@ Suggests:
     nat,
     spelling
 Depends: R (>= 2.10)
-Imports: httr, jsonlite, nabor, igraph
+Imports: httr, jsonlite, nabor, igraph, utils, pbapply
 Remotes: 
     jefferis/drvid
 Encoding: UTF-8

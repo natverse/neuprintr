@@ -7,10 +7,12 @@
 neuprint_dump(dir, bodyids = NULL, roi = NULL, preprocess = NULL,
   connectivity = TRUE, volumes = TRUE, name = TRUE, nat = TRUE,
   soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE,
-  scale = 4, voxel.thresh = 1e+07, dataset = NULL, conn = NULL,
-  OmitFailures = TRUE, ...)
+  resample = FALSE, scale = 4, voxel.thresh = 1e+07,
+  dataset = NULL, conn = NULL, OmitFailures = TRUE, ...)
 }
 \arguments{
+\item{dir}{the directory to which to save the dump}
+
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
 \item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
@@ -19,6 +21,11 @@ neuprint_dump(dir, bodyids = NULL, roi = NULL, preprocess = NULL,
 the neuprint server using \code{neuprint_read_neurons}}
 
 \item{connectivity}{whether or not to include connectivity information in the dump, i.e. an adjacency matrix between bodyids}
+
+\item{volumes}{whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
+the package drvid}
+
+\item{name}{if TRUE \code{?neuprint_get_meta} is used to add some meta data to the final neuronlist object}
 
 \item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
 
@@ -30,6 +37,8 @@ the neuprint server using \code{neuprint_read_neurons}}
 This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+
+\item{resample}{if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.}
 
 \item{scale}{Resolution of sparse volume starting with 0 where each level
 beyond 0 has 1/2 resolution of previous level. "coarse" will
@@ -48,9 +57,6 @@ an error message the moment there is an error. For other values, see
 details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
-
-\item{volume}{whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
-the package drvid}
 }
 \description{
 Download neuron morphology and connectivity data to a specified directrory as .csv and .rda files

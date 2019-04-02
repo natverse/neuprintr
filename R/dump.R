@@ -5,17 +5,18 @@
 #' @inheritParams neuprint_bodies_in_ROI
 #' @inheritParams neuprint_connection_table
 #' @inheritParams drvid::dv_get_voxels
+#' @param dir the directory to which to save the dump
 #' @param preprocess a function that can be applied to a nat::neuronlist object, to be called on neurons once they are read from
 #' the neuprint server using \code{neuprint_read_neurons}
 #' @param connectivity whether or not to include connectivity information in the dump, i.e. an adjacency matrix between bodyids
-#' @param volume whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
+#' @param volumes whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
 #' the package drvid
 #' @param voxel.thresh the size threshold, in number of voxels, a neuron/segment must exceed, to be included in the dump, if read from an ROI
 #' @seealso \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
 #' @export
 #' @rdname neuprint_dump
 neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, connectivity = TRUE, volumes = TRUE,
-                          name = TRUE, nat = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE,
+                          meta = TRUE, nat = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, resample = FALSE,
                           scale = 4, voxel.thresh = 1e+07,
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
   message("making data dump in directory ", dir)
@@ -36,7 +37,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
   }
   # Fetch neuron data
   message("Reading neurons from ", conn$server, " for dataset: ", dataset)
-  neurons = neuprint_read_neurons(bodyids = bodyids, name = name, nat = nat, soma = soma, heal = heal, connectors = connectors,
+  neurons = neuprint_read_neurons(bodyids = bodyids, meta = meta, nat = nat, soma = soma, heal = heal, connectors = connectors,
                                   all_segments = all_segments, dataset = dataset, resample = resample,
                                   conn = conn, OmitFailures = OmitFailures, ...)
   # pre-process data
@@ -47,7 +48,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
   # save neuronlist data
   dir.create(file.path(dir, "neuronlist"), showWarnings = FALSE)
   save(neurons,file=paste0(dir,"/neuronlist/neuronlist.rda"))
-  write.csv(neurons[,], file = paste0(dir,"/neuronlist/neuronlist_meta_data.csv"))
+  utils::write.csv(neurons[,], file = paste0(dir,"/neuronlist/neuronlist_meta_data.csv"))
   # save SWC files
   message("saving SWC files")
   dir.create(file.path(dir, "swc"), showWarnings = FALSE)
@@ -58,7 +59,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     dir.create(file.path(dir, "connectors"), showWarnings = FALSE)
     pb <- utils::txtProgressBar(min = 0, max = length(neurons), style = 3)
     for(n in 1:length(neurons)){
-      write.csv(neurons[[n]]$connectors,file=paste0(dir,"/connectors/",names(neurons)[n],"_connectors.swc"))
+      utils::write.csv(neurons[[n]]$connectors,file=paste0(dir,"/connectors/",names(neurons)[n],"_connectors.swc"))
       utils::setTxtProgressBar(pb, n)
     }
     close(pb)
@@ -75,9 +76,9 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     message("saving downstream connection table")
     post = neuprint_connection_table(bodyids = bodyids, prepost = "POST", progress = TRUE, roi = NULL,
                                     dataset = dataset, conn = conn, all_segments = all_segments, ... )
-    write.csv(adjm,paste0(dir,"/connectivity/adjacency_matrix.csv"))
-    write.csv(pre,paste0(dir,"/connectivity/pre_connection_table.csv"))
-    write.csv(post,paste0(dir,"/connectivity/post_connection_table.csv"))
+    utils::write.csv(adjm,paste0(dir,"/connectivity/adjacency_matrix.csv"))
+    utils::write.csv(pre,paste0(dir,"/connectivity/pre_connection_table.csv"))
+    utils::write.csv(post,paste0(dir,"/connectivity/post_connection_table.csv"))
   }
   # save volumes
   if(volumes){
@@ -88,7 +89,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     voxels = pbapply::pblapply(bodyids, drvid::dv_get_voxels, scale = scale, conn = NULL, ...)
     pb <- utils::txtProgressBar(min = 0, max = length(bodyids), style = 3)
     for(v in 1:length(voxels)){
-      write.csv(voxels[[v]],file=file.path(dir, "voxels", scale, paste0(bodyids[v],"_voxels.swc")))
+      utils::write.csv(voxels[[v]],file=file.path(dir, "voxels", scale, paste0(bodyids[v],"_voxels.swc")))
       utils::setTxtProgressBar(pb, v)
     }
     close(pb)

@@ -17,6 +17,8 @@ neuprint_read_neuron(bodyid, nat = TRUE, soma = TRUE, heal = TRUE,
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
+\item{name}{if TRUE \code{?neuprint_get_meta} is used to add some meta data to the final neuronlist object}
+
 \item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
