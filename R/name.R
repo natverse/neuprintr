@@ -55,16 +55,15 @@ neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE,
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
-  all_segments = ifelse(all_segments,"Segment","Neuron")
+  all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("MATCH (n:`%s-%s`) WHERE n.name=~'%s' RETURN n.bodyId",
                    dataset,
-                   all_segments,
+                   all_segments.cypher,
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, ...)
   if(meta){
     neuprint_get_meta(bodyids = unlist(nc$data), dataset = dataset, all_segments = all_segments, conn = conn, ...)
   }else{
     unlist(nc$data)
-
   }
 }
