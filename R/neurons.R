@@ -23,11 +23,12 @@
 #' @rdname neuprint_read_neurons
 neuprint_read_neurons <- function(bodyids, name = TRUE, nat = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
   neurons = nat::nlapply(bodyids,function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
-  names(neurons) = bodyids
+  neurons = neurons[!sapply(neurons,function(n) is.null(n))]
+  names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(name){
-    attr(neurons,"df") = neuprint_get_meta(bodyids = bodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
+    attr(neurons,"df") = neuprint_get_meta(bodyids = names(neurons), dataset = dataset, all_segments = all_segments, conn = conn, ...)
   }else{
-    attr(neurons,"df") = data.frame(bodyid=bodyids)
+    attr(neurons,"df") = data.frame(bodyid=names(neurons))
   }
 }
 
@@ -63,12 +64,14 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, soma = TRUE, heal = TRUE, c
   }
   if(soma){
     somapoint = nat::xyzmatrix(neuprint_locate_soma(bodyids = bodyid, all_segments = all_segments, dataset = dataset, conn = conn, ...))
-    near = nabor::knn(query=somapoint,data=nat::xyzmatrix(d),k=1)$nn.idx
-    n = nat::as.neuron(nat::as.ngraph(d), origin = c(near))
-    d = n$d
+    if(sum(is.na(somapoint))==0){
+      near = nabor::knn(query=somapoint,data=nat::xyzmatrix(d),k=1)$nn.idx
+      n = nat::as.neuron(nat::as.ngraph(d), origin = c(near))
+      d = n$d
+    }
   }
   if(connectors){
-    synapses = neuprint_get_synapses(bodyid = bodyid, dataset = dataset, roi = "all", conn = conn, ...)
+    synapses = neuprint_get_synapses(bodyid = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(d),k=1)$nn.idx
     d = list(swc = d, connectors = synapses)
     synapses$treenode_id = n$d[near,"PointNo"]
@@ -76,7 +79,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, soma = TRUE, heal = TRUE, c
   }
   if(nat){
     n$bodyid = bodyid
-    class(n) = c(class(n), "neuprintneuron", "catmaidneuron")
+    #class(n) = c(class(n), "neuprintneuron", "catmaidneuron")
     n
   }else{
     d
