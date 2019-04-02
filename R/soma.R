@@ -16,6 +16,11 @@ neuprint_locate_soma <- function(bodyids, dataset = NULL, all_segments = TRUE, c
                    dataset,
                    all_segments)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  for(i in 1:length(nc$data)){
+    if(is.null(nc$data[[i]][[2]]$coordinates)){
+      nc$data[[i]][[2]]$coordinates = list(NA,NA,NA)
+    }
+  }
   coordinates = do.call(rbind,lapply(nc$data,function(x) cbind(x[[1]],rbind(x[[2]]$coordinates))))
   coordinates = as.data.frame(t(apply(coordinates,1,function(r) unlist(r))))
   colnames(coordinates) = c("bodyid","X","Y","Z")
