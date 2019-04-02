@@ -7,7 +7,8 @@
 \usage{
 neuprint_read_neurons(bodyids, name = TRUE, nat = TRUE, soma = TRUE,
   heal = TRUE, connectors = TRUE, all_segments = TRUE,
-  dataset = NULL, resample = FALSE, conn = NULL, ...)
+  dataset = NULL, resample = FALSE, conn = NULL,
+  OmitFailures = TRUE, ...)
 
 neuprint_read_neuron(bodyid, nat = TRUE, soma = TRUE, heal = TRUE,
   connectors = TRUE, dataset = NULL, all_segments = TRUE,
@@ -33,6 +34,11 @@ This can be done for synapse-less skeletons using \code{neuprint_assign_connecto
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 If NULL, your defaults set in your R.profile or R.environ are used.}
+
+\item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an 
+error. The default value (\code{NA}) will result in nlapply stopping with 
+an error message the moment there is an error. For other values, see 
+details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 
