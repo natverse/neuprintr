@@ -35,11 +35,12 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
     return(d)
   }
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-Segment`)<-[:To]-(c:ConnectionSet), (c)-[:Contains]->(s:Synapse) WHERE a.bodyId=bodyId %s RETURN id(s) AS connector_id, s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z, s.confidence AS confidence, c.datasetBodyIds AS datasetBodyIds, c.timeStamp AS timestamp",
-                   jsonlite::toJSON(unlist(bodyids)),
+                   jsonlite::toJSON(as.numeric(unlist(bodyids))),
                    dataset,
                    roi)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   m = do.call(rbind,nc$data)
+  m = do.call(rbind,apply(m, 1, function(x) nullToNA(x)))
   colnames(m) =  nc$columns
   m = as.data.frame(m)
   m$prepost = ifelse(m$prepost=="post",1,0)
