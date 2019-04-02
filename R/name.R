@@ -16,6 +16,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
                    all_segments)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   d =  unlist(lapply(nc$data,nullToNA))
+  d[,] = unlist(d)
   names(d) = bodyids
   d
 }
@@ -39,6 +40,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   d =  as.data.frame(do.call(rbind,lapply(nc$data,nullToNA)))
   colnames(d) = unlist(nc$columns)
+  d[,] = unlist(d)
   d
 }
 
