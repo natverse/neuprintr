@@ -40,12 +40,12 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                    roi)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   m = do.call(rbind,nc$data)
-  m = do.call(rbind,apply(m, 1, function(x) nullToNA(x)))
   colnames(m) =  nc$columns
   m = as.data.frame(m)
   m$prepost = ifelse(m$prepost=="post",1,0)
   m$bodyid = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[3])
   m$partner = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[2])
   m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
+  m = do.call(rbind,apply(m, 1, function(x) nullToNA(x)))
   m
 }
