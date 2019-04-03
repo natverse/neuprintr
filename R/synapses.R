@@ -27,7 +27,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   }
   if(progress){
     d  = do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_get_synapses(
-      bodyids = bi,
+      bodyids = as.numeric(bi),
       roi = roi,
       progress = FALSE,
       dataset = dataset,
@@ -47,7 +47,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, ...)
   nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, ...)
   m = rbind(do.call(rbind,nc.post$data),do.call(rbind,nc.pre$data))
-  colnames(m) =  nc$columns
+  colnames(m) =  nc.post$columns
   m = data.frame(do.call(rbind,apply(m, 1, function(x) nullToNA(x))))
   m[,] = unlist(m)
   m$prepost = ifelse(m$prepost=="post",1,0)

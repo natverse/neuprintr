@@ -32,7 +32,7 @@
 #' @export
 #' @rdname neuprint_read_neurons
 neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
-  neurons = nat::nlapply(bodyids,function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, flow.centrality = flow.centrality, split = split, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
+  neurons = nat::nlapply(unique(bodyids),function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, flow.centrality = flow.centrality, split = split, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(meta){
