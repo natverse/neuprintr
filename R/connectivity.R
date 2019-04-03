@@ -1,4 +1,4 @@
-#' @title Get an matrix of connectivities between neurons
+#' @title Get a matrix of connectivities between bodies
 #'
 #' @description  Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
 #' @inheritParams neuprint_read_neurons
@@ -12,7 +12,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
   }
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("WITH %s AS input MATCH (n:`%s-%s`)-[c:ConnectsTo]->(m) WHERE n.bodyId IN input AND m.bodyId IN input RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.name AS upName, m.name AS downName",
-                   jsonlite::toJSON(bodyids),
+                   jsonlite::toJSON(as.numeric(unique(unlist(bodyids)))),
                    dataset,
                    all_segments.json)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
