@@ -18,6 +18,11 @@ break_into_subtress <- function(x){
 }
 
 # hidden, from elmr
+has_soma<-function(x){
+  !is.null(x$tags$soma)
+}
+
+# hidden, from elmr
 stitch_neurons <- function (x, prefer_soma = FALSE, sort = TRUE, warndist = 100000){
   if (!nat::is.neuronlist(x))
     stop("x must be a neuronlist object!")
@@ -67,7 +72,7 @@ stitch_neuron <- function (a, b) {
   abg = abg + igraph::edge(which(igraph::vertex_attr(abg, node_label) ==
                                    a_pointno), which(igraph::vertex_attr(abg, node_label) ==
                                                        b_pointno))
-  nat::as.neuron(as.ngraph(abg))
+  nat::as.neuron(nat::as.ngraph(abg))
 }
 
 # hidden, from elmr
