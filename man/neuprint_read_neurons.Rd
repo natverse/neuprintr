@@ -6,13 +6,16 @@
 \title{Read bodies from the neuPrint server as skeletons}
 \usage{
 neuprint_read_neurons(bodyids, meta = TRUE, nat = TRUE,
-  drvid = FALSE, soma = TRUE, heal = TRUE, connectors = TRUE,
-  all_segments = TRUE, dataset = NULL, resample = FALSE,
-  conn = NULL, OmitFailures = TRUE, ...)
+  drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses",
+  "presynapses", "distance"), soma = TRUE, heal = TRUE,
+  connectors = TRUE, all_segments = TRUE, dataset = NULL,
+  resample = FALSE, conn = NULL, OmitFailures = TRUE, ...)
 
-neuprint_read_neuron(bodyid, nat = TRUE, soma = TRUE, heal = TRUE,
-  connectors = TRUE, dataset = NULL, all_segments = TRUE,
-  resample = FALSE, conn = NULL, ...)
+neuprint_read_neuron(bodyid, nat = TRUE, drvid = FALSE,
+  flow.centrality = FALSE, split = c("postsynapses", "presynapses",
+  "distance"), soma = TRUE, heal = TRUE, connectors = TRUE,
+  dataset = NULL, all_segments = TRUE, resample = FALSE,
+  conn = NULL, ...)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
@@ -23,6 +26,14 @@ neuprint_read_neuron(bodyid, nat = TRUE, soma = TRUE, heal = TRUE,
 
 \item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
 This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.}
+
+\item{flow.centrality}{if TRUE, the neuron is split into primary neurite, axon and dendrite based on its flow centrality, as specified by  Schneider-Mizell et al. (2016),
+using \code{catnat::flow.centrality}}
+
+\item{split}{the algorithm will assign two main neurite compartments, which as per SWC format will be indicates as either axon (Label =2)
+or dendrite (Label = 3) in the returned objects, at neuron$d$Label.
+This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
+or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
 
@@ -42,7 +53,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 
 \item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an 
 error. The default value (\code{NA}) will result in nlapply stopping with 
-an error message the moment there is an eror. For other values, see 
+an error message the moment there is an error. For other values, see 
 details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
