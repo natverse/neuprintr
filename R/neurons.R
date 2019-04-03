@@ -52,10 +52,6 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
   }
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   if(drvid){
-    if(!requireNamespace('drvid', quietly = TRUE)){
-      stop("Please install the suggested drvid package, via: devtools::install_github('jefferislab/drvid'),
-           or set drvid = FALSE in function call")
-    }
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
@@ -85,7 +81,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     n = nat::resample(x=n,stepsize=resample)
   }
   if(connectors){
-    synapses = neuprint_get_synapses(bodyid = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
+    synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
     synapses$treenode_id = n$d[near,"PointNo"]
     synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
@@ -119,12 +115,9 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     }
   }
   if(flow.centrality&connectors){
-    if(!requireNamespace('catnat', quietly = TRUE)){
-      stop("Please install the suggested catnat package, via: devtools::install_github('jefferislab/catnat'),
-         or set flow.centrality = FALSE in function call")
-    }else if(n$nTrees>1){
+    if(n$nTrees>1){
       warning("flow centrality cannot be calculcated for ", bodyid, " , skeleton was not healed")
-    }else{
+    } else {
       n = tryCatch(catnat::flow.centrality(x=n, polypre = TRUE, mode = "centrifugal", split = split, catmaid = FALSE),
                    error = function(e) n)
       if(soma){

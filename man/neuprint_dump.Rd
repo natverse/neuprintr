@@ -6,9 +6,9 @@
 \usage{
 neuprint_dump(dir, bodyids = NULL, roi = NULL, preprocess = NULL,
   connectivity = TRUE, volumes = TRUE, meta = TRUE, nat = TRUE,
-  drvid = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE,
-  all_segments = TRUE, resample = FALSE, scale = 4,
-  voxel.thresh = 1e+07, dataset = NULL, conn = NULL,
+  drvid = TRUE, flow.centrality = FALSE, soma = TRUE, heal = TRUE,
+  connectors = TRUE, all_segments = TRUE, resample = FALSE,
+  scale = 4, voxel.thresh = 1e+07, dataset = NULL, conn = NULL,
   OmitFailures = TRUE, ...)
 }
 \arguments{
@@ -32,6 +32,9 @@ the package drvid}
 
 \item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
 This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.}
+
+\item{flow.centrality}{if TRUE, the neuron is split into primary neurite, axon and dendrite based on its flow centrality, as specified by  Schneider-Mizell et al. (2016),
+using \code{catnat::flow.centrality}}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
 

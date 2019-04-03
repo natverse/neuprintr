@@ -15,6 +15,7 @@
 #' @seealso \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
 #' @export
 #' @rdname neuprint_dump
+#' @importFrom nat write.neurons
 neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, connectivity = TRUE, volumes = TRUE,
                           meta = TRUE, nat = TRUE, drvid = TRUE, flow.centrality = FALSE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, resample = FALSE,
                           scale = 4, voxel.thresh = 1e+07,
@@ -82,9 +83,6 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
   }
   # save volumes
   if(volumes&drvid){
-    if(!requireNamespace('drvid', quietly = TRUE))
-      stop("Please install the suggested drvid package, via: devtools::install_github('jefferislab/drvid'),
-           or set drvid = FALSE in function call")
     message("saving voxels")
     dir.create(file.path(dir, "voxels", scale), showWarnings = FALSE)
     voxels = pbapply::pblapply(bodyids, drvid::dv_get_voxels, scale = scale, conn = NULL, ...)
