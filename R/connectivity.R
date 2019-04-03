@@ -58,15 +58,15 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
     return(d)
   }
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s-%s`), (c)-[:Contains]->(s:Synapse) WHERE %s (s.type='post') AND %s.bodyId=bodyId RETURN a.bodyId AS %s, b.bodyId AS %s, count(*) AS weight",
-                   jsonlite::toJSON(unlist(bodyids)),
+                   jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
                    dataset,
                    all_segments.json,
                    dataset,
                    all_segments.json,
                    ifelse(is.null(roi),"",sprintf("(exists(s.%s)) AND",roi)),
                    ifelse(prepost=="POST","b","a"),
-                   ifelse(prepost=="POST","bodyid","partner"),
-                   ifelse(prepost=="POST","partner","bodyid"))
+                   ifelse(prepost=="POST","partner","bodyid"),
+                   ifelse(prepost=="POST","bodyid","partner"))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn)
   d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
   colnames(d) = unlist(nc$columns)
