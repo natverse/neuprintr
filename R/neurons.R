@@ -81,7 +81,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     n = nat::resample(x=n,stepsize=resample)
   }
   if(connectors){
-    synapses = neuprint_get_synapses(bodyid = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
+    synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
     synapses$treenode_id = n$d[near,"PointNo"]
     synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
