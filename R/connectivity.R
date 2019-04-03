@@ -69,6 +69,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
   colnames(d) = unlist(nc$columns)
   d$prepost = ifelse(prepost=="PRE",0,1)
+  d = d[order(d$weight,decreasing=TRUE),]
   d
 }
 
