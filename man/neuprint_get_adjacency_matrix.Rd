@@ -2,7 +2,7 @@
 % Please edit documentation in R/connectivity.R
 \name{neuprint_get_adjacency_matrix}
 \alias{neuprint_get_adjacency_matrix}
-\title{Get an matrix of connectivities between neurons}
+\title{Get a matrix of connectivities between bodies}
 \usage{
 neuprint_get_adjacency_matrix(bodyids, dataset = NULL,
   all_segments = TRUE, conn = NULL, ...)

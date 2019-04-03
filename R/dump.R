@@ -17,7 +17,8 @@
 #' @rdname neuprint_dump
 #' @importFrom nat write.neurons
 neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, connectivity = TRUE, volumes = TRUE,
-                          meta = TRUE, nat = TRUE, drvid = TRUE, flow.centrality = FALSE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, resample = FALSE,
+                          meta = TRUE, nat = TRUE, drvid = TRUE, flow.centrality = FALSE, soma = TRUE, estimate.soma = FALSE,
+                          heal = TRUE, connectors = TRUE, all_segments = TRUE, resample = FALSE,
                           scale = 4, voxel.thresh = 1e+07, split = c("postsynapses","presynapses","distance"),
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
   message("making data dump in directory ", dir)
@@ -34,7 +35,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     inroi = neuprint_bodies_in_ROI( roi = roi,
                                     dataset = dataset, conn=conn, ...)
     inroi = subset(inroi, voxels>voxel.thresh)
-    bodyids = unique(c(bodyids,unlist(inroi$bodyid)))
+    bodyids = unique(c(unlist(inroi$bodyid),bodyids))
   }
   # Fetch neuron data
   message("Reading neurons from ", conn$server, " for dataset: ", dataset)

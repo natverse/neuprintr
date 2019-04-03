@@ -10,19 +10,24 @@ neuprint_locate_soma <- function(bodyids, dataset = NULL, all_segments = TRUE, c
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
-  all_segments = ifelse(all_segments,"Segment","Neuron")
+  all_segments.json = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyId, n.somaLocation AS soma",
-                   jsonlite::toJSON(bodyids),
+                   jsonlite::toJSON(as.numeric(unique(bodyids))),
                    dataset,
                    all_segments)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
-  for(i in 1:length(nc$data)){
-    if(is.null(nc$data[[i]][[2]]$coordinates)){
-      nc$data[[i]][[2]]$coordinates = list(NA,NA,NA)
+  if(length(nc$data)==0){
+    coordinates = matrix(c(NA,NA,NA),nrow=length(bodyids),ncol=3)
+    coordinates = cbind(data.frame(bodyid=bodyids),coordinates)
+  }else{
+    for(i in 1:length(nc$data)){
+      if(is.null(nc$data[[i]][[2]]$coordinates)){
+        nc$data[[i]][[2]]$coordinates = list(NA,NA,NA)
+      }
     }
+    coordinates = do.call(rbind,lapply(nc$data,function(x) cbind(x[[1]],rbind(x[[2]]$coordinates))))
+    coordinates = as.data.frame(t(apply(coordinates,1,function(r) unlist(r))))
   }
-  coordinates = do.call(rbind,lapply(nc$data,function(x) cbind(x[[1]],rbind(x[[2]]$coordinates))))
-  coordinates = as.data.frame(t(apply(coordinates,1,function(r) unlist(r))))
   colnames(coordinates) = c("bodyid","X","Y","Z")
   coordinates
 }

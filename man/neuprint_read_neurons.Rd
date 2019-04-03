@@ -7,15 +7,16 @@
 \usage{
 neuprint_read_neurons(bodyids, meta = TRUE, nat = TRUE,
   drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses",
-  "presynapses", "distance"), soma = TRUE, heal = TRUE,
-  connectors = TRUE, all_segments = TRUE, dataset = NULL,
-  resample = FALSE, conn = NULL, OmitFailures = TRUE, ...)
+  "presynapses", "distance"), soma = TRUE, estimate.soma = FALSE,
+  heal = TRUE, connectors = TRUE, all_segments = TRUE,
+  dataset = NULL, resample = FALSE, conn = NULL,
+  OmitFailures = TRUE, ...)
 
 neuprint_read_neuron(bodyid, nat = TRUE, drvid = FALSE,
   flow.centrality = FALSE, split = c("postsynapses", "presynapses",
-  "distance"), soma = TRUE, heal = TRUE, connectors = TRUE,
-  dataset = NULL, all_segments = TRUE, resample = FALSE,
-  conn = NULL, ...)
+  "distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE,
+  connectors = TRUE, dataset = NULL, all_segments = TRUE,
+  resample = FALSE, conn = NULL, ...)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
@@ -36,6 +37,8 @@ This assignment can be based which compartment contains the most postsynapses ("
 or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
+
+\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in rhe dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
 
 \item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}}
 

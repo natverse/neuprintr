@@ -15,6 +15,7 @@
 #' This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
 #' or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
+#' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in rhe dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses
 #' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
 #' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
 #' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
@@ -31,8 +32,9 @@
 #' @importFrom drvid read.neuron.dvid
 #' @export
 #' @rdname neuprint_read_neurons
-neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
-  neurons = nat::nlapply(unique(bodyids),function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, flow.centrality = flow.centrality, split = split, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
+neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
+  neurons = nat::nlapply(as.numeric(as.numeric(unique(bodyids))),function(bodyid)
+    neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, flow.centrality = flow.centrality, split = split, soma = soma, estimate.soma = estimate.soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(meta){
@@ -45,7 +47,7 @@ neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALS
 
 #' @export
 #' @rdname neuprint_read_neurons
-neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, heal = TRUE, connectors = TRUE, dataset = NULL, all_segments = TRUE, resample = FALSE, conn = NULL, ...){
+neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, dataset = NULL, all_segments = TRUE, resample = FALSE, conn = NULL, ...){
   split = match.arg(split)
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
@@ -88,19 +90,28 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     n$connectors = synapses
   }
   if(soma){
-    somapoint = nat::xyzmatrix(neuprint_locate_soma(bodyids = bodyid, all_segments = all_segments, dataset = dataset, conn = conn, ...))
+    somapoint = tryCatch(nat::xyzmatrix(neuprint_locate_soma(bodyids = bodyid, all_segments = all_segments, dataset = dataset, conn = conn, ...)),
+                         error = function(e) NA)
     if(sum(is.na(somapoint))==0){
       near.soma = nabor::knn(query=somapoint,data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    }else{ # Quickly stimate soma location as the leave node furthest from synapses, or other leaf nodes
+    }else if (estimate.soma){ # Quickly stimate soma location as the leave node furthest from synapses, or other leaf nodes
       leaves = ends = nat::endpoints(n)
+      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=10)$nn.dist
+      leaves = ends = leaves[which(far.leaves[,10]>mean(far.leaves[,10]))]
       if(connectors&nrow(synapses)>2){
         ends = unique(n$connectors$treenode_id)
+        clustered.ends = nabor::knn(query=nat::xyzmatrix(n$d[ends,]),data=nat::xyzmatrix(n$d[ends,]),k=10)$nn.dist
+        ends = ends[which(clustered.ends[,10]>mean(clustered.ends[,10]))]
       }
       dists = sapply(leaves, function(l) mean(sapply(igraph::all_shortest_paths(graph = nat::as.ngraph(d),
                                    from = l,
                                    to = ends,
                                    mode = c("all"),weights = NULL)$res,length)))
       near.soma = leaves[which.max(dists)]
+    }else{
+      leaves = nat::endpoints(n)
+      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=100)$nn.dist
+      near.soma = leaves[which.max(mean(far.leaves[,100]))]
     }
     near.soma = n$d[c(near.soma),"PointNo"]
     n = nat::as.neuron(nat::as.ngraph(n$d), origin = c(near.soma))
@@ -118,7 +129,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     if(n$nTrees>1){
       warning("flow centrality cannot be calculcated for ", bodyid, " , skeleton was not healed")
     } else {
-      n = tryCatch(catnat::flow.centrality(x=n, polypre = TRUE, mode = "centrifugal", split = split, catmaid = FALSE),
+      n = tryCatch(catnat::flow.centrality(x=n, polypre = FALSE, mode = "centrifugal", split = split, catmaid = FALSE),
                    error = function(e) n)
       if(soma){
         n$d$Label[near.soma] = 1
