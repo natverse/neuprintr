@@ -48,5 +48,6 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   m$bodyid = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[3])
   m$partner = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[2])
   m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
+  m = subset(m, bodyid!=partner) # Automatically remove autapses, hopefully we only need to do this temporarily
   m
 }
