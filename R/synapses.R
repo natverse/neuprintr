@@ -35,12 +35,18 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
       error = function(e) NULL)))
     return(d)
   }
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-Segment`)<-[:To]-(c:ConnectionSet), (c)-[:Contains]->(s:Synapse) WHERE a.bodyId=bodyId %s RETURN id(s) AS connector_id, s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z, s.confidence AS confidence, c.datasetBodyIds AS datasetBodyIds, c.timeStamp AS timestamp",
+  cypher.post = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-Segment`)<-[:To]-(c:ConnectionSet), (c)-[:Contains]->(s:Synapse) WHERE a.bodyId=bodyId AND s.type='post' %s RETURN id(s) AS connector_id, s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z, s.confidence AS confidence, c.datasetBodyIds AS datasetBodyIds, c.timeStamp AS timestamp",
                    jsonlite::toJSON(as.numeric(unlist(bodyids))),
                    dataset,
                    roi)
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
-  m = do.call(rbind,nc$data)
+  cypher.pre = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-Segment`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s-Segment`), (c)-[:Contains]->(s:Synapse) WHERE a.bodyId=bodyId AND (s.type='pre') %s RETURN id(s) AS connector_id, s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z, s.confidence AS confidence, c.datasetBodyIds AS datasetBodyIds, c.timeStamp AS timestamp",
+                        jsonlite::toJSON(as.numeric(unlist(bodyids))),
+                        dataset,
+                        dataset,
+                        roi)
+  nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, ...)
+  nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, ...)
+  m = rbind(do.call(rbind,nc.post$data),do.call(rbind,nc.pre$data))
   colnames(m) =  nc$columns
   m = data.frame(do.call(rbind,apply(m, 1, function(x) nullToNA(x))))
   m[,] = unlist(m)

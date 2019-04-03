@@ -43,7 +43,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
-  all_segments = ifelse(all_segments,"Segment","Neuron")
+  all_segments.json = ifelse(all_segments,"Segment","Neuron")
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   }
@@ -57,20 +57,22 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
       error = function(e) NULL)))
     return(d)
   }
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s-%s`), (c)-[:Contains]->(s:Synapse) WHERE %s a.bodyId=bodyId AND s.type='%s' RETURN a.bodyId AS bodyid, b.bodyId AS partner, count(*) AS weight",
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s-%s`), (c)-[:Contains]->(s:Synapse) WHERE %s (s.type='post') AND %s.bodyId=bodyId RETURN a.bodyId AS %s, b.bodyId AS %s, count(*) AS weight",
                    jsonlite::toJSON(unlist(bodyids)),
                    dataset,
-                   all_segments,
+                   all_segments.json,
                    dataset,
-                   all_segments,
+                   all_segments.json,
                    ifelse(is.null(roi),"",sprintf("(exists(s.%s)) AND",roi)),
-                   ifelse(prepost=="PRE","pre","post"))
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+                   ifelse(prepost=="POST","b","a"),
+                   ifelse(prepost=="POST","bodyid","partner"),
+                   ifelse(prepost=="POST","partner","bodyid"))
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn)
   d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
   colnames(d) = unlist(nc$columns)
   d$prepost = ifelse(prepost=="PRE",0,1)
   d = d[order(d$weight,decreasing=TRUE),]
-  d
+  d[,c("bodyid", "partner", "weight", "prepost")]
 }
 
 #' @title Get the common synaptic partners for a set of neurons
