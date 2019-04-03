@@ -6,9 +6,10 @@
 \usage{
 neuprint_dump(dir, bodyids = NULL, roi = NULL, preprocess = NULL,
   connectivity = TRUE, volumes = TRUE, meta = TRUE, nat = TRUE,
-  soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE,
-  resample = FALSE, scale = 4, voxel.thresh = 1e+07,
-  dataset = NULL, conn = NULL, OmitFailures = TRUE, ...)
+  drvid = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE,
+  all_segments = TRUE, resample = FALSE, scale = 4,
+  voxel.thresh = 1e+07, dataset = NULL, conn = NULL,
+  OmitFailures = TRUE, ...)
 }
 \arguments{
 \item{dir}{the directory to which to save the dump}
@@ -28,6 +29,9 @@ the package drvid}
 \item{meta}{whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}}
 
 \item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
+
+\item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
+This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
 
@@ -53,7 +57,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 
 \item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an 
 error. The default value (\code{NA}) will result in nlapply stopping with 
-an error message the moment there is an error. For other values, see 
+an error message the moment there is an eror. For other values, see 
 details.}
 
 \item{...}{methods passed to \code{neuprint_login}}

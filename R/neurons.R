@@ -4,6 +4,8 @@
 #' Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
 #' @param bodyid a single body ID for a neuron/segment (body) you wish to query
+#' @param drvid whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
+#' This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.
 #' @param nat whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)
 #' @param meta whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
@@ -21,8 +23,8 @@
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 #' @export
 #' @rdname neuprint_read_neurons
-neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
-  neurons = nat::nlapply(bodyids,function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
+neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALSE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
+  neurons = nat::nlapply(bodyids,function(bodyid) neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, soma = soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(meta){
@@ -40,26 +42,34 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, soma = TRUE, heal = TRUE, c
     dataset = unlist(getenvoroption("dataset"))
   }
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("MATCH (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
-                   dataset,
-                   all_segments_json,
-                   as.numeric(bodyid),
-                   dataset,
-                   all_segments_json,
-                   as.numeric(bodyid))
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
-  if(!length(nc$data)){
-    warning("bodyid ", bodyid, " could not be read from ", unlist(getenvoroption("server")))
-    return(NULL)
+  if(drvid){
+    stop("Please install the suggested drvid package, via: devtools::install_github('jefferislab/drvid'),
+           or set drvid = FALSE in function call")
+    n = read.neuron.dvid(bodyid)
+    d = n$d
+  }else{
+    cypher = sprintf("MATCH (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
+                     dataset,
+                     all_segments_json,
+                     as.numeric(bodyid),
+                     dataset,
+                     all_segments_json,
+                     as.numeric(bodyid))
+    nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+    if(!length(nc$data)){
+      warning("bodyid ", bodyid, " could not be read from ", unlist(getenvoroption("server")))
+      return(NULL)
+    }
+    d = data.frame(do.call(rbind,nc$data))
+    d = as.data.frame(t(apply(d,1,function(r) unlist(r))))
+    colnames(d) = c("PointNo","X","Y","Z","W","Parent")
+    d$Label = 0
+    n = nat::as.neuron(d)
   }
-  d = data.frame(do.call(rbind,nc$data))
-  d = as.data.frame(t(apply(d,1,function(r) unlist(r))))
-  colnames(d) = c("PointNo","X","Y","Z","W","Parent")
-  d$Label = 0
   if(heal){
     d = heal_skeleton(x = d)
+    n = nat::as.neuron(d)
   }
-  n = nat::as.neuron(d)
   if(resample){
     n = nat::resample(x=n,stepsize=resample)
   }

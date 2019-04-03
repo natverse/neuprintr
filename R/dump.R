@@ -16,7 +16,7 @@
 #' @export
 #' @rdname neuprint_dump
 neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, connectivity = TRUE, volumes = TRUE,
-                          meta = TRUE, nat = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, resample = FALSE,
+                          meta = TRUE, nat = TRUE, drvid = TRUE, soma = TRUE, heal = TRUE, connectors = TRUE, all_segments = TRUE, resample = FALSE,
                           scale = 4, voxel.thresh = 1e+07,
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
   message("making data dump in directory ", dir)
@@ -37,7 +37,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
   }
   # Fetch neuron data
   message("Reading neurons from ", conn$server, " for dataset: ", dataset)
-  neurons = neuprint_read_neurons(bodyids = bodyids, meta = meta, nat = nat, soma = soma, heal = heal, connectors = connectors,
+  neurons = neuprint_read_neurons(bodyids = bodyids, meta = meta, nat = nat, drvid=drvid, soma = soma, heal = heal, connectors = connectors,
                                   all_segments = all_segments, dataset = dataset, resample = resample,
                                   conn = conn, OmitFailures = OmitFailures, ...)
   # pre-process data
@@ -81,9 +81,10 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     utils::write.csv(post,paste0(dir,"/connectivity/post_connection_table.csv"))
   }
   # save volumes
-  if(volumes){
+  if(volumes&drvid){
     if(!requireNamespace('drvid', quietly = TRUE))
-      stop("Please install the suggested drvid package, via: devtools::install_github('jefferislab/drvid')")
+      stop("Please install the suggested drvid package, via: devtools::install_github('jefferislab/drvid'),
+           or set drvid = FALSE in function call")
     message("saving voxels")
     dir.create(file.path(dir, "voxels", scale), showWarnings = FALSE)
     voxels = pbapply::pblapply(bodyids, drvid::dv_get_voxels, scale = scale, conn = NULL, ...)
