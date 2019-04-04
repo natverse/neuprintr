@@ -35,7 +35,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     inroi = neuprint_bodies_in_ROI( roi = roi,
                                     dataset = dataset, conn=conn, ...)
     inroi = subset(inroi, voxels>voxel.thresh)
-    bodyids = unique(c(unlist(inroi$bodyid),bodyids))
+    bodyids = as.numeric(unique(c(unlist(inroi$bodyid),bodyids)))
   }
   # Fetch neuron data
   message("Reading neurons from ", conn$server, " for dataset: ", dataset)
@@ -85,11 +85,11 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
   # save volumes
   if(volumes&drvid){
     message("saving voxels")
-    dir.create(file.path(dir, "voxels", scale), showWarnings = FALSE)
+    dir.create(file.path(dir, "voxels", scale), showWarnings = FALSE, recursive = TRUE)
     voxels = pbapply::pblapply(bodyids, drvid::dv_get_voxels, scale = scale, conn = NULL, ...)
     pb <- utils::txtProgressBar(min = 0, max = length(bodyids), style = 3)
     for(v in 1:length(voxels)){
-      utils::write.csv(voxels[[v]],file=file.path(dir, "voxels", scale, paste0(bodyids[v],"_voxels.swc")))
+      utils::write.csv(voxels[[v]],file=file.path(dir, "voxels", scale, paste0(bodyids[v],"_voxels.csv")))
       utils::setTxtProgressBar(pb, v)
     }
     close(pb)
