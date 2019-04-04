@@ -76,7 +76,6 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, con
 
 #' @title Get the connectivity between ROIs in a neuPrint dataset
 #'
-#' @description  Get summary information about the datasets hosted by the neuPrint server in which you are interested
 #' @param rois regions of interest for a dataset
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
 #' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.

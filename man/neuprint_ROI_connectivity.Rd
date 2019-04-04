@@ -17,7 +17,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \description{
-Get summary information about the datasets hosted by the neuPrint server in which you are interested
+Get the connectivity between ROIs in a neuPrint dataset
 }
 \seealso{
 \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
