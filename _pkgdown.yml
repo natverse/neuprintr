@@ -2,16 +2,13 @@ reference:
 - title: Basic queries
   desc: ~
   contents:
-  - '`neuprint_find_neurons`'
+  - '`neuprint_search`'
   - '`neuprint_get_neuron_names`'
+  - '`neuprint_get_meta`'
   - '`neuprint_read_neurons`'
   - '`neuprint_get_synapses`'
+  - '`neuprint_find_neurons`'
   - '`neuprint_ROIs`'
-- title: Neuron manipulation
-  desc: ~
-  contents:
-  - 'heal_skeleton'
-  - 'neuprint_assign_connectors'
 - title: Connectivity between neurons
   desc: ~
   contents:
@@ -19,6 +16,16 @@ reference:
   - '`neuprint_common_connectivity`'
   - '`neuprint_get_adjacency_matrix`'
   - '`neuprint_simple_connectivity`'
+  - '`neuprint_connection_table`'
+- title: Neuron manipulation
+  desc: ~
+  contents:
+  - 'heal_skeleton'
+  - 'neuprint_assign_connectors'
+- title: Other queries
+  desc: ~
+  contents:
+  - '`neuprint_dump`'
 - title: Basic interaction with neuPrint server
   desc: ~
   contents:
