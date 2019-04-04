@@ -22,7 +22,6 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
     s = unlist(nc$data[[1]])
     m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
   }
-  m = t(apply(m,1,as.numeric))
   m
 }
 
