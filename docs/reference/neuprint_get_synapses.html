@@ -113,24 +113,28 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_synapses</span>(<span class='kw'>bodyid</span> <span class='kw'>=</span> <span class='no'>bodyid</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>roi</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_get_synapses</span>(<span class='no'>bodyids</span>, <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bodyid</th>
-      <td><p>the body ID for a neuron/segment (body) you wish to query</p></td>
-    </tr>
-    <tr>
-      <th>dataset</th>
-      <td><p>optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See <code>neuprint_login</code> for details.</p></td>
+      <th>bodyids</th>
+      <td><p>the body IDs for neurons/segments (bodies) you wish to query</p></td>
     </tr>
     <tr>
       <th>roi</th>
       <td><p>a roi (i.e. neuropil volume) you want to query. Use <code>neuprint_ROIs</code> to see what is available.
 Defaults to 'all', which will return synapses in all ROIs.</p></td>
+    </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>if TRUE, a progress bar will be shown. This may slow the data fetching process.</p></td>
+    </tr>
+    <tr>
+      <th>dataset</th>
+      <td><p>optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See <code>neuprint_login</code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
@@ -145,7 +149,8 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a n x n matrix, where the rows are input neurons and the columns are their targets</p>
+    <p>a data frame, where each entry is a connection between the specified bodyid and its partner, either presynaptic to the bodyid (prepost=0) or postsynaptic (prepost=1).
+Each connection is associated with a synapse that has its own unique connector_id, XYZ coordinates and a confidence in its existence.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

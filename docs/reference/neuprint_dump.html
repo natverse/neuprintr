@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read bodies from the neuPrint server as skeletons — neuprint_read_neurons • neuprintr</title>
+<title>Download data from neuprint for specified bodyids / a specified ROI — neuprint_dump • neuprintr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Read bodies from the neuPrint server as skeletons — neuprint_read_neurons" />
+<meta property="og:title" content="Download data from neuprint for specified bodyids / a specified ROI — neuprint_dump" />
 
-<meta property="og:description" content="Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package" />
+<meta property="og:description" content="Download neuron morphology and connectivity data to a specified directrory as .csv and .rda files" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,37 +102,53 @@ Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read bodies from the neuPrint server as skeletons</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jefferislab/neuprintr/blob/master/R/neurons.R'><code>R/neurons.R</code></a></small>
-    <div class="hidden name"><code>neuprint_read_neurons.Rd</code></div>
+    <h1>Download data from neuprint for specified bodyids / a specified ROI</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jefferislab/neuprintr/blob/master/R/dump.R'><code>R/dump.R</code></a></small>
+    <div class="hidden name"><code>neuprint_dump.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get <code><a href='https://www.rdocumentation.org/packages/nat/topics/neuronlist'>nat::neuronlist</a></code> objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package</p>
+    <p>Download neuron morphology and connectivity data to a specified directrory as .csv and .rda files</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_read_neurons</span>(<span class='no'>bodyids</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"postsynapses"</span>,
-  <span class='st'>"presynapses"</span>, <span class='st'>"distance"</span>), <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>OmitFailures</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
-
-<span class='fu'>neuprint_read_neuron</span>(<span class='no'>bodyid</span>, <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"postsynapses"</span>, <span class='st'>"presynapses"</span>,
-  <span class='st'>"distance"</span>), <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_dump</span>(<span class='no'>dir</span>, <span class='kw'>bodyids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>preprocess</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>connectivity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>volumes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>voxel.thresh</span> <span class='kw'>=</span> <span class='fl'>1e+07</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"postsynapses"</span>, <span class='st'>"presynapses"</span>,
+  <span class='st'>"distance"</span>), <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>OmitFailures</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>dir</th>
+      <td><p>the directory to which to save the dump</p></td>
+    </tr>
+    <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query</p></td>
+    </tr>
+    <tr>
+      <th>roi</th>
+      <td><p>a single ROI. Use <code>neuprint_ROIs</code> to see what is available.</p></td>
+    </tr>
+    <tr>
+      <th>preprocess</th>
+      <td><p>a function that can be applied to a nat::neuronlist object, to be called on neurons once they are read from
+the neuprint server using <code>neuprint_read_neurons</code></p></td>
+    </tr>
+    <tr>
+      <th>connectivity</th>
+      <td><p>whether or not to include connectivity information in the dump, i.e. an adjacency matrix between bodyids</p></td>
+    </tr>
+    <tr>
+      <th>volumes</th>
+      <td><p>whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
+the package drvid</p></td>
     </tr>
     <tr>
       <th>meta</th>
@@ -152,13 +167,6 @@ This might be faster, and this might also enable access to skeletons on an under
       <th>flow.centrality</th>
       <td><p>if TRUE, the neuron is split into primary neurite, axon and dendrite based on its flow centrality, as specified by  Schneider-Mizell et al. (2016),
 using <code><a href='https://www.rdocumentation.org/packages/catnat/topics/flow.centrality'>catnat::flow.centrality</a></code></p></td>
-    </tr>
-    <tr>
-      <th>split</th>
-      <td><p>the algorithm will assign two main neurite compartments, which as per SWC format will be indicates as either axon (Label =2)
-or dendrite (Label = 3) in the returned objects, at neuron$d$Label.
-This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
-or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").</p></td>
     </tr>
     <tr>
       <th>soma</th>
@@ -182,12 +190,29 @@ This can be done for synapse-less skeletons using <code>neuprint_assign_connecto
       <td><p>if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
     </tr>
     <tr>
-      <th>dataset</th>
-      <td><p>optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See <code>neuprint_login</code> for details.</p></td>
-    </tr>
-    <tr>
       <th>resample</th>
       <td><p>if a number, the neuron is resampled using <code><a href='https://www.rdocumentation.org/packages/nat/topics/resample'>nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no resampling occurs.</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Resolution of sparse volume starting with 0 where each level
+beyond 0 has 1/2 resolution of previous level. "coarse" will
+return the volume in block coordinates.</p></td>
+    </tr>
+    <tr>
+      <th>voxel.thresh</th>
+      <td><p>the size threshold, in number of voxels, a neuron/segment must exceed, to be included in the dump, if read from an ROI</p></td>
+    </tr>
+    <tr>
+      <th>split</th>
+      <td><p>the algorithm will assign two main neurite compartments, which as per SWC format will be indicates as either axon (Label =2)
+or dendrite (Label = 3) in the returned objects, at neuron$d$Label.
+This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
+or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").</p></td>
+    </tr>
+    <tr>
+      <th>dataset</th>
+      <td><p>optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See <code>neuprint_login</code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
@@ -205,19 +230,11 @@ details.</p></td>
       <th>...</th>
       <td><p>methods passed to <code>neuprint_login</code></p></td>
     </tr>
-    <tr>
-      <th>bodyid</th>
-      <td><p>a single body ID for a neuron/segment (body) you wish to query</p></td>
-    </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a data frame in SWC format, or a neuron/neuronlist object as dictated used by the <code>nat</code> and <code>rcatmaid</code> packages</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>, <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='neuprint_assign_connectors.html'>neuprint_assign_connectors</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='neuprint_read_neurons.html'>neuprint_read_neurons</a></code></p></div>
     
 
   </div>
@@ -226,8 +243,6 @@ details.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
           </ul>
 

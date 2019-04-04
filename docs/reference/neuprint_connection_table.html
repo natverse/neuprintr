@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the name of a neuron — neuprint_get_neuron_names • neuprintr</title>
+<title>Get the upstream and downstream connectivity of a neuron — neuprint_connection_table • neuprintr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Get the name of a neuron — neuprint_get_neuron_names" />
+<meta property="og:title" content="Get the upstream and downstream connectivity of a neuron — neuprint_connection_table" />
 
-<meta property="og:description" content="If a bodyID has a name associated with it, fetch that name, otherwise, return NA" />
+<meta property="og:description" content="Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,19 +102,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the name of a neuron</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jefferislab/neuprintr/blob/master/R/name.R'><code>R/name.R</code></a></small>
-    <div class="hidden name"><code>neuprint_get_names.Rd</code></div>
+    <h1>Get the upstream and downstream connectivity of a neuron</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jefferislab/neuprintr/blob/master/R/connectivity.R'><code>R/connectivity.R</code></a></small>
+    <div class="hidden name"><code>neuprint_connection_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>If a bodyID has a name associated with it, fetch that name, otherwise, return NA</p>
+    <p>Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_neuron_names</span>(<span class='no'>bodyids</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_connection_table</span>(<span class='no'>bodyids</span>, <span class='kw'>prepost</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"PRE"</span>, <span class='st'>"POST"</span>),
+  <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -122,6 +123,18 @@
     <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query</p></td>
+    </tr>
+    <tr>
+      <th>prepost</th>
+      <td><p>whether to look for partners presynaptic to postsynaptic to the given bodyids</p></td>
+    </tr>
+    <tr>
+      <th>roi</th>
+      <td><p>a single ROI. Use <code>neuprint_ROIs</code> to see what is available.</p></td>
+    </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>default FALSE. If TRUE, the API is called separately for each neuron and yuo can asses its progress, if an error is thrown by any one bodyid, that bodyid is ignored</p></td>
     </tr>
     <tr>
       <th>dataset</th>
@@ -144,7 +157,11 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector of names. The vector is named with the given bodyids</p>
+    <p>a data frame giving partners within an ROI, the connection strength for weights to or from that partner, and the direction, for the given bodyid</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>, <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>, <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
     
 
   </div>
@@ -154,6 +171,8 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the name of a neuron — neuprint_get_neuron_names • neuprintr</title>
+<title>Get meta data associated with a body — neuprint_get_meta • neuprintr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Get the name of a neuron — neuprint_get_neuron_names" />
+<meta property="og:title" content="Get meta data associated with a body — neuprint_get_meta" />
 
-<meta property="og:description" content="If a bodyID has a name associated with it, fetch that name, otherwise, return NA" />
+<meta property="og:description" content="Return important meta data given bodyids, including the putative neuron's name, status, size in voxels, and number of pre and post synapses." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,18 +102,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the name of a neuron</h1>
+    <h1>Get meta data associated with a body</h1>
     <small class="dont-index">Source: <a href='https://github.com/jefferislab/neuprintr/blob/master/R/name.R'><code>R/name.R</code></a></small>
-    <div class="hidden name"><code>neuprint_get_names.Rd</code></div>
+    <div class="hidden name"><code>neuprint_get_meta.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>If a bodyID has a name associated with it, fetch that name, otherwise, return NA</p>
+    <p>Return important meta data given bodyids, including the putative neuron's name, status, size in voxels, and number of pre and post synapses.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_neuron_names</span>(<span class='no'>bodyids</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>neuprint_get_meta</span>(<span class='no'>bodyids</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -144,7 +144,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector of names. The vector is named with the given bodyids</p>
+    <p>a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.</p>
     
 
   </div>
