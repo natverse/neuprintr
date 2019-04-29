@@ -270,7 +270,6 @@ neuprint_curl_options <- function(extra_opts=httr::config()) {
   } else {
     curlopts = list()
   }
-
   keep=setdiff(names(curlopts), names(extra_opts$options))
   curlopts=as.list(curlopts[keep])
   # environment variables come in as strings, but sometimes we want numbers

@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://api.travis-ci.org/jefferislab/neuprintr.svg?branch=master)](https://travis-ci.org/jefferislab/neuprintr)
+[![Travis-CI Build Status](https://api.travis-ci.org/jefferislab/neuprintr.svg?branch=master)](https://travis-ci.org/jefferislab/neuprintr) [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://jefferislab.github.io/neuromorphr/reference/)
 
 neuprintr
 =========
