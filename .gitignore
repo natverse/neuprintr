@@ -1,4 +1,6 @@
 packrat/lib*/
 .Rproj.user
 .Rhistory
+.RData
+.RDatatmp
 R/analysis.R
