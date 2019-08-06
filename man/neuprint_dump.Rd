@@ -51,8 +51,8 @@ This can be done for synapse-less skeletons using \code{neuprint_assign_connecto
 \item{resample}{if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.}
 
 \item{scale}{Resolution of sparse volume starting with 0 where each level
-beyond 0 has 1/2 resolution of previous level. "coarse" will
-return the volume in block coordinates.}
+beyond 0 has 1/2 resolution of previous level. "coarse" will return the
+volume in block coordinates.}
 
 \item{voxel.thresh}{the size threshold, in number of voxels, a neuron/segment must exceed, to be included in the dump, if read from an ROI}
 

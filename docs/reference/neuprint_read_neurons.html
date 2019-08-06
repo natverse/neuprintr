@@ -16,7 +16,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -34,6 +35,8 @@
 
 <meta property="og:description" content="Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
 Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -72,7 +75,7 @@ Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +90,7 @@ Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jefferislab/neuprintr">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -110,20 +113,20 @@ Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in
 
     <div class="ref-description">
     
-    <p>Get <code><a href='https://www.rdocumentation.org/packages/nat/topics/neuronlist'>nat::neuronlist</a></code> objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
+    <p>Get <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
 Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_read_neurons</span>(<span class='no'>bodyids</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"postsynapses"</span>,
+  <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"postsynapses"</span>,
   <span class='st'>"presynapses"</span>, <span class='st'>"distance"</span>), <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>OmitFailures</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>neuprint_read_neuron</span>(<span class='no'>bodyid</span>, <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"postsynapses"</span>, <span class='st'>"presynapses"</span>,
+  <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"postsynapses"</span>, <span class='st'>"presynapses"</span>,
   <span class='st'>"distance"</span>), <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
@@ -141,17 +144,17 @@ Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in
     </tr>
     <tr>
       <th>nat</th>
-      <td><p>whether or not to read neurons are <code><a href='https://www.rdocumentation.org/packages/nat/topics/neuronlist'>nat::neuronlist</a></code> objects (TRUE) or get SWC data frame (FALSE)</p></td>
+      <td><p>whether or not to read neurons are <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> objects (TRUE) or get SWC data frame (FALSE)</p></td>
     </tr>
     <tr>
       <th>drvid</th>
-      <td><p>whether or not to use <code><a href='https://www.rdocumentation.org/packages/drvid/topics/read.neuron.dvid'>drvid::read.neuron.dvid</a></code> rather than a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a neuron.
+      <td><p>whether or not to use <code><a href='https://rdrr.io/pkg/drvid/man/read.neuron.dvid.html'>drvid::read.neuron.dvid</a></code> rather than a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a neuron.
 This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.</p></td>
     </tr>
     <tr>
       <th>flow.centrality</th>
       <td><p>if TRUE, the neuron is split into primary neurite, axon and dendrite based on its flow centrality, as specified by  Schneider-Mizell et al. (2016),
-using <code><a href='https://www.rdocumentation.org/packages/catnat/topics/flow.centrality'>catnat::flow.centrality</a></code></p></td>
+using <code><a href='https://rdrr.io/pkg/catnat/man/flow.centrality.html'>catnat::flow.centrality</a></code></p></td>
     </tr>
     <tr>
       <th>split</th>
@@ -187,7 +190,7 @@ This can be done for synapse-less skeletons using <code>neuprint_assign_connecto
     </tr>
     <tr>
       <th>resample</th>
-      <td><p>if a number, the neuron is resampled using <code><a href='https://www.rdocumentation.org/packages/nat/topics/resample'>nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no resampling occurs.</p></td>
+      <td><p>if a number, the neuron is resampled using <code><a href='https://rdrr.io/pkg/nat/man/resample.html'>nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no resampling occurs.</p></td>
     </tr>
     <tr>
       <th>conn</th>
@@ -240,7 +243,7 @@ details.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
    </div>

@@ -17,7 +17,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -44,6 +45,8 @@
 The connection object returned by neuprint_login (or cached when
   Cache=TRUE, the default) can then be used for future requests to the
   neuPrint server by get/query/fetch functions." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -82,7 +85,7 @@ The connection object returned by neuprint_login (or cached when
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +100,7 @@ The connection object returned by neuprint_login (or cached when
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jefferislab/neuprintr">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,7 +138,7 @@ The connection object returned by neuprint_login (or cached when
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_connection</span>(<span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></span>())
+  <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/httr/man/config.html'>config</a></span>())
 
 <span class='fu'>neuprint_login</span>(<span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>Force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
@@ -156,7 +159,7 @@ The connection object returned by neuprint_login (or cached when
     </tr>
     <tr>
       <th>config</th>
-      <td><p>an <code>httr::<a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></code> object that can be used to
+      <td><p>an <code>httr::<a href='https://rdrr.io/pkg/httr/man/config.html'>config</a></code> object that can be used to
 set advanced curl options (e.g. additional authentication, proxy settings
 etc). See <b>Curl options</b> section and <b>Examples</b>.</p></td>
     </tr>
@@ -213,14 +216,14 @@ reused automatically.</p></td>
 
     
     <p>You will very likely want to set the following environment variables in
-  your <code>.Renviron</code> file (see <code><a href='https://www.rdocumentation.org/packages/base/topics/Startup'>Startup</a></code> for details). This
+  your <code>.Renviron</code> file (see <code><a href='https://rdrr.io/r/base/Startup.html'>Startup</a></code> for details). This
   file is read by R on startup. In this way the catmaid package will
   automatically login to your preferred neuPrint server. Note that
   environment variables will also be inherited by child R sessions. This
   means for example that they will be available when running knitr reports,
   tests or R CMD Check from RStudio. In order to edit your R.profile or
   R.environ files easily and directly, try using
-  <code><a href='https://www.rdocumentation.org/packages/usethis/topics/edit'>usethis::edit_r_environ()</a></code> and <code><a href='https://www.rdocumentation.org/packages/usethis/topics/edit'>usethis::edit_r_profile()</a></code></p>
+  <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> and <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_profile()</a></code></p>
 <p></p><ul>
 <li><p><code>neuprint_server</code></p></li>
 <li><p><code>neuprint_token</code></p></li>
@@ -241,11 +244,11 @@ reused automatically.</p></td>
   to specify default neuPrint login options including your personal access
   token. The startup options have the same names as the environment variables
   listed above, so you can place code along the lines of:</p>
-<p><code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(neuprint_server = 'https://emdata1.int.janelia.org:11000',
+<p><code><a href='https://rdrr.io/r/base/options.html'>options(neuprint_server = 'https://emdata1.int.janelia.org:11000',
   neuprint_token =
   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
    neuprint_dataset = 'hemibrain' )</a></code></p>
-<p>in your <code>.Rprofile</code> (see <code><a href='https://www.rdocumentation.org/packages/base/topics/Startup'>Startup</a></code> for details). Note that
+<p>in your <code>.Rprofile</code> (see <code><a href='https://rdrr.io/r/base/Startup.html'>Startup</a></code> for details). Note that
   it is important to have a final return at the end of your <code>.Rprofile</code>
   file.</p>
     
@@ -253,19 +256,19 @@ reused automatically.</p></td>
 
     <p><b>neuprintr</b> uses the curl library provided by the
   <code>httr</code> and <code>curl</code> packages to carry out remote requests. You can
-  set curl options by passing an <code>httr::<a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></code> object that
+  set curl options by passing an <code>httr::<a href='https://rdrr.io/pkg/httr/man/config.html'>config</a></code> object that
   can be used to set advanced curl options (e.g. additional authentication,
-  proxy settings etc). See <code><a href='https://www.rdocumentation.org/packages/curl/topics/handle'>handle</a></code> and
-  <code><a href='https://www.rdocumentation.org/packages/curl/topics/curl_options'>curl_options</a></code> for a full list of possible options.</p>
+  proxy settings etc). See <code><a href='https://rdrr.io/pkg/curl/man/handle.html'>handle</a></code> and
+  <code><a href='https://rdrr.io/pkg/curl/man/curl_options.html'>curl_options</a></code> for a full list of possible options.</p>
 <p>You can also set default curl options using environment variables with
   names of the form <code>neuprint_curl_&lt;curloption&gt;</code>. For example the
-  following entry in you <code><a href='https://www.rdocumentation.org/packages/base/topics/Startup'>Renviron</a></code> file will set the curl
+  following entry in you <code><a href='https://rdrr.io/r/base/Startup.html'>Renviron</a></code> file will set the curl
   <code>ssl_verifyhost</code> option:</p>
 <p><code>neuprint_curl_ssl_verifyhost=0</code></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/Startup'>Startup</a></code>,
+    <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/options.html'>options</a></code>, <code><a href='https://rdrr.io/r/base/Startup.html'>Startup</a></code>,
   <code><a href='neuprint_info.html'>neuprint_datasets</a></code></p></div>
     
 
@@ -280,7 +283,7 @@ reused automatically.</p></td>
 <span class='no'>conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_login</span>()
 
 <span class='co'>## using env vars + config to set advanced curl options</span>
-<span class='fu'>neuprint_login</span>(<span class='kw'>config</span><span class='kw'>=</span><span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/httr/topics/config'>config</a></span>(<span class='kw'>ssl_verifyhost</span><span class='kw'>=</span><span class='fl'>0</span>))
+<span class='fu'>neuprint_login</span>(<span class='kw'>config</span><span class='kw'>=</span><span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/httr/man/config.html'>config</a></span>(<span class='kw'>ssl_verifyhost</span><span class='kw'>=</span><span class='fl'>0</span>))
 
 <span class='co'>## now do stuff with the connection like</span>
 <span class='no'>available.datasets</span> <span class='kw'>=</span> <span class='fu'><a href='neuprint_info.html'>neuprint_datasets</a></span>(<span class='kw'>conn</span><span class='kw'>=</span><span class='no'>conn</span>)
@@ -320,7 +323,7 @@ reused automatically.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
    </div>

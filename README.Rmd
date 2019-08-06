@@ -13,12 +13,14 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
+[![natverse](https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6)](https://natverse.github.io)
 [![Travis-CI Build Status](https://api.travis-ci.org/jefferislab/neuprintr.svg?branch=master)](https://travis-ci.org/jefferislab/neuprintr)
 [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://jefferislab.github.io/neuprintr/reference/)
 
 # neuprintr
+<img src="man/figures/logo.svg" align="right" height="139" /> 
 
-The goal of *neuprintr* is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find [neuprint](https://github.com/connectome-neuprint/neuPrint) on Github. There is also a great python client available from Philipp Schlegel, [neuprint-python](https://github.com/schlegelp/neuprint-python) if that's your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. Using this R package in concert with the [nat](https://github.com/jefferis/nat) ecosystem developed primarily by Greg Jefferis is highly recommended.
+The goal of *neuprintr* is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find [neuprint](https://github.com/connectome-neuprint/neuPrint) on Github. There is also a great python client available from Philipp Schlegel, [neuprint-python](https://github.com/schlegelp/neuprint-python) if that's your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. Using this R package in concert with the [nat](https://github.com/jefferis/nat) ecosystem developed primarily by Greg Jefferis is highly recommended. Hor more information, have a look [here](https://neuprint.janelia.org/help).
 
 ## Installation
 
@@ -76,3 +78,22 @@ Some cyphers and other API endpoints have been explored by this package. Have a 
 ?neuprint_get_synapses
 ?neuprint_read_neurons
 ```
+
+## Example data
+
+* mushroombody (mb6) : from ["A connectome of a learning and memory center in the adult Drosophila brain"](https://elifesciences.org/articles/26975) (Takemura, et al. 2017)
+
+* medulla7column (fib25) : from ["Synaptic circuits and their variations within different columns in the visual system of Drosophila"](https://www.pnas.org/content/112/44/13711) (Takemura, et al. 2015)
+
+## Acknowledging the data and tools
+
+Neuprint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: [neuPrintHTTP](https://github.com/connectome-neuprint/neuPrintHTTP), [neuPrintExplorer](https://github.com/connectome-neuprint/neuPrintExplorer), [Python API](https://github.com/connectome-neuprint/neuprint-python). It was created by 
+
+
+This package was created by [Alexander Shakeel Bates](https://scholar.google.com/citations?user=BOVTiXIAAAAJ&hl=en) and [Dr. Gregory Jefferis](https://en.wikipedia.org/wiki/Gregory_Jefferis). You can cite this package as:
+
+```{r citation, eval = FALSE}
+citation(package = "neuprintr")
+```
+
+**Bates AS, Jefferis GSXE** (2019). *neuprintr: R client utilities for interacting with the neuPrint connectome analysis service.* **R package** version 0.1.0. https://github.com/natverse/neuprintr
