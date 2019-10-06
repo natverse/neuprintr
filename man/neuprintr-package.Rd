@@ -13,15 +13,15 @@ Access to the neuprint connectome analysis service, including
 }
 \section{Online Documentation}{
  See
-  \url{https://jefferislab.github.io/neuprintr/} for structured online
+  \url{https://natverse.github.io/neuprintr/} for structured online
   documentation.
 }
 
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/jefferislab/neuprintr}
-  \item Report bugs at \url{https://github.com/jefferislab/neuprintr/issues}
+  \item \url{https://github.com/natverse/neuprintr}
+  \item Report bugs at \url{https://github.com/natverse/neuprintr/issues}
 }
 
 }

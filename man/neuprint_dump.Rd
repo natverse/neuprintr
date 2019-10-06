@@ -66,9 +66,9 @@ or the Euclidean distance of its first branch point from the primary branch poin
 \item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 If NULL, your defaults set in your R.profile or R.environ are used.}
 
-\item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an 
-error. The default value (\code{NA}) will result in nlapply stopping with 
-an error message the moment there is an error. For other values, see 
+\item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an
+error. The default value (\code{NA}) will result in nlapply stopping with
+an error message the moment there is an error. For other values, see
 details.}
 
 \item{...}{methods passed to \code{neuprint_login}}

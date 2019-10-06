@@ -1,5 +1,5 @@
 #' @section Online Documentation: See
-#'   \url{https://jefferislab.github.io/neuprintr/} for structured online
+#'   \url{https://natverse.github.io/neuprintr/} for structured online
 #'   documentation.
 #'
 #' @keywords internal
