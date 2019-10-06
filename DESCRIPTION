@@ -13,9 +13,10 @@ Description: Access to the neuprint connectome analysis service, including
 License: GPL-3
 LazyData: true
 Suggests: 
+    catnat,
     spelling
 Depends: R (>= 2.10)
-Imports: httr, jsonlite, nabor, igraph, utils, pbapply, drvid, catnat, nat
+Imports: httr, jsonlite, nabor, igraph, utils, pbapply, drvid, nat
 Remotes: 
     natverse/drvid,
     jefferislab/catnat

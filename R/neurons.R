@@ -28,7 +28,6 @@
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
-#' @importFrom catnat flow.centrality
 #' @importFrom drvid read.neuron.dvid
 #' @export
 #' @rdname neuprint_read_neurons
@@ -132,6 +131,11 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     if(n$nTrees>1){
       warning("flow centrality cannot be calculcated for ", bodyid, " , skeleton was not healed")
     } else {
+      if(!requireNamespace("catnat", quietly = TRUE)) {
+        stop("Please install the suggested catnat package with\n",
+             "  remotes::install_github('jefferislab/catnat')")
+      }
+
       n = tryCatch(catnat::flow.centrality(x=n, polypre = FALSE, mode = "centrifugal", split = split, catmaid = FALSE),
                    error = function(e) n)
       if(soma){
