@@ -100,6 +100,25 @@ neuprint_ROI_connectivity <- function(rois, dataset = NULL, conn = NULL, ...){
   rownames(m) = 1:nrow(m)
 }
 
+#' @title Import a region of interest as a mesh
+#'
+#' @param roi region of interest for a dataset
+#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
+#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
+#' If NULL, your defaults set in your R.profile or R.environ are used.
+#' @param ... methods passed to \code{neuprint_login}
+#' @export
+#' @rdname neuprint_ROI_mesh
+neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
+  if(is.null(dataset)){ # Get a default dataset if none specified
+    dataset = unlist(getenvoroption("dataset"))
+  }
+  roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
+  roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh/hemibrain/",roi,sep=""),parse.json = FALSE,include_headers = FALSE)
+  meshObj = textConnection(httr::content(roiQuery,as="text"))
+  rgl::readOBJ(meshObj)
+}
+
 # hidden
 neuprint_check_roi <- function(rois, dataset = NULL, conn = NULL, ...){
   possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, ...)
