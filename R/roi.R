@@ -114,7 +114,7 @@ neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
     dataset = unlist(getenvoroption("dataset"))
   }
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-  roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh/hemibrain/",roi,sep=""),parse.json = FALSE,include_headers = FALSE)
+  roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh",dataset,roi,sep="/"),parse.json = FALSE,include_headers = FALSE)
   meshObj = textConnection(httr::content(roiQuery,as="text"))
   rgl::readOBJ(meshObj)
 }
