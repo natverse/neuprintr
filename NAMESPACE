@@ -2,6 +2,7 @@
 
 export(heal_skeleton)
 export(neuprint_ROI_connectivity)
+export(neuprint_ROI_mesh)
 export(neuprint_ROIs)
 export(neuprint_assign_connectors)
 export(neuprint_available)
