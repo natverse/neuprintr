@@ -203,7 +203,7 @@ extract_connectivity_df <- function(rois, json){
   a = unlist(strsplit(json,"}"))
   values = data.frame()
   for(roi in rois){
-    b = a[grepl(sprintf("\"%s\"",roi),a)]
+    b = a[grepl(sprintf("\"%s\"",roi),a,fixed=TRUE)]
     if(length(b)){
       c = unlist(strsplit(b,","))
       n = as.numeric(gsub("[^0-9.]", "", c))
