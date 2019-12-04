@@ -23,7 +23,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
       stop("Regions of interest provided  are not NULL or demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
            ". Please call neuprint_ROIs() to see the available ROIs.")
     }
-    roi = sprintf("AND (exists(s.%s))", roi)
+    roi = sprintf("AND (exists(s.`%s`))", roi)
   }
   if(progress){
     d  = do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_get_synapses(
