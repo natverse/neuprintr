@@ -62,7 +62,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
                    all_segments.json,
                    dataset,
                    all_segments.json,
-                   ifelse(is.null(roi),"",sprintf("(exists(s.%s)) AND",roi)),
+                   ifelse(is.null(roi),"",sprintf("(exists(s.`%s`)) AND",roi)),
                    ifelse(prepost=="POST","b","a"),
                    ifelse(prepost=="POST","partner","bodyid"),
                    ifelse(prepost=="POST","bodyid","partner"))
