@@ -4,3 +4,4 @@ packrat/lib*/
 .RData
 .RDatatmp
 R/analysis.R
+examples
