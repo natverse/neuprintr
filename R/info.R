@@ -44,6 +44,8 @@ neuprint_version <- function(conn = NULL, ...){
 neuprint_ROIs <- function(dataset = NULL, conn = NULL, ...){
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
+    if(is.null(dataset))
+      stop("Please supply a dataset or set a default one using the neuprint_dataset environment variable!")
   }
   ds = neuprint_datasets(conn=conn, ...)
   rois = unlist(ds[[dataset]])
