@@ -8,13 +8,14 @@
 #' @export
 #' @rdname neuprint_info
 neuprint_datasets <- function(conn = NULL, ...){
-  neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, ...)
+  neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, simplifyVector = TRUE, include_headers = FALSE, ...)
 }
 
 #' @export
 #' @rdname neuprint_info
 neuprint_database <- function(conn = NULL, ...){
-  neuprint_fetch(path = 'api/dbmeta/database', conn = conn, ...)
+  neuprint_fetch(path = 'api/dbmeta/database', conn = conn,
+                 simplifyVector = TRUE, include_headers = FALSE, ...)
 }
 
 #' @export
@@ -27,7 +28,7 @@ neuprint_available <- function(conn = NULL, ...){
 #' @export
 #' @rdname neuprint_info
 neuprint_version <- function(conn = NULL, ...){
-  neuprint_fetch(path = 'api/version', conn = conn, ...)
+  neuprint_fetch(path = 'api/version', conn = conn, include_headers=FALSE,  ...)
 }
 
 #' @title Get a vector of all the ROIs in a specified dataset
