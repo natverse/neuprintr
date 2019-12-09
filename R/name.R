@@ -43,6 +43,30 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   d
 }
 
+#' @title Get roiInfo associated with a body
+#'
+#' @description Return pre and post counts in all the ROIs given bodyids innervate.
+#' @inheritParams neuprint_get_adjacency_matrix
+#' @return a dataframe, one row for each given body id, columns ROI_pre and ROI_post for every ROI. If data is missing, NA is returned.
+#' @export
+#' @rdname neuprint_get_roiInfo
+neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+  if(is.null(dataset)){ # Get a default dataset if none specified
+    dataset = unlist(getenvoroption("dataset"))
+  }
+  all_segments = ifelse(all_segments,"Segment","Neuron")
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
+                   jsonlite::toJSON(unlist(bodyids)),
+                   dataset,
+                   all_segments)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  lc <-  lapply(nc$data,function(x){cbind(bodyid=x[[1]],as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))))})
+  dfmerge <-  function(x) Reduce(function(...) merge(...,all.x=TRUE,all.y=TRUE),x)
+  d <- dfmerge(lc)
+  d
+}
+
+
 #' @title Search for body IDs based on a given name
 #'
 #' @description Search for bodyids corresponding to a given name, Reex sensitive
