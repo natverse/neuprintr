@@ -33,3 +33,58 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
     stop("No output to parse", call. = FALSE)
   jsonlite::fromJSON(text, simplifyVector = simplifyVector, ...)
 }
+
+#' Parse neuprint return list to a data frame
+#'
+#' @details A low level function tailored to the standard neuprint list return
+#'   format. Should handle those times when jsonlite's simplifcation doesn't
+#'   work. The normal return value of \code{\link{neuprint_fetch}} is a list
+#'   formatted as follows: \itemize{
+#'
+#'   \item{columns}{ List of column names}
+#'
+#'   \item{data}{ Nested list of data, with each row formatted as a single
+#'   sublist}
+#'
+#'   \item{debug }{ Character vector containing query}}
+#'
+#'   If \code{neuprint_list2df} receives such a list it will use the
+#'   \code{columns} to define the names for a data.frame constructed from the
+#'   \code{data} field.
+#'
+#' @param x A list returned by \code{\link{neuprint_fetch}}
+#' @param cols Character vector specifying which columns to include (by default
+#'   all of those named in \code{x}, see details).
+#' @param return_empty_df Return a zero row data frame when there is no result.
+#' @param ... Additional arguments passed to \code{\link{as.data.frame}}
+#' @export
+neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE, ...) {
+
+  if(!length(x)) {
+    return(if(return_empty_df){
+      as.data.frame(structure(replicate(length(cols), logical(0)), .Names=cols))
+    } else NULL)
+  }
+
+  if(length(x)>=2 && all(c("columns", "data") %in% names(x))) {
+    if(is.null(cols)) cols=unlist(x$columns)
+    x=x$data
+  }
+
+  if(is.character(x))
+
+  l=list()
+  for(i in seq_along(cols)) {
+    colidx=if(use.col.names) cols[i] else i
+    raw_col = sapply(x, "[[", colidx)
+    if(is.list(raw_col)) {
+      raw_col[sapply(raw_col, is.null)]=NA
+      sublens=sapply(raw_col, length)
+      if(all(sublens==1))
+        raw_col=unlist(raw_col)
+      else raw_col=sapply(raw_col, paste, collapse=',')
+    }
+    l[[cols[i]]]=raw_col
+  }
+  as.data.frame(l, ...)
+}
