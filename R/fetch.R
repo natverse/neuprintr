@@ -60,22 +60,23 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
 #' @export
 neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE, ...) {
 
+  if(length(x)>=2 && all(c("columns", "data") %in% names(x))) {
+    if(is.null(cols)) cols=unlist(x$columns)
+    x=x$data
+    colidxs=match(cols, cols)
+  } else {
+    colidxs=seq_along(cols)
+  }
+
   if(!length(x)) {
     return(if(return_empty_df){
       as.data.frame(structure(replicate(length(cols), logical(0)), .Names=cols))
     } else NULL)
   }
 
-  if(length(x)>=2 && all(c("columns", "data") %in% names(x))) {
-    if(is.null(cols)) cols=unlist(x$columns)
-    x=x$data
-  }
-
-  if(is.character(x))
-
   l=list()
   for(i in seq_along(cols)) {
-    colidx=if(use.col.names) cols[i] else i
+    colidx=colidxs[i]
     raw_col = sapply(x, "[[", colidx)
     if(is.list(raw_col)) {
       raw_col[sapply(raw_col, is.null)]=NA
