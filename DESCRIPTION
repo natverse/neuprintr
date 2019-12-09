@@ -26,7 +26,8 @@ Imports:
     pbapply,
     drvid,
     nat,
-    readobj
+    readobj,
+    memoise
 Remotes: 
     natverse/drvid,
     jefferislab/catnat

@@ -88,3 +88,17 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE, ...) {
   }
   as.data.frame(l, ...)
 }
+
+#' @importFrom memoise memoise
+neuprint_name_field <- memoise(function(conn=NULL) {
+  if (is.null(conn))
+    stop(
+      "You must do\n  conn = neuprint_login(conn)\n",
+      "before using neuprint_name_field(conn) in your function!",
+      call. = FALSE
+    )
+  q="MATCH (n :hemibrain_Neuron) WHERE exists(n.instance) RETURN count(n)"
+  neuprint_fetch_custom(q, conn = conn)
+  n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
+  return(ifelse(n>0, "instance", "name"))
+})
