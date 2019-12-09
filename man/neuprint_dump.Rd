@@ -74,7 +74,7 @@ details.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \description{
-Download neuron morphology and connectivity data to a specified directrory as .csv and .rda files
+Download neuron morphology and connectivity data to a specified directory as .csv and .rda files
 }
 \seealso{
 \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}

@@ -1,6 +1,6 @@
 #' @title Download data from neuprint for specified bodyids / a specified ROI
 #'
-#' @description  Download neuron morphology and connectivity data to a specified directrory as .csv and .rda files
+#' @description  Download neuron morphology and connectivity data to a specified directory as .csv and .rda files
 #' @inheritParams neuprint_read_neurons
 #' @inheritParams neuprint_bodies_in_ROI
 #' @inheritParams neuprint_connection_table
