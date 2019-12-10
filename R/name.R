@@ -6,9 +6,8 @@
 #' @export
 #' @rdname neuprint_get_names
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  # Get a default dataset if none specified
+  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
 
@@ -30,9 +29,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' @export
 #' @rdname neuprint_get_meta
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
   cypher = sprintf(
@@ -58,9 +55,8 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #' @export
 #' @rdname neuprint_get_roiInfo
 neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
+  conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
@@ -86,10 +82,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, c
 #' @export
 #' @rdname neuprint_search
 neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE, dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
-  all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
+  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")

@@ -12,9 +12,7 @@
 #' @export
 #' @rdname neuprint_get_synapses
 neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   if(is.null(roi)){
     roi = ""
   }else{

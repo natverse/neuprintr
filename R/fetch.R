@@ -114,3 +114,14 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
   n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
   paste0(dataset, ifelse(n>0, "_", "-"))
 })
+
+check_dataset <- function(dataset=NULL) {
+  # Get a default dataset if none specified
+  if(is.null(dataset)){
+    dataset = unlist(getenvoroption("dataset"))
+    if(is.null(dataset))
+      stop("Please supply a dataset or set a default one using the ",
+           "neuprint_dataset environment variable! See ?neuprint_login for details.")
+  }
+  dataset
+}

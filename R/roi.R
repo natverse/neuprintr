@@ -22,9 +22,7 @@ neuprint_find_neurons <- function(input_ROIs,
                                   conn = NULL,
                                   all_segments = TRUE,
                                   ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   if(!is.null(statuses)){
     possible.statuses = c("Unimportant","0.5assign","Leaves","Prelim Roughly Traced", "Anchor", "Orphan")
     if(sum(!statuses%in%possible.statuses)){
@@ -57,9 +55,7 @@ neuprint_find_neurons <- function(input_ROIs,
 #' @export
 #' @rdname neuprint_find_neurons
 neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
@@ -86,9 +82,7 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, con
 #' @export
 #' @rdname neuprint_ROI_connectivity
 neuprint_ROI_connectivity <- function(rois, dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   roicheck = neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
   Payload = noquote(sprintf('{"dataset":"%s","rois":%s}',
                             dataset,
@@ -111,9 +105,7 @@ neuprint_ROI_connectivity <- function(rois, dataset = NULL, conn = NULL, ...){
 #' @export
 #' @rdname neuprint_ROI_mesh
 neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh",dataset,roi,sep="/"),parse.json = FALSE,include_headers = FALSE)
   tf = tempfile()

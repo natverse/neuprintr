@@ -7,9 +7,7 @@
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
 neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
@@ -51,9 +49,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = NULL, progress = FALSE,
                                       dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   prepost = match.arg(prepost)
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   if(!is.null(roi)){
@@ -108,9 +104,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                                 all_segments = TRUE,
                                 dataset = NULL, conn = NULL, ...){
   prepost = match.arg(prepost)
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   if(!is.null(statuses)){
     possible.statuses = c("Unimportant","0.5assign","Leaves","Prelim Roughly Traced", "Anchor", "Orphan")
     if(sum(!statuses%in%possible.statuses)){
@@ -168,9 +162,7 @@ neuprint_simple_connectivity <- function(bodyids,
                                          prepost = c("PRE","POST"),
                                          dataset = NULL, conn = NULL, ...){
   prepost = match.arg(prepost)
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   find_inputs = ifelse(prepost=="PRE", "false","true")
   if(length(bodyids)>10){
     m  = do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(

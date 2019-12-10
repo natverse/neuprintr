@@ -7,9 +7,7 @@
 #' @export
 #' @rdname neuprint_assign_connectors
 neuprint_locate_soma <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
 

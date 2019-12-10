@@ -51,9 +51,7 @@ neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALS
 #' @rdname neuprint_read_neurons
 neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, dataset = NULL, all_segments = TRUE, resample = FALSE, conn = NULL, ...){
   split = match.arg(split)
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
@@ -171,9 +169,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
 #' @rdname neuprint_assign_connectors
 neuprint_assign_connectors <-function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...) UseMethod("neuprint_assign_connectors")
 neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   if(is.null(bodyids)){
     bodyids = x$bodyid
   }
@@ -215,9 +211,7 @@ heal_skeleton <- function(x, ...){
 }
 
 neuprint_read_neuron_simple <- function(x, dataset=NULL, conn=NULL, heal=TRUE, ...) {
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   if(length(x)>1) {
     return(nlapply(x, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...))
   }
