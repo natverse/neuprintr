@@ -55,13 +55,15 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     dataset = unlist(getenvoroption("dataset"))
   }
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+
   if(drvid){
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    cypher = sprintf("MATCH (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
-                     dataset,
-                     all_segments_json,
+    cypher = sprintf("MATCH (:`%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
+                     paste0(dp, all_segments_json),
                      as.numeric(bodyid),
                      dataset,
                      all_segments_json,
@@ -210,4 +212,21 @@ heal_skeleton <- function(x, ...){
   }else{
     healed$d
   }
+}
+
+neuprint_read_neuron_simple <- function(x, dataset=NULL, conn=NULL, heal=TRUE, ...) {
+  if(is.null(dataset)){ # Get a default dataset if none specified
+    dataset = unlist(getenvoroption("dataset"))
+  }
+  if(length(x)>1) {
+    return(nlapply(x, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...))
+  }
+  path=file.path("api/skeletons/skeleton", dataset, x)
+  res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
+  colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")
+  df=as.data.frame(res$data)
+  # convert radius to diameter
+  df$W=df$W*2
+  n=nat::as.neuron(df)
+  if(heal) heal_skeleton(n) else n
 }

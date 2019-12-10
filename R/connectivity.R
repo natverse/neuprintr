@@ -10,11 +10,23 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS input MATCH (n:`%s-%s`)-[c:ConnectsTo]->(m) WHERE n.bodyId IN input AND m.bodyId IN input RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.name AS upName, m.name AS downName",
-                   jsonlite::toJSON(as.numeric(unique(unlist(bodyids)))),
-                   dataset,
-                   all_segments.json)
+  namefield=neuprint_name_field(conn)
+  cypher = sprintf(
+    paste(
+      "WITH %s AS input MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
+      "WHERE n.bodyId IN input AND m.bodyId IN input",
+      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.%s AS upName, m.%s AS downName"
+    ),
+    jsonlite::toJSON(as.numeric(unique(unlist(
+      bodyids
+    )))),
+    paste0(dataset, all_segments.json),
+    namefield,
+    namefield
+  )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
   rownames(m) = colnames(m) = bodyids
@@ -42,6 +54,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
+  conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
@@ -56,12 +69,12 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
       error = function(e) NULL)))
     return(d)
   }
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s-%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s-%s`), (c)-[:Contains]->(s:Synapse) WHERE %s (s.type='post') AND %s.bodyId=bodyId RETURN a.bodyId AS %s, b.bodyId AS %s, count(*) AS weight",
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+  prefixed=paste0(dp, all_segments.json)
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s`), (c)-[:Contains]->(s:Synapse) WHERE %s (s.type='post') AND %s.bodyId=bodyId RETURN a.bodyId AS %s, b.bodyId AS %s, count(*) AS weight",
                    jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
-                   dataset,
-                   all_segments.json,
-                   dataset,
-                   all_segments.json,
+                   prefixed,
+                   prefixed,
                    ifelse(is.null(roi),"",sprintf("(exists(s.`%s`)) AND",roi)),
                    ifelse(prepost=="POST","b","a"),
                    ifelse(prepost=="POST","partner","bodyid"),
@@ -172,27 +185,21 @@ neuprint_simple_connectivity <- function(bodyids,
                             jsonlite::toJSON(bodyids),
                             find_inputs))
   class(Payload) = "json"
-  simp.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, ...)
+  simp.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, simplifyVector = TRUE, ...)
   if(!length(simp.conn$data)){
     return(NULL)
   }
-  m = matrix(0,nrow = length(bodyids),ncol = length(simp.conn$data[[1]][[1]]))
-  rownames(m) = paste0(bodyids,"_weight")
-  connected = c()
-  for(i in 1:length(simp.conn$data[[1]][[1]])){
-   s = simp.conn$data[[1]][[1]][[i]]
-   find = match(names(s),rownames(m))
-   add = find[!is.na(find)]
-   m[add,i] = unlist(s)[!is.na(find)]
-   connected = c(connected,ifelse(is.null(s$input),s$output,s$input))
+  d=simp.conn$data[[1]][[1]]
+  weightcols <- grep("_weight$", names(d))
+  othercols <- grep("_weight$", names(d), invert = T)
+  partnercol=grep("put$", names(d))
+  # m = matrix(0,nrow = length(bodyids),ncol = length(d))
+  # rownames(m) = paste0(bodyids,"_weight")
+  for(i in weightcols) {
+    d[[i]][is.na(d[[i]])]=0
   }
-  m = apply(m,1,as.numeric)
-  rownames(m) = connected
-  colnames(m) = bodyids
-  #m = reshape2::melt(m)
-  #colnames(m) = c("partner","bodyid","weight")
-  #m$prepost = ifelse(prepost=="PRE",0,1)
-  m
+  d=d[c(othercols, weightcols)]
+  d
 }
 
 # hidden, caution, does not deal with left/right neuropils

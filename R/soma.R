@@ -10,11 +10,14 @@ neuprint_locate_soma <- function(bodyids, dataset = NULL, all_segments = TRUE, c
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyId, n.somaLocation AS soma",
+
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyId, n.somaLocation AS soma",
                    jsonlite::toJSON(as.numeric(unique(bodyids))),
-                   dataset,
-                   all_segments)
+                   paste0(sp, all_segments.json))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   if(length(nc$data)==0){
     coordinates = matrix(c(NA,NA,NA),nrow=length(bodyids),ncol=3)

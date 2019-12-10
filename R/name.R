@@ -9,11 +9,13 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
                    jsonlite::toJSON(unlist(bodyids)),
-                   dataset,
-                   all_segments)
+                   paste0(dp,all_segments))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   d =  unlist(lapply(nc$data,nullToNA))
   names(d) = bodyids
@@ -32,15 +34,20 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     dataset = unlist(getenvoroption("dataset"))
   }
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.instance AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post",
-                   jsonlite::toJSON(unlist(bodyids)),
-                   dataset,
-                   all_segments)
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
-  d =  as.data.frame(do.call(rbind,lapply(nc$data,nullToNA)))
-  colnames(d) = unlist(nc$columns)
-  d[,] = unlist(d)
-  d
+  conn=neuprint_login(conn)
+  cypher = sprintf(
+    paste(
+      "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
+      "MATCH (n:`%s_%s`) WHERE n.bodyId=bodyId",
+      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post"
+    ),
+    jsonlite::toJSON(unlist(bodyids)),
+    dataset,
+    all_segments,
+    neuprint_name_field(conn)
+  )
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, include_headers = F, ...)
+  neuprint_list2df(nc, return_empty_df = TRUE)
 }
 
 #' @title Get roiInfo associated with a body
@@ -81,9 +88,11 @@ neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE,
     dataset = unlist(getenvoroption("dataset"))
   }
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("MATCH (n:`%s-%s`) WHERE n.name=~'%s' RETURN n.bodyId",
+  conn=neuprint_login(conn)
+  cypher = sprintf("MATCH (n:`%s_%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
                    dataset,
                    all_segments.cypher,
+                   neuprint_name_field(conn),
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, ...)
   if(meta){

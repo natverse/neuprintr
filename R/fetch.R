@@ -102,3 +102,15 @@ neuprint_name_field <- memoise(function(conn=NULL) {
   n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
   return(ifelse(n>0, "instance", "name"))
 })
+
+neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
+  if (is.null(conn))
+    stop(
+      "You must do\n  conn = neuprint_login(conn)\n",
+      "before using neuprint_dataset_prefix(conn) in your function!",
+      call. = FALSE
+    )
+  q=sprintf("MATCH (n:`%s_Neuron`) RETURN count(n)", dataset)
+  n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
+  paste0(dataset, ifelse(n>0, "_", "-"))
+})
