@@ -66,8 +66,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, c
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   lc <-  lapply(nc$data,function(x){cbind(bodyid=x[[1]],as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))))})
-  dfmerge <-  function(x) Reduce(function(...) merge(...,all.x=TRUE,all.y=TRUE),x)
-  d <- dfmerge(lc)
+  d <- dplyr::bind_rows(lc)
   d
 }
 

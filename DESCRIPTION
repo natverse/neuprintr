@@ -28,7 +28,8 @@ Imports:
     drvid,
     nat,
     readobj,
-    memoise
+    memoise,
+    dplyr
 Remotes: 
     natverse/drvid,
     jefferislab/catnat
