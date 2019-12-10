@@ -7,15 +7,19 @@
 neuprint_ROIs(dataset = NULL, conn = NULL, ...)
 }
 \arguments{
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{dataset}{optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See \code{neuprint_login} for
+details.}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
+set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \description{
-Get summary information about the datasets hosted by the neuPrint server in which you are interested
+Get summary information about the datasets hosted by the
+  neuPrint server in which you are interested
 }
 \seealso{
 \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
