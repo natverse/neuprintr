@@ -62,7 +62,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
                    all_segments.json,
                    dataset,
                    all_segments.json,
-                   ifelse(is.null(roi),"",sprintf("(exists(s.%s)) AND",roi)),
+                   ifelse(is.null(roi),"",sprintf("(exists(s.`%s`)) AND",roi)),
                    ifelse(prepost=="POST","b","a"),
                    ifelse(prepost=="POST","partner","bodyid"),
                    ifelse(prepost=="POST","bodyid","partner"))
@@ -203,7 +203,7 @@ extract_connectivity_df <- function(rois, json){
   a = unlist(strsplit(json,"}"))
   values = data.frame()
   for(roi in rois){
-    b = a[grepl(sprintf("\"%s\"",roi),a)]
+    b = a[grepl(sprintf("\"%s\"",roi),a,fixed=TRUE)]
     if(length(b)){
       c = unlist(strsplit(b,","))
       n = as.numeric(gsub("[^0-9.]", "", c))
