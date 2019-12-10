@@ -32,15 +32,15 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   dataset <- check_dataset(dataset)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
-      "MATCH (n:`%s_%s`) WHERE n.bodyId=bodyId",
+      "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
       "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post"
     ),
     jsonlite::toJSON(unlist(bodyids)),
-    dataset,
-    all_segments,
+    paste0(dp, all_segments),
     neuprint_name_field(conn)
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, include_headers = F, ...)
