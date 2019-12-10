@@ -91,10 +91,10 @@ neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE,
                    neuprint_name_field(conn),
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, ...)
-  bodyids=unlist(nc$data)
-  if(meta){
-    neuprint_get_meta(bodyids = bodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
+  foundbodyids=unlist(nc$data)
+  if(meta && isTRUE(length(foundbodyids)>0)){
+    neuprint_get_meta(bodyids = foundbodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
   } else {
-    bodyids
+    foundbodyids
   }
 }
