@@ -61,11 +61,13 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, c
   if(is.null(dataset)){ # Get a default dataset if none specified
     dataset = unlist(getenvoroption("dataset"))
   }
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
-                   jsonlite::toJSON(unlist(bodyids)),
-                   dataset,
-                   all_segments)
+  cypher = sprintf(
+    "WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
+    jsonlite::toJSON(unlist(bodyids)),
+    paste0(dp, all_segments)
+  )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   lc <-  lapply(nc$data,function(x){cbind(bodyid=x[[1]],as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))))})
   dfmerge <-  function(x) Reduce(function(...) merge(...,all.x=TRUE,all.y=TRUE),x)
@@ -89,15 +91,17 @@ neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE,
   }
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
-  cypher = sprintf("MATCH (n:`%s_%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
-                   dataset,
-                   all_segments.cypher,
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+  all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
+  cypher = sprintf("MATCH (n:`%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
+                   paste0(dp, all_segments.cypher),
                    neuprint_name_field(conn),
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, ...)
+  bodyids=unlist(nc$data)
   if(meta){
-    neuprint_get_meta(bodyids = unlist(nc$data), dataset = dataset, all_segments = all_segments, conn = conn, ...)
-  }else{
-    unlist(nc$data)
+    neuprint_get_meta(bodyids = bodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
+  } else {
+    bodyids
   }
 }
