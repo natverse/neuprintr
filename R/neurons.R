@@ -60,11 +60,10 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    cypher = sprintf("MATCH (:`%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
+    cypher = sprintf("MATCH (:`%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
                      paste0(dp, all_segments_json),
                      as.numeric(bodyid),
-                     dataset,
-                     all_segments_json,
+                     paste0(dp, all_segments_json),
                      as.numeric(bodyid))
     nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
     if(!length(nc$data)){
