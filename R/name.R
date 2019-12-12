@@ -2,9 +2,12 @@
 #'
 #' @description  If a bodyID has a name associated with it, fetch that name, otherwise, return NA
 #' @inheritParams neuprint_get_adjacency_matrix
-#' @return a vector of names. The vector is named with the given bodyids
+#' @return a vector of names, named with the input bodyids
 #' @export
-#' @rdname neuprint_get_names
+#' @examples
+#' \donttest{
+#' neuprint_get_neuron_names(c(818983130, 1796818119))
+#' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   # Get a default dataset if none specified
   dataset <- check_dataset(dataset)
@@ -27,7 +30,10 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @return a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.
 #' @export
-#' @rdname neuprint_get_meta
+#' @examples
+#' \donttest{
+#' neuprint_get_meta(c(818983130, 1796818119))
+#' }
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   all_segments = ifelse(all_segments,"Segment","Neuron")
@@ -53,7 +59,10 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @return a dataframe, one row for each given body id, columns ROI_pre and ROI_post for every ROI. If data is missing, NA is returned.
 #' @export
-#' @rdname neuprint_get_roiInfo
+#' @examples
+#' \donttest{
+#' neuprint_get_roiInfo(c(818983130, 1796818119))
+#' }
 neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
@@ -75,12 +84,19 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, c
 #'
 #' @description Search for bodyids corresponding to a given name, Reex sensitive
 #' @inheritParams neuprint_get_adjacency_matrix
-#' @param search name to search. Defaults to a search for MBONs
+#' @param search name to search. See examples.
 #' @param meta if TRUE, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
 #' @rdname neuprint_search
-neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE, dataset = NULL, conn = NULL, ...){
+#' @examples
+#' \donttest{
+#' neuprint_search(".*DA2.*")
+#' }
+#' \dontrun{
+#' neuprint_search("MBON.*")
+#' }
+neuprint_search <- function(search, meta = TRUE, all_segments = TRUE, dataset = NULL, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)

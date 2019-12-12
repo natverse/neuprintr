@@ -46,6 +46,10 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_connection_table
+#' @examples
+#' \donttest{
+#' neuprint_connection_table(c(818983130, 1796818119))
+#' }
 neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = NULL, progress = FALSE,
                                       dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   prepost = match.arg(prepost)

@@ -25,3 +25,8 @@ a dataframe, one row for each given body id, columns bodyid, name, status, voxel
 \description{
 Return important meta data given bodyids, including the putative neuron's name, status, size in voxels, and number of pre and post synapses.
 }
+\examples{
+\donttest{
+neuprint_get_meta(c(818983130, 1796818119))
+}
+}

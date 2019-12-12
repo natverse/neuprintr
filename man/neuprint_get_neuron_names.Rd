@@ -20,8 +20,13 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a vector of names. The vector is named with the given bodyids
+a vector of names, named with the input bodyids
 }
 \description{
 If a bodyID has a name associated with it, fetch that name, otherwise, return NA
+}
+\examples{
+\donttest{
+neuprint_get_neuron_names(c(818983130, 1796818119))
+}
 }

@@ -1,16 +1,29 @@
 #' @title Get the locations of pre- and post synapses associated with a body
 #'
-#' @description  Get the xyz locations, IDs and confidences of pre- and post synapses associated with a body
+#' @description Get the xyz locations, IDs and confidences of pre- and post
+#'   synapses associated with a body
 #' @inheritParams neuprint_read_neurons
-#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
-#' @param roi a roi (i.e. neuropil volume) you want to query. Use \code{neuprint_ROIs} to see what is available.
-#' Defaults to 'all', which will return synapses in all ROIs.
-#' @param progress if TRUE, a progress bar will be shown. This may slow the data fetching process.
-#' @return a data frame, where each entry is a connection between the specified bodyid and its partner, either presynaptic to the bodyid (prepost=0) or postsynaptic (prepost=1).
-#' Each connection is associated with a synapse that has its own unique connector_id, XYZ coordinates and a confidence in its existence.
-#' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+#' @param dataset optional, a dataset you want to query. If NULL, the default
+#'   specified by your R environ file is used. See \code{\link{neuprint_login}}
+#'   for details.
+#' @param roi a roi (i.e. neuropil volume) you want to query. Use
+#'   \code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',
+#'   which will return synapses in all ROIs.
+#' @param progress if TRUE, a progress bar will be shown. This may slow the data
+#'   fetching process.
+#' @return a data frame, where each entry is a connection between the specified
+#'   bodyid and its partner, either presynaptic to the bodyid (prepost=0) or
+#'   postsynaptic (prepost=1). Each connection is associated with a synapse that
+#'   has its own unique connector_id, XYZ coordinates and a confidence in its
+#'   existence.
+#' @seealso \code{\link{neuprint_fetch_custom}},
+#'   \code{\link{neuprint_simple_connectivity}},
+#'   \code{\link{neuprint_common_connectivity}}
 #' @export
-#' @rdname neuprint_get_synapses
+#' @examples
+#' \donttest{
+#' neuprint_get_synapses(c(818983130, 1796818119))
+#' }
 neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   conn = neuprint_login(conn)
