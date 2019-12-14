@@ -5,3 +5,4 @@ packrat/lib*/
 .RDatatmp
 R/analysis.R
 examples
+.httr-oauth
