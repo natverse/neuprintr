@@ -31,8 +31,9 @@
 #' @importFrom drvid read.neuron.dvid
 #' @export
 #' @rdname neuprint_read_neurons
+#' @importFrom nat nlapply
 neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
-  neurons = nat::nlapply(as.numeric(unique(bodyids)),function(bodyid)
+  neurons = nlapply(as.numeric(unique(bodyids)),function(bodyid)
     neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, flow.centrality = flow.centrality, split = split, soma = soma, estimate.soma = estimate.soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   if(length(neurons)==0){
@@ -179,7 +180,7 @@ neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL,
   n
 }
 neuprint_assign_connectors.neuronlist  <- function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...){
-  nat::nlapply(1:length(x), function(i)
+  nlapply(1:length(x), function(i)
     neuprint_assign_connectors.neuron(x=x[[i]],bodyids=bodyids[i]),dataset=dataset,conn=conn,...)
 }
 
