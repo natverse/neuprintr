@@ -147,7 +147,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
   }
   if(nat){
     n$bodyid = bodyid
-    class(n) = c(class(n), "neuprintneuron", "catmaidneuron")
+    class(n) = union(c("neuprintneuron", "catmaidneuron"), class(n))
     n
   }else{
     if(connectors){
