@@ -38,8 +38,8 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
 #'
 #' @details A low level function tailored to the standard neuprint list return
 #'   format. Should handle those times when jsonlite's simplifcation doesn't
-#'   work. The normal return value of \code{\link{neuprint_fetch}} is a list
-#'   formatted as follows: \itemize{
+#'   work. The normal return value of \code{\link{neuprint_fetch_custom}} is a
+#'   list formatted as follows: \itemize{
 #'
 #'   \item{columns}{ List of column names}
 #'
@@ -52,7 +52,7 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
 #'   \code{columns} to define the names for a data.frame constructed from the
 #'   \code{data} field.
 #'
-#' @param x A list returned by \code{\link{neuprint_fetch}}
+#' @param x A list returned by \code{\link{neuprint_fetch_custom}}
 #' @param cols Character vector specifying which columns to include (by default
 #'   all of those named in \code{x}, see details).
 #' @param return_empty_df Return a zero row data frame when there is no result.

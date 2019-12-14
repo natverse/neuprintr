@@ -7,7 +7,7 @@
 neuprint_list2df(x, cols = NULL, return_empty_df = FALSE, ...)
 }
 \arguments{
-\item{x}{A list returned by \code{\link{neuprint_fetch}}}
+\item{x}{A list returned by \code{\link{neuprint_fetch_custom}}}
 
 \item{cols}{Character vector specifying which columns to include (by default
 all of those named in \code{x}, see details).}
@@ -22,8 +22,8 @@ Parse neuprint return list to a data frame
 \details{
 A low level function tailored to the standard neuprint list return
   format. Should handle those times when jsonlite's simplifcation doesn't
-  work. The normal return value of \code{\link{neuprint_fetch}} is a list
-  formatted as follows: \itemize{
+  work. The normal return value of \code{\link{neuprint_fetch_custom}} is a
+  list formatted as follows: \itemize{
 
   \item{columns}{ List of column names}
 

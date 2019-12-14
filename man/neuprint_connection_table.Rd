@@ -32,6 +32,11 @@ a data frame giving partners within an ROI, the connection strength for weights 
 \description{
 Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified
 }
+\examples{
+\donttest{
+neuprint_connection_table(c(818983130, 1796818119))
+}
+}
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 }
