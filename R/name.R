@@ -2,18 +2,22 @@
 #'
 #' @description  If a bodyID has a name associated with it, fetch that name, otherwise, return NA
 #' @inheritParams neuprint_get_adjacency_matrix
-#' @return a vector of names. The vector is named with the given bodyids
+#' @return a vector of names, named with the input bodyids
 #' @export
-#' @rdname neuprint_get_names
+#' @examples
+#' \donttest{
+#' neuprint_get_neuron_names(c(818983130, 1796818119))
+#' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  # Get a default dataset if none specified
+  dataset <- check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
                    jsonlite::toJSON(unlist(bodyids)),
-                   dataset,
-                   all_segments)
+                   paste0(dp,all_segments))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   d =  unlist(lapply(nc$data,nullToNA))
   names(d) = bodyids
@@ -26,21 +30,27 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @return a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.
 #' @export
-#' @rdname neuprint_get_meta
+#' @examples
+#' \donttest{
+#' neuprint_get_meta(c(818983130, 1796818119))
+#' }
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.instance AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post",
-                   jsonlite::toJSON(unlist(bodyids)),
-                   dataset,
-                   all_segments)
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
-  d =  as.data.frame(do.call(rbind,lapply(nc$data,nullToNA)))
-  colnames(d) = unlist(nc$columns)
-  d[,] = unlist(d)
-  d
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+  cypher = sprintf(
+    paste(
+      "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
+      "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
+      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post"
+    ),
+    jsonlite::toJSON(unlist(bodyids)),
+    paste0(dp, all_segments),
+    neuprint_name_field(conn)
+  )
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, include_headers = F, ...)
+  neuprint_list2df(nc, return_empty_df = TRUE)
 }
 
 #' @title Get roiInfo associated with a body
@@ -49,20 +59,23 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @return a dataframe, one row for each given body id, columns ROI_pre and ROI_post for every ROI. If data is missing, NA is returned.
 #' @export
-#' @rdname neuprint_get_roiInfo
+#' @examples
+#' \donttest{
+#' neuprint_get_roiInfo(c(818983130, 1796818119))
+#' }
 neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s-%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
-                   jsonlite::toJSON(unlist(bodyids)),
-                   dataset,
-                   all_segments)
+  cypher = sprintf(
+    "WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
+    jsonlite::toJSON(unlist(bodyids)),
+    paste0(dp, all_segments)
+  )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
   lc <-  lapply(nc$data,function(x){cbind(bodyid=x[[1]],as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))))})
-  dfmerge <-  function(x) Reduce(function(...) merge(...,all.x=TRUE,all.y=TRUE),x)
-  d <- dfmerge(lc)
+  d <- dplyr::bind_rows(lc)
   d
 }
 
@@ -71,24 +84,32 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, c
 #'
 #' @description Search for bodyids corresponding to a given name, Reex sensitive
 #' @inheritParams neuprint_get_adjacency_matrix
-#' @param search name to search. Defaults to a search for MBONs
+#' @param search name to search. See examples.
 #' @param meta if TRUE, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
 #' @rdname neuprint_search
-neuprint_search <- function(search = "MBON.*", meta = TRUE, all_segments = TRUE, dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+#' @examples
+#' \donttest{
+#' neuprint_search(".*DA2.*")
+#' }
+#' \dontrun{
+#' neuprint_search("MBON.*")
+#' }
+neuprint_search <- function(search, meta = TRUE, all_segments = TRUE, dataset = NULL, conn = NULL, ...){
+  dataset <- check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("MATCH (n:`%s-%s`) WHERE n.name=~'%s' RETURN n.bodyId",
-                   dataset,
-                   all_segments.cypher,
+  cypher = sprintf("MATCH (n:`%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
+                   paste0(dp, all_segments.cypher),
+                   neuprint_name_field(conn),
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, ...)
-  if(meta){
-    neuprint_get_meta(bodyids = unlist(nc$data), dataset = dataset, all_segments = all_segments, conn = conn, ...)
-  }else{
-    unlist(nc$data)
+  foundbodyids=unlist(nc$data)
+  if(meta && isTRUE(length(foundbodyids)>0)){
+    neuprint_get_meta(bodyids = foundbodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
+  } else {
+    foundbodyids
   }
 }

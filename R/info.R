@@ -45,11 +45,7 @@ neuprint_version <- function(conn = NULL, ...){
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
 #' @export
 neuprint_ROIs <- function(dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-    if(is.null(dataset))
-      stop("Please supply a dataset or set a default one using the neuprint_dataset environment variable!")
-  }
+  dataset <- check_dataset(dataset)
   ds = neuprint_datasets(conn=conn, ...)
   rois = unlist(ds[[dataset]])
   rois[grepl("ROI",names(rois))]

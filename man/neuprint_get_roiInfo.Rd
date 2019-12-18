@@ -25,3 +25,8 @@ a dataframe, one row for each given body id, columns ROI_pre and ROI_post for ev
 \description{
 Return pre and post counts in all the ROIs given bodyids innervate.
 }
+\examples{
+\donttest{
+neuprint_get_roiInfo(c(818983130, 1796818119))
+}
+}

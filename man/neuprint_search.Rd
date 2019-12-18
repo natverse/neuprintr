@@ -4,11 +4,11 @@
 \alias{neuprint_search}
 \title{Search for body IDs based on a given name}
 \usage{
-neuprint_search(search = "MBON.*", meta = TRUE, all_segments = TRUE,
+neuprint_search(search, meta = TRUE, all_segments = TRUE,
   dataset = NULL, conn = NULL, ...)
 }
 \arguments{
-\item{search}{name to search. Defaults to a search for MBONs}
+\item{search}{name to search. See examples.}
 
 \item{meta}{if TRUE, meta data for found bodyids is also pulled}
 
@@ -26,4 +26,12 @@ a vector of body ids, or a data frame with their meta information
 }
 \description{
 Search for bodyids corresponding to a given name, Reex sensitive
+}
+\examples{
+\donttest{
+neuprint_search(".*DA2.*")
+}
+\dontrun{
+neuprint_search("MBON.*")
+}
 }

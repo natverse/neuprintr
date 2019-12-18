@@ -1,6 +1,6 @@
 #' @title Download data from neuprint for specified bodyids / a specified ROI
 #'
-#' @description  Download neuron morphology and connectivity data to a specified directrory as .csv and .rda files
+#' @description  Download neuron morphology and connectivity data to a specified directory as .csv and .rda files
 #' @inheritParams neuprint_read_neurons
 #' @inheritParams neuprint_bodies_in_ROI
 #' @inheritParams neuprint_connection_table
@@ -23,9 +23,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
   message("making data dump in directory ", dir)
   conn = neuprint_login(conn)
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   if(is.null(roi)&is.null(bodyids)){
     stop("You must provide either a vector of bodyids or an ROI for your dataset, in order to select neurons to dump at location ", dir,
          " If both are provided, extra bodyids from within the ROI will be added to those in argument bodyids")

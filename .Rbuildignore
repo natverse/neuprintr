@@ -8,3 +8,5 @@
 ^README\.Rmd$
 ^README-.*\.png$
 ^pkgdown$
+^\.httr-oauth$
+^examples$

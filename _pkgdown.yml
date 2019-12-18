@@ -1,14 +1,23 @@
 reference:
-- title: Basic queries
-  desc: ~
+- title: Basic interaction with neuPrint server
+  desc: >
+    Connect to a server, check what datasets are available (or set the default
+    dataset) and get details of the available API calls.
+  contents:
+  - '`neuprint_connection`'
+  - '`neuprint_datasets`'
+- title: Simple queries
+  desc: Find neurons by name/type or by their ROI innervation
   contents:
   - '`neuprint_search`'
+  - '`neuprint_find_neurons`'
+- title: Fetch neuron data and metadata
+  desc: Read the name, summary metdata and skeleton, synapse data for neurons
+  contents:
   - '`neuprint_get_neuron_names`'
   - '`neuprint_get_meta`'
   - '`neuprint_read_neurons`'
   - '`neuprint_get_synapses`'
-  - '`neuprint_find_neurons`'
-  - '`neuprint_ROIs`'
 - title: Connectivity between neurons
   desc: ~
   contents:
@@ -17,6 +26,12 @@ reference:
   - '`neuprint_get_adjacency_matrix`'
   - '`neuprint_simple_connectivity`'
   - '`neuprint_connection_table`'
+- title: ROI information
+  desc: List, visualise or summarise synpases in regions of interest.
+  contents:
+  - '`neuprint_ROIs`'
+  - '`neuprint_get_roiInfo`'
+  - '`neuprint_ROI_mesh`'
 - title: Neuron manipulation
   desc: ~
   contents:
@@ -26,9 +41,9 @@ reference:
   desc: ~
   contents:
   - '`neuprint_dump`'
-- title: Basic interaction with neuPrint server
+- title: Low level functions to interact with neuPrint server
   desc: ~
   contents:
-  - '`neuprint_connection`'
-  - '`neuprint_datasets`'
   - '`neuprint_fetch_custom`'
+  - '`neuprint_list2df`'
+

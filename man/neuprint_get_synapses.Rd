@@ -10,12 +10,16 @@ neuprint_get_synapses(bodyids, roi = NULL, progress = FALSE,
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
-\item{roi}{a roi (i.e. neuropil volume) you want to query. Use \code{neuprint_ROIs} to see what is available.
-Defaults to 'all', which will return synapses in all ROIs.}
+\item{roi}{a roi (i.e. neuropil volume) you want to query. Use
+\code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',
+which will return synapses in all ROIs.}
 
-\item{progress}{if TRUE, a progress bar will be shown. This may slow the data fetching process.}
+\item{progress}{if TRUE, a progress bar will be shown. This may slow the data
+fetching process.}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{dataset}{optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See \code{\link{neuprint_login}}
+for details.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 If NULL, your defaults set in your R.profile or R.environ are used.}
@@ -23,12 +27,23 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a data frame, where each entry is a connection between the specified bodyid and its partner, either presynaptic to the bodyid (prepost=0) or postsynaptic (prepost=1).
-Each connection is associated with a synapse that has its own unique connector_id, XYZ coordinates and a confidence in its existence.
+a data frame, where each entry is a connection between the specified
+  bodyid and its partner, either presynaptic to the bodyid (prepost=0) or
+  postsynaptic (prepost=1). Each connection is associated with a synapse that
+  has its own unique connector_id, XYZ coordinates and a confidence in its
+  existence.
 }
 \description{
-Get the xyz locations, IDs and confidences of pre- and post synapses associated with a body
+Get the xyz locations, IDs and confidences of pre- and post
+  synapses associated with a body
+}
+\examples{
+\donttest{
+neuprint_get_synapses(c(818983130, 1796818119))
+}
 }
 \seealso{
-\code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+\code{\link{neuprint_fetch_custom}},
+  \code{\link{neuprint_simple_connectivity}},
+  \code{\link{neuprint_common_connectivity}}
 }

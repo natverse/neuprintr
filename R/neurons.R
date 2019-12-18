@@ -31,8 +31,9 @@
 #' @importFrom drvid read.neuron.dvid
 #' @export
 #' @rdname neuprint_read_neurons
+#' @importFrom nat nlapply
 neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
-  neurons = nat::nlapply(as.numeric(unique(bodyids)),function(bodyid)
+  neurons = nlapply(as.numeric(unique(bodyids)),function(bodyid)
     neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, flow.centrality = flow.centrality, split = split, soma = soma, estimate.soma = estimate.soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   if(length(neurons)==0){
@@ -51,20 +52,19 @@ neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALS
 #' @rdname neuprint_read_neurons
 neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, dataset = NULL, all_segments = TRUE, resample = FALSE, conn = NULL, ...){
   split = match.arg(split)
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
+  conn=neuprint_login(conn)
+  dp=neuprint_dataset_prefix(dataset, conn=conn)
+
   if(drvid){
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    cypher = sprintf("MATCH (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s-%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
-                     dataset,
-                     all_segments_json,
+    cypher = sprintf("MATCH (:`%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(root :SkelNode) WHERE NOT (root)<-[:LinksTo]-() RETURN root.rowNumber AS rowId, root.location.x AS x, root.location.y AS y, root.location.z AS z, root.radius AS radius, -1 AS link ORDER BY root.rowNumber UNION match (:`%s` {bodyId:%s})-[:Contains]->(:Skeleton)-[:Contains]->(s :SkelNode)<-[:LinksTo]-(ss :SkelNode) RETURN s.rowNumber AS rowId, s.location.x AS x, s.location.y AS y, s.location.z AS z, s.radius AS radius, ss.rowNumber AS link ORDER BY s.rowNumber",
+                     paste0(dp, all_segments_json),
                      as.numeric(bodyid),
-                     dataset,
-                     all_segments_json,
+                     paste0(dp, all_segments_json),
                      as.numeric(bodyid))
     nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
     if(!length(nc$data)){
@@ -169,9 +169,7 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
 #' @rdname neuprint_assign_connectors
 neuprint_assign_connectors <-function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...) UseMethod("neuprint_assign_connectors")
 neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...){
-  if(is.null(dataset)){ # Get a default dataset if none specified
-    dataset = unlist(getenvoroption("dataset"))
-  }
+  dataset <- check_dataset(dataset)
   if(is.null(bodyids)){
     bodyids = x$bodyid
   }
@@ -182,7 +180,7 @@ neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL,
   n
 }
 neuprint_assign_connectors.neuronlist  <- function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...){
-  nat::nlapply(1:length(x), function(i)
+  nlapply(1:length(x), function(i)
     neuprint_assign_connectors.neuron(x=x[[i]],bodyids=bodyids[i]),dataset=dataset,conn=conn,...)
 }
 
@@ -210,4 +208,19 @@ heal_skeleton <- function(x, ...){
   }else{
     healed$d
   }
+}
+
+neuprint_read_neuron_simple <- function(x, dataset=NULL, conn=NULL, heal=TRUE, ...) {
+  dataset <- check_dataset(dataset)
+  if(length(x)>1) {
+    return(nlapply(x, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...))
+  }
+  path=file.path("api/skeletons/skeleton", dataset, x)
+  res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
+  colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")
+  df=as.data.frame(res$data)
+  # convert radius to diameter
+  df$W=df$W*2
+  n=nat::as.neuron(df)
+  if(heal) heal_skeleton(n) else n
 }

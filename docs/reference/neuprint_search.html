@@ -125,7 +125,7 @@
     <p>Search for bodyids corresponding to a given name, Reex sensitive</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_search</span>(<span class='kw'>search</span> <span class='kw'>=</span> <span class='st'>"MBON.*"</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>neuprint_search</span>(<span class='no'>search</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -133,7 +133,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>search</th>
-      <td><p>name to search. Defaults to a search for MBONs</p></td>
+      <td><p>name to search. See examples.</p></td>
     </tr>
     <tr>
       <th>meta</th>
@@ -162,12 +162,24 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <p>a vector of body ids, or a data frame with their meta information</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>".*DA2.*"</span>)</div><div class='output co'>#&gt;       bodyid            name     type status    voxels pre post
+#&gt; 1 1827516355 mPN1_DA2(A12)_R mPN1_DA2 Traced 737014743 387  567
+#&gt; 2 1796817841 mPN1_DA2(A12)_R mPN1_DA2 Traced 723032510 387  532
+#&gt; 3  818983130 mPN1_DA2(A12)_R mPN1_DA2 Traced 606338969 404  587
+#&gt; 4 1796818119 mPN1_DA2(A12)_R mPN1_DA2 Traced 907369420 507  842
+#&gt; 5 1797505019 mPN1_DA2(A12)_R mPN1_DA2 Traced 445320106 336  516</div><div class='input'><span class='co'># }</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

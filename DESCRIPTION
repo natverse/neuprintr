@@ -15,7 +15,8 @@ License: GPL-3
 LazyData: true
 Suggests: 
     catnat,
-    spelling
+    spelling,
+    testthat (>= 2.1.0)
 Depends: R (>= 2.10)
 Imports: 
     httr,
@@ -26,7 +27,9 @@ Imports:
     pbapply,
     drvid,
     nat,
-    readobj
+    readobj,
+    memoise,
+    dplyr
 Remotes: 
     natverse/drvid,
     jefferislab/catnat

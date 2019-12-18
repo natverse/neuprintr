@@ -129,8 +129,29 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-basic-queries" class="hasAnchor"><a href="#section-basic-queries" class="anchor"></a>Basic queries</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-basic-interaction-with-neuprint-server" class="hasAnchor"><a href="#section-basic-interaction-with-neuprint-server" class="anchor"></a>Basic interaction with neuPrint server</h2>
+          <p class="section-desc"><p>Connect to a server, check what datasets are available (or set the default dataset) and get details of the available API calls.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="neuprint_login.html">neuprint_connection()</a></code> <code><a href="neuprint_login.html">neuprint_login()</a></code> </p>
+        </td>
+        <td><p>Connect to/authenticate with a neuPrint server and its Neo4j database,
+  returning a neuPrint connection object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_info.html">neuprint_datasets()</a></code> <code><a href="neuprint_info.html">neuprint_database()</a></code> <code><a href="neuprint_info.html">neuprint_available()</a></code> <code><a href="neuprint_info.html">neuprint_version()</a></code> </p>
+        </td>
+        <td><p>Find out what some information about your neuPrint server</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-simple-queries" class="hasAnchor"><a href="#section-simple-queries" class="anchor"></a>Simple queries</h2>
+          <p class="section-desc"><p>Find neurons by name/type or by their ROI innervation</p></p>
         </th>
       </tr>
       <tr>
@@ -142,7 +163,21 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="neuprint_get_names.html">neuprint_get_neuron_names()</a></code> </p>
+          <p><code><a href="neuprint_find_neurons.html">neuprint_find_neurons()</a></code> <code><a href="neuprint_find_neurons.html">neuprint_bodies_in_ROI()</a></code> </p>
+        </td>
+        <td><p>Find bodies within a given ROI</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-fetch-neuron-data-and-metadata" class="hasAnchor"><a href="#section-fetch-neuron-data-and-metadata" class="anchor"></a>Fetch neuron data and metadata</h2>
+          <p class="section-desc"><p>Read the name, summary metdata and skeleton, synapse data for neurons</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_neuron_names.html">neuprint_get_neuron_names()</a></code> </p>
         </td>
         <td><p>Get the name of a neuron</p></td>
       </tr><tr>
@@ -163,18 +198,6 @@
           <p><code><a href="neuprint_get_synapses.html">neuprint_get_synapses()</a></code> </p>
         </td>
         <td><p>Get the locations of pre- and post synapses associated with a body</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_find_neurons.html">neuprint_find_neurons()</a></code> <code><a href="neuprint_find_neurons.html">neuprint_bodies_in_ROI()</a></code> </p>
-        </td>
-        <td><p>Find bodies within a given ROI</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_ROIs.html">neuprint_ROIs()</a></code> </p>
-        </td>
-        <td><p>Get a vector of all the ROIs in a specified dataset</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -217,6 +240,32 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-roi-information" class="hasAnchor"><a href="#section-roi-information" class="anchor"></a>ROI information</h2>
+          <p class="section-desc"><p>List, visualise or summarise synpases in regions of interest.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="neuprint_ROIs.html">neuprint_ROIs()</a></code> </p>
+        </td>
+        <td><p>Get a vector of all the ROIs in a specified dataset</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_roiInfo.html">neuprint_get_roiInfo()</a></code> </p>
+        </td>
+        <td><p>Get roiInfo associated with a body</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_ROI_mesh.html">neuprint_ROI_mesh()</a></code> </p>
+        </td>
+        <td><p>Import a region of interest as a mesh</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-neuron-manipulation" class="hasAnchor"><a href="#section-neuron-manipulation" class="anchor"></a>Neuron manipulation</h2>
           <p class="section-desc"></p>
         </th>
@@ -251,29 +300,22 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-basic-interaction-with-neuprint-server" class="hasAnchor"><a href="#section-basic-interaction-with-neuprint-server" class="anchor"></a>Basic interaction with neuPrint server</h2>
+          <h2 id="section-low-level-functions-to-interact-with-neuprint-server" class="hasAnchor"><a href="#section-low-level-functions-to-interact-with-neuprint-server" class="anchor"></a>Low level functions to interact with neuPrint server</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="neuprint_login.html">neuprint_connection()</a></code> <code><a href="neuprint_login.html">neuprint_login()</a></code> </p>
-        </td>
-        <td><p>Connect to/authenticate with a neuPrint server and its Neo4j database,
-  returning a neuPrint connection object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_info.html">neuprint_datasets()</a></code> <code><a href="neuprint_info.html">neuprint_database()</a></code> <code><a href="neuprint_info.html">neuprint_available()</a></code> <code><a href="neuprint_info.html">neuprint_version()</a></code> </p>
-        </td>
-        <td><p>Find out what some information about your neuPrint server</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> </p>
         </td>
         <td><p>Use a cypher to make a custom query to the neuPrint server specifying the information you want to obtain</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_list2df.html">neuprint_list2df()</a></code> </p>
+        </td>
+        <td><p>Parse neuprint return list to a data frame</p></td>
       </tr>
     </tbody>
     </table>
@@ -282,11 +324,14 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-basic-queries">Basic queries</a></li>
+      <li><a href="#section-basic-interaction-with-neuprint-server">Basic interaction with neuPrint server</a></li>
+      <li><a href="#section-simple-queries">Simple queries</a></li>
+      <li><a href="#section-fetch-neuron-data-and-metadata">Fetch neuron data and metadata</a></li>
       <li><a href="#section-connectivity-between-neurons">Connectivity between neurons</a></li>
+      <li><a href="#section-roi-information">ROI information</a></li>
       <li><a href="#section-neuron-manipulation">Neuron manipulation</a></li>
       <li><a href="#section-other-queries">Other queries</a></li>
-      <li><a href="#section-basic-interaction-with-neuprint-server">Basic interaction with neuPrint server</a></li>
+      <li><a href="#section-low-level-functions-to-interact-with-neuprint-server">Low level functions to interact with neuPrint server</a></li>
     </ul>
   </div>
 </div>
