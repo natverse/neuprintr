@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the locations of pre- and post synapses associated with a body — neuprint_get_synapses • neuprintr</title>
+<title>Parse neuprint return list to a data frame — neuprint_list2df • neuprintr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,8 @@
 
 
 
-<meta property="og:title" content="Get the locations of pre- and post synapses associated with a body — neuprint_get_synapses" />
-<meta property="og:description" content="Get the xyz locations, IDs and confidences of pre- and post
-  synapses associated with a body" />
+<meta property="og:title" content="Parse neuprint return list to a data frame — neuprint_list2df" />
+<meta property="og:description" content="Parse neuprint return list to a data frame" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -117,79 +116,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the locations of pre- and post synapses associated with a body</h1>
-    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/synapses.R'><code>R/synapses.R</code></a></small>
-    <div class="hidden name"><code>neuprint_get_synapses.Rd</code></div>
+    <h1>Parse neuprint return list to a data frame</h1>
+    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/fetch.R'><code>R/fetch.R</code></a></small>
+    <div class="hidden name"><code>neuprint_list2df.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the xyz locations, IDs and confidences of pre- and post
-  synapses associated with a body</p>
+    <p>Parse neuprint return list to a data frame</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_synapses</span>(<span class='no'>bodyids</span>, <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_list2df</span>(<span class='no'>x</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>return_empty_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bodyids</th>
-      <td><p>the body IDs for neurons/segments (bodies) you wish to query</p></td>
+      <th>x</th>
+      <td><p>A list returned by <code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code></p></td>
     </tr>
     <tr>
-      <th>roi</th>
-      <td><p>a roi (i.e. neuropil volume) you want to query. Use
-<code><a href='neuprint_ROIs.html'>neuprint_ROIs</a></code> to see what is available. Defaults to 'all',
-which will return synapses in all ROIs.</p></td>
+      <th>cols</th>
+      <td><p>Character vector specifying which columns to include (by default
+all of those named in <code>x</code>, see details).</p></td>
     </tr>
     <tr>
-      <th>progress</th>
-      <td><p>if TRUE, a progress bar will be shown. This may slow the data
-fetching process.</p></td>
-    </tr>
-    <tr>
-      <th>dataset</th>
-      <td><p>optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code>
-for details.</p></td>
-    </tr>
-    <tr>
-      <th>conn</th>
-      <td><p>optional, a neuprintr connection object, which also specifies the neuPrint server see <code><a href='neuprint_login.html'>?neuprint_login</a></code>.
-If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
+      <th>return_empty_df</th>
+      <td><p>Return a zero row data frame when there is no result.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>methods passed to <code>neuprint_login</code></p></td>
+      <td><p>Additional arguments passed to <code><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></code></p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>a data frame, where each entry is a connection between the specified
-  bodyid and its partner, either presynaptic to the bodyid (prepost=0) or
-  postsynaptic (prepost=1). Each connection is associated with a synapse that
-  has its own unique connector_id, XYZ coordinates and a confidence in its
-  existence.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A low level function tailored to the standard neuprint list return
+  format. Should handle those times when jsonlite's simplifcation doesn't
+  work. The normal return value of <code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code> is a
+  list formatted as follows:</p><ul>
+<li><p>columns List of column names</p></li>
+<li><p>data Nested list of data, with each row formatted as a single
+  sublist</p></li>
+<li><p>debug  Character vector containing query</p></li>
+</ul>
 
-    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
-  <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
-  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
+<p>If <code>neuprint_list2df</code> receives such a list it will use the
+  <code>columns</code> to define the names for a data.frame constructed from the
+  <code>data</code> field.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_get_synapses</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt; <span class='error'>Error in `colnames&lt;-`(`*tmp*`, value = list("connector_id", "prepost",     "x", "y", "z", "confidence", "datasetBodyIds", "timestamp")): attempt to set 'colnames' on an object with less than two dimensions</span></div><div class='input'># }
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

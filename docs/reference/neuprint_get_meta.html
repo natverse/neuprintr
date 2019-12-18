@@ -158,12 +158,19 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <p>a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'>neuprint_get_meta</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt;       bodyid            name     type status    voxels pre post
+#&gt; 1  818983130 mPN1_DA2(A12)_R mPN1_DA2 Traced 606338969 404  587
+#&gt; 2 1796818119 mPN1_DA2(A12)_R mPN1_DA2 Traced 907369420 507  842</div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the locations of pre- and post synapses associated with a body — neuprint_get_synapses • neuprintr</title>
+<title>Get the name of a neuron — neuprint_get_neuron_names • neuprintr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,8 @@
 
 
 
-<meta property="og:title" content="Get the locations of pre- and post synapses associated with a body — neuprint_get_synapses" />
-<meta property="og:description" content="Get the xyz locations, IDs and confidences of pre- and post
-  synapses associated with a body" />
+<meta property="og:title" content="Get the name of a neuron — neuprint_get_neuron_names" />
+<meta property="og:description" content="If a bodyID has a name associated with it, fetch that name, otherwise, return NA" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -117,18 +116,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the locations of pre- and post synapses associated with a body</h1>
-    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/synapses.R'><code>R/synapses.R</code></a></small>
-    <div class="hidden name"><code>neuprint_get_synapses.Rd</code></div>
+    <h1>Get the name of a neuron</h1>
+    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/name.R'><code>R/name.R</code></a></small>
+    <div class="hidden name"><code>neuprint_get_neuron_names.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the xyz locations, IDs and confidences of pre- and post
-  synapses associated with a body</p>
+    <p>If a bodyID has a name associated with it, fetch that name, otherwise, return NA</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_synapses</span>(<span class='no'>bodyids</span>, <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_get_neuron_names</span>(<span class='no'>bodyids</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,21 +136,12 @@
       <td><p>the body IDs for neurons/segments (bodies) you wish to query</p></td>
     </tr>
     <tr>
-      <th>roi</th>
-      <td><p>a roi (i.e. neuropil volume) you want to query. Use
-<code><a href='neuprint_ROIs.html'>neuprint_ROIs</a></code> to see what is available. Defaults to 'all',
-which will return synapses in all ROIs.</p></td>
-    </tr>
-    <tr>
-      <th>progress</th>
-      <td><p>if TRUE, a progress bar will be shown. This may slow the data
-fetching process.</p></td>
-    </tr>
-    <tr>
       <th>dataset</th>
-      <td><p>optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code>
-for details.</p></td>
+      <td><p>optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See <code>neuprint_login</code> for details.</p></td>
+    </tr>
+    <tr>
+      <th>all_segments</th>
+      <td><p>if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
     </tr>
     <tr>
       <th>conn</th>
@@ -167,20 +156,12 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame, where each entry is a connection between the specified
-  bodyid and its partner, either presynaptic to the bodyid (prepost=0) or
-  postsynaptic (prepost=1). Each connection is associated with a synapse that
-  has its own unique connector_id, XYZ coordinates and a confidence in its
-  existence.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
-  <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
-  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
+    <p>a vector of names, named with the input bodyids</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_get_synapses</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt; <span class='error'>Error in `colnames&lt;-`(`*tmp*`, value = list("connector_id", "prepost",     "x", "y", "z", "confidence", "datasetBodyIds", "timestamp")): attempt to set 'colnames' on an object with less than two dimensions</span></div><div class='input'># }
+<span class='fu'>neuprint_get_neuron_names</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt;         818983130        1796818119 
+#&gt; "mPN1_DA2(A12)_R" "mPN1_DA2(A12)_R" </div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -188,7 +169,6 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
