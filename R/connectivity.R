@@ -203,22 +203,16 @@ extract_connectivity_df <- function(rois, json){
   if(is.null(json)){
     return(NULL)
   }
-  a = unlist(strsplit(json,"}"))
-  values = data.frame()
+  a <- unlist(jsonlite::fromJSON(json))
+  values <-  data.frame(row.names = 1)
   for(roi in rois){
-    b = a[grepl(sprintf("\"%s\"",roi),a,fixed=TRUE)]
-    if(length(b)){
-      c = unlist(strsplit(b,","))
-      n = as.numeric(gsub("[^0-9.]", "", c))
-      n = n[!is.na(n)]
-    }else{
-      n = c(0,0)
-    }
-    d = data.frame(n)
-    rownames(d) = paste0(roi,c("_pre","_post"))
-    values = rbind(values,d)
+    d <-  data.frame(0,0)
+    colnames(d) <- paste0(roi,c(".pre",".post"))
+    b <-  a[startsWith(names(a),roi)]
+    d[names(b)] <-  b
+    values <- cbind(values,d)
   }
-  t(values)
+  values
 }
 
 
