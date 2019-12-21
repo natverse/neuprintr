@@ -88,7 +88,7 @@ The connection object returned by neuprint_login (or cached when
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -295,6 +295,16 @@ reused automatically.</p></td>
 
 <span class='co'>## which, if you have edited your R.profile / R.environ, should produce the same results as</span>
 <span class='no'>available.datasets</span> <span class='kw'>=</span> <span class='fu'><a href='neuprint_info.html'>neuprint_datasets</a></span>(<span class='kw'>conn</span><span class='kw'>=</span><span class='kw'>NULL</span>)
+}
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+  <span class='no'>conn</span><span class='kw'>=</span><span class='fu'>neuprint_login</span>()
+  <span class='no'>conn</span>
+
+  <span class='co'># make connection to second server</span>
+  <span class='co'>#</span>
+  <span class='no'>conn2</span><span class='kw'>=</span><span class='fu'>neuprint_login</span>(<span class='kw'>server</span><span class='kw'>=</span><span class='st'>"https://server2.org"</span>,
+    <span class='kw'>token</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>))
+
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
