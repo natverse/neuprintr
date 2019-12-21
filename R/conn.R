@@ -137,19 +137,14 @@ neuprint_connection <- function(server=NULL, token=NULL, conn=NULL, config=httr:
   if (!is.null(conn))
     return(conn)
   # Set a default server if none specified
-  defaultServer=unlist(getenvoroption("server"))
-  if(missing(server)) {
-    neuprint_server=defaultServer
-  }
+  neuprint_server <-
+    if(is.null(server)) unlist(getenvoroption("server")) else server
   # Set a default server if none specified
-  defaultToken=unlist(getenvoroption("token"))
-  if(missing(server)) {
-    neuprint_token=defaultToken
-  }
+  neuprint_token <- if(is.null(token)) unlist(getenvoroption("token")) else token
   # collect any curl options defined as environment variables
   config=neuprint_curl_options(config)
   conn=list(server = neuprint_server, token = neuprint_token, config=config)
-  class(conn)='dv_conn'
+  class(conn)='neuprint_connection'
   conn
 }
 
