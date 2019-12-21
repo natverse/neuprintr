@@ -160,6 +160,16 @@ available.datasets = neuprint_datasets(conn=conn)
 ## which, if you have edited your R.profile / R.environ, should produce the same results as
 available.datasets = neuprint_datasets(conn=NULL)
 }
+\dontrun{
+  conn=neuprint_login()
+  conn
+
+  # make connection to second server
+  #
+  conn2=neuprint_login(server="https://server2.org",
+    token=Sys.getenv('NPSERVER2'))
+
+}
 }
 \seealso{
 \code{\link{options}}, \code{\link{Startup}},

@@ -148,6 +148,18 @@ neuprint_connection <- function(server=NULL, token=NULL, conn=NULL, config=httr:
   conn
 }
 
+#' @export
+print.neuprint_connection <- function(x, ...) {
+  cat("Connection to neuPrint server:\n  ",
+      x$server, sep="", "\n")
+  if(!is.null(x$authresponse)) {
+    cat("Login active since:", httr::headers(x$authresponse)$date)
+  } else {
+    cat("No active login")
+  }
+  invisible(x)
+}
+
 # Hidden
 neuprint_last_connection <- function(){
   conns = .neuprintr_statevars$connections
@@ -187,7 +199,17 @@ neuprint_connection_fingerprint <- function(conn){
 }
 
 #' @export
-#' @rdname neuprint_login
+#' @examples
+#' \dontrun{
+#'   conn=neuprint_login()
+#'   conn
+#'
+#'   # make connection to second server
+#'   #
+#'   conn2=neuprint_login(server="https://server2.org",
+#'     token=Sys.getenv('NPSERVER2'))
+#'
+#' }
 neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
   if (is.character(conn) && grepl("^http", conn)) {
     stop("To connect to : ", conn, ", you must name the server argument i.e.\n",
