@@ -21,7 +21,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
     jsonlite::toJSON(as.numeric(unique(unlist(
       bodyids
     )))),
-    paste0(dataset, all_segments.json),
+    paste0(dataset, "_", all_segments.json),
     namefield,
     namefield
   )
@@ -29,7 +29,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
   m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
   rownames(m) = colnames(m) = bodyids
   for(i in 1:length(nc$data)){
-    s = unlist(nc$data[[1]])
+    s = unlist(nc$data[[i]])
     m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
   }
   m
@@ -70,7 +70,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
     return(d)
   }
   dp=neuprint_dataset_prefix(dataset, conn=conn)
-  prefixed=paste0(dp, all_segments.json)
+  prefixed=paste0(dp, "_",all_segments.json)
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s`), (c)-[:Contains]->(s:Synapse) WHERE %s (s.type='post') AND %s.bodyId=bodyId RETURN a.bodyId AS %s, b.bodyId AS %s, count(*) AS weight",
                    jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
                    prefixed,
