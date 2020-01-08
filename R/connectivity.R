@@ -81,7 +81,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
                    prefixed,
                    prefixed,
                    ifelse(prepost=="POST","a","b"),
-                   ifelse(is.null(roi),"keys(apoc.convert.fromJsonMap(c.roiInfo))",roi),
+                   ifelse(is.null(roi),"keys(apoc.convert.fromJsonMap(c.roiInfo))",paste("['",paste(roi,collapse="','"),"']",sep="")),
                    ifelse(prepost=="POST","bodyid","partner"),
                    ifelse(prepost=="POST","partner","bodyid")
                   )
