@@ -42,7 +42,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 #' @inheritParams neuprint_find_neurons
 #' @param prepost whether to look for partners presynaptic to postsynaptic to the given bodyids
 #' @param progress default FALSE. If TRUE, the API is called separately for each neuron and yuo can asses its progress, if an error is thrown by any one bodyid, that bodyid is ignored
-#' @return a data frame giving partners within an ROI, the connection strength for weights to or from that partner, and the direction, for the given bodyid
+#' @return a data frame giving partners within a set of ROIs, the connection strength for weights to or from that partner, and the direction, for the given bodyid
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_connection_table
