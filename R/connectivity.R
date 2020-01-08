@@ -71,20 +71,28 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   }
   dp=neuprint_dataset_prefix(dataset, conn=conn)
   prefixed=paste0(dp, all_segments.json)
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s`), (c)-[:Contains]->(s:Synapse) WHERE %s (s.type='post') AND %s.bodyId=bodyId RETURN a.bodyId AS %s, b.bodyId AS %s, count(*) AS weight",
+  cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
+                         "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
+                         "WHERE %s.bodyId=bodyId",
+                         "UNWIND %s AS k",
+                         "RETURN a.bodyId AS %s, b.bodyId AS %s, k AS roi,",
+                         "apoc.convert.fromJsonMap(c.roiInfo)[k].post AS weight"),
                    jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
                    prefixed,
                    prefixed,
-                   ifelse(is.null(roi),"",sprintf("(exists(s.`%s`)) AND",roi)),
-                   ifelse(prepost=="POST","b","a"),
-                   ifelse(prepost=="POST","partner","bodyid"),
-                   ifelse(prepost=="POST","bodyid","partner"))
+                   ifelse(prepost=="POST","a","b"),
+                   ifelse(is.null(roi),"keys(apoc.convert.fromJsonMap(c.roiInfo))",roi),
+                   ifelse(prepost=="POST","bodyid","partner"),
+                   ifelse(prepost=="POST","partner","bodyid")
+                  )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn)
-  d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
-  colnames(d) = unlist(nc$columns)
+  ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
+  nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
+  d <-  data.frame(do.call(rbind,lapply(nc$data,unlist)))
+  colnames(d) <-  unlist(nc$columns)
   d$prepost = ifelse(prepost=="PRE",0,1)
   d = d[order(d$weight,decreasing=TRUE),]
-  d[,c("bodyid", "partner", "weight", "prepost")]
+  d[,c("bodyid", "partner", "roi","weight", "prepost")]
 }
 
 #' @title Get the common synaptic partners for a set of neurons
