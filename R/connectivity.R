@@ -88,10 +88,11 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn)
   ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
   nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
-  d <-  data.frame(do.call(rbind,lapply(nc$data,unlist)))
+  d <-  data.frame(do.call(rbind,lapply(nc$data,unlist)),stringsAsFactors = FALSE)
   colnames(d) <-  unlist(nc$columns)
-  d$prepost = ifelse(prepost=="PRE",0,1)
-  d = d[order(d$weight,decreasing=TRUE),]
+  d$weight <- as.integer(d$weight)
+  d$prepost <-  ifelse(prepost=="PRE",0,1)
+  d <-  d[order(d$weight,decreasing=TRUE),]
   d[,c("bodyid", "partner", "roi","weight", "prepost")]
 }
 
