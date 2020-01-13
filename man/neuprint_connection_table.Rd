@@ -27,7 +27,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a data frame giving partners within an ROI, the connection strength for weights to or from that partner, and the direction, for the given bodyid
+a data frame giving partners within a set of ROIs, the connection strength for weights to or from that partner, and the direction, for the given bodyid
 }
 \description{
 Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified
