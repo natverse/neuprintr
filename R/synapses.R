@@ -55,11 +55,22 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   }
   dp=neuprint_dataset_prefix(dataset, conn=conn)
   prefixed_seg <- paste0(dp, "Segment")
-  cypher.post = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s`)<-[:To]-(c:ConnectionSet), (c)-[:Contains]->(s:Synapse) WHERE a.bodyId=bodyId AND s.type='post' %s RETURN id(s) AS connector_id, s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z, s.confidence AS confidence, c.datasetBodyIds AS datasetBodyIds, c.timeStamp AS timestamp",
+  cypher.post = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
+                              "MATCH (a:`%s`)-[:Contains]->(c:SynapseSet)-[:Contains]->(s:Synapse)<-[:SynapsesTo]-(:Synapse)<-[:Contains]-(:SynapseSet)<-[:Contains]-(b:`%s`)",
+                              "WHERE a.bodyId=bodyId AND (s.type='post') %s",
+                              "RETURN DISTINCT id(s) AS connector_id,",
+                              "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
+                              "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner, c.timeStamp AS timestamp"),
                    jsonlite::toJSON(as.numeric(unlist(bodyids))),
                    prefixed_seg,
+                   prefixed_seg,
                    roi)
-  cypher.pre = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s`), (c)-[:Contains]->(s:Synapse) WHERE a.bodyId=bodyId AND (s.type='pre') %s RETURN id(s) AS connector_id, s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z, s.confidence AS confidence, c.datasetBodyIds AS datasetBodyIds, c.timeStamp AS timestamp",
+  cypher.pre = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
+                       "MATCH (a:`%s`)-[:Contains]->(c:SynapseSet)-[:Contains]->(s:Synapse)-[:SynapsesTo]->(:Synapse)<-[:Contains]-(:SynapseSet)<-[:Contains]-(b:`%s`)",
+                       "WHERE a.bodyId=bodyId AND (s.type='pre') %s",
+                       "RETURN DISTINCT id(s) AS connector_id,",
+                       "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
+                       "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner, c.timeStamp AS timestamp"),
                         jsonlite::toJSON(as.numeric(unlist(bodyids))),
                         prefixed_seg,
                         prefixed_seg,
@@ -71,8 +82,8 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   m = data.frame(do.call(rbind,apply(m, 1, function(x) nullToNA(x))))
   m[,] = unlist(m)
   m$prepost = ifelse(m$prepost=="post",1,0)
-  m$bodyid = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[3])
-  m$partner = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[2])
+ # m$bodyid = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[3])
+ #  m$partner = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[2])
   m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
   m = subset(m, bodyid!=partner) # Automatically remove autapses, hopefully we only need to do this temporarily
   m
