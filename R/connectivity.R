@@ -21,7 +21,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
     jsonlite::toJSON(as.numeric(unique(unlist(
       bodyids
     )))),
-    paste0(dataset, all_segments.json),
+    paste0(dataset, "_", all_segments.json),
     namefield,
     namefield
   )
@@ -29,7 +29,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
   m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
   rownames(m) = colnames(m) = bodyids
   for(i in 1:length(nc$data)){
-    s = unlist(nc$data[[1]])
+    s = unlist(nc$data[[i]])
     m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
   }
   m
@@ -70,6 +70,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
     return(d)
   }
   dp=neuprint_dataset_prefix(dataset, conn=conn)
+
   prefixed=paste0(dp, all_segments.json)
   cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                          "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
@@ -212,22 +213,16 @@ extract_connectivity_df <- function(rois, json){
   if(is.null(json)){
     return(NULL)
   }
-  a = unlist(strsplit(json,"}"))
-  values = data.frame()
+  a <- unlist(jsonlite::fromJSON(json))
+  values <-  data.frame(row.names = 1)
   for(roi in rois){
-    b = a[grepl(sprintf("\"%s\"",roi),a,fixed=TRUE)]
-    if(length(b)){
-      c = unlist(strsplit(b,","))
-      n = as.numeric(gsub("[^0-9.]", "", c))
-      n = n[!is.na(n)]
-    }else{
-      n = c(0,0)
-    }
-    d = data.frame(n)
-    rownames(d) = paste0(roi,c("_pre","_post"))
-    values = rbind(values,d)
+    d <-  data.frame(0,0)
+    colnames(d) <- paste0(roi,c(".pre",".post"))
+    b <-  a[startsWith(names(a),roi)]
+    d[names(b)] <-  b
+    values <- cbind(values,d)
   }
-  t(values)
+  values
 }
 
 
