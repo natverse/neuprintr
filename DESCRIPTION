@@ -4,9 +4,11 @@ Title: R client utilities for interacting with the neuPrint connectome analysis 
 Version: 0.3
 Authors@R: c(
     person("Alexander", "Bates", email = "alexander.shakeel.bates@gmail.com", 
-    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1195-0445")),
+      role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1195-0445")),
     person("Gregory", "Jefferis", email = "jefferis@gmail.com", role = c("aut"), 
-    comment = c(ORCID = "0000-0002-0587-9355"))
+      comment = c(ORCID = "0000-0002-0587-9355")),
+    person("Romain", "Franconville", role = c("ctb"),
+      comment = c(ORCID = "0000-0002-4440-7297"))
     )
 Description: Access to the neuprint connectome analysis service, including 
     functions to fetch skeletons, synapses and ROIs, query connectivity data

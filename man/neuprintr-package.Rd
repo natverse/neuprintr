@@ -33,5 +33,10 @@ Authors:
   \item Gregory Jefferis \email{jefferis@gmail.com} (0000-0002-0587-9355)
 }
 
+Other contributors:
+\itemize{
+  \item Romain Franconville (0000-0002-4440-7297) [contributor]
+}
+
 }
 \keyword{internal}
