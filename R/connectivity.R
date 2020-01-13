@@ -42,7 +42,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 #' @inheritParams neuprint_find_neurons
 #' @param prepost whether to look for partners presynaptic to postsynaptic to the given bodyids
 #' @param progress default FALSE. If TRUE, the API is called separately for each neuron and yuo can asses its progress, if an error is thrown by any one bodyid, that bodyid is ignored
-#' @return a data frame giving partners within an ROI, the connection strength for weights to or from that partner, and the direction, for the given bodyid
+#' @return a data frame giving partners within a set of ROIs, the connection strength for weights to or from that partner, and the direction, for the given bodyid
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_connection_table
@@ -70,21 +70,31 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
     return(d)
   }
   dp=neuprint_dataset_prefix(dataset, conn=conn)
-  prefixed=paste0(dp, "_",all_segments.json)
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (a:`%s`)<-[:From]-(c:ConnectionSet)-[:To]->(b:`%s`), (c)-[:Contains]->(s:Synapse) WHERE %s (s.type='post') AND %s.bodyId=bodyId RETURN a.bodyId AS %s, b.bodyId AS %s, count(*) AS weight",
+
+  prefixed=paste0(dp, all_segments.json)
+  cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
+                         "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
+                         "WHERE %s.bodyId=bodyId",
+                         "UNWIND %s AS k",
+                         "RETURN a.bodyId AS %s, b.bodyId AS %s, k AS roi,",
+                         "apoc.convert.fromJsonMap(c.roiInfo)[k].post AS weight"),
                    jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
                    prefixed,
                    prefixed,
-                   ifelse(is.null(roi),"",sprintf("(exists(s.`%s`)) AND",roi)),
-                   ifelse(prepost=="POST","b","a"),
-                   ifelse(prepost=="POST","partner","bodyid"),
-                   ifelse(prepost=="POST","bodyid","partner"))
+                   ifelse(prepost=="POST","a","b"),
+                   ifelse(is.null(roi),"keys(apoc.convert.fromJsonMap(c.roiInfo))",paste("['",paste(roi,collapse="','"),"']",sep="")),
+                   ifelse(prepost=="POST","bodyid","partner"),
+                   ifelse(prepost=="POST","partner","bodyid")
+                  )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn)
-  d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
-  colnames(d) = unlist(nc$columns)
-  d$prepost = ifelse(prepost=="PRE",0,1)
-  d = d[order(d$weight,decreasing=TRUE),]
-  d[,c("bodyid", "partner", "weight", "prepost")]
+  ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
+  nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
+  d <-  data.frame(do.call(rbind,lapply(nc$data,unlist)),stringsAsFactors = FALSE)
+  colnames(d) <-  unlist(nc$columns)
+  d$weight <- as.integer(d$weight)
+  d$prepost <-  ifelse(prepost=="PRE",0,1)
+  d <-  d[order(d$weight,decreasing=TRUE),]
+  d[,c("bodyid", "partner", "roi","weight", "prepost")]
 }
 
 #' @title Get the common synaptic partners for a set of neurons
