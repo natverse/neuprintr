@@ -129,7 +129,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   all_segments = ifelse(all_segments,"true","false")
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
                             dataset,
-                            jsonlite::toJSON(bodyids),
+                            jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
                             all_segments))
@@ -188,7 +188,7 @@ neuprint_simple_connectivity <- function(bodyids,
   }
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"find_inputs":%s}',
                             dataset,
-                            jsonlite::toJSON(bodyids),
+                            jsonlite::toJSON(as.numeric(unique(unlist(bodyids)))),
                             find_inputs))
   class(Payload) = "json"
   simp.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, simplifyVector = TRUE, ...)
