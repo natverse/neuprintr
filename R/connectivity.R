@@ -143,8 +143,8 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   rownames(m) <-  paste0(bodyids,"_weight")
   colnames(m) <-  commonPartners
   comData <- com.conn$data[[1]][[1]][which(partnerNames %in% commonPartners)]
-  for(i in 1:length(comData)){
-    s <-  comData[[i]]
+
+  for(s in comData){
     rName <- names(s)[names(s) %in% rownames(m)]
     m[rName,as.character(s[[partnerType]])] <- s[[rName]]
   }
