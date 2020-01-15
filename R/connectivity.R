@@ -208,6 +208,101 @@ neuprint_simple_connectivity <- function(bodyids,
   d
 }
 
+#' @title Get a list of paths of length n between 2 neurons
+#'
+#' @description  Get all of the paths in the database that connect the
+#'   query neurons with at least weightT synapses at each step
+#' @param body_pre the bodyid of the neuron at the start of the path
+#' @param body_post the bodyid of the neuron at the end of the path
+#' @param n the length of the path. If n is a vector, paths of length n[1] to n[2] are considered
+#' @param weightT weight threshold
+#' @param dataset optional, a dataset you want to query. If NULL, the default
+#'   specified by your R environ file is used. See \code{neuprint_login} for
+#'   details.
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
+#' @param conn optional, a neuprintr connection object, which also specifies the
+#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
+#'   set in your R.profile or R.environ are used.
+#' @param ... methods passed to \code{neuprint_login}
+#' @return
+#' @seealso \code{\link{neuprint_common_connectivity}},
+#'   \code{\link{neuprint_get_adjacency_matrix}}
+#' @export
+#' @rdname neuprint_get_paths
+neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+
+  if (length(n)==1){
+    n <- c(n,n)
+  }
+  dataset <- check_dataset(dataset)
+  conn <- neuprint_login(conn)
+  all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
+  dp <- neuprint_dataset_prefix(dataset, conn=conn)
+  prefixed <- paste0(dp, all_segments.json)
+
+  cypher <-  sprintf(paste("call apoc.cypher.runTimeboxed('MATCH p = (src : `%s`{ bodyId: %s })-[ConnectsTo*%s..%s]->(dest:`%s`{ bodyId: %s })",
+                         "WHERE ALL (x in relationships(p) WHERE x.weight >= %s)",
+                         "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.type]] AS path,[x in relationships(p) | x.weight] AS weights', {},5000)",
+                         "YIELD value return  value.`length(path)` as `length(path)`, value.path as path, value.weights AS weights"
+                         ),
+                   prefixed,
+                   as.numeric(body_pre),
+                   n[1]-1,
+                   n[2],
+                   prefixed,
+                   as.numeric(body_post),
+                   weightT
+  )
+  nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
+
+
+}
+
+#' @title Get a list of paths of length n between 2 neurons
+#'
+#' @description  Get all of the paths in the database that connect the
+#'   query neurons with at least weightT synapses at each step
+#' @param body_pre the bodyid of the neuron at the start of the path
+#' @param body_post the bodyid of the neuron at the end of the path
+#' @param n the length of the path. If n is a vector, paths of length n[1] to n[2] are considered
+#' @param weightT weight threshold
+#' @param dataset optional, a dataset you want to query. If NULL, the default
+#'   specified by your R environ file is used. See \code{neuprint_login} for
+#'   details.
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
+#' @param conn optional, a neuprintr connection object, which also specifies the
+#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
+#'   set in your R.profile or R.environ are used.
+#' @param ... methods passed to \code{neuprint_login}
+#' @return
+#' @seealso \code{\link{neuprint_common_connectivity}},
+#'   \code{\link{neuprint_get_adjacency_matrix}}
+#' @export
+#' @rdname neuprint_get_shortest_paths
+neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+
+  dataset <- check_dataset(dataset)
+  conn <- neuprint_login(conn)
+  all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
+  dp <- neuprint_dataset_prefix(dataset, conn=conn)
+  prefixed <- paste0(dp, all_segments.json)
+
+  cypher <-  sprintf(paste("call apoc.cypher.runTimeboxed('MATCH p = allShortestPaths((src : `%s`{ bodyId: %s })-[ConnectsTo*]->(dest:`%s`{ bodyId: %s }))",
+                           "WHERE ALL (x in relationships(p) WHERE x.weight >= %s)",
+                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.type]] AS path,[x in relationships(p) | x.weight] AS weights', {},5000)",
+                           "YIELD value return  value.`length(path)` as `length(path)`, value.path as path, value.weights AS weights"
+  ),
+  prefixed,
+  as.numeric(body_pre),
+  prefixed,
+  as.numeric(body_post),
+  weightT
+  )
+  nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
+
+
+}
+
 # hidden, caution, does not deal with left/right neuropils
 extract_connectivity_df <- function(rois, json){
   if(is.null(json)){
