@@ -135,20 +135,20 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                             all_segments))
   class(Payload) = "json"
   com.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, ...)
-  m = matrix(0,nrow = length(bodyids),ncol = length(com.conn$data[[1]][[1]]))
-  rownames(m) = paste0(bodyids,"_weight")
-  connected = c()
-  for(i in 1:length(com.conn$data[[1]][[1]])){
-    s = com.conn$data[[1]][[1]][[i]]
-    find = match(names(s),rownames(m))
-    add = find[!is.na(find)]
-    m[add,i] = unlist(s)[!is.na(find)]
-    connected = c(connected,ifelse(is.null(s$input),s$output,s$input))
+  partnerType <- ifelse(prepost=="PRE","output","input")
+  partnerNames <- sapply(com.conn$data[[1]][[1]],function(d) d[[partnerType]])
+  partnerCount <- table(partnerNames)
+  commonPartners <- names(partnerCount[partnerCount == length(bodyids)])
+  m <-  matrix(0,nrow = length(bodyids),ncol = length(commonPartners))
+  rownames(m) <-  paste0(bodyids,"_weight")
+  colnames(m) <-  commonPartners
+  comData <- com.conn$data[[1]][[1]][which(partnerNames %in% commonPartners)]
+
+  for(s in comData){
+    rName <- names(s)[names(s) %in% rownames(m)]
+    m[rName,as.character(s[[partnerType]])] <- s[[rName]]
   }
-  m = t(apply(m,1,as.numeric))
-  colnames(m) = connected
-  rownames(m) = bodyids
-  m = m[,apply(m,2,function(x) sum(x==0)==0)]
+  rownames(m) <-  bodyids
   m
 }
 
