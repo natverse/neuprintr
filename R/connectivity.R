@@ -218,7 +218,7 @@ extract_connectivity_df <- function(rois, json){
   for(roi in rois){
     d <-  data.frame(0,0)
     colnames(d) <- paste0(roi,c(".pre",".post"))
-    b <-  a[startsWith(names(a),roi)]
+    b <-  a[startsWith(names(a),paste0(roi,"."))]
     d[names(b)] <-  b
     values <- cbind(values,d)
   }
