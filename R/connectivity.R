@@ -223,25 +223,32 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param conn optional, a neuprintr connection object, which also specifies the
 #'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 #'   set in your R.profile or R.environ are used.
+#' @param roi Limit the search to connections happening within a certain ROI or set of ROIs (NULL by default)
 #' @param ... methods passed to \code{neuprint_login}
 #' @return
 #' @seealso \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_get_paths
-neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   if (length(n)==1){
     n <- c(n,n)
   }
   dataset <- check_dataset(dataset)
   conn <- neuprint_login(conn)
+
+  if(!is.null(roi)){
+    roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
+    roi <- paste("AND (" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),")")
+  }
+
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
   dp <- neuprint_dataset_prefix(dataset, conn=conn)
   prefixed <- paste0(dp, all_segments.json)
 
   cypher <-  sprintf(paste("call apoc.cypher.runTimeboxed('MATCH p = (src : `%s`{ bodyId: %s })-[ConnectsTo*%s..%s]->(dest:`%s`{ bodyId: %s })",
-                         "WHERE ALL (x in relationships(p) WHERE x.weight >= %s)",
+                         "WHERE ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                          "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.type]] AS path,[x in relationships(p) | x.weight] AS weights', {},5000)",
                          "YIELD value return  value.`length(path)` as `length(path)`, value.path as path, value.weights AS weights"
                          ),
@@ -251,7 +258,8 @@ neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, co
                    n[2],
                    prefixed,
                    as.numeric(body_post),
-                   weightT
+                   weightT,
+                   ifelse(is.null(roi),"",roi)
   )
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
 
@@ -266,17 +274,17 @@ neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, co
   }))
 }
 
-#' @title Get a list of paths of length n between 2 neurons
+#' @title Get a list of the shortest paths between 2 neurons
 #'
-#' @description  Get all of the paths in the database that connect the
+#' @description  Get all of the shortest paths in the database that connect the
 #'   query neurons with at least weightT synapses at each step
 #' @param body_pre the bodyid of the neuron at the start of the path
 #' @param body_post the bodyid of the neuron at the end of the path
-#' @param n the length of the path. If n is a vector, paths of length n[1] to n[2] are considered
 #' @param weightT weight threshold
 #' @param dataset optional, a dataset you want to query. If NULL, the default
 #'   specified by your R environ file is used. See \code{neuprint_login} for
 #'   details.
+#' @param roi Limit the search to connections happening within a certain ROI or set of ROIs (NULL by default)
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param conn optional, a neuprintr connection object, which also specifies the
 #'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
@@ -287,7 +295,7 @@ neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, co
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_get_shortest_paths
-neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   dataset <- check_dataset(dataset)
   conn <- neuprint_login(conn)
@@ -295,17 +303,22 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,dataset = N
   dp <- neuprint_dataset_prefix(dataset, conn=conn)
   prefixed <- paste0(dp, all_segments.json)
 
+  if(!is.null(roi)){
+    roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
+    roi <- paste("AND (" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),")")
+  }
+
   cypher <-  sprintf(paste("call apoc.cypher.runTimeboxed('MATCH p = allShortestPaths((src : `%s`{ bodyId: %s })-[ConnectsTo*]->(dest:`%s`{ bodyId: %s }))",
-                           "WHERE ALL (x in relationships(p) WHERE x.weight >= %s)",
+                           "WHERE ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.type]] AS path,[x in relationships(p) | x.weight] AS weights', {},5000)",
-                           "YIELD value return  value.`length(path)` as `length(path)`, value.path as path, value.weights AS weights"
-  ),
-  prefixed,
-  as.numeric(body_pre),
-  prefixed,
-  as.numeric(body_post),
-  weightT
-  )
+                           "YIELD value return  value.`length(path)` as `length(path)`, value.path as path, value.weights AS weights"),
+            prefixed,
+            as.numeric(body_pre),
+            prefixed,
+            as.numeric(body_post),
+            weightT,
+            ifelse(is.null(roi),"",roi)
+          )
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
 
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
