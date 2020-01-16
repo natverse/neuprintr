@@ -254,7 +254,15 @@ neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, co
                    weightT
   )
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
-
+  connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
+                  l <- d[[1]]
+                  dplyr::bind_rows(lapply(1:l, function(i){
+                    data.frame(from=as.character(d[[2]][[i]][[1]]),
+                               to=as.character(d[[2]][[i+1]][[1]]),
+                               weight=d[[3]][[i]],
+                               name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],stringsAsFactors = FALSE)
+                  }))
+  }))
 
 }
 
@@ -299,7 +307,15 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,dataset = N
   weightT
   )
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
-
+  connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
+    l <- d[[1]]
+    dplyr::bind_rows(lapply(1:l, function(i){
+      data.frame(from=as.character(d[[2]][[i]][[1]]),
+                 to=as.character(d[[2]][[i+1]][[1]]),
+                 weight=d[[3]][[i]],
+                 name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],stringsAsFactors = FALSE)
+    }))
+  }))
 
 }
 
