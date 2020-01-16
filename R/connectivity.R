@@ -254,6 +254,7 @@ neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, co
                    weightT
   )
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
+
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
                   l <- d[[1]]
                   dplyr::bind_rows(lapply(1:l, function(i){
@@ -263,7 +264,6 @@ neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,dataset = NULL, co
                                name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],stringsAsFactors = FALSE)
                   }))
   }))
-
 }
 
 #' @title Get a list of paths of length n between 2 neurons
@@ -307,6 +307,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,dataset = N
   weightT
   )
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
+
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
     l <- d[[1]]
     dplyr::bind_rows(lapply(1:l, function(i){
