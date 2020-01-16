@@ -4,9 +4,11 @@
 \alias{neuprint_fetch_custom}
 \title{Use a cypher to make a custom query to the neuPrint server specifying the information you want to obtain}
 \usage{
-
-  neuprint_fetch_custom(cypher = "MATCH (n:Meta) RETURN n.dataset, n.meshHost",
-  conn = NULL, ...)
+neuprint_fetch_custom(
+  cypher = "MATCH (n:Meta) RETURN n.dataset, n.meshHost",
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{cypher}{the cypher by which to make your search, the default returns the available datasets and the servers that host their associated mesh data}
