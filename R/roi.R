@@ -74,6 +74,9 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, con
 #' @title Get the connectivity between ROIs in a neuPrint dataset
 #'
 #' @param rois regions of interest for a dataset
+#' @param cached pull cached results (TRUE) or recalculate the connectivity (FALSE)?
+#' @param full return all neurons involved (TRUE, the default) or give a ROI summary (FALSE, default behavior if `cached` is TRUE)
+#' @param statistic either "weight" or count" (default "weight"). Which number to return (see neuprint explorer for details) for summary results (either `full` is FALSE or `cached` is TRUE)
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
 #' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 #' If NULL, your defaults set in your R.profile or R.environ are used.
@@ -81,18 +84,51 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, con
 #' @seealso \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_ROI_connectivity
-neuprint_ROI_connectivity <- function(rois, dataset = NULL, conn = NULL, ...){
+neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic = c("weight","count"),dataset = NULL, conn = NULL, ...){
+  statistic <- match.arg(statistic)
   dataset <- check_dataset(dataset)
-  roicheck = neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
-  Payload = noquote(sprintf('{"dataset":"%s","rois":%s}',
+  roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
+
+  if (cached){
+    results <-matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
+    roi.conn = neuprint_fetch(path = 'api/cached/roiconnectivity', conn = conn, ...)
+    for (inp in rois){
+      for (out in rois){
+         results[inp,out] <-  roi.conn$weights[[paste(inp,out,sep="=>")]][[statistic]]
+      }
+    }
+  }else{
+    Payload = noquote(sprintf('{"dataset":"%s","rois":%s}',
                             dataset,
                             ifelse(is.null(rois),jsonlite::toJSON(list()),jsonlite::toJSON(rois))))
-  class(Payload) = "json"
-  roi.conn = neuprint_fetch(path = 'api/npexplorer/roiconnectivity', body = Payload, conn = conn, ...)
-  connections = lapply(roi.conn[[2]], function(rc) extract_connectivity_df(rois=rois,json=rc[[2]]))
-  m = do.call(rbind, connections)
-  m = m[apply(m,1,function(x) sum(x)>0),]
-  rownames(m) = 1:nrow(m)
+    class(Payload) = "json"
+    roi.conn <- neuprint_fetch(path = 'api/npexplorer/roiconnectivity', body = Payload, conn = conn, ...)
+    connData <- roi.conn$data[sapply(roi.conn$data,function(d) any(sapply(rois,function(r) grepl(paste0("\"",r,"\""), d[[2]]))))]
+    connections <-lapply(connData, function(rc) extract_connectivity_df(rois=rois,json=rc[[2]]))
+    resultsD <- dplyr::bind_rows(connections)
+    resultsD$bodyid <- as.character(sapply(connData, function(d) d[[1]]))
+    if (!full){
+      results <- matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
+      if (statistic == "count"){
+        for (inp in rois){
+          for (out in rois){
+            results[inp,out] <- length(which(resultsD[[paste0(inp,".post")]]>0 & resultsD[[paste0(out,".pre")]]>0))
+          }
+        }
+      }else{
+        totalInputs <- neuprint_get_meta(resultsD$bodyid)$post
+        for (inp in rois){
+          for (out in rois){
+            results[inp,out] <- sum((resultsD[[paste0(out,".pre")]]*resultsD[[paste0(inp,".post")]]/totalInputs)[totalInputs>0])
+          }
+        }
+      }
+    }else{
+      results <- resultsD
+    }
+  }
+
+  results
 }
 
 #' @title Import a region of interest as a mesh
