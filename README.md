@@ -19,7 +19,7 @@ that’s your thing. neuPrint is currently being used for connectome
 analysis in aid of neuronal reconstruction efforts at Janelia Research
 Campus. Using this R package in concert with the
 [nat](https://github.com/jefferis/nat) ecosystem developed primarily by
-Greg Jefferis is highly recommended. Hor more information, have a look
+Greg Jefferis is highly recommended. For more information, have a look
 [here](https://neuprint.janelia.org/help).
 
 Installation
