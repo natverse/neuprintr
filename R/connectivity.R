@@ -314,17 +314,23 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
     roi <- paste("AND (" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),")")
   }
 
-  cypher <-  sprintf(paste("call apoc.cypher.runTimeboxed('MATCH p = allShortestPaths((src : `%s`{ bodyId: %s })-[ConnectsTo*]->(dest:`%s`{ bodyId: %s }))",
-                           "WHERE ALL (x in relationships(p) WHERE x.weight >= %s %s)",
-                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights', {},5000)",
-                           "YIELD value return  value.`length(path)` as `length(path)`, value.path as path, value.weights AS weights"),
-            prefixed,
-            as.numeric(body_pre),
-            prefixed,
-            as.numeric(body_post),
-            weightT,
-            ifelse(is.null(roi),"",roi)
-          )
+  cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
+                           "UNWIND bodies[0] AS bodypre",
+                           "UNWIND bodies[1] AS bodypost",
+                           "WITH * WHERE bodypre <> bodypost",
+                           "MATCH p = allShortestPaths((src : `%s`)-[ConnectsTo*]->(dest:`%s`))",
+                           "WHERE src.bodyId = bodypre AND dest.bodyId = bodypost AND",
+                           "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
+                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
+  ),
+  jsonlite::toJSON(unique(as.numeric(unlist(body_pre)))),
+  jsonlite::toJSON(unique(as.numeric(unlist(body_post)))),
+  prefixed,
+  prefixed,
+  weightT,
+  ifelse(is.null(roi),"",roi)
+  )
+
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
 
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
