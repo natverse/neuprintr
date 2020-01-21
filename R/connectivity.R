@@ -316,7 +316,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
 
   cypher <-  sprintf(paste("call apoc.cypher.runTimeboxed('MATCH p = allShortestPaths((src : `%s`{ bodyId: %s })-[ConnectsTo*]->(dest:`%s`{ bodyId: %s }))",
                            "WHERE ALL (x in relationships(p) WHERE x.weight >= %s %s)",
-                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.type]] AS path,[x in relationships(p) | x.weight] AS weights', {},5000)",
+                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights', {},5000)",
                            "YIELD value return  value.`length(path)` as `length(path)`, value.path as path, value.weights AS weights"),
             prefixed,
             as.numeric(body_pre),
@@ -333,7 +333,9 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
       data.frame(from=as.character(d[[2]][[i]][[1]]),
                  to=as.character(d[[2]][[i+1]][[1]]),
                  weight=d[[3]][[i]],
-                 name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],stringsAsFactors = FALSE)
+                 name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],
+                 type.from=d[[2]][[i]][[3]],type.to=d[[2]][[i+1]][[3]],
+                 stringsAsFactors = FALSE)
     }))
   }))
 
