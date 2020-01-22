@@ -1,7 +1,8 @@
 #' @title Read bodies from the neuPrint server as skeletons
 #'
 #' @description  Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-#' Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package
+#' Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
+#' If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retrieved.
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
 #' @param bodyid a single body ID for a neuron/segment (body) you wish to query
 #' @param drvid whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
@@ -27,14 +28,46 @@
 #' @inheritParams nat::nlapply
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
+#' @examples
+#' \donttest{
+#' n = neuprint_read_neurons("5813115796")
+#' nat::plot3d(n, soma = TRUE)
+#' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 #' @importFrom drvid read.neuron.dvid
 #' @export
 #' @rdname neuprint_read_neurons
 #' @importFrom nat nlapply
-neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, all_segments = TRUE, dataset = NULL, resample = FALSE, conn = NULL, OmitFailures = TRUE, ...){
-  neurons = nlapply(as.numeric(unique(bodyids)),function(bodyid)
-    neuprint_read_neuron(bodyid=bodyid, nat=nat, drvid=drvid, flow.centrality = flow.centrality, split = split, soma = soma, estimate.soma = estimate.soma, heal = heal, connectors = connectors, dataset = dataset, all_segments = all_segments, resample = resample, conn= conn, ...), OmitFailures = OmitFailures)
+neuprint_read_neurons <- function(bodyids,
+                                  meta = TRUE,
+                                  nat = TRUE,
+                                  drvid = FALSE,
+                                  flow.centrality = FALSE,
+                                  split = c("postsynapses","presynapses","distance"),
+                                  soma = TRUE,
+                                  estimate.soma = FALSE,
+                                  heal = TRUE,
+                                  connectors = TRUE,
+                                  all_segments = TRUE,
+                                  dataset = NULL,
+                                  resample = FALSE,
+                                  conn = NULL,
+                                  OmitFailures = TRUE, ...){
+  neurons = nat::nlapply(as.numeric(unique(bodyids)),function(bodyid)
+    neuprint_read_neuron(bodyid=bodyid,
+                         nat=nat,
+                         drvid=drvid,
+                         flow.centrality = flow.centrality,
+                         split = split,
+                         soma = soma,
+                         estimate.soma = estimate.soma,
+                         heal = heal,
+                         connectors = connectors,
+                         dataset = dataset,
+                         all_segments = all_segments,
+                         resample = resample,
+                         conn= conn, ...),
+    OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   if(length(neurons)==0){
     stop("Error: none of the given bodyids have skeletons that could be fetched")
@@ -50,18 +83,29 @@ neuprint_read_neurons <- function(bodyids, meta = TRUE, nat = TRUE, drvid = FALS
 
 #' @export
 #' @rdname neuprint_read_neurons
-neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses","presynapses","distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE, connectors = TRUE, dataset = NULL, all_segments = TRUE, resample = FALSE, conn = NULL, ...){
+neuprint_read_neuron <- function(bodyid,
+                                 nat = TRUE,
+                                 drvid = FALSE,
+                                 flow.centrality = FALSE,
+                                 split = c("postsynapses","presynapses","distance"),
+                                 soma = TRUE,
+                                 estimate.soma = FALSE,
+                                 heal = TRUE,
+                                 connectors = TRUE,
+                                 dataset = NULL,
+                                 all_segments = TRUE,
+                                 resample = FALSE,
+                                 conn = NULL, ...){
   split = match.arg(split)
   dataset <- check_dataset(dataset)
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
-
   if(drvid){
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    n = neuprint_read_neuron_simple(as.numeric(bodyid),dataset=dataset,conn = conn,heal = F,...)
+    n = neuprint_read_neuron_simple(as.numeric(bodyid),dataset=dataset,conn = conn,heal = FALSE,...)
   }
   if(heal|flow.centrality){
     n = heal_skeleton(x = n)
@@ -69,13 +113,6 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
   }
   if(resample){
     n = nat::resample(x=n,stepsize=resample)
-  }
-  if(connectors){
-    synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
-    near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    synapses$treenode_id = n$d[near,"PointNo"]
-    synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
-    n$connectors = synapses
   }
   if(soma){
     somapoint = tryCatch(nat::xyzmatrix(neuprint_locate_soma(bodyids = bodyid, all_segments = all_segments, dataset = dataset, conn = conn, ...)),
@@ -86,11 +123,6 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
       leaves = ends = nat::endpoints(n)
       far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=10)$nn.dist
       leaves = ends = leaves[which(far.leaves[,10]>mean(far.leaves[,10]))]
-      if(connectors&nrow(synapses)>2){
-        ends = unique(n$connectors$treenode_id)
-        clustered.ends = nabor::knn(query=nat::xyzmatrix(n$d[ends,]),data=nat::xyzmatrix(n$d[ends,]),k=10)$nn.dist
-        ends = ends[which(clustered.ends[,10]>mean(clustered.ends[,10]))]
-      }
       dists = sapply(leaves, function(l) mean(sapply(igraph::all_shortest_paths(graph = nat::as.ngraph(d),
                                    from = l,
                                    to = ends,
@@ -105,13 +137,13 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
     n = nat::as.neuron(nat::as.ngraph(n$d), origin = c(near.soma))
     n$d$Label[near.soma] = 1
     d = n$d
-    if(connectors){
-      synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
-      near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
-      synapses$treenode_id = n$d[near,"PointNo"]
-      synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
-      n$connectors = synapses
-    }
+  }
+  if(connectors){
+    synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
+    near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
+    synapses$treenode_id = n$d[near,"PointNo"]
+    synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
+    n$connectors = synapses
   }
   if(flow.centrality&connectors){
     if(n$nTrees>1){
@@ -121,7 +153,6 @@ neuprint_read_neuron <- function(bodyid, nat = TRUE, drvid = FALSE, flow.central
         stop("Please install the suggested catnat package with\n",
              "  remotes::install_github('jefferislab/catnat')")
       }
-
       n = tryCatch(catnat::flow.centrality(x=n, polypre = FALSE, mode = "centrifugal", split = split, catmaid = FALSE),
                    error = function(e) n)
       if(soma){
@@ -165,8 +196,8 @@ neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL,
   n$connectors = synapses
   n
 }
-neuprint_assign_connectors.neuronlist  <- function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...){
-  nlapply(1:length(x), function(i)
+neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), dataset = NULL, conn = NULL, ...){
+  nat::nlapply(1:length(x), function(i)
     neuprint_assign_connectors.neuron(x=x[[i]],bodyids=bodyids[i]),dataset=dataset,conn=conn,...)
 }
 
@@ -196,12 +227,14 @@ heal_skeleton <- function(x, ...){
   }
 }
 
-neuprint_read_neuron_simple <- function(x, dataset=NULL, conn=NULL, heal=TRUE, ...) {
+#' @export
+#' @rdname neuprint_read_neurons
+neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
   dataset <- check_dataset(dataset)
-  if(length(x)>1) {
-    return(nlapply(x, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...))
+  if(length(bodyid)>1) {
+    return(nat::nlapply(bodyid, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...))
   }
-  path=file.path("api/skeletons/skeleton", dataset, x)
+  path=file.path("api/skeletons/skeleton", dataset, bodyid)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
   colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")
   df=as.data.frame(res$data)
