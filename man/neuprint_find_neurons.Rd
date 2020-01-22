@@ -5,23 +5,11 @@
 \alias{neuprint_bodies_in_ROI}
 \title{Find bodies within a given ROI}
 \usage{
-neuprint_find_neurons(
-  input_ROIs,
-  output_ROIs = NULL,
-  statuses = NULL,
-  dataset = NULL,
-  conn = NULL,
-  all_segments = TRUE,
-  ...
-)
+neuprint_find_neurons(input_ROIs, output_ROIs = NULL, statuses = NULL,
+  dataset = NULL, conn = NULL, all_segments = TRUE, ...)
 
-neuprint_bodies_in_ROI(
-  roi,
-  dataset = NULL,
-  all_segments = TRUE,
-  conn = NULL,
-  ...
-)
+neuprint_bodies_in_ROI(roi, dataset = NULL, all_segments = TRUE,
+  conn = NULL, ...)
 }
 \arguments{
 \item{input_ROIs}{a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.}
@@ -47,6 +35,11 @@ a n x n matrix, where the rows are input neurons and the columns are their targe
 }
 \description{
 Find bodies that input/output within certain ROIs (i.e. they must have synapses in these areas)
+}
+\examples{
+\donttest{
+neuprint_get_neuron_names(c(818983130, 1796818119))
+}
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}

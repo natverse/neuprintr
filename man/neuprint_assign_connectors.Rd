@@ -5,15 +5,11 @@
 \alias{neuprint_locate_soma}
 \title{Assign synapses to a neuronal tree}
 \usage{
-neuprint_assign_connectors(x, bodyids = NULL, dataset = NULL, conn = NULL, ...)
+neuprint_assign_connectors(x, bodyids = NULL, dataset = NULL,
+  conn = NULL, ...)
 
-neuprint_locate_soma(
-  bodyids,
-  dataset = NULL,
-  all_segments = TRUE,
-  conn = NULL,
-  ...
-)
+neuprint_locate_soma(bodyids, dataset = NULL, all_segments = TRUE,
+  conn = NULL, ...)
 }
 \arguments{
 \item{x}{either an object of class neuron, or neuronlist}
@@ -38,6 +34,11 @@ a data frame of X,Y,Z coordinates, a row for each bodyid supplied
 Fetch the synapses associated with a bodyid and assign them to the nearest point in the skeleton. For this to work, the skeletons must be in the same brainspace as the synaptic data being pulled from neuprint. I.e. do not transform them to another brainspace, until after this step.
 
 For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.
+}
+\examples{
+\donttest{
+neuprint_locate_soma("5813115796")
+}
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}

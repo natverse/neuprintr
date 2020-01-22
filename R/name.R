@@ -49,7 +49,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     paste0(dp, all_segments),
     neuprint_name_field(conn)
   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, include_headers = F, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, include_headers = FALSE, ...)
   neuprint_list2df(nc, return_empty_df = TRUE)
 }
 

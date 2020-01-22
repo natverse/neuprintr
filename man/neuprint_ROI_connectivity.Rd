@@ -4,15 +4,8 @@
 \alias{neuprint_ROI_connectivity}
 \title{Get the connectivity between ROIs in a neuPrint dataset}
 \usage{
-neuprint_ROI_connectivity(
-  rois,
-  cached = FALSE,
-  full = TRUE,
-  statistic = c("weight", "count"),
-  dataset = NULL,
-  conn = NULL,
-  ...
-)
+neuprint_ROI_connectivity(rois, cached = FALSE, full = TRUE,
+  statistic = c("weight", "count"), dataset = NULL, conn = NULL, ...)
 }
 \arguments{
 \item{rois}{regions of interest for a dataset}

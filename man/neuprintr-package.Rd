@@ -26,16 +26,16 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Alexander Bates \email{alexander.shakeel.bates@gmail.com} (\href{https://orcid.org/0000-0002-1195-0445}{ORCID})
+\strong{Maintainer}: Alexander Bates \email{alexander.shakeel.bates@gmail.com} (0000-0002-1195-0445)
 
 Authors:
 \itemize{
-  \item Gregory Jefferis \email{jefferis@gmail.com} (\href{https://orcid.org/0000-0002-0587-9355}{ORCID})
+  \item Gregory Jefferis \email{jefferis@gmail.com} (0000-0002-0587-9355)
 }
 
 Other contributors:
 \itemize{
-  \item Romain Franconville (\href{https://orcid.org/0000-0002-4440-7297}{ORCID}) [contributor]
+  \item Romain Franconville (0000-0002-4440-7297) [contributor]
 }
 
 }

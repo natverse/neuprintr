@@ -4,15 +4,9 @@
 \alias{neuprint_common_connectivity}
 \title{Get the common synaptic partners for a set of neurons}
 \usage{
-neuprint_common_connectivity(
-  bodyids,
-  statuses = NULL,
-  prepost = c("PRE", "POST"),
-  all_segments = TRUE,
-  dataset = NULL,
-  conn = NULL,
-  ...
-)
+neuprint_common_connectivity(bodyids, statuses = NULL,
+  prepost = c("PRE", "POST"), all_segments = TRUE, dataset = NULL,
+  conn = NULL, ...)
 }
 \arguments{
 \item{bodyids}{the cypher by which to make your search}

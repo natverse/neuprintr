@@ -31,7 +31,7 @@
 #' @examples
 #' \donttest{
 #' n = neuprint_read_neurons("5813115796")
-#' nat::plot3d(n, soma = TRUE)
+#' nat::plot3d(n, col = "purple", lwd = 2)
 #' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 #' @importFrom drvid read.neuron.dvid

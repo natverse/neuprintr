@@ -4,16 +4,9 @@
 \alias{neuprint_connection_table}
 \title{Get the upstream and downstream connectivity of a neuron}
 \usage{
-neuprint_connection_table(
-  bodyids,
-  prepost = c("PRE", "POST"),
-  roi = NULL,
-  progress = FALSE,
-  dataset = NULL,
-  all_segments = TRUE,
-  conn = NULL,
-  ...
-)
+neuprint_connection_table(bodyids, prepost = c("PRE", "POST"),
+  roi = NULL, progress = FALSE, dataset = NULL,
+  all_segments = TRUE, conn = NULL, ...)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}

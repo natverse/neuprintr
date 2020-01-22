@@ -12,6 +12,10 @@
 #' If NULL, your defaults set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a n x n matrix, where the rows are input neurons and the columns are their targets
+#' @examples
+#' \donttest{
+#' neuprint_get_neuron_names(c(818983130, 1796818119))
+#' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_find_neurons
@@ -127,7 +131,6 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic
       results <- resultsD
     }
   }
-
   results
 }
 
