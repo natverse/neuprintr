@@ -9,10 +9,14 @@
 #' @export
 #' @rdname neuprint_fetch_custom
 neuprint_fetch_custom <- function(cypher = "MATCH (n:Meta) RETURN n.dataset, n.meshHost",
+                                  dataset = NULL,
                                   conn = NULL, ...){
-  Payload = sprintf('{"cypher":"%s"}',cypher)
-  class(Payload) = "json"
-  custom = neuprint_fetch(path = 'api/custom/custom', body = Payload, conn = conn, ...)
+  dataset <- check_dataset(dataset)
+  Payload <- sprintf('{"cypher":"%s","dataset":"%s"}', cypher, dataset)
+  class(Payload) <- "json"
+  custom <- neuprint_fetch(path = 'api/custom/custom',
+                           body = Payload,
+                           conn = conn, ...)
   custom
 }
 

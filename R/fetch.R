@@ -3,8 +3,7 @@ neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
                            include_headers = TRUE, simplifyVector = FALSE, ...){
   path = gsub("\\/$|^\\/","",path)
   conn = neuprint_login(conn)
-  # you cannot have double / in any part of path
-  server = sub("\\/$", "", conn$server)
+  server = sub("\\/$", "", conn$server) # you cannot have double / in any part of path
   req <-
     if (is.null(body)) {
       httr::GET(url = file.path(server, path, fsep = "/"),
@@ -17,7 +16,7 @@ neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
   if (parse.json) {
     parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)
     if (length(parsed) == 2 && isTRUE(names(parsed)[2] =="error")) {
-      stop("neuprint error: ", parsed$error)
+      stop("neuPrint error: ", parsed$error)
     }
     if (include_headers) {
       fields_to_include = c("url", "headers")
