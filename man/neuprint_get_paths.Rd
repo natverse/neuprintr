@@ -4,8 +4,17 @@
 \alias{neuprint_get_paths}
 \title{Get a list of paths of length n between 2 neurons}
 \usage{
-neuprint_get_paths(body_pre, body_post, n, weightT = 5, roi = NULL,
-  dataset = NULL, conn = NULL, all_segments = FALSE, ...)
+neuprint_get_paths(
+  body_pre,
+  body_post,
+  n,
+  weightT = 5,
+  roi = NULL,
+  dataset = NULL,
+  conn = NULL,
+  all_segments = FALSE,
+  ...
+)
 }
 \arguments{
 \item{body_pre}{the bodyid of the neuron at the start of the path}
@@ -29,6 +38,9 @@ set in your R.profile or R.environ are used.}
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{...}{methods passed to \code{neuprint_login}}
+}
+\value{
+
 }
 \description{
 Get all of the paths in the database that connect the

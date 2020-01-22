@@ -4,8 +4,14 @@
 \alias{neuprint_search}
 \title{Search for body IDs based on a given name}
 \usage{
-neuprint_search(search, meta = TRUE, all_segments = TRUE,
-  dataset = NULL, conn = NULL, ...)
+neuprint_search(
+  search,
+  meta = TRUE,
+  all_segments = TRUE,
+  dataset = NULL,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{search}{name to search. See examples.}

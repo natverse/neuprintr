@@ -6,21 +6,49 @@
 \alias{neuprint_read_neuron_simple}
 \title{Read bodies from the neuPrint server as skeletons}
 \usage{
-neuprint_read_neurons(bodyids, meta = TRUE, nat = TRUE,
-  drvid = FALSE, flow.centrality = FALSE, split = c("postsynapses",
-  "presynapses", "distance"), soma = TRUE, estimate.soma = FALSE,
-  heal = TRUE, connectors = TRUE, all_segments = TRUE,
-  dataset = NULL, resample = FALSE, conn = NULL,
-  OmitFailures = TRUE, ...)
+neuprint_read_neurons(
+  bodyids,
+  meta = TRUE,
+  nat = TRUE,
+  drvid = FALSE,
+  flow.centrality = FALSE,
+  split = c("postsynapses", "presynapses", "distance"),
+  soma = TRUE,
+  estimate.soma = FALSE,
+  heal = TRUE,
+  connectors = TRUE,
+  all_segments = TRUE,
+  dataset = NULL,
+  resample = FALSE,
+  conn = NULL,
+  OmitFailures = TRUE,
+  ...
+)
 
-neuprint_read_neuron(bodyid, nat = TRUE, drvid = FALSE,
-  flow.centrality = FALSE, split = c("postsynapses", "presynapses",
-  "distance"), soma = TRUE, estimate.soma = FALSE, heal = TRUE,
-  connectors = TRUE, dataset = NULL, all_segments = TRUE,
-  resample = FALSE, conn = NULL, ...)
+neuprint_read_neuron(
+  bodyid,
+  nat = TRUE,
+  drvid = FALSE,
+  flow.centrality = FALSE,
+  split = c("postsynapses", "presynapses", "distance"),
+  soma = TRUE,
+  estimate.soma = FALSE,
+  heal = TRUE,
+  connectors = TRUE,
+  dataset = NULL,
+  all_segments = TRUE,
+  resample = FALSE,
+  conn = NULL,
+  ...
+)
 
-neuprint_read_neuron_simple(bodyid, dataset = NULL, conn = NULL,
-  heal = TRUE, ...)
+neuprint_read_neuron_simple(
+  bodyid,
+  dataset = NULL,
+  conn = NULL,
+  heal = TRUE,
+  ...
+)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}

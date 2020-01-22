@@ -4,8 +4,13 @@
 \alias{neuprint_simple_connectivity}
 \title{Get a list of connected partners for a neuron}
 \usage{
-neuprint_simple_connectivity(bodyids, prepost = c("PRE", "POST"),
-  dataset = NULL, conn = NULL, ...)
+neuprint_simple_connectivity(
+  bodyids,
+  prepost = c("PRE", "POST"),
+  dataset = NULL,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{bodyids}{the cypher by which to make your search}

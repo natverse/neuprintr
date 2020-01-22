@@ -5,11 +5,15 @@
 \alias{neuprint_locate_soma}
 \title{Assign synapses to a neuronal tree}
 \usage{
-neuprint_assign_connectors(x, bodyids = NULL, dataset = NULL,
-  conn = NULL, ...)
+neuprint_assign_connectors(x, bodyids = NULL, dataset = NULL, conn = NULL, ...)
 
-neuprint_locate_soma(bodyids, dataset = NULL, all_segments = TRUE,
-  conn = NULL, ...)
+neuprint_locate_soma(
+  bodyids,
+  dataset = NULL,
+  all_segments = TRUE,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{either an object of class neuron, or neuronlist}

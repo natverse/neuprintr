@@ -4,8 +4,13 @@
 \alias{neuprint_get_neuron_names}
 \title{Get the name of a neuron}
 \usage{
-neuprint_get_neuron_names(bodyids, dataset = NULL, all_segments = TRUE,
-  conn = NULL, ...)
+neuprint_get_neuron_names(
+  bodyids,
+  dataset = NULL,
+  all_segments = TRUE,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}

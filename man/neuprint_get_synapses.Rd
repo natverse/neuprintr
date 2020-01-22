@@ -4,8 +4,14 @@
 \alias{neuprint_get_synapses}
 \title{Get the locations of pre- and post synapses associated with a body}
 \usage{
-neuprint_get_synapses(bodyids, roi = NULL, progress = FALSE,
-  dataset = NULL, conn = NULL, ...)
+neuprint_get_synapses(
+  bodyids,
+  roi = NULL,
+  progress = FALSE,
+  dataset = NULL,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}

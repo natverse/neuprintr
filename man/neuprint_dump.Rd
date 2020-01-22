@@ -4,13 +4,31 @@
 \alias{neuprint_dump}
 \title{Download data from neuprint for specified bodyids / a specified ROI}
 \usage{
-neuprint_dump(dir, bodyids = NULL, roi = NULL, preprocess = NULL,
-  connectivity = TRUE, volumes = TRUE, meta = TRUE, nat = TRUE,
-  drvid = TRUE, flow.centrality = FALSE, soma = TRUE,
-  estimate.soma = FALSE, heal = TRUE, connectors = TRUE,
-  all_segments = TRUE, resample = FALSE, scale = 4,
-  voxel.thresh = 1e+07, split = c("postsynapses", "presynapses",
-  "distance"), dataset = NULL, conn = NULL, OmitFailures = TRUE, ...)
+neuprint_dump(
+  dir,
+  bodyids = NULL,
+  roi = NULL,
+  preprocess = NULL,
+  connectivity = TRUE,
+  volumes = TRUE,
+  meta = TRUE,
+  nat = TRUE,
+  drvid = TRUE,
+  flow.centrality = FALSE,
+  soma = TRUE,
+  estimate.soma = FALSE,
+  heal = TRUE,
+  connectors = TRUE,
+  all_segments = TRUE,
+  resample = FALSE,
+  scale = 4,
+  voxel.thresh = 1e+07,
+  split = c("postsynapses", "presynapses", "distance"),
+  dataset = NULL,
+  conn = NULL,
+  OmitFailures = TRUE,
+  ...
+)
 }
 \arguments{
 \item{dir}{the directory to which to save the dump}

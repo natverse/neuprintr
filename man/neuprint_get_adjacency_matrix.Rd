@@ -4,8 +4,13 @@
 \alias{neuprint_get_adjacency_matrix}
 \title{Get a matrix of connectivities between bodies}
 \usage{
-neuprint_get_adjacency_matrix(bodyids, dataset = NULL,
-  all_segments = TRUE, conn = NULL, ...)
+neuprint_get_adjacency_matrix(
+  bodyids,
+  dataset = NULL,
+  all_segments = TRUE,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}

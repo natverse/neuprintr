@@ -43,7 +43,8 @@ neuprint_find_neurons <- function(input_ROIs,
     extract_connectivity_df(rois = c(input_ROIs,output_ROIs),
                             json=unlist(f[columns=="roiInfo"])))
   innervation = do.call(rbind,innervation)
-  cbind(neurons,innervation)
+  neurons = cbind(neurons,innervation)
+  as.data.frame(t(apply(neurons,1,unlist)))
 }
 
 #' @export

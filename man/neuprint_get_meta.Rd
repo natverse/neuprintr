@@ -4,8 +4,13 @@
 \alias{neuprint_get_meta}
 \title{Get meta data associated with a body}
 \usage{
-neuprint_get_meta(bodyids, dataset = NULL, all_segments = TRUE,
-  conn = NULL, ...)
+neuprint_get_meta(
+  bodyids,
+  dataset = NULL,
+  all_segments = TRUE,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}

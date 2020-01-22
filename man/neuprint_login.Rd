@@ -6,8 +6,12 @@
 \title{Connect to/authenticate with a neuPrint server and its Neo4j database,
   returning a neuPrint connection object}
 \usage{
-neuprint_connection(server = NULL, token = NULL, conn = NULL,
-  config = httr::config())
+neuprint_connection(
+  server = NULL,
+  token = NULL,
+  conn = NULL,
+  config = httr::config()
+)
 
 neuprint_login(conn = NULL, Cache = TRUE, Force = FALSE, ...)
 }
