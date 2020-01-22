@@ -105,6 +105,7 @@ neuprint_name_field <- memoise(function(conn=NULL) {
   return(ifelse(n>0, "instance", "name"))
 })
 
+# hidden
 neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
   if (is.null(conn))
     stop(
@@ -112,11 +113,13 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
       "before using neuprint_dataset_prefix(conn) in your function!",
       call. = FALSE
     )
-  q=sprintf("MATCH (n:`%s_Neuron`) RETURN count(n)", dataset)
-  n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
-  paste0(dataset, ifelse(n>0, "_", "-"))
+  # q=sprintf("MATCH (n:`%s_Segment`) RETURN count(n)", dataset)
+  # n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
+  #paste0(dataset, ifelse(n>0, "_", "-")) # I think we no longer need to specify the dataset. Might be good ot keep this function in place though, in case situation changes
+  ""
 })
 
+# hidden
 check_dataset <- function(dataset=NULL) {
   # Get a default dataset if none specified
   if(is.null(dataset)){
