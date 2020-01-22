@@ -47,7 +47,7 @@ neuprint_version <- function(conn = NULL, ...){
 neuprint_ROIs <- function(dataset = NULL, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   ds = neuprint_datasets(conn=conn, ...)
-  rois = unlist(ds[[dataset]])
+  rois = unlist(ds)
   rois[grepl("ROI",names(rois))]
 }
 
