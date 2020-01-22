@@ -230,11 +230,20 @@ neuprint_simple_connectivity <- function(bodyids,
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_get_paths
-neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
+                               dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
   if (length(n)==1){
     n <- c(n,n)
+  } else {
+    # just to ensure min path comes first
+    n=sort(n)
+    if (length(n)!=2)
+      stop("n must specify a single path length or a range of path lengths!")
   }
+  if(min(n) < 1)
+    stop("Minimum path length must be >=1!")
+
   dataset <- check_dataset(dataset)
   conn <- neuprint_login(conn)
 
