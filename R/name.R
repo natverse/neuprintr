@@ -9,11 +9,9 @@
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  # Get a default dataset if none specified
   dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
-
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
                    jsonlite::toJSON(as.numeric(unlist(bodyids))),

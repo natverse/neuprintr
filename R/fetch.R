@@ -114,13 +114,12 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
     )
   # q=sprintf("MATCH (n:`%s_Segment`) RETURN count(n)", dataset)
   # n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
-  #paste0(dataset, ifelse(n>0, "_", "-")) # I think we no longer need to specify the dataset. Might be good ot keep this function in place though, in case situation changes
+  #paste0(dataset, ifelse(n>0, "_", "-")) # I think we no longer need to specify the dataset. Might be good to keep this function in place though, in case situation changes
   ""
 })
 
 # hidden
-check_dataset <- function(dataset=NULL) {
-  # Get a default dataset if none specified
+check_dataset <- function(dataset=NULL) {   # Get a default dataset if none specified
   if(is.null(dataset)){
     dataset = unlist(getenvoroption("dataset"))
     if(is.null(dataset)){
