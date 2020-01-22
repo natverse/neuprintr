@@ -3,6 +3,7 @@ packrat/lib*/
 .Rhistory
 .RData
 .RDatatmp
+.RDataTmp
 R/analysis.R
 examples
 .httr-oauth
