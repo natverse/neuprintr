@@ -122,8 +122,10 @@ check_dataset <- function(dataset=NULL) {
   if(is.null(dataset)){
     dataset = unlist(getenvoroption("dataset"))
     if(is.null(dataset))
-      stop("Please supply a dataset or set a default one using the ",
-           "neuprint_dataset environment variable! See ?neuprint_login for details.")
+      warning("Please supply a dataset or set a default one using the ",
+           "neuprint_dataset environment variable! See ?neuprint_login for details.
+           For now we will use hemibrain:v1.0")
+    dataset = "hemibrain:v1.0"
   }
   dataset
 }
