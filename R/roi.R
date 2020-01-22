@@ -29,27 +29,26 @@ neuprint_find_neurons <- function(input_ROIs,
       stop("Invalid stauses provided. Statuses must be NULL to accept any body status, or on of: ", possible.statuses)
     }
   }
-  all_segments = ifelse(all_segments,"true","false")
+  conn <- neuprint_login(conn)
+  all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
+  dp <- neuprint_dataset_prefix(dataset, conn=conn)
+  prefixed <- paste0(dp, all_segments.json)
+  #all_segments = ifelse(all_segments,"true","false")
   roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
-  Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"statuses":%s,"all_segments":%s}',
-                            dataset, jsonlite::toJSON(input_ROIs),
-                            jsonlite::toJSON(output_ROIs),
-                            ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
-                            all_segments))
-  class(Payload) = "json"
-  found.neurons = neuprint_fetch(path = 'api/npexplorer/findneurons', body = Payload, conn = conn, ...)
-  columns = unlist(found.neurons[[1]])
-  keep = !columns%in%c("roiInfo","rois")
-  neurons = data.frame()
-  extract = lapply(found.neurons[[2]], function(f) nullToNA(t(as.matrix(f[keep]))))
-  neurons = as.data.frame(do.call(rbind, extract))
-  colnames(neurons) = columns[keep]
-  rownames(neurons) = neurons$bodyid
-  innervation = lapply(found.neurons[[2]], function(f)
-    extract_connectivity_df(rois = c(input_ROIs,output_ROIs),
-                            json=unlist(f[columns=="roiInfo"])))
-  innervation = do.call(rbind,innervation)
-  cbind(neurons,innervation)
+
+  cypher <- sprintf(paste("MATCH (neuron :%s)",
+                          "WHERE %s %s",
+                          "WITH neuron AS neuron, apoc.convert.fromJsonMap(neuron.roiInfo) AS roiInfo",
+                          "RETURN neuron.bodyId AS bodyid, neuron.instance AS name, neuron.type AS type, neuron.pre AS pre, neuron.post AS post,%s %s"),
+                    prefixed,
+                    ifelse(is.null(statuses),"",paste0("(",paste("neuron.status = ",statuses,collapse=" OR "),") AND")),
+                    paste0("(",paste0("neuron.",c(input_ROIs,output_ROIs),collapse=" AND "),")"),
+                    ifelse(is.null(input_ROIs),"",paste0("roiInfo.`",input_ROIs,"`.post AS `",input_ROIs,".post`",collapse=",")),
+                    ifelse(is.null(output_ROIs),"",paste0(",roiInfo.`",output_ROIs,"`.pre AS `",output_ROIs,".pre`"))
+                    )
+  nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  results <- na.omit(neuprint_list2df(nc))  ## NAs mean one of our conditions is not met
+  results
 }
 
 #' @export
