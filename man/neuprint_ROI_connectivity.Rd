@@ -4,10 +4,24 @@
 \alias{neuprint_ROI_connectivity}
 \title{Get the connectivity between ROIs in a neuPrint dataset}
 \usage{
-neuprint_ROI_connectivity(rois, dataset = NULL, conn = NULL, ...)
+neuprint_ROI_connectivity(
+  rois,
+  cached = FALSE,
+  full = TRUE,
+  statistic = c("weight", "count"),
+  dataset = NULL,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{rois}{regions of interest for a dataset}
+
+\item{cached}{pull cached results (TRUE) or recalculate the connectivity (FALSE)?}
+
+\item{full}{return all neurons involved (TRUE, the default) or give a ROI summary (FALSE, default behavior if `cached` is TRUE)}
+
+\item{statistic}{either "weight" or count" (default "weight"). Which number to return (see neuprint explorer for details) for summary results (either `full` is FALSE or `cached` is TRUE)}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
 

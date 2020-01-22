@@ -43,7 +43,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
       "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post"
+      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped"
     ),
     jsonlite::toJSON(as.numeric(unlist(bodyids))),
     paste0(dp, all_segments),
