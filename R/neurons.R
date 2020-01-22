@@ -108,7 +108,7 @@ neuprint_read_neuron <- function(bodyid,
     n = neuprint_read_neuron_simple(as.numeric(bodyid),dataset=dataset,conn = conn,heal = FALSE,...)
   }
   if(heal|flow.centrality){
-    n = heal_skeleton(x = n)
+    n = suppressWarnings( heal_skeleton(x = n) )
     d = n$d
   }
   if(resample){
@@ -142,7 +142,7 @@ neuprint_read_neuron <- function(bodyid,
     synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
     synapses$treenode_id = n$d[near,"PointNo"]
-    synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
+    synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
     n$connectors = synapses
   }
   if(flow.centrality&connectors){
