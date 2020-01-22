@@ -69,6 +69,8 @@ Some cyphers and other API endpoints have been explored by this package. Have a 
 Example data
 ------------
 
+-   HemiBrain (hemibrain:v1.0) : from ["A Connectome of the Adult Drosophila Central Brain"](https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1) (Xu, et al. 2020)
+
 -   mushroombody (mb6) : from ["A connectome of a learning and memory center in the adult Drosophila brain"](https://elifesciences.org/articles/26975) (Takemura, et al. 2017)
 
 -   medulla7column (fib25) : from ["Synaptic circuits and their variations within different columns in the visual system of Drosophila"](https://www.pnas.org/content/112/44/13711) (Takemura, et al. 2015)
