@@ -45,7 +45,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   if(progress){
     d  = do.call(rbind, pbapply::pblapply(bodyids,
                                           function(bi) tryCatch(neuprint_get_synapses(
-      bodyids = as.numeric(bi),
+      bodyids = bi,
       roi = roi,
       progress = FALSE,
       dataset = dataset,
