@@ -31,11 +31,7 @@ Useful links:
 Authors:
 \itemize{
   \item Gregory Jefferis \email{jefferis@gmail.com} (\href{https://orcid.org/0000-0002-0587-9355}{ORCID})
-}
-
-Other contributors:
-\itemize{
-  \item Romain Franconville (\href{https://orcid.org/0000-0002-4440-7297}{ORCID}) [contributor]
+  \item Romain Franconville (\href{https://orcid.org/0000-0002-4440-7297}{ORCID})
 }
 
 }
