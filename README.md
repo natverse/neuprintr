@@ -123,14 +123,16 @@ in Neo4j using the neuPrint ecosystem:
 
 This package was created by [Alexander Shakeel
 Bates](https://scholar.google.com/citations?user=BOVTiXIAAAAJ&hl=en) and
-[Gregory Jefferis](https://en.wikipedia.org/wiki/Gregory_Jefferis). You
-can cite this package as:
+[Gregory Jefferis](https://en.wikipedia.org/wiki/Gregory_Jefferis) with
+Romain
+[Franconville](https://scholar.google.com/citations?user=I7yBLlsAAAAJ&hl=en)
+now providing key contributions. You can cite this package as:
 
 ``` r
 citation(package = "neuprintr")
 ```
 
-**Bates AS, Jefferis GSXE** (2019). *neuprintr: R client utilities for
-interacting with the neuPrint connectome analysis service.* **R
-package** version 0.1.0.
+**Bates AS, Franconville R, Jefferis GSXE** (2019). *neuprintr: R client
+utilities for interacting with the neuPrint connectome analysis
+service.* **R package** version 0.4.0.
 <a href="https://github.com/natverse/neuprintr" class="uri">https://github.com/natverse/neuprintr</a>
