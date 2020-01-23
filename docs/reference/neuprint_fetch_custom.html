@@ -127,6 +127,7 @@
 
     <pre class="usage"><span class='fu'>neuprint_fetch_custom</span>(
   <span class='kw'>cypher</span> <span class='kw'>=</span> <span class='st'>"MATCH (n:Meta) RETURN n.dataset, n.meshHost"</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
 )</pre>
@@ -137,6 +138,12 @@
     <tr>
       <th>cypher</th>
       <td><p>the cypher by which to make your search, the default returns the available datasets and the servers that host their associated mesh data</p></td>
+    </tr>
+    <tr>
+      <th>dataset</th>
+      <td><p>optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See <code>neuprint_login</code> for
+details.</p></td>
     </tr>
     <tr>
       <th>conn</th>

@@ -241,7 +241,7 @@ reused automatically.</p></td>
 <li><p><code>neuprint_token</code></p></li>
 <li><p><code>neuprint_dataset</code></p></li>
 </ul><p>An example <code>.Renviron</code> file might look like:</p>
-<p></p><pre>neuprint_server = "https://emdata1.int.janelia.org:11000"
+<p></p><pre>neuprint_server = "https://neuprint.janelia.org"
   neuprint_token =
   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
    neuprint_dataset = "hemibrain"</pre>
@@ -256,7 +256,7 @@ reused automatically.</p></td>
   to specify default neuPrint login options including your personal access
   token. The startup options have the same names as the environment variables
   listed above, so you can place code along the lines of:</p>
-<p><code><a href='https://rdrr.io/r/base/options.html'>options(neuprint_server = 'https://emdata1.int.janelia.org:11000',
+<p><code><a href='https://rdrr.io/r/base/options.html'>options(neuprint_server = 'https://neuprint.janelia.org',
   neuprint_token =
   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
    neuprint_dataset = 'hemibrain' )</a></code></p>
@@ -284,8 +284,13 @@ reused automatically.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## example explicitly specifying connection options</span>
-<span class='no'>conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_login</span>(<span class='kw'>server</span><span class='kw'>=</span> <span class='st'>"https://emdata1.int.janelia.org:11000"</span>,
-  <span class='kw'>token</span><span class='kw'>=</span> <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span>)
+<span class='no'>conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_login</span>(<span class='kw'>server</span><span class='kw'>=</span> <span class='st'>"neuprint.janelia.org"</span>,
+  <span class='kw'>token</span><span class='kw'>=</span> <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5za
+  GFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIj
+  oiaHR0cHM7Ly9saDQuZ35vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUF
+  BQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21v
+  L3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjM2HH0.jhh1nMDBPl5A1HYKcszXM518NZ
+  eAhZG9jKy3hzVOWEU"</span>)
 
 
 <span class='co'>## examples assuming that neuprint_* environment variables/options are set</span>

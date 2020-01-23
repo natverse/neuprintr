@@ -83,7 +83,7 @@
 <div id="neuprintr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#neuprintr" class="anchor"></a>neuprintr</h1></div>
-<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain">hemibrain</a> densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>. Using this R package in concert with the <a href="https://github.com/jefferis/nat">nat</a> ecosystem developed primarily by Greg Jefferis is highly recommended. Hor more information, have a look <a href="https://neuprint.janelia.org/help">here</a>.</p>
+<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain">hemibrain</a> densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>. For more information, have a look <a href="https://neuprint.janelia.org/help">here</a>. Using this R package in concert with the <a href="https://github.com/jefferis/nat">nat</a> ecosystem developed primarily by Greg Jefferis is highly recommended.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -102,7 +102,7 @@
 <p>To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. For detailed instructions use:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">?neuprint_login</a></code></pre></div>
 <p>To get started quickly, all you need to do is</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">conn =<span class="st"> </span><span class="kw"><a href="reference/neuprint_login.html">neuprint_login</a></span>(<span class="dt">server=</span> <span class="st">"https://emdata1.int.janelia.org:11000"</span>,</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">conn =<span class="st"> </span><span class="kw"><a href="reference/neuprint_login.html">neuprint_login</a></span>(<span class="dt">server=</span> <span class="st">"https://neuprint.janelia.org/"</span>,</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">   <span class="dt">token=</span> <span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># nb this token is a dummy</span></a></code></pre></div>
 </div>
@@ -118,7 +118,7 @@
 <a class="sourceLine" id="cb4-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw"><a href="reference/neuprint_ROIs.html">neuprint_ROIs</a></span>()</a></code></pre></div>
-<p>Use the client to request data from neuprint. The method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://emdata1.int.janelia.org:11000/help" class="uri">https://emdata1.int.janelia.org:11000/help</a>.</p>
+<p>Use the client to request data from neuprint. The method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://neuprint.janelia.org/help" class="uri">https://neuprint.janelia.org/help</a>.</p>
 <p>Some cyphers and other API endpoints have been explored by this package. Have a look a the functions, for example, that give you neuron skeletons, synapse locations, connectivity matrices, etc.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">?neuprint_get_adjacency_matrix</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">?neuprint_ROI_connectivity</a>
@@ -129,6 +129,7 @@
 <h2 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h2>
 <ul>
+<li><p>HemiBrain (hemibrain:v1.0) : from <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1">“A Connectome of the Adult Drosophila Central Brain”</a> (Xu, et al. 2020)</p></li>
 <li><p>mushroombody (mb6) : from <a href="https://elifesciences.org/articles/26975">“A connectome of a learning and memory center in the adult Drosophila brain”</a> (Takemura, et al. 2017)</p></li>
 <li><p>medulla7column (fib25) : from <a href="https://www.pnas.org/content/112/44/13711">“Synaptic circuits and their variations within different columns in the visual system of Drosophila”</a> (Takemura, et al. 2015)</p></li>
 </ul>
@@ -136,7 +137,7 @@
 <div id="acknowledging-the-data-and-tools" class="section level2">
 <h2 class="hasAnchor">
 <a href="#acknowledging-the-data-and-tools" class="anchor"></a>Acknowledging the data and tools</h2>
-<p>Neuprint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: <a href="https://github.com/connectome-neuprint/neuPrintHTTP">neuPrintHTTP</a>, <a href="https://github.com/connectome-neuprint/neuPrintExplorer">neuPrintExplorer</a>, <a href="https://github.com/connectome-neuprint/neuprint-python">Python API</a>.</p>
+<p>neuPrint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: <a href="https://github.com/connectome-neuprint/neuPrintHTTP">neuPrintHTTP</a>, <a href="https://github.com/connectome-neuprint/neuPrintExplorer">neuPrintExplorer</a>, <a href="https://github.com/connectome-neuprint/neuprint-python">Python API</a>.</p>
 <p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Gregory Jefferis</a> with Romain <a href="https://scholar.google.com/citations?user=I7yBLlsAAAAJ&amp;hl=en">Franconville</a> now providing key contributions. You can cite this package as:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">package =</span> <span class="st">"neuprintr"</span>)</a></code></pre></div>
 <p><strong>Bates AS, Franconville R, Jefferis GSXE</strong> (2019). <em>neuprintr: R client utilities for interacting with the neuPrint connectome analysis service.</em> <strong>R package</strong> version 0.4.0. <a href="https://github.com/natverse/neuprintr" class="uri">https://github.com/natverse/neuprintr</a></p>
