@@ -105,7 +105,7 @@ neuprint_read_neuron <- function(bodyid,
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    n = neuprint_read_neuron_simple(as.numeric(bodyid),dataset=dataset,conn = conn,heal = FALSE,...)
+    n = neuprint_read_neuron_simple(as.numeric(bodyid),dataset=dataset,conn = conn, heal = FALSE,...)
   }
   if(heal|flow.centrality){
     n = suppressWarnings( heal_skeleton(x = n) )

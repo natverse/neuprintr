@@ -18,7 +18,7 @@ neuprint_locate_soma <- function(bodyids, dataset = NULL, all_segments = TRUE, c
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyId, n.somaLocation AS soma",
                    jsonlite::toJSON(as.numeric(unique(bodyids))),
                    paste0(dp, all_segments.json))
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   if(length(nc$data)==0){
     coordinates = matrix(c(NA,NA,NA),nrow=length(bodyids),ncol=3)
     coordinates = cbind(data.frame(bodyid=bodyids),coordinates)
