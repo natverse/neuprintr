@@ -148,7 +148,7 @@ After successful login, the \code{neuprint_connection} object will
 \examples{
 \dontrun{
 ## example explicitly specifying connection options
-conn = neuprint_login(server= "neuprint-test.janelia.org",
+conn = neuprint_login(server= "neuprint.janelia.org",
   token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5za
   GFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIj
   oiaHR0cHM7Ly9saDQuZ35vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUF
