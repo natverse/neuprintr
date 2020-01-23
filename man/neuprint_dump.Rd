@@ -13,7 +13,7 @@ neuprint_dump(
   volumes = TRUE,
   meta = TRUE,
   nat = TRUE,
-  drvid = TRUE,
+  drvid = FALSE,
   flow.centrality = FALSE,
   soma = TRUE,
   estimate.soma = FALSE,
