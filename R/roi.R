@@ -44,7 +44,7 @@ neuprint_find_neurons <- function(input_ROIs,
                             json=unlist(f[columns=="roiInfo"])))
   innervation = do.call(rbind,innervation)
   neurons = cbind(neurons,innervation)
-  as.data.frame(t(apply(neurons,1,unlist)))
+  as.data.frame(t(apply(neurons,1,unlist)),stringsAsFactors=FALSE)
 }
 
 #' @export
