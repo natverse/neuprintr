@@ -25,7 +25,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
     namefield,
     namefield
   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
   rownames(m) = colnames(m) = bodyids
   for(i in 1:length(nc$data)){
@@ -86,7 +86,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
                    ifelse(prepost=="POST","bodyid","partner"),
                    ifelse(prepost=="POST","partner","bodyid")
                   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
   nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
   d <-  data.frame(do.call(rbind,lapply(nc$data,unlist)),stringsAsFactors = FALSE)
@@ -265,7 +265,7 @@ neuprint_get_paths <- function(body_pre,body_post,n,weightT=5,roi=NULL,dataset =
   ifelse(is.null(roi),"",roi)
   )
 
-  nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
+  nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
 
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
                   l <- d[[1]]
@@ -331,7 +331,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
   ifelse(is.null(roi),"",roi)
   )
 
-  nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn)
+  nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset=dataset, ...)
 
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
     l <- d[[1]]

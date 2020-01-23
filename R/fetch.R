@@ -92,7 +92,7 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE, ...) {
 }
 
 #' @importFrom memoise memoise
-neuprint_name_field <- memoise(function(conn=NULL) {
+neuprint_name_field <- memoise(function(conn=NULL, dataset = NULL) {
   if (is.null(conn))
     stop(
       "You must do\n  conn = neuprint_login(conn)\n",
@@ -100,7 +100,7 @@ neuprint_name_field <- memoise(function(conn=NULL) {
       call. = FALSE
     )
   q="MATCH (n :hemibrain_Neuron) WHERE exists(n.instance) RETURN count(n)"
-  n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
+  n=unlist(neuprint_fetch_custom(q, dataset = dataset, include_headers=F)[['data']])
   return(ifelse(n>0, "instance", "name"))
 })
 
@@ -113,7 +113,7 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
       call. = FALSE
     )
   # q=sprintf("MATCH (n:`%s_Segment`) RETURN count(n)", dataset)
-  # n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
+  # n=unlist(neuprint_fetch_custom(q, dataset = dataset, include_headers=F)[['data']])
   #paste0(dataset, ifelse(n>0, "_", "-")) # I think we no longer need to specify the dataset. Might be good to keep this function in place though, in case situation changes
   ""
 })
@@ -126,7 +126,7 @@ check_dataset <- function(dataset=NULL) {   # Get a default dataset if none spec
       warning("Please supply a dataset or set a default one using the ",
            "neuprint_dataset environment variable! See ?neuprint_login for details.
            For now we will use hemibrain:v1.0")
-    dataset = "hemibrain:1.0"
+    dataset = "hemibrain:v1.0"
     }
   }
   dataset

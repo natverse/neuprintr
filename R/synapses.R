@@ -75,7 +75,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                         prefixed_seg,
                         prefixed_seg,
                         roi)
-  nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, ...)
+  nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, dataset = dataset, ...)
   nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, ...)
   m = rbind(do.call(rbind,nc.post$data),do.call(rbind,nc.pre$data))
   colnames(m) =  nc.post$columns
