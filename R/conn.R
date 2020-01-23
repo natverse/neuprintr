@@ -73,7 +73,7 @@
 #'
 #'   } An example \code{.Renviron} file might look like:
 #'
-#'   \preformatted{neuprint_server = "https://emdata1.int.janelia.org:11000"
+#'   \preformatted{neuprint_server = "https://neuprint.janelia.org"
 #'   neuprint_token =
 #'   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
 #'    neuprint_dataset = "hemibrain"}
@@ -88,7 +88,7 @@
 #'   token. The startup options have the same names as the environment variables
 #'   listed above, so you can place code along the lines of:
 #'
-#'   \code{options(neuprint_server = 'https://emdata1.int.janelia.org:11000',
+#'   \code{options(neuprint_server = 'https://neuprint.janelia.org',
 #'   neuprint_token =
 #'   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
 #'    neuprint_dataset = 'hemibrain' )}

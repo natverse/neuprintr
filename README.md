@@ -21,10 +21,10 @@ Campus. The main focus is analysis of the
 [hemibrain](https://www.janelia.org/project-team/flyem/hemibrain)
 densely reconstructed adult Drosophila brain dataset available at
 <a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>.
-Using this R package in concert with the
-[nat](https://github.com/jefferis/nat) ecosystem developed primarily by
-Greg Jefferis is highly recommended. Hor more information, have a look
-[here](https://neuprint.janelia.org/help).
+For more information, have a look
+[here](https://neuprint.janelia.org/help). Using this R package in
+concert with the [nat](https://github.com/jefferis/nat) ecosystem
+developed primarily by Greg Jefferis is highly recommended.
 
 Installation
 ------------
@@ -85,7 +85,7 @@ neuprint_ROIs()
 Use the client to request data from neuprint. The method will run an
 arbitrary cypher query against the database. For information about the
 neuprint data model, see the neuprint explorer web help:
-<a href="https://emdata1.int.janelia.org:11000/help" class="uri">https://emdata1.int.janelia.org:11000/help</a>.
+<a href="https://neuprint.janelia.org/help" class="uri">https://neuprint.janelia.org/help</a>.
 
 Some cyphers and other API endpoints have been explored by this package.
 Have a look a the functions, for example, that give you neuron
