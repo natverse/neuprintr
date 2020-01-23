@@ -7,6 +7,7 @@ id2json <- function(x, uniqueids=TRUE, ...) {
 
 # ... this bit might also be useful
 id2bit64 <- function(x) {
+  x=unlist(x, use.names = FALSE)
   if(is.factor(x)) {
     x=as.character(x)
   }

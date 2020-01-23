@@ -23,5 +23,6 @@ test_that("id conversion works", {
                big.json)
   expect_equal(as.character(id2json(c(bigid, bigid), uniqueids=FALSE)),
                big.json2)
-
+  expect_equal(as.character(id2json(list(bigid, bigid))),
+               big.json)
 })
