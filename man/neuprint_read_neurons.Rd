@@ -70,7 +70,7 @@ or the Euclidean distance of its first branch point from the primary branch poin
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
 
-\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in rhe dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
+\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
 
 \item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}}
 

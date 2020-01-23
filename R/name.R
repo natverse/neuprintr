@@ -80,7 +80,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, c
 
 #' @title Search for body IDs based on a given name
 #'
-#' @description Search for bodyids corresponding to a given name, Reex sensitive
+#' @description Search for bodyids corresponding to a given name, Regex sensitive
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param search name to search. See examples.
 #' @param meta if TRUE, meta data for found bodyids is also pulled

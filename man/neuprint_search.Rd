@@ -31,7 +31,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 a vector of body ids, or a data frame with their meta information
 }
 \description{
-Search for bodyids corresponding to a given name, Reex sensitive
+Search for bodyids corresponding to a given name, Regex sensitive
 }
 \examples{
 \donttest{

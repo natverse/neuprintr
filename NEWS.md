@@ -6,7 +6,7 @@ Much of this work was contributed by Romain Franconville, who is now a core
 author of the package.
 
 * Add @romainFr as an author
-* udpate readme to mention hemibrain dataset
+* Update README to mention hemibrain dataset
 * Return the cropped parameter in `neuprint_get_meta()` (#24) 
 * Add `neuprint_get_paths()`, `neuprint_get_shortest_paths()` functions to find connection paths between neurons (#15, #17, #23)
 * Roi connectivity fixes (#21, #20)
@@ -26,7 +26,7 @@ author of the package.
   by @romainFr)
 * Correction to `neuprint_connection_table()` and `neuprint_get_synapses()` for 
   ROIs with parentheses (#4 by @romainFr)
-* Fix grepl for ROIs (#3 by @romainFr)
+* Fix `grepl` for ROIs (#3 by @romainFr)
 * A few changes in metadata pulling (#2 by @romainFr)
 * Fix bug in `neuprint_connection()` for explicit server / token arguments.
 * Fix bug in `neuprint_fetch()` when server ends in a /

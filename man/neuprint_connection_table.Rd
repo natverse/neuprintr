@@ -22,7 +22,7 @@ neuprint_connection_table(
 
 \item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
 
-\item{progress}{default FALSE. If TRUE, the API is called separately for each neuron and yuo can asses its progress, if an error is thrown by any one bodyid, that bodyid is ignored}
+\item{progress}{default FALSE. If TRUE, the API is called separately for each neuron and you can assess its progress, if an error is thrown by any one \code{bodyid}, that \code{bodyid} is ignored}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
 

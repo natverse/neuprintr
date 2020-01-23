@@ -16,7 +16,7 @@
 #' This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
 #' or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
-#' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in rhe dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses
+#' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses
 #' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
 #' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
 #' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
