@@ -31,16 +31,14 @@ neuprint_find_neurons <- function(input_ROIs,
   }
   conn <- neuprint_login(conn)
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
-  dp <- neuprint_dataset_prefix(dataset, conn=conn)
-  prefixed <- paste0(dp, all_segments.json)
-  #all_segments = ifelse(all_segments,"true","false")
+
   roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
 
   cypher <- sprintf(paste("MATCH (neuron :%s)",
                           "WHERE %s %s",
                           "WITH neuron AS neuron, apoc.convert.fromJsonMap(neuron.roiInfo) AS roiInfo",
                           "RETURN neuron.bodyId AS bodyid, neuron.instance AS name, neuron.type AS type, neuron.pre AS pre, neuron.post AS post,%s %s"),
-                    prefixed,
+                    all_segments.json,
                     ifelse(is.null(statuses),"",paste0("(",paste("neuron.status = ",statuses,collapse=" OR "),") AND")),
                     paste0("(",paste0("neuron.",c(input_ROIs,output_ROIs),collapse=" AND "),")"),
                     ifelse(is.null(input_ROIs),"",paste0("roiInfo.`",input_ROIs,"`.post AS `",input_ROIs,".post`",collapse=",")),
@@ -56,11 +54,11 @@ neuprint_find_neurons <- function(input_ROIs,
 neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
-  dp=neuprint_dataset_prefix(dataset, conn=conn)
+  #dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   cypher = sprintf("MATCH (n :`%s`) WHERE n.%s WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.pre, n.post, roiInfo.%s.pre, roiInfo.%s.post",
-                paste0(dp, all_segments),
+                all_segments,
                 roi,
                 roi,
                 roi)
