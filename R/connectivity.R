@@ -210,26 +210,29 @@ neuprint_simple_connectivity <- function(bodyids,
 
 #' @title Get a list of paths of length n between 2 neurons
 #'
-#' @description  Get all of the paths in the database that connect the
-#'   query neurons with at least weightT synapses at each step
+#' @description  Get all of the paths in the database that connect the query
+#'   neurons with at least \code{weightT} synapses at each step
 #' @param body_pre the bodyid of the neuron at the start of the path
 #' @param body_post the bodyid of the neuron at the end of the path
-#' @param n the length of the path. If n is a vector, paths of length n[1] to n[2] are considered
+#' @param n the length of the path. If \code{n} is a vector, paths of length
+#'   n[1] to n[2] are considered
 #' @param weightT weight threshold
 #' @param dataset optional, a dataset you want to query. If NULL, the default
 #'   specified by your R environ file is used. See \code{neuprint_login} for
 #'   details.
-#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only
+#'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param conn optional, a neuprintr connection object, which also specifies the
 #'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 #'   set in your R.profile or R.environ are used.
-#' @param roi Limit the search to connections happening within a certain ROI or set of ROIs (NULL by default)
+#' @param roi Limit the search to connections happening within a certain ROI or
+#'   set of ROIs (NULL by default)
 #' @param ... methods passed to \code{neuprint_login}
 #' @return
-#' @seealso \code{\link{neuprint_common_connectivity}},
+#' @seealso \code{\link{neuprint_get_shortest_paths}},
+#'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
-#' @rdname neuprint_get_paths
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
@@ -299,17 +302,19 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #' @param dataset optional, a dataset you want to query. If NULL, the default
 #'   specified by your R environ file is used. See \code{neuprint_login} for
 #'   details.
-#' @param roi Limit the search to connections happening within a certain ROI or set of ROIs (NULL by default)
-#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
+#' @param roi Limit the search to connections happening within a certain ROI or
+#'   set of ROIs (NULL by default)
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only
+#'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param conn optional, a neuprintr connection object, which also specifies the
 #'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 #'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
 #' @return
-#' @seealso \code{\link{neuprint_common_connectivity}},
+#' @seealso \code{\link{neuprint_get_paths}},
+#'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
-#' @rdname neuprint_get_shortest_paths
 neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   dataset <- check_dataset(dataset)

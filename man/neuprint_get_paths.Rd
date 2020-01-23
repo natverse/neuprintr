@@ -21,11 +21,13 @@ neuprint_get_paths(
 
 \item{body_post}{the bodyid of the neuron at the end of the path}
 
-\item{n}{the length of the path. If n is a vector, paths of length n[1] to n[2] are considered}
+\item{n}{the length of the path. If \code{n} is a vector, paths of length
+n[1] to n[2] are considered}
 
 \item{weightT}{weight threshold}
 
-\item{roi}{Limit the search to connections happening within a certain ROI or set of ROIs (NULL by default)}
+\item{roi}{Limit the search to connections happening within a certain ROI or
+set of ROIs (NULL by default)}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default
 specified by your R environ file is used. See \code{neuprint_login} for
@@ -35,7 +37,8 @@ details.}
 neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 set in your R.profile or R.environ are used.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
@@ -43,10 +46,11 @@ set in your R.profile or R.environ are used.}
 
 }
 \description{
-Get all of the paths in the database that connect the
-  query neurons with at least weightT synapses at each step
+Get all of the paths in the database that connect the query
+  neurons with at least \code{weightT} synapses at each step
 }
 \seealso{
-\code{\link{neuprint_common_connectivity}},
+\code{\link{neuprint_get_shortest_paths}},
+  \code{\link{neuprint_common_connectivity}},
   \code{\link{neuprint_get_adjacency_matrix}}
 }

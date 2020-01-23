@@ -22,7 +22,8 @@ neuprint_get_shortest_paths(
 
 \item{weightT}{weight threshold}
 
-\item{roi}{Limit the search to connections happening within a certain ROI or set of ROIs (NULL by default)}
+\item{roi}{Limit the search to connections happening within a certain ROI or
+set of ROIs (NULL by default)}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default
 specified by your R environ file is used. See \code{neuprint_login} for
@@ -32,7 +33,8 @@ details.}
 neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 set in your R.profile or R.environ are used.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
@@ -44,6 +46,7 @@ Get all of the shortest paths in the database that connect the
   query neurons with at least weightT synapses at each step
 }
 \seealso{
-\code{\link{neuprint_common_connectivity}},
+\code{\link{neuprint_get_paths}},
+  \code{\link{neuprint_common_connectivity}},
   \code{\link{neuprint_get_adjacency_matrix}}
 }
