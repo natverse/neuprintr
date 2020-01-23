@@ -8,17 +8,16 @@
 neuprint_find_neurons(
   input_ROIs,
   output_ROIs = NULL,
-  statuses = NULL,
   dataset = NULL,
   conn = NULL,
-  all_segments = TRUE,
+  all_segments = FALSE,
   ...
 )
 
 neuprint_bodies_in_ROI(
   roi,
   dataset = NULL,
-  all_segments = TRUE,
+  all_segments = FALSE,
   conn = NULL,
   ...
 )
@@ -27,9 +26,6 @@ neuprint_bodies_in_ROI(
 \item{input_ROIs}{a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.}
 
 \item{output_ROIs}{a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.}
-
-\item{statuses}{if not NULL, only bodies with the given status are considered. Statuses include:
-Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
 
@@ -47,6 +43,11 @@ a n x n matrix, where the rows are input neurons and the columns are their targe
 }
 \description{
 Find bodies that input/output within certain ROIs (i.e. they must have synapses in these areas)
+}
+\examples{
+\donttest{
+neuprint_get_neuron_names(c(818983130, 1796818119))
+}
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}

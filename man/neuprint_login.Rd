@@ -148,8 +148,13 @@ After successful login, the \code{neuprint_connection} object will
 \examples{
 \dontrun{
 ## example explicitly specifying connection options
-conn = neuprint_login(server= "https://emdata1.int.janelia.org:11000",
-  token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU")
+conn = neuprint_login(server= "neuprint-test.janelia.org",
+  token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5za
+  GFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIj
+  oiaHR0cHM7Ly9saDQuZ35vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUF
+  BQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21v
+  L3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjM2HH0.jhh1nMDBPl5A1HYKcszXM518NZ
+  eAhZG9jKy3hzVOWEU")
 
 
 ## examples assuming that neuprint_* environment variables/options are set

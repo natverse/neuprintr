@@ -3,6 +3,7 @@
 \name{neuprint_read_neurons}
 \alias{neuprint_read_neurons}
 \alias{neuprint_read_neuron}
+\alias{neuprint_read_neuron_simple}
 \title{Read bodies from the neuPrint server as skeletons}
 \usage{
 neuprint_read_neurons(
@@ -38,6 +39,14 @@ neuprint_read_neuron(
   all_segments = TRUE,
   resample = FALSE,
   conn = NULL,
+  ...
+)
+
+neuprint_read_neuron_simple(
+  bodyid,
+  dataset = NULL,
+  conn = NULL,
+  heal = TRUE,
   ...
 )
 }
@@ -91,7 +100,14 @@ a data frame in SWC format, or a neuron/neuronlist object as dictated used by th
 }
 \description{
 Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package
+Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
+If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retrieved.
+}
+\examples{
+\donttest{
+n = neuprint_read_neurons("5813115796")
+nat::plot3d(n, col = "purple", lwd = 2)
+}
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
