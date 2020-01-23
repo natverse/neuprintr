@@ -78,7 +78,7 @@ For some datasets, somata positions have been mapped to pixels within a soma vol
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
@@ -127,11 +127,15 @@ For some datasets, somata positions have been mapped to pixels within a soma vol
 <p>For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_assign_connectors</span>(<span class='no'>x</span>, <span class='kw'>bodyids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>neuprint_assign_connectors</span>(<span class='no'>x</span>, <span class='kw'>bodyids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
-<span class='fu'>neuprint_locate_soma</span>(<span class='no'>bodyids</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>neuprint_locate_soma</span>(
+  <span class='no'>bodyids</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,11 +191,11 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

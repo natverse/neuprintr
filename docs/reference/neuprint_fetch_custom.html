@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
@@ -125,8 +125,11 @@
     <p>Get summary information about the datasets hosted by the neuPrint server in which you are interested</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_fetch_custom</span>(<span class='kw'>cypher</span> <span class='kw'>=</span> <span class='st'>"MATCH (n:Meta) RETURN n.dataset, n.meshHost"</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_fetch_custom</span>(
+  <span class='kw'>cypher</span> <span class='kw'>=</span> <span class='st'>"MATCH (n:Meta) RETURN n.dataset, n.meshHost"</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,11 +167,11 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
@@ -125,11 +125,23 @@
     <p>Find bodies that input/output within certain ROIs (i.e. they must have synapses in these areas)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_find_neurons</span>(<span class='no'>input_ROIs</span>, <span class='kw'>output_ROIs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>statuses</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>neuprint_find_neurons</span>(
+  <span class='no'>input_ROIs</span>,
+  <span class='kw'>output_ROIs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>statuses</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>neuprint_bodies_in_ROI</span>(<span class='no'>roi</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>neuprint_bodies_in_ROI</span>(
+  <span class='no'>roi</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,11 +204,11 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

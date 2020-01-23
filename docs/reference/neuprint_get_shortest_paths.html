@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Search for body IDs based on a given name — neuprint_search • neuprintr</title>
+<title>Get a list of the shortest paths between 2 neurons — neuprint_get_shortest_paths • neuprintr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,9 @@
 
 
 
-<meta property="og:title" content="Search for body IDs based on a given name — neuprint_search" />
-<meta property="og:description" content="Search for bodyids corresponding to a given name, Reex sensitive" />
+<meta property="og:title" content="Get a list of the shortest paths between 2 neurons — neuprint_get_shortest_paths" />
+<meta property="og:description" content="Get all of the shortest paths in the database that connect the
+  query neurons with at least weightT synapses at each step" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -116,21 +117,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Search for body IDs based on a given name</h1>
-    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/name.R'><code>R/name.R</code></a></small>
-    <div class="hidden name"><code>neuprint_search.Rd</code></div>
+    <h1>Get a list of the shortest paths between 2 neurons</h1>
+    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/connectivity.R'><code>R/connectivity.R</code></a></small>
+    <div class="hidden name"><code>neuprint_get_shortest_paths.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Search for bodyids corresponding to a given name, Reex sensitive</p>
+    <p>Get all of the shortest paths in the database that connect the
+  query neurons with at least weightT synapses at each step</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_search</span>(
-  <span class='no'>search</span>,
-  <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>neuprint_get_shortest_paths</span>(
+  <span class='no'>body_pre</span>,
+  <span class='no'>body_post</span>,
+  <span class='kw'>weightT</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -138,25 +142,38 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>search</th>
-      <td><p>name to search. See examples.</p></td>
+      <th>body_pre</th>
+      <td><p>the bodyid of the neuron at the start of the path</p></td>
     </tr>
     <tr>
-      <th>meta</th>
-      <td><p>if TRUE, meta data for found bodyids is also pulled</p></td>
+      <th>body_post</th>
+      <td><p>the bodyid of the neuron at the end of the path</p></td>
     </tr>
     <tr>
-      <th>all_segments</th>
-      <td><p>if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
+      <th>weightT</th>
+      <td><p>weight threshold</p></td>
+    </tr>
+    <tr>
+      <th>roi</th>
+      <td><p>Limit the search to connections happening within a certain ROI or
+set of ROIs (NULL by default)</p></td>
     </tr>
     <tr>
       <th>dataset</th>
-      <td><p>optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See <code>neuprint_login</code> for details.</p></td>
+      <td><p>optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See <code>neuprint_login</code> for
+details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>optional, a neuprintr connection object, which also specifies the neuPrint server see <code><a href='neuprint_login.html'>?neuprint_login</a></code>.
-If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
+      <td><p>optional, a neuprintr connection object, which also specifies the
+neuPrint server see <code><a href='neuprint_login.html'>neuprint_login</a></code>. If NULL, your defaults
+set in your R.profile or R.environ are used.</p></td>
+    </tr>
+    <tr>
+      <th>all_segments</th>
+      <td><p>if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -166,26 +183,22 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector of body ids, or a data frame with their meta information</p>
+    
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_search</span>(<span class='st'>".*DA2.*"</span>)</div><div class='output co'>#&gt;       bodyid              name    type status    voxels pre post cropped
-#&gt; 1 1796817841 mPN1_DA2(AVM02)_R DA2 lPN Traced 723036360 392  512   FALSE
-#&gt; 2 1827516355 mPN1_DA2(AVM02)_R DA2 lPN Traced 737014743 391  548   FALSE
-#&gt; 3  818983130 mPN1_DA2(AVM02)_R DA2 lPN Traced 606338969 408  562   FALSE
-#&gt; 4 1797505019 mPN1_DA2(AVM02)_R DA2 lPN Traced 445320106 339  479   FALSE
-#&gt; 5 1796818119 mPN1_DA2(AVM02)_R DA2 lPN Traced 907369420 510  818   FALSE</div><div class='input'><span class='co'># }</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>)
-}</div></pre>
+
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='neuprint_get_paths.html'>neuprint_get_paths</a></code>,
+  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
+  <code><a href='neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

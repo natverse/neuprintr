@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
@@ -125,13 +125,31 @@
     <p>Download neuron morphology and connectivity data to a specified directory as .csv and .rda files</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_dump</span>(<span class='no'>dir</span>, <span class='kw'>bodyids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>preprocess</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>connectivity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>volumes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>voxel.thresh</span> <span class='kw'>=</span> <span class='fl'>1e+07</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"postsynapses"</span>, <span class='st'>"presynapses"</span>,
-  <span class='st'>"distance"</span>), <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>OmitFailures</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_dump</span>(
+  <span class='no'>dir</span>,
+  <span class='kw'>bodyids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>preprocess</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>connectivity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>volumes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>flow.centrality</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>voxel.thresh</span> <span class='kw'>=</span> <span class='fl'>1e+07</span>,
+  <span class='kw'>split</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"postsynapses"</span>, <span class='st'>"presynapses"</span>, <span class='st'>"distance"</span>),
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>OmitFailures</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -262,11 +280,11 @@ details.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

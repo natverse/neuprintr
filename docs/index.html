@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
@@ -83,13 +83,13 @@
 <div id="neuprintr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#neuprintr" class="anchor"></a>neuprintr</h1></div>
-<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. Using this R package in concert with the <a href="https://github.com/jefferis/nat">nat</a> ecosystem developed primarily by Greg Jefferis is highly recommended. Hor more information, have a look <a href="https://neuprint.janelia.org/help">here</a>.</p>
+<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain">hemibrain</a> densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>. Using this R package in concert with the <a href="https://github.com/jefferis/nat">nat</a> ecosystem developed primarily by Greg Jefferis is highly recommended. Hor more information, have a look <a href="https://neuprint.janelia.org/help">here</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"natverse/neuprintr"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"natverse/neuprintr"</span>)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># use </span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(neuprintr)</a></code></pre></div>
@@ -137,9 +137,9 @@
 <h2 class="hasAnchor">
 <a href="#acknowledging-the-data-and-tools" class="anchor"></a>Acknowledging the data and tools</h2>
 <p>Neuprint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: <a href="https://github.com/connectome-neuprint/neuPrintHTTP">neuPrintHTTP</a>, <a href="https://github.com/connectome-neuprint/neuPrintExplorer">neuPrintExplorer</a>, <a href="https://github.com/connectome-neuprint/neuprint-python">Python API</a>.</p>
-<p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Gregory Jefferis</a>. You can cite this package as:</p>
+<p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Gregory Jefferis</a> with Romain <a href="https://scholar.google.com/citations?user=I7yBLlsAAAAJ&amp;hl=en">Franconville</a> now providing key contributions. You can cite this package as:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">package =</span> <span class="st">"neuprintr"</span>)</a></code></pre></div>
-<p><strong>Bates AS, Jefferis GSXE</strong> (2019). <em>neuprintr: R client utilities for interacting with the neuPrint connectome analysis service.</em> <strong>R package</strong> version 0.1.0. <a href="https://github.com/natverse/neuprintr" class="uri">https://github.com/natverse/neuprintr</a></p>
+<p><strong>Bates AS, Franconville R, Jefferis GSXE</strong> (2019). <em>neuprintr: R client utilities for interacting with the neuPrint connectome analysis service.</em> <strong>R package</strong> version 0.4.0. <a href="https://github.com/natverse/neuprintr" class="uri">https://github.com/natverse/neuprintr</a></p>
 </div>
 </div>
 
@@ -166,6 +166,7 @@
 <ul class="list-unstyled">
 <li>Alexander Bates <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1195-0445" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li>Gregory Jefferis <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0587-9355" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li>Romain Franconville <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-4440-7297" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 </ul>
 </div>
 
@@ -174,11 +175,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

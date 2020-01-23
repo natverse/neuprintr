@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
@@ -125,8 +125,13 @@
     <p>If a bodyID has a name associated with it, fetch that name, otherwise, return NA</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_neuron_names</span>(<span class='no'>bodyids</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_get_neuron_names</span>(
+  <span class='no'>bodyids</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,8 +165,8 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_get_neuron_names</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt;         818983130        1796818119 
-#&gt; "mPN1_DA2(A12)_R" "mPN1_DA2(A12)_R" </div><div class='input'># }
+<span class='fu'>neuprint_get_neuron_names</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt;           818983130          1796818119 
+#&gt; "mPN1_DA2(AVM02)_R" "mPN1_DA2(AVM02)_R" </div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -178,11 +183,11 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

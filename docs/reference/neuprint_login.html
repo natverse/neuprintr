@@ -88,7 +88,7 @@ The connection object returned by neuprint_login (or cached when
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
@@ -146,8 +146,12 @@ The connection object returned by neuprint_login (or cached when
   neuPrint server by get/query/fetch functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_connection</span>(<span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>())
+    <pre class="usage"><span class='fu'>neuprint_connection</span>(
+  <span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>()
+)
 
 <span class='fu'>neuprint_login</span>(<span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>Force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
@@ -327,11 +331,11 @@ reused automatically.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
