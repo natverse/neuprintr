@@ -11,8 +11,6 @@ neuprint_read_neurons(
   meta = TRUE,
   nat = TRUE,
   drvid = FALSE,
-  flow.centrality = FALSE,
-  split = c("postsynapses", "presynapses", "distance"),
   soma = TRUE,
   estimate.soma = FALSE,
   heal = TRUE,
@@ -29,8 +27,6 @@ neuprint_read_neuron(
   bodyid,
   nat = TRUE,
   drvid = FALSE,
-  flow.centrality = FALSE,
-  split = c("postsynapses", "presynapses", "distance"),
   soma = TRUE,
   estimate.soma = FALSE,
   heal = TRUE,
@@ -59,14 +55,6 @@ neuprint_read_neuron_simple(
 
 \item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
 This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.}
-
-\item{flow.centrality}{if TRUE, the neuron is split into primary neurite, axon and dendrite based on its flow centrality, as specified by  Schneider-Mizell et al. (2016),
-using \code{catnat::flow.centrality}}
-
-\item{split}{the algorithm will assign two main neurite compartments, which as per SWC format will be indicates as either axon (Label =2)
-or dendrite (Label = 3) in the returned objects, at neuron$d$Label.
-This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
-or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
 

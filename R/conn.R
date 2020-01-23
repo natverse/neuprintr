@@ -55,7 +55,7 @@
 #'
 #'   You will very likely want to set the following environment variables in
 #'   your \code{.Renviron} file (see \code{\link{Startup}} for details). This
-#'   file is read by R on startup. In this way the catmaid package will
+#'   file is read by R on startup. In this way the neuprintr package will
 #'   automatically login to your preferred neuPrint server. Note that
 #'   environment variables will also be inherited by child R sessions. This
 #'   means for example that they will be available when running knitr reports,
@@ -76,11 +76,11 @@
 #'   \preformatted{neuprint_server = "https://neuprint.janelia.org"
 #'   neuprint_token =
 #'   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
-#'    neuprint_dataset = "hemibrain"}
+#'    neuprint_dataset = "hemibrain:v1.0"}
 #'
 #'   and \bold{must} finish with a return at the end of the last line. Your
 #'   \code{neuprint_token} is unique to you and must be obtained from a neuPrint
-#'   web page once you havw logged in with an approved Google account.
+#'   web page once you have logged in with an approved Google account.
 #'
 #' @section Options: Although setting environment variables is the recommended
 #'   approach, you can also set R startup options e.g. in your \code{.Rprofile}
@@ -91,7 +91,7 @@
 #'   \code{options(neuprint_server = 'https://neuprint.janelia.org',
 #'   neuprint_token =
 #'   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU",
-#'    neuprint_dataset = 'hemibrain' )}
+#'    neuprint_dataset = 'hemibrain:v1.0' )}
 #'
 #'   in your \code{.Rprofile} (see \code{\link{Startup}} for details). Note that
 #'   it is important to have a final return at the end of your \code{.Rprofile}

@@ -9,12 +9,6 @@
 #' This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.
 #' @param nat whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)
 #' @param meta whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}
-#' @param flow.centrality if TRUE, the neuron is split into primary neurite, axon and dendrite based on its flow centrality, as specified by  Schneider-Mizell et al. (2016),
-#' using \code{catnat::flow.centrality}
-#' @param split the algorithm will assign two main neurite compartments, which as per SWC format will be indicates as either axon (Label =2)
-#' or dendrite (Label = 3) in the returned objects, at neuron$d$Label.
-#' This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
-#' or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
 #' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses
 #' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
@@ -42,8 +36,6 @@ neuprint_read_neurons <- function(bodyids,
                                   meta = TRUE,
                                   nat = TRUE,
                                   drvid = FALSE,
-                                  flow.centrality = FALSE,
-                                  split = c("postsynapses","presynapses","distance"),
                                   soma = TRUE,
                                   estimate.soma = FALSE,
                                   heal = TRUE,
@@ -53,12 +45,10 @@ neuprint_read_neurons <- function(bodyids,
                                   resample = FALSE,
                                   conn = NULL,
                                   OmitFailures = TRUE, ...){
-  neurons = nat::nlapply(as.numeric(unique(bodyids)),function(bodyid)
+  neurons = nat::nlapply(unique(bodyids),function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
-                         flow.centrality = flow.centrality,
-                         split = split,
                          soma = soma,
                          estimate.soma = estimate.soma,
                          heal = heal,
@@ -86,8 +76,6 @@ neuprint_read_neurons <- function(bodyids,
 neuprint_read_neuron <- function(bodyid,
                                  nat = TRUE,
                                  drvid = FALSE,
-                                 flow.centrality = FALSE,
-                                 split = c("postsynapses","presynapses","distance"),
                                  soma = TRUE,
                                  estimate.soma = FALSE,
                                  heal = TRUE,
@@ -96,7 +84,6 @@ neuprint_read_neuron <- function(bodyid,
                                  all_segments = TRUE,
                                  resample = FALSE,
                                  conn = NULL, ...){
-  split = match.arg(split)
   dataset <- check_dataset(dataset)
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
@@ -107,7 +94,7 @@ neuprint_read_neuron <- function(bodyid,
   }else{
     n = neuprint_read_neuron_simple(as.numeric(bodyid),dataset=dataset,conn = conn, heal = FALSE,...)
   }
-  if(heal|flow.centrality){
+  if(heal){
     n = suppressWarnings( heal_skeleton(x = n) )
     d = n$d
   }
@@ -144,23 +131,6 @@ neuprint_read_neuron <- function(bodyid,
     synapses$treenode_id = n$d[near,"PointNo"]
     synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
     n$connectors = synapses
-  }
-  if(flow.centrality&connectors){
-    if(n$nTrees>1){
-      warning("flow centrality cannot be calculcated for ", bodyid, " , skeleton was not healed")
-    } else {
-      if(!requireNamespace("catnat", quietly = TRUE)) {
-        stop("Please install the suggested catnat package with\n",
-             "  remotes::install_github('jefferislab/catnat')")
-      }
-      n = tryCatch(catnat::flow.centrality(x=n, polypre = FALSE, mode = "centrifugal", split = split, catmaid = FALSE),
-                   error = function(e) n)
-      if(soma){
-        n$d$Label[near.soma] = 1
-      }
-      n$connectors$Label = n$d$Label[match(n$connectors$treenode_id,n$d$PointNo)]
-      d = n$d
-    }
   }
   if(nat){
     n$bodyid = bodyid
