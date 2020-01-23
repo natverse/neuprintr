@@ -61,7 +61,7 @@ detailed instructions use:
 To get started quickly, all you need to do is
 
 ``` r
-conn = neuprint_login(server= "https://emdata1.int.janelia.org:11000",
+conn = neuprint_login(server= "https://neuprint.janelia.org/",
    token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU")
 # nb this token is a dummy
 ```
@@ -101,6 +101,11 @@ skeletons, synapse locations, connectivity matrices, etc.
 Example data
 ------------
 
+-   HemiBrain (hemibrain:v1.0) : from [“A Connectome of the Adult
+    Drosophila Central
+    Brain”](https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1)
+    (Xu, et al. 2020)
+
 -   mushroombody (mb6) : from [“A connectome of a learning and memory
     center in the adult Drosophila
     brain”](https://elifesciences.org/articles/26975) (Takemura, et
@@ -114,7 +119,7 @@ Example data
 Acknowledging the data and tools
 --------------------------------
 
-Neuprint comprises a set of tools for loading and analyzing connectome
+neuPrint comprises a set of tools for loading and analyzing connectome
 data into a Neo4j database. Analyze and explore connectome data stored
 in Neo4j using the neuPrint ecosystem:
 [neuPrintHTTP](https://github.com/connectome-neuprint/neuPrintHTTP),

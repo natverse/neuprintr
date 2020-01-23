@@ -60,7 +60,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                               "WHERE a.bodyId=bodyId AND (s.type='post') %s",
                               "RETURN DISTINCT id(s) AS connector_id,",
                               "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
-                              "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner, c.timeStamp AS timestamp"),
+                              "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner"),
                    jsonlite::toJSON(as.numeric(unlist(bodyids))),
                    prefixed_seg,
                    prefixed_seg,
@@ -70,7 +70,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                        "WHERE a.bodyId=bodyId AND (s.type='pre') %s",
                        "RETURN DISTINCT id(s) AS connector_id,",
                        "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
-                       "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner, c.timeStamp AS timestamp"),
+                       "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner"),
                         jsonlite::toJSON(as.numeric(unlist(bodyids))),
                         prefixed_seg,
                         prefixed_seg,
@@ -84,7 +84,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   m$prepost = ifelse(m$prepost=="post",1,0)
  # m$bodyid = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[3])
  #  m$partner = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[2])
-  m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner", "timestamp")]
+  m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
   m = subset(m, bodyid!=partner) # Automatically remove autapses, hopefully we only need to do this temporarily
   m
 }

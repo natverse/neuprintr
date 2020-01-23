@@ -3,8 +3,7 @@ neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
                            include_headers = TRUE, simplifyVector = FALSE, ...){
   path = gsub("\\/$|^\\/","",path)
   conn = neuprint_login(conn)
-  # you cannot have double / in any part of path
-  server = sub("\\/$", "", conn$server)
+  server = sub("\\/$", "", conn$server) # you cannot have double / in any part of path
   req <-
     if (is.null(body)) {
       httr::GET(url = file.path(server, path, fsep = "/"),
@@ -17,7 +16,7 @@ neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
   if (parse.json) {
     parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)
     if (length(parsed) == 2 && isTRUE(names(parsed)[2] =="error")) {
-      stop("neuprint error: ", parsed$error)
+      stop("neuPrint error: ", parsed$error)
     }
     if (include_headers) {
       fields_to_include = c("url", "headers")
@@ -105,6 +104,7 @@ neuprint_name_field <- memoise(function(conn=NULL) {
   return(ifelse(n>0, "instance", "name"))
 })
 
+# hidden
 neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
   if (is.null(conn))
     stop(
@@ -112,18 +112,22 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
       "before using neuprint_dataset_prefix(conn) in your function!",
       call. = FALSE
     )
-  q=sprintf("MATCH (n:`%s_Neuron`) RETURN count(n)", dataset)
-  n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
-  paste0(dataset, ifelse(n>0, "_", "-"))
+  # q=sprintf("MATCH (n:`%s_Segment`) RETURN count(n)", dataset)
+  # n=unlist(neuprint_fetch_custom(q, include_headers=F)[['data']])
+  #paste0(dataset, ifelse(n>0, "_", "-")) # I think we no longer need to specify the dataset. Might be good to keep this function in place though, in case situation changes
+  ""
 })
 
-check_dataset <- function(dataset=NULL) {
-  # Get a default dataset if none specified
+# hidden
+check_dataset <- function(dataset=NULL) {   # Get a default dataset if none specified
   if(is.null(dataset)){
     dataset = unlist(getenvoroption("dataset"))
-    if(is.null(dataset))
-      stop("Please supply a dataset or set a default one using the ",
-           "neuprint_dataset environment variable! See ?neuprint_login for details.")
+    if(is.null(dataset)){
+      warning("Please supply a dataset or set a default one using the ",
+           "neuprint_dataset environment variable! See ?neuprint_login for details.
+           For now we will use hemibrain:v1.0")
+    dataset = "hemibrain:1.0"
+    }
   }
   dataset
 }

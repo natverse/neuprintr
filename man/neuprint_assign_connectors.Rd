@@ -39,6 +39,11 @@ Fetch the synapses associated with a bodyid and assign them to the nearest point
 
 For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.
 }
+\examples{
+\donttest{
+neuprint_locate_soma("5813115796")
+}
+}
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
 

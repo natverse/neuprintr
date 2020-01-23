@@ -3,6 +3,10 @@
 #' @description  For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.
 #' @inheritParams neuprint_read_neurons
 #' @return a data frame of X,Y,Z coordinates, a row for each bodyid supplied
+#' @examples
+#' \donttest{
+#' neuprint_locate_soma("5813115796")
+#' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
 #' @export
 #' @rdname neuprint_assign_connectors
@@ -10,9 +14,7 @@ neuprint_locate_soma <- function(bodyids, dataset = NULL, all_segments = TRUE, c
   dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
-
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyId, n.somaLocation AS soma",
                    jsonlite::toJSON(as.numeric(unique(bodyids))),
                    paste0(dp, all_segments.json))

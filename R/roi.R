@@ -4,37 +4,31 @@
 #' @param input_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
 #' @param output_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
 #' @param roi a single ROI. Use \code{neuprint_ROIs} to see what is available.
-#' @param statuses if not NULL, only bodies with the given status are considered. Statuses include:
-#' Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
 #' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 #' If NULL, your defaults set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a n x n matrix, where the rows are input neurons and the columns are their targets
+#' @examples
+#' \donttest{
+#' neuprint_get_neuron_names(c(818983130, 1796818119))
+#' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_find_neurons
 neuprint_find_neurons <- function(input_ROIs,
                                   output_ROIs = NULL,
-                                  statuses = NULL,
                                   dataset = NULL,
                                   conn = NULL,
-                                  all_segments = TRUE,
+                                  all_segments = FALSE,
                                   ...){
   dataset <- check_dataset(dataset)
-  if(!is.null(statuses)){
-    possible.statuses = c("Unimportant","0.5assign","Leaves","Prelim Roughly Traced", "Anchor", "Orphan")
-    if(sum(!statuses%in%possible.statuses)){
-      stop("Invalid stauses provided. Statuses must be NULL to accept any body status, or on of: ", possible.statuses)
-    }
-  }
   all_segments = ifelse(all_segments,"true","false")
   roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
-  Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"statuses":%s,"all_segments":%s}',
+  Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"enable_contains":true,"all_segments":%s}',
                             dataset, jsonlite::toJSON(input_ROIs),
                             jsonlite::toJSON(output_ROIs),
-                            ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             all_segments))
   class(Payload) = "json"
   found.neurons = neuprint_fetch(path = 'api/npexplorer/findneurons', body = Payload, conn = conn, ...)
@@ -49,12 +43,13 @@ neuprint_find_neurons <- function(input_ROIs,
     extract_connectivity_df(rois = c(input_ROIs,output_ROIs),
                             json=unlist(f[columns=="roiInfo"])))
   innervation = do.call(rbind,innervation)
-  cbind(neurons,innervation)
+  neurons = cbind(neurons,innervation)
+  as.data.frame(t(apply(neurons,1,unlist)))
 }
 
 #' @export
 #' @rdname neuprint_find_neurons
-neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   dp=neuprint_dataset_prefix(dataset, conn=conn)
@@ -88,7 +83,6 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic
   statistic <- match.arg(statistic)
   dataset <- check_dataset(dataset)
   roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
-
   if (cached){
     results <-matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
     roi.conn = neuprint_fetch(path = 'api/cached/roiconnectivity', conn = conn, ...)
@@ -127,7 +121,6 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic
       results <- resultsD
     }
   }
-
   results
 }
 
