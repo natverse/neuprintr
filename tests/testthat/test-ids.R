@@ -1,6 +1,7 @@
 test_that("id conversion works", {
   bigid="9223372036854775806"
   big.json="[9223372036854775806]"
+  big.json2="[9223372036854775806,9223372036854775806]"
 
   medid="223372036854775806"
   med.json="[223372036854775806]"
@@ -17,5 +18,10 @@ test_that("id conversion works", {
                med.json)
   expect_equal(as.character(id2json(as.factor(medid))),
                med.json)
+
+  expect_equal(as.character(id2json(c(bigid, bigid))),
+               big.json)
+  expect_equal(as.character(id2json(c(bigid, bigid), uniqueids=FALSE)),
+               big.json2)
 
 })
