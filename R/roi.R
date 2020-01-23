@@ -60,7 +60,7 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
                 roi,
                 roi,
                 roi)
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
   colnames(d) = unlist(nc$columns)
   d
