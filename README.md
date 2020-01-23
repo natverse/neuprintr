@@ -17,9 +17,13 @@ Schlegel,
 [neuprint-python](https://github.com/schlegelp/neuprint-python) if
 that’s your thing. neuPrint is currently being used for connectome
 analysis in aid of neuronal reconstruction efforts at Janelia Research
-Campus. Using this R package in concert with the
+Campus. The main focus is analysis of the
+[hemibrain](https://www.janelia.org/project-team/flyem/hemibrain)
+densely reconstructed adult Drosophila brain dataset available at
+<a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>.
+Using this R package in concert with the
 [nat](https://github.com/jefferis/nat) ecosystem developed primarily by
-Greg Jefferis is highly recommended. For more information, have a look
+Greg Jefferis is highly recommended. Hor more information, have a look
 [here](https://neuprint.janelia.org/help).
 
 Installation
