@@ -9,7 +9,7 @@
 neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
-  dp=neuprint_dataset_prefix(dataset, conn=conn)
+  #dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn)
   cypher = sprintf(
@@ -21,7 +21,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
     jsonlite::toJSON(as.numeric(unique(unlist(
       bodyids
     )))),
-    paste0(dataset, "_", all_segments.json),
+    all_segments.json,
     namefield,
     namefield
   )
@@ -71,7 +71,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   }
   dp=neuprint_dataset_prefix(dataset, conn=conn)
 
-  prefixed=paste0(dp, all_segments.json)
+  #prefixed=paste0(dp, all_segments.json)
   cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                          "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
                          "WHERE %s.bodyId=bodyId",
@@ -79,8 +79,8 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
                          "RETURN a.bodyId AS %s, b.bodyId AS %s, k AS roi,",
                          "apoc.convert.fromJsonMap(c.roiInfo)[k].post AS weight"),
                    jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
-                   prefixed,
-                   prefixed,
+                   all_segments.json,
+                   all_segments.json,
                    ifelse(prepost=="POST","a","b"),
                    ifelse(is.null(roi),"keys(apoc.convert.fromJsonMap(c.roiInfo))",paste("['",paste(roi,collapse="','"),"']",sep="")),
                    ifelse(prepost=="POST","bodyid","partner"),
@@ -179,11 +179,11 @@ neuprint_simple_connectivity <- function(bodyids,
   dataset <- check_dataset(dataset)
   find_inputs = ifelse(prepost=="PRE", "false","true")
   if(length(bodyids)>10){
-    m  = do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
+    m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
                                 bodyids = bi,
                                 prepost = prepost,
                                 dataset = dataset, conn = conn, ...),
-                                error = function(e) NULL)))
+                                error = function(e) NULL))))
     return(m)
   }
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"find_inputs":%s}',
@@ -256,8 +256,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
-  dp <- neuprint_dataset_prefix(dataset, conn=conn)
-  prefixed <- paste0(dp, all_segments.json)
+  #dp <- neuprint_dataset_prefix(dataset, conn=conn)
+  #prefixed <- paste0(dp, all_segments.json)
 
   cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
                            "UNWIND bodies[0] AS bodypre",
@@ -269,10 +269,10 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
   ),
   jsonlite::toJSON(unique(as.numeric(unlist(body_pre)))),
   jsonlite::toJSON(unique(as.numeric(unlist(body_post)))),
-  prefixed,
+  all_segments.json,
   n[1]-1,
   n[2],
-  prefixed,
+  all_segments.json,
   weightT,
   ifelse(is.null(roi),"",roi)
   )
@@ -320,8 +320,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
   dataset <- check_dataset(dataset)
   conn <- neuprint_login(conn)
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
-  dp <- neuprint_dataset_prefix(dataset, conn=conn)
-  prefixed <- paste0(dp, all_segments.json)
+  #dp <- neuprint_dataset_prefix(dataset, conn=conn)
+  #prefixed <- paste0(dp, all_segments.json)
 
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
@@ -339,8 +339,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
   ),
   jsonlite::toJSON(unique(as.numeric(unlist(body_pre)))),
   jsonlite::toJSON(unique(as.numeric(unlist(body_post)))),
-  prefixed,
-  prefixed,
+  all_segments.json,
+  all_segments.json,
   weightT,
   ifelse(is.null(roi),"",roi)
   )
