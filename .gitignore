@@ -7,3 +7,4 @@ packrat/lib*/
 R/analysis.R
 examples
 .httr-oauth
+.Renviron
