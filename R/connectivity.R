@@ -224,7 +224,6 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
 #' @param ... methods passed to \code{neuprint_login}
-#' @return
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
@@ -303,7 +302,6 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 #'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
-#' @return
 #' @seealso \code{\link{neuprint_get_paths}},
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}

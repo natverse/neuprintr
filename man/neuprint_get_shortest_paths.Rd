@@ -38,9 +38,6 @@ set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
-\value{
-
-}
 \description{
 Get all of the shortest paths in the database that connect the
   query neurons with at least weightT synapses at each step
