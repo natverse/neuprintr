@@ -1,5 +1,5 @@
 ---
-title: "hemibrain"
+title: "hemibrain olfactory projection neurons"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{neuprintr}
