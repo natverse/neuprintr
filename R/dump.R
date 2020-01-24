@@ -23,7 +23,6 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
   message("making data dump in directory ", dir)
   conn = neuprint_login(conn)
-  dataset <- check_dataset(dataset)
   if(is.null(roi)&is.null(bodyids)){
     stop("You must provide either a vector of bodyids or an ROI for your dataset, in order to select neurons to dump at location ", dir,
          " If both are provided, extra bodyids from within the ROI will be added to those in argument bodyids")

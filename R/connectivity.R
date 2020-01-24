@@ -51,7 +51,6 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = NULL, progress = FALSE,
                                       dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   prepost = match.arg(prepost)
-  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   if(!is.null(roi)){

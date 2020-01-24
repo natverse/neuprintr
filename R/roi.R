@@ -50,9 +50,7 @@ neuprint_find_neurons <- function(input_ROIs,
 #' @export
 #' @rdname neuprint_find_neurons
 neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
-  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
-  #dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   cypher = sprintf("MATCH (n :`%s`) WHERE n.%s WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.pre, n.post, roiInfo.%s.pre, roiInfo.%s.post",
