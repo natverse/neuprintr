@@ -170,7 +170,7 @@ print(nrow(ca.info))
 save(opns,file = "hemibrain_opns.rda")
 ```
 
-![hemibrain_opns_mb](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns_mb.png)
+![hemibrain_opns](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns.png)
 
 So, previously ~35 OPN cells were known (variable between brains) that fall into ~22 types [(Aso et al. 2014a,](https://www.ncbi.nlm.nih.gov/pubmed/25535793) [Aso et al. 2014b,](https://www.ncbi.nlm.nih.gov/pubmed/25535794) [Takemura et al. 2017)](https://www.ncbi.nlm.nih.gov/pubmed/28718765). Here, according to the naming in the hemibrain project, there are putative 75 OPN cells that can be broken down into ~35 putative types.
 
@@ -178,7 +178,7 @@ So, previously ~35 OPN cells were known (variable between brains) that fall into
 
 So it is nice that we now have some neurons. But it would be good to see them with their neuropil context.
 
-![hemibrain_MB_ap3](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_MB_ap3.png)
+![hemibrain_olfactory_neuropils](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_olfactory_neuropils.png)
 
 Let's fetch some volume data to plot:
 
@@ -202,8 +202,8 @@ plot3d(al.mesh, add = TRUE, alpha = 0.1, col = lacroix[["orange"]])
 ca.mesh = neuprint_ROI_mesh(roi = "CA(R)")
 lh.mesh = neuprint_ROI_mesh(roi = "LH(R)")
 malt.mesh = neuprint_ROI_mesh(roi = "mALT(R)")
-plot3d(ca.mesh, add = TRUE, alpha = 0.5, col = lacroix[["pink"]])
-plot3d(lh.mesh, add = TRUE, alpha = 0.5, col = lacroix[["green"]])
+plot3d(ca.mesh, add = TRUE, alpha = 0.3, col = lacroix[["pink"]])
+plot3d(lh.mesh, add = TRUE, alpha = 0.3, col = lacroix[["green"]])
 plot3d(malt.mesh, add = TRUE, alpha = 0.9, col = "grey30")
 rgl.snapshot(filename = "images/hemibrain_olfactory_neuropils.png", fmt ="png")
 
@@ -216,12 +216,16 @@ nopen3d(userMatrix = structure(c(0.98370349407196, -0.104569993913174,
                                  0.989135324954987, 0, -0.103521309792995, -0.994517505168915, 
                                  0.0147849693894386, 0, 0, 0, 0, 1), .Dim = c(4L, 4L)), zoom = 0.644609212875366, 
         windowRect = c(20L, 65L, 1191L, 843L))
-plot3d(al.mesh, add = TRUE, alpha = 0.1, col = "grey")
+plot3d(al.mesh, add = TRUE, alpha = 0.5, col = "grey")
 plot3d(ca.mesh, add = TRUE, alpha = 0.5, col = "grey")
 plot3d(lh.mesh, add = TRUE, alpha = 0.5, col = "grey")
 plot3d(opns, col = sample(lacroix,length(opns), replace = TRUE), lwd = 2)
 rgl.snapshot(filename = "images/hemibrain_opns_neuropils.png", fmt ="png")
 ```
+
+Here is what the neurons look like with these brain meshes:
+
+![hemibrain_opns_neuropils](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns_neuropils.png)
 
 ## Get connectivity
 
@@ -231,9 +235,13 @@ First we will look at connectivity between OPN types.
 
 ![hemibrain_uPN_connections](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_uPN_connections.png)
 
-Then we will follow up on their connectivity with other neurons in the brain, and focus on a 'teaching' dopaminergic input onto a OPN type, OPN-a'3, which is thought to allow this OPN to act as a novelty detector [(Hattori et al. 2017)](https://www.ncbi.nlm.nih.gov/pubmed/28502772).
+Then we will follow up on their connectivity with other neurons in the brain. We will focus on the uniglomerular projection neuron (uPN) from the apple cider vinegar detecting glomerulus, DM1. It is already known that it is a hub for connectivity in the lateral horn, impinging on the axons of other food-odour related projection neurons [(Bates and Schlegel et al., 2020)](https://www.biorxiv.org/content/10.1101/2020.01.19.911453v1). We'll see in the code below, that we can find that this PNs' (orange) strongest downstream targets include these neurons in the lateral horn (the part ofthe brain that generate 'inate' behaviours):
 
-![opn_paths_to_PPL1ap3](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/opn_paths_to_PPL1ap3.png)
+![hemibrain_DM1_strong_LH_targets](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_DM1_strong_LH_targets.png)
+
+And that other uPNs can influence them both directly and via interstitial neurons:
+
+![hemibrain_uPN_inputs_to_select_LHNs](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_uPN_inputs_to_select_LHNs.png)
 
 ```{r connectivity, eval = FALSE}
 ## We are looking at connectivity between OPNs.
@@ -325,7 +333,7 @@ for(lhn in lhns){
     sp = neuprint_get_shortest_paths(body_post = b, body_pre = lhn, weightT = 5)
     dupe = ifelse( is.na(which(duplicated(sp$to))[1]),nrow(sp),which(duplicated(sp$to))[1])
     shortest = sp[1:dupe,]
-    if(nrow(shortest)>0 & nrow(shortest)<2 ){
+    if(nrow(shortest)>0 & nrow(shortest)<2){
       shortest[1,"order.from"] = opn.info[as.character(b),"glomerulus"]
       shortest[nrow(shortest),"order.to"] = DM1.targets[lhn,"type"]
       shortest.paths = rbind(shortest.paths, shortest) 
