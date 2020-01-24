@@ -7,7 +7,7 @@
 neuprint_search(
   search,
   meta = TRUE,
-  all_segments = TRUE,
+  all_segments = FALSE,
   dataset = NULL,
   conn = NULL,
   ...
