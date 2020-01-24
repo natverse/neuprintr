@@ -2,7 +2,7 @@
 % Please edit documentation in R/connectivity.R
 \name{neuprint_get_shortest_paths}
 \alias{neuprint_get_shortest_paths}
-\title{Get a list of the shortest paths between 2 neurons}
+\title{Get a list of the shortest paths between two neurons}
 \usage{
 neuprint_get_shortest_paths(
   body_pre,

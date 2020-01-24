@@ -18,7 +18,10 @@ LazyData: true
 Suggests: 
     catnat,
     spelling,
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    knitr, 
+    rmarkdown
+VignetteBuilder: knitr
 Depends: R (>= 2.10)
 Imports: 
     httr,
@@ -33,8 +36,7 @@ Imports:
     memoise,
     dplyr
 Remotes: 
-    natverse/drvid,
-    jefferislab/catnat
+    natverse/drvid
 Encoding: UTF-8
 Language: en-GB
 RoxygenNote: 7.0.2
