@@ -8,7 +8,7 @@
 #' \donttest{
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
-neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   conn=neuprint_login(conn)
 
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
@@ -32,7 +32,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' \donttest{
 #' neuprint_get_meta(c(818983130, 1796818119))
 #' }
-neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   all_segments = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
   cypher = sprintf(
@@ -59,7 +59,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #' \donttest{
 #' neuprint_get_roiInfo(c(818983130, 1796818119))
 #' }
-neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   conn=neuprint_login(conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
@@ -90,7 +90,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = TRUE, c
 #' \dontrun{
 #' neuprint_search("MBON.*")
 #' }
-neuprint_search <- function(search, meta = TRUE, all_segments = TRUE, dataset = NULL, conn = NULL, ...){
+neuprint_search <- function(search, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
   conn=neuprint_login(conn)
  # dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
