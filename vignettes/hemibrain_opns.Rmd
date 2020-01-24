@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 > "FROM many directions, workers are tunnelling hopefully into the mountain, some with steam shovels and others with dental drills. Some travel blindly in a circle and come out close to their point of entrance; some connect, usually in a mismatched fashion, with the burrows of others. Some have chosen to disregard the random activities of their fellows and have worked out in a small region an elegant system of tunnels of their own. Both the attraction and confusion of this multitudinous excavation lie in the fact that none of these workers knows precisely what they are looking for, or what they will find."
-([Kenneth Roeder](https://www.springer.com/gp/book/9783642692734)
+([Kenneth Roeder](https://www.springer.com/gp/book/9783642692734))
 
 # Inspecting the hemibrain
 
