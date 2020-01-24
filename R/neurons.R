@@ -205,8 +205,11 @@ heal_skeleton <- function(x, ...){
 #' @rdname neuprint_read_neurons
 neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
   dataset <- check_dataset(dataset)
+  bodyid=as.character(id2bit64(bodyid))
   if(length(bodyid)>1) {
-    return(nat::nlapply(bodyid, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...))
+    fakenl=structure(bodyid, .Names=bodyid)
+    nl=nat::nlapply(fakenl, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...)
+    return(nl)
   }
   path=file.path("api/skeletons/skeleton", dataset, bodyid)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
