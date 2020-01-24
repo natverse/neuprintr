@@ -17,13 +17,12 @@
 #' @rdname neuprint_dump
 #' @importFrom nat write.neurons
 neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, connectivity = TRUE, volumes = TRUE,
-                          meta = TRUE, nat = TRUE, drvid = FALSE, flow.centrality = FALSE, soma = TRUE, estimate.soma = FALSE,
-                          heal = TRUE, connectors = TRUE, all_segments = TRUE, resample = FALSE,
-                          scale = 4, voxel.thresh = 1e+07, split = c("postsynapses","presynapses","distance"),
+                          meta = TRUE, nat = TRUE, drvid = FALSE, soma = TRUE, estimate.soma = FALSE,
+                          heal = TRUE, connectors = TRUE, all_segments = FALSE, resample = FALSE,
+                          scale = 4, voxel.thresh = 1e+07,
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
   message("making data dump in directory ", dir)
   conn = neuprint_login(conn)
-  dataset <- check_dataset(dataset)
   if(is.null(roi)&is.null(bodyids)){
     stop("You must provide either a vector of bodyids or an ROI for your dataset, in order to select neurons to dump at location ", dir,
          " If both are provided, extra bodyids from within the ROI will be added to those in argument bodyids")
@@ -37,8 +36,8 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
   }
   # Fetch neuron data
   message("Reading neurons from ", conn$server, " for dataset: ", dataset)
-  neurons = neuprint_read_neurons(bodyids = bodyids, meta = meta, nat = nat, drvid=drvid, flow.centrality = flow.centrality, soma = soma, heal = heal, connectors = connectors,
-                                  all_segments = all_segments, dataset = dataset, resample = resample, split = split,
+  neurons = neuprint_read_neurons(bodyids = bodyids, meta = meta, nat = nat, drvid=drvid, soma = soma, heal = heal, connectors = connectors,
+                                  all_segments = all_segments, dataset = dataset, resample = resample,
                                   conn = conn, OmitFailures = OmitFailures, ...)
   # pre-process data
   if(!is.null(preprocess)){

@@ -7,7 +7,7 @@
 neuprint_get_adjacency_matrix(
   bodyids,
   dataset = NULL,
-  all_segments = TRUE,
+  all_segments = FALSE,
   conn = NULL,
   ...
 )

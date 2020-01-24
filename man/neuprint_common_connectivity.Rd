@@ -8,7 +8,7 @@ neuprint_common_connectivity(
   bodyids,
   statuses = NULL,
   prepost = c("PRE", "POST"),
-  all_segments = TRUE,
+  all_segments = FALSE,
   dataset = NULL,
   conn = NULL,
   ...

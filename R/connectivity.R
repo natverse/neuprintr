@@ -6,10 +6,8 @@
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
-neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
-  dataset <- check_dataset(dataset)
+neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   conn=neuprint_login(conn)
-  #dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn)
   cypher = sprintf(
@@ -51,9 +49,8 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 #' neuprint_connection_table(c(818983130, 1796818119))
 #' }
 neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = NULL, progress = FALSE,
-                                      dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+                                      dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   prepost = match.arg(prepost)
-  dataset <- check_dataset(dataset)
   conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   if(!is.null(roi)){
@@ -69,9 +66,6 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
       error = function(e) NULL)))
     return(d)
   }
-  dp=neuprint_dataset_prefix(dataset, conn=conn)
-
-  #prefixed=paste0(dp, all_segments.json)
   cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                          "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
                          "WHERE %s.bodyId=bodyId",
@@ -115,7 +109,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
 #' @rdname neuprint_common_connectivity
 neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                                 prepost = c("PRE","POST"),
-                                all_segments = TRUE,
+                                all_segments = FALSE,
                                 dataset = NULL, conn = NULL, ...){
   prepost = match.arg(prepost)
   dataset <- check_dataset(dataset)
@@ -174,7 +168,9 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
 #' @rdname neuprint_simple_connectivity
 neuprint_simple_connectivity <- function(bodyids,
                                          prepost = c("PRE","POST"),
-                                         dataset = NULL, conn = NULL, ...){
+                                         dataset = NULL,
+                                         conn = NULL,
+                                         ...){
   prepost = match.arg(prepost)
   dataset <- check_dataset(dataset)
   find_inputs = ifelse(prepost=="PRE", "false","true")
@@ -256,8 +252,6 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
-  #dp <- neuprint_dataset_prefix(dataset, conn=conn)
-  #prefixed <- paste0(dp, all_segments.json)
 
   cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
                            "UNWIND bodies[0] AS bodypre",
@@ -317,11 +311,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #' @export
 neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
-  dataset <- check_dataset(dataset)
   conn <- neuprint_login(conn)
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
-  #dp <- neuprint_dataset_prefix(dataset, conn=conn)
-  #prefixed <- paste0(dp, all_segments.json)
 
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)

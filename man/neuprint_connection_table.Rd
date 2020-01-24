@@ -10,7 +10,7 @@ neuprint_connection_table(
   roi = NULL,
   progress = FALSE,
   dataset = NULL,
-  all_segments = TRUE,
+  all_segments = FALSE,
   conn = NULL,
   ...
 )

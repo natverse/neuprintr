@@ -45,7 +45,6 @@ neuprint_version <- function(conn = NULL, ...){
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
 #' @export
 neuprint_ROIs <- function(dataset = NULL, conn = NULL, ...){
-  dataset <- check_dataset(dataset)
   ds = neuprint_datasets(conn=conn, ...)
   rois = unlist(ds)
   rois[grepl("ROI",names(rois))]
