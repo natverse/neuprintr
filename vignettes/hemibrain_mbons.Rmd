@@ -279,7 +279,7 @@ nopen3d(userMatrix = structure(c(0.964227318763733, -0.0444099828600883,
                                  0.951737523078918, 0, -0.088891975581646, -0.982952415943146, 
                                  -0.160943150520325, 0, 0, 0, 0, 1), .Dim = c(4L, 4L)), zoom = 0.676839649677277, 
         windowRect = c(1440L, 45L, 2937L, 938L))
-plot3d(ap3.targets, lwd = 2)
+plot3d(ap3.targets, lwd = 2, sample(lacroix,length(ap3.targets),replace=TRUE))
 rgl.snapshot(filename = "images/hemibrain_ap3_strong_downstream_partners.png", fmt ="png")
 View(ap3.targets[,])
 
@@ -292,7 +292,7 @@ for(b in mbon.info$bodyid){
   sp = neuprint_get_shortest_paths(body_pre = b, body_post = "517514142")
   dupe = ifelse( is.na(which(duplicated(sp$to))[1]),nrow(sp),which(duplicated(sp$to))[1])
   shortest = sp[1:dupe,]
-  if(nrow(shortest)>1 & nrow(shortest)<5 ){
+  if(nrow(shortest)>0 & ncol(shortest) > 0 & nrow(shortest)<5 ){
     shortest$order.to = paste(1:nrow(shortest), nrow(shortest), sep = "/")
     shortest$order.from = paste(1:nrow(shortest)-1, nrow(shortest), sep = "/")
     shortest[1,"order.from"] = mbon.info[as.character(b),"compartment"]
