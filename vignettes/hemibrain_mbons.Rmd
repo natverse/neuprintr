@@ -14,11 +14,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-> "INSECTS possess a nervous system that is incredibly complex and differentiated, and whose sophistication attains ultramicroscopic levels ...
-  Certainly, the grey substance [of the brain of vertebrates] has increased considerably in mass, but when one compares its structure with that of the brain of
-  Apidae or Libellulidae, it looks as excessively coarse and rudimentary. It is like pretending to match the rough merit of a standing wall clock with that of a pocket watch,
-  a marvel of delicacy and precision. As usually, the genius of life shines more in the construction of smaller than larger master pieces."
-([SR y Cajal](https://www.britannica.com/biography/Santiago-Ramon-y-Cajal))
+> "WHEN the systems approach can be connected to the mechanisms approach so that its feedback loop and automata becomes clothed in flesh and blood, we shall see real and exciting progress in understanding behaviour."
+([Kenneth Roeder](https://www.springer.com/gp/book/9783642692734)
 
 # Inspecting the hemibrain
 
