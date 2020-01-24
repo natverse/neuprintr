@@ -2,7 +2,7 @@
 title: "hemibrain msuhroom body output neurons"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{neuprintr}
+  %\VignetteIndexEntry{hemibrain_mbons}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

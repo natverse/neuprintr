@@ -2,7 +2,7 @@
 title: "hemibrain olfactory projection neurons"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{neuprintr}
+  %\VignetteIndexEntry{hemibrain_opns}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
