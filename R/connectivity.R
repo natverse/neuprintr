@@ -243,7 +243,6 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
   if(min(n) < 1)
     stop("Minimum path length must be >=1!")
 
-  dataset <- check_dataset(dataset)
   conn <- neuprint_login(conn)
 
   if(!is.null(roi)){
@@ -275,18 +274,18 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
                   l <- d[[1]]
-                  dplyr::bind_rows(lapply(1:l, function(i){
+                  tryCatch( dplyr::bind_rows(lapply(1:l, function(i){
                     data.frame(from=as.character(d[[2]][[i]][[1]]),
                                to=as.character(d[[2]][[i+1]][[1]]),
                                weight=d[[3]][[i]],
                                name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],
                                type.from=d[[2]][[i]][[3]],type.to=d[[2]][[i+1]][[3]],
                                stringsAsFactors = FALSE)
-                  }))
+                  })), error= function(e) NULL)
   }))
 }
 
-#' @title Get a list of the shortest paths between 2 neurons
+#' @title Get a list of the shortest paths between two neurons
 #'
 #' @description  Get all of the shortest paths in the database that connect the
 #'   query neurons with at least weightT synapses at each step
@@ -340,16 +339,15 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
 
   connTable <- dplyr::bind_rows(lapply(nc$data, function(d){
     l <- d[[1]]
-    dplyr::bind_rows(lapply(1:l, function(i){
+    tryCatch( dplyr::bind_rows(lapply(1:l, function(i){
       data.frame(from=as.character(d[[2]][[i]][[1]]),
                  to=as.character(d[[2]][[i+1]][[1]]),
                  weight=d[[3]][[i]],
                  name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],
                  type.from=d[[2]][[i]][[3]],type.to=d[[2]][[i+1]][[3]],
                  stringsAsFactors = FALSE)
-    }))
+    })), error = function(e) NULL)
   }))
-
 }
 
 # hidden, caution, does not deal with left/right neuropils
