@@ -16,9 +16,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
       "WHERE n.bodyId IN input AND m.bodyId IN input",
       "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.%s AS upName, m.%s AS downName"
     ),
-    jsonlite::toJSON(as.numeric(unique(unlist(
-      bodyids
-    )))),
+    id2json(bodyids),
     all_segments.json,
     namefield,
     namefield
@@ -72,7 +70,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
                          "UNWIND %s AS k",
                          "RETURN a.bodyId AS %s, b.bodyId AS %s, k AS roi,",
                          "apoc.convert.fromJsonMap(c.roiInfo)[k].post AS weight"),
-                   jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
+                   id2json(bodyids),
                    all_segments.json,
                    all_segments.json,
                    ifelse(prepost=="POST","a","b"),
@@ -123,7 +121,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   all_segments = ifelse(all_segments,"true","false")
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
                             dataset,
-                            jsonlite::toJSON(unique(as.numeric(unlist(bodyids)))),
+                            id2json(bodyids),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
                             all_segments))
@@ -184,7 +182,7 @@ neuprint_simple_connectivity <- function(bodyids,
   }
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"find_inputs":%s}',
                             dataset,
-                            jsonlite::toJSON(as.numeric(unique(unlist(bodyids)))),
+                            id2json(bodyids),
                             find_inputs))
   class(Payload) = "json"
   simp.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, simplifyVector = TRUE, ...)
@@ -259,8 +257,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  jsonlite::toJSON(unique(as.numeric(unlist(body_pre)))),
-  jsonlite::toJSON(unique(as.numeric(unlist(body_post)))),
+  id2json(body_pre),
+  id2json(body_post),
   all_segments.json,
   n[1]-1,
   n[2],
@@ -325,8 +323,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  jsonlite::toJSON(unique(as.numeric(unlist(body_pre)))),
-  jsonlite::toJSON(unique(as.numeric(unlist(body_post)))),
+  id2json(body_pre),
+  id2json(body_post),
   all_segments.json,
   all_segments.json,
   weightT,

@@ -13,7 +13,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
-                   jsonlite::toJSON(as.numeric(unlist(bodyids))),
+                   id2json(bodyids),
                    all_segments.json)
 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
@@ -41,7 +41,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, con
       "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
       "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped"
     ),
-    jsonlite::toJSON(as.numeric(unlist(bodyids))),
+    id2json(bodyids),
     all_segments,
     neuprint_name_field(conn)
   )
@@ -64,7 +64,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
     "WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
-    jsonlite::toJSON(as.numeric(unlist(bodyids))),
+    id2json(bodyids),
     all_segments
   )
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, conn = conn, ...)

@@ -44,8 +44,8 @@ neuprint_read_neurons <- function(bodyids,
                                   dataset = NULL,
                                   resample = FALSE,
                                   conn = NULL,
-                                  OmitFailures = TRUE, ...){
-  neurons = nat::nlapply(unique(bodyids),function(bodyid)
+                                  OmitFailures = TRUE, ...) {
+  neurons = nat::nlapply(id2bit64(bodyids),function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
@@ -64,7 +64,10 @@ neuprint_read_neurons <- function(bodyids,
   }
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(meta){
-    attr(neurons,"df") = neuprint_get_meta(bodyids = as.numeric(names(neurons)), dataset = dataset, all_segments = all_segments, conn = conn, ...)
+    attr(neurons,"df") = neuprint_get_meta(bodyids = names(neurons),
+                                           dataset = dataset,
+                                           all_segments = all_segments,
+                                           conn = conn, ...)
   }else{
     attr(neurons,"df") = data.frame(bodyid=names(neurons))
   }
@@ -92,7 +95,8 @@ neuprint_read_neuron <- function(bodyid,
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    n = neuprint_read_neuron_simple(as.numeric(bodyid),dataset=dataset,conn = conn, heal = FALSE,...)
+    n = neuprint_read_neuron_simple(id2bit64(bodyid), dataset=dataset,
+                                    conn = conn, heal = FALSE,...)
   }
   if(heal){
     n = suppressWarnings( heal_skeleton(x = n) )
@@ -201,8 +205,11 @@ heal_skeleton <- function(x, ...){
 #' @rdname neuprint_read_neurons
 neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
   dataset <- check_dataset(dataset)
+  bodyid=as.character(id2bit64(bodyid))
   if(length(bodyid)>1) {
-    return(nat::nlapply(bodyid, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...))
+    fakenl=structure(bodyid, .Names=bodyid)
+    nl=nat::nlapply(fakenl, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...)
+    return(nl)
   }
   path=file.path("api/skeletons/skeleton", dataset, bodyid)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)

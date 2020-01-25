@@ -34,7 +34,8 @@ Imports:
     nat,
     readobj,
     memoise,
-    dplyr
+    dplyr,
+    bit64
 Remotes: 
     natverse/drvid
 Encoding: UTF-8

@@ -45,7 +45,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   if(progress){
     d  = do.call(rbind, pbapply::pblapply(bodyids,
                                           function(bi) tryCatch(neuprint_get_synapses(
-      bodyids = as.numeric(bi),
+      bodyids = bi,
       roi = roi,
       progress = FALSE,
       dataset = dataset,
@@ -61,7 +61,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                               "RETURN DISTINCT id(s) AS connector_id,",
                               "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
                               "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner"),
-                   jsonlite::toJSON(as.numeric(unlist(bodyids))),
+                   id2json(bodyids),
                    prefixed_seg,
                    prefixed_seg,
                    roi)
@@ -71,7 +71,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                        "RETURN DISTINCT id(s) AS connector_id,",
                        "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
                        "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner"),
-                        jsonlite::toJSON(as.numeric(unlist(bodyids))),
+                       id2json(bodyids),
                         prefixed_seg,
                         prefixed_seg,
                         roi)
