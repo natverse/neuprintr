@@ -23,7 +23,6 @@ neuprint_find_neurons <- function(input_ROIs,
                                   conn = NULL,
                                   all_segments = FALSE,
                                   ...){
-  dataset <- check_dataset(dataset)
   all_segments = ifelse(all_segments,"true","false")
   roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
   Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"enable_contains":true,"all_segments":%s}',
@@ -50,7 +49,6 @@ neuprint_find_neurons <- function(input_ROIs,
 #' @export
 #' @rdname neuprint_find_neurons
 neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
-  conn=neuprint_login(conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   cypher = sprintf("MATCH (n :`%s`) WHERE n.%s WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.pre, n.post, roiInfo.%s.pre, roiInfo.%s.post",
@@ -79,7 +77,6 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
 #' @rdname neuprint_ROI_connectivity
 neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic = c("weight","count"),dataset = NULL, conn = NULL, ...){
   statistic <- match.arg(statistic)
-  dataset <- check_dataset(dataset)
   roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
   if (cached){
     results <-matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
@@ -132,7 +129,6 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic
 #' @export
 #' @rdname neuprint_ROI_mesh
 neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
-  dataset <- check_dataset(dataset)
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh",dataset,roi,sep="/"),parse.json = FALSE,include_headers = FALSE)
   tf = tempfile()

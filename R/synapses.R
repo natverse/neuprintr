@@ -25,7 +25,6 @@
 #' neuprint_get_synapses(c(818983130, 1796818119))
 #' }
 neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
-  dataset <- check_dataset(dataset)
   conn = neuprint_login(conn)
   if (is.null(roi)) {
     roi = ""
@@ -53,8 +52,6 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
       error = function(e) NULL)))
     return(d)
   }
-  dp=neuprint_dataset_prefix(dataset, conn=conn)
-  prefixed_seg <- paste0(dp, "Segment")
   cypher.post = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                               "MATCH (a:`%s`)-[:Contains]->(c:SynapseSet)-[:Contains]->(s:Synapse)<-[:SynapsesTo]-(:Synapse)<-[:Contains]-(:SynapseSet)<-[:Contains]-(b:`%s`)",
                               "WHERE a.bodyId=bodyId AND (s.type='post') %s",
@@ -62,8 +59,8 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                               "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
                               "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner"),
                    id2json(bodyids),
-                   prefixed_seg,
-                   prefixed_seg,
+                   "Segment",
+                   "Segment",
                    roi)
   cypher.pre = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                        "MATCH (a:`%s`)-[:Contains]->(c:SynapseSet)-[:Contains]->(s:Synapse)-[:SynapsesTo]->(:Synapse)<-[:Contains]-(:SynapseSet)<-[:Contains]-(b:`%s`)",
@@ -71,12 +68,12 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                        "RETURN DISTINCT id(s) AS connector_id,",
                        "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
                        "s.confidence AS confidence, a.bodyId AS bodyid, b.bodyId AS partner"),
-                       id2json(bodyids),
-                        prefixed_seg,
-                        prefixed_seg,
+                        id2json(bodyids),
+                       "Segment",
+                       "Segment",
                         roi)
   nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, dataset = dataset, ...)
-  nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, ...)
+  nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, dataset = dataset, ...)
   m = rbind(do.call(rbind,nc.post$data),do.call(rbind,nc.pre$data))
   colnames(m) =  nc.post$columns
   m = data.frame(do.call(rbind,apply(m, 1, function(x) nullToNA(x))))

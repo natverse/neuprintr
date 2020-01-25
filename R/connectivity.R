@@ -7,7 +7,6 @@
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
 neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
-  conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn)
   cypher = sprintf(
@@ -110,7 +109,6 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                                 all_segments = FALSE,
                                 dataset = NULL, conn = NULL, ...){
   prepost = match.arg(prepost)
-  dataset <- check_dataset(dataset)
   if(!is.null(statuses)){
     possible.statuses = c("Unimportant","0.5assign","Leaves","Prelim Roughly Traced", "Anchor", "Orphan")
     if(sum(!statuses%in%possible.statuses)){
@@ -170,7 +168,6 @@ neuprint_simple_connectivity <- function(bodyids,
                                          conn = NULL,
                                          ...){
   prepost = match.arg(prepost)
-  dataset <- check_dataset(dataset)
   find_inputs = ifelse(prepost=="PRE", "false","true")
   if(length(bodyids)>10){
     m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
