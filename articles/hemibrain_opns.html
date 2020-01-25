@@ -148,9 +148,9 @@
 <a class="sourceLine" id="cb1-34" data-line-number="34">## Then see if a simple function works for you:</a>
 <a class="sourceLine" id="cb1-35" data-line-number="35">available.datasets =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_info.html">neuprint_datasets</a></span>()</a>
 <a class="sourceLine" id="cb1-36" data-line-number="36">available.datasets</a></code></pre></div>
-<p>If you need help/have not before logged into neuPrint via R, please see the package README or see .</p>
-<p>The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package  to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:</p>
-
+<p>If you need help/have not before logged into neuPrint via R, please see the package README or see <code><a href="../reference/neuprint_login.html">?neuprint_login</a></code>.</p>
+<p>The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package <code>usethis</code> to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:</p>
+<p><code>neuprint_token = "YOUR_TOKEN_HERE"</code> <code>neuprint_server = 'https://neuprint.janelia.org/'</code> neuprint_dataset = ‘hemibrain:v1.0’</p>
 <p>Then restart your R session.</p>
 </div>
 <div id="find-neurons" class="section level2">
@@ -249,7 +249,6 @@
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns.png" alt="hemibrain_opns"><p class="caption">hemibrain_opns</p>
 </div>
-<p>So, previously ~35 OPN cells were known (variable between brains) that fall into ~22 types <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535793">(Aso et al. 2014a,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535794">Aso et al. 2014b,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/28718765">Takemura et al. 2017)</a>. Here, according to the naming in the hemibrain project, there are putative 75 OPN cells that can be broken down into ~35 putative types.</p>
 </div>
 <div id="get-neuropil-volumes" class="section level2">
 <h2 class="hasAnchor">
