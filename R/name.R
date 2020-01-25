@@ -31,6 +31,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 #' neuprint_get_meta(c(818983130, 1796818119))
 #' }
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+  conn = neuprint_login(conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
     paste(
