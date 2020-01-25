@@ -8,9 +8,7 @@
 #' \donttest{
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
-neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
-  conn=neuprint_login(conn)
-
+neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...) {
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
                    id2json(bodyids),
@@ -34,7 +32,6 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 #' }
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  conn=neuprint_login(conn)
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
@@ -60,7 +57,6 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, con
 #' neuprint_get_roiInfo(c(818983130, 1796818119))
 #' }
 neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
-  conn=neuprint_login(conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
     "WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
@@ -91,8 +87,6 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' neuprint_search("MBON.*")
 #' }
 neuprint_search <- function(search, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
-  conn=neuprint_login(conn)
- # dp=neuprint_dataset_prefix(dataset, conn=conn)
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("MATCH (n:`%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
                    all_segments.cypher,

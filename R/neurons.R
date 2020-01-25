@@ -87,10 +87,7 @@ neuprint_read_neuron <- function(bodyid,
                                  all_segments = TRUE,
                                  resample = FALSE,
                                  conn = NULL, ...){
-  dataset <- check_dataset(dataset)
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
-  conn=neuprint_login(conn)
-  dp=neuprint_dataset_prefix(dataset, conn=conn)
   if(drvid){
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
@@ -160,7 +157,6 @@ neuprint_read_neuron <- function(bodyid,
 #' @rdname neuprint_assign_connectors
 neuprint_assign_connectors <-function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...) UseMethod("neuprint_assign_connectors")
 neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...){
-  dataset <- check_dataset(dataset)
   if(is.null(bodyids)){
     bodyids = x$bodyid
   }
@@ -204,7 +200,6 @@ heal_skeleton <- function(x, ...){
 #' @export
 #' @rdname neuprint_read_neurons
 neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
-  dataset <- check_dataset(dataset)
   bodyid=as.character(id2bit64(bodyid))
   if(length(bodyid)>1) {
     fakenl=structure(bodyid, .Names=bodyid)

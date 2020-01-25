@@ -25,7 +25,6 @@
 #' neuprint_get_synapses(c(818983130, 1796818119))
 #' }
 neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
-  dataset <- check_dataset(dataset)
   conn = neuprint_login(conn)
   if (is.null(roi)) {
     roi = ""
