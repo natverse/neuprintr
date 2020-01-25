@@ -87,6 +87,8 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' neuprint_search("MBON.*")
 #' }
 neuprint_search <- function(search, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
+  # (because we want to use neuprint_name_field)
+  conn = neuprint_login(conn)
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("MATCH (n:`%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
                    all_segments.cypher,
