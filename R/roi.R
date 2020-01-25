@@ -24,6 +24,8 @@ neuprint_find_neurons <- function(input_ROIs,
                                   all_segments = FALSE,
                                   ...){
   all_segments = ifelse(all_segments,"true","false")
+  conn=neuprint_login(conn = conn)
+  dataset=check_dataset(dataset)
   roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
   Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"enable_contains":true,"all_segments":%s}',
                             dataset, jsonlite::toJSON(input_ROIs),
