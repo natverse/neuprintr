@@ -42,19 +42,34 @@ In order to use *neuprintr* you will need to be able to login to a neuPrint serv
 
 ![access your bearer token](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png)
 
-To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. For detailed instructions use:
+To make life easier, you can then edit your `.Renviron` file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. A convenient way to do this is to do
 
-```{r login, eval = FALSE}
-?neuprint_login
+```{r, eval=FALSE}
+usethis::edit_r_environ()
 ```
 
-To get started quickly, all you need to do is
+and then edit the file that pops up, adding a section like
+
+```{r, eval=FALSE}
+neuprint_server="https://neuprint.janelia.org"
+# nb this token is a dummy
+neuprint_token="asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
+neuprint_dataset = "hemibrain:v1.0"
+```
+
+Make sure you have a blank line at the end of your `.Renviron` file.
+For further information try about neuprintr login, see the help for
+`neuprint_login()`. 
+
+Finally you can also login on the command line once per session, like so:
 
 ```{r login2, eval = FALSE}
 conn = neuprint_login(server= "https://neuprint.janelia.org/",
    token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU")
-# nb this token is a dummy
 ```
+
+This is also the approach that you would take if you were working with more than
+2 neuPrint servers.
 
 ## Example
 
@@ -76,6 +91,7 @@ Use the client to request data from neuprint. The \code{neuprint_fetch_custom} m
 Some cyphers and other API endpoints have been explored by this package. Have a look a the functions, for example, that give you neuron skeletons, synapse locations, connectivity matrices, etc.
 
 ```{r example2, eval = FALSE}
+?neuprint_search
 ?neuprint_get_adjacency_matrix
 ?neuprint_ROI_connectivity
 ?neuprint_get_synapses
