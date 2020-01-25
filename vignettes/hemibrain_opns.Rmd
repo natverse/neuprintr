@@ -62,13 +62,13 @@ available.datasets = neuprint_datasets()
 available.datasets
 ```
 
-If you need help/have not before logged into neuPrint via R, please see the package README or see \code{?neuprint_login}.
+If you need help/have not before logged into neuPrint via R, please see the package README or see `?neuprint_login`.
 
-The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package \code{usethis} to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:
+The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:
 
-\code{neuprint_token = "YOUR_TOKEN_HERE"}
-\code{neuprint_server = 'https://neuprint.janelia.org/'}
-\code{neuprint_dataset = 'hemibrain:v1.0'}
+`neuprint_token = "YOUR_TOKEN_HERE"`
+`neuprint_server = 'https://neuprint.janelia.org/'`
+neuprint_dataset = 'hemibrain:v1.0'
 
 Then restart your R session.
 
@@ -171,8 +171,6 @@ save(opns,file = "hemibrain_opns.rda")
 ```
 
 ![hemibrain_opns](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns.png)
-
-So, previously ~35 OPN cells were known (variable between brains) that fall into ~22 types [(Aso et al. 2014a,](https://www.ncbi.nlm.nih.gov/pubmed/25535793) [Aso et al. 2014b,](https://www.ncbi.nlm.nih.gov/pubmed/25535794) [Takemura et al. 2017)](https://www.ncbi.nlm.nih.gov/pubmed/28718765). Here, according to the naming in the hemibrain project, there are putative 75 OPN cells that can be broken down into ~35 putative types.
 
 ## Get neuropil volumes
 
