@@ -2,7 +2,7 @@
 % Please edit documentation in R/name.R
 \name{neuprint_get_meta}
 \alias{neuprint_get_meta}
-\title{Get meta data associated with a body}
+\title{Get metadata for body (inc name, type, status, size)}
 \usage{
 neuprint_get_meta(
   bodyids,
@@ -25,13 +25,24 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
+a \code{data.frame} containing the neuron's \itemize{
+\item name
+\item type Cell type of the neuron
+\item status (Traced etc)
+\item voxels size in voxels
+\item pre number of presynapses.
+\item post number of postsynapses
+\item cropped whether the neuron is cropped by the hemibrain volume
+}
+
 a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.
 }
 \description{
-Return important meta data given bodyids, including the putative neuron's name, status, size in voxels, and number of pre and post synapses.
+Get metadata for body (inc name, type, status, size)
 }
 \examples{
 \donttest{
-neuprint_get_meta(c(818983130, 1796818119))
+da2s=neuprint_search(".*DA2.*")
+neuprint_get_meta(da2s$bodyid)
 }
 }

@@ -7,6 +7,11 @@
 #' @seealso \code{\link{neuprint_login}}
 #' @export
 #' @rdname neuprint_info
+#' @examples
+#' \donttest{
+#' # list details for all the available datasets
+#' neuprint_datasets()
+#' }
 neuprint_datasets <- function(conn = NULL, ...){
   neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, simplifyVector = TRUE, include_headers = FALSE, ...)
 }
@@ -20,6 +25,11 @@ neuprint_database <- function(conn = NULL, ...){
 
 #' @export
 #' @rdname neuprint_info
+#' @examples
+#' \donttest{
+#' # list API endpoints
+#' head(neuprint_available())
+#' }
 neuprint_available <- function(conn = NULL, ...){
   av = neuprint_fetch(path = 'api/available', conn = conn, ...)
   do.call(rbind,av)
@@ -27,6 +37,10 @@ neuprint_available <- function(conn = NULL, ...){
 
 #' @export
 #' @rdname neuprint_info
+#' @examples
+#' \donttest{
+#' neuprint_version()
+#' }
 neuprint_version <- function(conn = NULL, ...){
   neuprint_fetch(path = 'api/version', conn = conn, include_headers=FALSE,  ...)
 }

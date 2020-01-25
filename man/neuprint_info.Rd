@@ -24,6 +24,19 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \description{
 Get summary information about the datasets hosted by the neuPrint server in which you are interested
 }
+\examples{
+\donttest{
+# list details for all the available datasets
+neuprint_datasets()
+}
+\donttest{
+# list API endpoints
+head(neuprint_available())
+}
+\donttest{
+neuprint_version()
+}
+}
 \seealso{
 \code{\link{neuprint_login}}
 }
