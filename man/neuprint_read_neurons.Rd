@@ -96,6 +96,12 @@ If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retriev
 n = neuprint_read_neurons("5813115796")
 nat::plot3d(n, col = "purple", lwd = 2)
 }
+\donttest{
+dl1.info <- neuprint_search('.*mPN.*DL1.*')
+dl1.info
+dl1s=neuprint_read_neuron_simple(dl1.info$bodyid)
+plot(dl1s, WithNode=F)
+}
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
