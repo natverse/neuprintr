@@ -169,7 +169,8 @@
 <div id="processing-the-results" class="section level3">
 <h3 class="hasAnchor">
 <a href="#processing-the-results" class="anchor"></a>Processing the results</h3>
-<p>The sample function just ran <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> on the list returned by <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code>. This is fine in many cases. However if you are getting a nested list specifying a table (i.e. a <code>data.frame</code> or spreadsheet like result) then there is an internal function <code><a href="../reference/neuprint_list2df.html">neuprint_list2df()</a></code> which will do a lot of the heavy lifting. It is strongly recommended to make use of this whenever possible. See <code><a href="../reference/neuprint_get_meta.html">neuprint_get_meta()</a></code> for an example.</p>
+<p>The sample function just ran <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> on the list returned by <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code>. This is fine in many cases. You can also pass the <code>simplifyVector</code> argument to <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> and this will clean up many forms of list. See <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">jsonlite::fromJSON()</a></code> for details of how this operates.</p>
+<p>If you are getting a nested list specifying a table (i.e. a <code>data.frame</code> or spreadsheet like result) then there is a function <code><a href="../reference/neuprint_list2df.html">neuprint_list2df()</a></code> which will do a lot of the heavy lifting. It is strongly recommended to make use of this whenever possible. See <code><a href="../reference/neuprint_get_meta.html">neuprint_get_meta()</a></code> for an example.</p>
 </div>
 </div>
 <div id="need-help" class="section level2">
