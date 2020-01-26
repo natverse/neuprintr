@@ -199,6 +199,13 @@ heal_skeleton <- function(x, ...){
 
 #' @export
 #' @rdname neuprint_read_neurons
+#' @examples
+#' \donttest{
+#' dl1.info <- neuprint_search('.*mPN.*DL1.*')
+#' dl1.info
+#' dl1s=neuprint_read_neuron_simple(dl1.info$bodyid)
+#' plot(dl1s, WithNode=F)
+#' }
 neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
   bodyid=as.character(id2bit64(bodyid))
   if(length(bodyid)>1) {
