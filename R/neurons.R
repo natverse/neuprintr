@@ -206,6 +206,7 @@ neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TR
     nl=nat::nlapply(fakenl, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...)
     return(nl)
   }
+  dataset=check_dataset(dataset)
   path=file.path("api/skeletons/skeleton", dataset, bodyid)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
   colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")
