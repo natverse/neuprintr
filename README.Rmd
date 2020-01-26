@@ -29,7 +29,7 @@ Using this R package in concert with the [nat](https://github.com/jefferis/nat) 
 
 To help you get to grips with `neuprintr`, we have made a tutorial in classic presentation form. This tutorial uses data from the [Janelia Fly EM](https://www.janelia.org/project-team/flyem) team's [hemibrain](https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1) project. You can also see the vignettes in this package for the same examples and more.
 
-<p align="center"><iframe src="https://www.slideshare.net/slideshow/embed_code/key/gTc3yRncv0ufsv" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe><div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/AlexBates4/neuprintr-hemibrain" title="Neuprintr hemibrain" target="_blank">Neuprintr hemibrain</a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alex Bates</a></strong> </div></p>
+<p align="center"><iframe src="https://www.slideshare.net/slideshow/embed_code/key/GScw5pO0zojSPg" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe></p> <p align="center"><div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr" title="Accessing hemibrain data using Neuprintr " target="_blank">Accessing hemibrain data using Neuprintr </a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alexander Bates</a></strong> </div></p>
 
 ## Installation
 
