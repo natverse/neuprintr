@@ -139,6 +139,8 @@ rgl.snapshot(filename = "images/hemibrain_opns.png", fmt ="png")
 ?neuprint_get_synapses
 ?neuprint_assign_connectors
 ?neuprint_locate_soma
+?neuprint_get_neuron_names
+?neuprint_get_meta
 
 ## Do we have to know what's in the name to find interesting neurons? No!
 ### We can also read neurons from a region of interest (ROI) of the brain.
@@ -146,9 +148,7 @@ rgl.snapshot(filename = "images/hemibrain_opns.png", fmt ="png")
 rois = sort(neuprint_ROIs())
 rois
 
-## We don't we try fetching all of the neurons in a glomerulus of the antennal lobe?
-### The glomerulus DM1 is interesting, because it is involved in an axo-axonic
-### 'food odour' related community in the lateral horn (Bates & Schlegel et al. 2020)
+## We don't we try fetching all of the neurons in a glomerulus of the mushroom body input zone, the calyx?
 ca.info = neuprint_find_neurons(
   input_ROIs = "CA(R)",
   output_ROIs = NULL,
@@ -196,7 +196,7 @@ nopen3d(userMatrix = structure(c(0.947127282619476, 0.222770735621452,
         windowRect = c(1460L, 65L, 2877L, 996L)) # set view
 plot3d(al.mesh, add = TRUE, alpha = 0.1, col = lacroix[["orange"]])
 
-# And highlight glomerulus alpha prime 3
+# And  get the other main olfactory neuropils
 ca.mesh = neuprint_ROI_mesh(roi = "CA(R)")
 lh.mesh = neuprint_ROI_mesh(roi = "LH(R)")
 malt.mesh = neuprint_ROI_mesh(roi = "mALT(R)")
@@ -258,8 +258,8 @@ dev.off()
 ### What if we just see what the glomerulus to glomerulus connectivity is?
 opn.adj.comp = opn.adj
 rownames(opn.adj.comp) = colnames(opn.adj.comp) = opn.info$glomerulus
-opn.adj.comp = t(apply(t(opn.adj.comp), 2, function(x) tapply(x, colnames(opn.adj.comp), mean, na.rm = TRUE)))
-opn.adj.comp = apply(opn.adj.comp, 2, function(x) tapply(x, rownames(opn.adj.comp), mean, na.rm = TRUE))
+opn.adj.comp = t(apply(t(opn.adj.comp), 2, function(x) tapply(x, colnames(opn.adj.comp), sum, na.rm = TRUE)))
+opn.adj.comp = apply(opn.adj.comp, 2, function(x) tapply(x, rownames(opn.adj.comp), sum, na.rm = TRUE))
 pdf(file = "images/OPN_glomerulus_interconnectivity.pdf", height = 10, width = 10)
 Heatmap(opn.adj.comp,
         col = my_palette)
@@ -268,8 +268,11 @@ dev.off()
 ## What about OPN connectivity to neurons not in this set of OPNs?
 ### First, is there a common partner to all OPNs?
 common = neuprint_common_connectivity(opn.info$bodyid, prepost = "PRE") # could use 'post' for downstream
-dim(common) # 
+dim(common) 
+
 ### What about the food hub PNs?
+### The glomerulus DM1 is interesting, because it is involved in an axo-axonic
+### 'food odour' related community in the lateral horn (Bates & Schlegel et al. 2020)
 DM1.opn.info = subset(opn.info, grepl("DM1|DM3|DM4|VM3|VA4",name))
 DM1.common = neuprint_common_connectivity(DM1.opn.info$bodyid, prepost = "PRE")
 dim(DM1.common) 
@@ -310,7 +313,6 @@ plot3d(subset(opns,grepl("DM1",name)),lwd=2,col=lacroix[["orange"]])
 rgl.snapshot(filename = "images/hemibrain_DM1_strong_LH_targets.png", fmt ="png")
 
 ## Can other OPNs influence these strong partners?
-### The cognate DAN for OPNs-a'3, PPL1-a'3, gets 49 (!) of its inputs from OPNs-a'3
 ### Which other OPNs impinge on it?
 ### Via whatever path?
 shortest.paths = data.frame()
@@ -350,7 +352,6 @@ n = network(paths,
             layout = "fruchtermanreingold",
             names.eval = "weight",
             directed = TRUE)
-n %v% "width" <- ifelse(is.na(ggnetwork(n)$weight),0,ggnetwork(n)$weight)
 n = ggnetwork(n, cell.jitter = 0.75, arrow.gap = 0.01)
 
 # Set colours
