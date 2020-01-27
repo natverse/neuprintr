@@ -8,13 +8,14 @@ neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
     if (is.null(body)) {
       httr::GET(url = file.path(server, path, fsep = "/"),
                 config = conn$config,  ...)
-    }else {
+    } else {
       httr::POST(url = file.path(server, path, fsep = "/"),
            body = body, config = conn$config, ...)
     }
-  httr::stop_for_status(req)
+  neuprint_error_check(req)
   if (parse.json) {
     parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)
+    # Has a return value like this ever been seen in the wild?
     if (length(parsed) == 2 && isTRUE(names(parsed)[2] =="error")) {
       stop("neuPrint error: ", parsed$error)
     }
@@ -33,6 +34,14 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
   if (identical(text, ""))
     stop("No output to parse", call. = FALSE)
   jsonlite::fromJSON(text, simplifyVector = simplifyVector, ...)
+}
+
+neuprint_error_check <- function(req) {
+  if(isTRUE(httr::status_code(req)==400L)) {
+    parsed=neuprint_parse_json(req)
+    stop("neuPrint error: ", parsed$error, call. = F)
+  }
+  httr::stop_for_status(req)
 }
 
 #' Parse neuprint return list to a data frame
