@@ -104,6 +104,8 @@ neuprint_read_neuron <- function(bodyid,
   }
   if(connectors){
     synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
+  }else{
+    synapses = NULL
   }
   if(soma){
     somapoint = tryCatch(nat::xyzmatrix(neuprint_locate_soma(bodyids = bodyid, all_segments = all_segments, dataset = dataset, conn = conn, ...)),
