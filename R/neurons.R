@@ -25,7 +25,7 @@
 #' @examples
 #' \donttest{
 #' neurons = neuprint_read_neurons(c("818983130", "1796818119"))
-#' nat::plot3d(neurons, col = "purple", lwd = 2)
+#' plot3d(neurons, col = "purple", lwd = 2)
 #' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 #' @importFrom drvid read.neuron.dvid
