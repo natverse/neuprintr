@@ -27,7 +27,8 @@ The largest draft connectome to date was released on the 22nd of January, 2020. 
 # install
 if(!require('devtools')) install.packages("devtools")
 if(!require('natverse')) devtools::install_github("natverse/natverse")
-if(!require('ComplexHeatmap')) install.packages("ComplexHeatmap")
+if (!requireNamespace("BiocManager", quietly = TRUE))install.packages("BiocManager")
+if(!require('ComplexHeatmap')) BiocManager::install("ComplexHeatmap")
 if(!require('ggnetwork')) install.packages("ggnetwork")
 if(!require('network')) install.packages("network")
 
