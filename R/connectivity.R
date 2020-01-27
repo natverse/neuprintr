@@ -15,7 +15,7 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
       "WHERE n.bodyId IN input AND m.bodyId IN input",
       "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.%s AS upName, m.%s AS downName"
     ),
-    id2json(bodyids),
+    id2json(bodyids, uniqueids = TRUE),
     all_segments.json,
     namefield,
     namefield
@@ -50,6 +50,8 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   prepost = match.arg(prepost)
   conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
+  #
+  # bodyids=unique(id2bit64(bodyids))
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   }
@@ -61,6 +63,8 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) NULL)))
+    d <-  d[order(d$weight,decreasing=TRUE),]
+    rownames(d) <- NULL
     return(d)
   }
   cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
@@ -85,6 +89,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   d$weight <- as.integer(d$weight)
   d$prepost <-  ifelse(prepost=="PRE",0,1)
   d <-  d[order(d$weight,decreasing=TRUE),]
+  rownames(d) <- NULL
   d[,c("bodyid", "partner", "roi","weight", "prepost")]
 }
 
