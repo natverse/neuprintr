@@ -1,5 +1,5 @@
 # private function to convert 1 or more 64 bit ids (e.g. body ids) to JSON
-id2json <- function(x, uniqueids=TRUE, ...) {
+id2json <- function(x, uniqueids=FALSE, ...) {
   bx=id2bit64(x)
   if(isTRUE(uniqueids)) bx=unique(bx)
   jsonlite::toJSON(bx, ...)

@@ -10,6 +10,15 @@
 #' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...) {
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
+  bodyids <- id2bit64(bodyids)
+  if(any(duplicated(bodyids))) {
+    ubodyids=unique(bodyids)
+    unames=neuprint_get_neuron_names(bodyids=ubodyids, dataset=dataset,
+                                     conn=conn, all_segments=all_segments, ...)
+    res=unames[match(bodyids, ubodyids)]
+    return(res)
+  }
+
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
                    id2json(bodyids),
                    all_segments.json)

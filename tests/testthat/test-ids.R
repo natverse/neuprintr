@@ -20,11 +20,11 @@ test_that("id conversion works", {
                med.json)
 
   expect_equal(as.character(id2json(c(bigid, bigid))),
-               big.json)
-  expect_equal(as.character(id2json(c(bigid, bigid), uniqueids=FALSE)),
                big.json2)
-  expect_equal(as.character(id2json(list(bigid, bigid))),
+  expect_equal(as.character(id2json(c(bigid, bigid), uniqueids=TRUE)),
                big.json)
+  expect_equal(as.character(id2json(list(bigid, bigid))),
+               big.json2)
 
   df=data.frame(bodyId=bigid)
   expect_equal(as.character(id2json(df)),
