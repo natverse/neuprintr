@@ -102,18 +102,22 @@ neuprint_read_neuron <- function(bodyid,
   if(resample){
     n = nat::resample(x=n,stepsize=resample)
   }
+  if(connectors){
+    synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
+  }
   if(soma){
     somapoint = tryCatch(nat::xyzmatrix(neuprint_locate_soma(bodyids = bodyid, all_segments = all_segments, dataset = dataset, conn = conn, ...)),
                          error = function(e) NA)
     if(sum(is.na(somapoint))==0){
       near.soma = nabor::knn(query=somapoint,data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    }else if (estimate.soma){ # Quickly stimate soma location as the leave node furthest from synapses, or other leaf nodes
-      leaves = ends = nat::endpoints(n)
-      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=10)$nn.dist
-      leaves = ends = leaves[which(far.leaves[,10]>mean(far.leaves[,10]))]
+    }else if (estimate.soma){ # Quickly stimate soma location as the leaf node furthest from synapses, or other leaf nodes
+      leaves = nat::endpoints(n)
+      avoid = rbind(nat::xyzmatrix(n$d[leaves,]),nat::xyzmatrix(synapses))
+      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=avoid,k=10)$nn.dist
+      leaves = leaves[which(far.leaves[,10]>mean(far.leaves[,10]))]
       dists = sapply(leaves, function(l) mean(sapply(igraph::all_shortest_paths(graph = nat::as.ngraph(d),
                                    from = l,
-                                   to = ends,
+                                   to = leaves,
                                    mode = c("all"),weights = NULL)$res,length)))
       near.soma = leaves[which.max(dists)]
     }else{
@@ -127,7 +131,6 @@ neuprint_read_neuron <- function(bodyid,
     d = n$d
   }
   if(connectors){
-    synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
     synapses$treenode_id = n$d[near,"PointNo"]
     synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
