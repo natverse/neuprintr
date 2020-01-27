@@ -2,7 +2,7 @@
 % Please edit documentation in R/name.R
 \name{neuprint_get_meta}
 \alias{neuprint_get_meta}
-\title{Get metadata for body (including name, type, status, size)}
+\title{Get key metadata for body (including name, type, status, size)}
 \usage{
 neuprint_get_meta(
   bodyids,
@@ -25,20 +25,34 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a \code{data.frame} containing the neuron's \itemize{
-\item name
-\item type Cell type of the neuron
-\item status (Traced etc)
-\item voxels size in voxels
-\item pre number of presynapses.
-\item post number of postsynapses
-\item cropped whether the neuron is cropped by the hemibrain volume
-}
+a \code{data.frame} containing the neuron's \itemize{ \item name
 
-a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.
+  \item type Cell type of the neuron
+
+  \item status (Traced etc)
+
+  \item voxels size in voxels
+
+  \item pre number of presynapses
+
+  \item post number of postsynapses
+
+  \item cropped whether the neuron is cropped by the hemibrain volume
+
+  \item soma whether the neuron has a soma in the hemibrain volume
+
+  \item cellBodyFiber names the tract connecting the soma to rest of neuron
+
+  }
 }
 \description{
-Get metadata for body (including name, type, status, size)
+Get key metadata for body (including name, type, status, size)
+}
+\details{
+Sometimes a \code{cellBodyFiber} will be present even when the
+  \code{soma} is not, so this may be a good test of if the neuron is present
+  in the volume. The \code{cellBodyFiber} should be matched to (hemi)lineage
+  information .
 }
 \examples{
 \donttest{
