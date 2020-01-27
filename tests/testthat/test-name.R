@@ -15,6 +15,8 @@ test_that("test name searches ", {
                  "voxels",
                  "pre",
                  "post",
-                 "cropped"
+                 "cropped",
+                 "soma",
+                 "cellBodyFiber"
                ))
 })

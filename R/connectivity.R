@@ -50,13 +50,12 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   prepost = match.arg(prepost)
   conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  bodyids=unique(id2bit64(bodyids))
+  bodyids=unique(id2char(bodyids))
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   }
   if(progress){
-    # sadly you can't lapply a set of int64 ...
-    d  = do.call(rbind, pbapply::pblapply(as.character(bodyids), function(bi) tryCatch(neuprint_connection_table(
+    d  = do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_connection_table(
       bodyids = bi,
       prepost = prepost,
       roi = roi,
@@ -175,7 +174,7 @@ neuprint_simple_connectivity <- function(bodyids,
   prepost = match.arg(prepost)
   find_inputs = ifelse(prepost=="PRE", "false","true")
   # nb looks odd, but convert back to character to allow pblapply ...
-  bodyids=as.character(unique(id2bit64(bodyids)))
+  bodyids=unique(id2char(bodyids))
   if(length(bodyids)>10){
     m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
                                 bodyids = bi,
@@ -279,6 +278,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                     data.frame(from=as.character(d[[2]][[i]][[1]]),
                                to=as.character(d[[2]][[i+1]][[1]]),
                                weight=d[[3]][[i]],
+                               depth = i,
                                name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],
                                type.from=d[[2]][[i]][[3]],type.to=d[[2]][[i+1]][[3]],
                                stringsAsFactors = FALSE)
@@ -343,6 +343,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
       data.frame(from=as.character(d[[2]][[i]][[1]]),
                  to=as.character(d[[2]][[i+1]][[1]]),
                  weight=d[[3]][[i]],
+                 depth=i,
                  name.from=d[[2]][[i]][[2]],name.to=d[[2]][[i+1]][[2]],
                  type.from=d[[2]][[i]][[3]],type.to=d[[2]][[i+1]][[3]],
                  stringsAsFactors = FALSE)

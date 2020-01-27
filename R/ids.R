@@ -34,3 +34,9 @@ id2bit64 <- function(x) {
   }
   bit64::as.integer64(x)
 }
+
+# this is the easiest thing to use in your functions as character vectors
+# never get munged (unlike 64 bit ints, which occasionally lose their class)
+id2char <- function(x) {
+  as.character(id2bit64(x))
+}

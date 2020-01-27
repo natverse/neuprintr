@@ -69,7 +69,7 @@ After successful login, the \code{neuprint_connection} object will
   authentication. You can get your token by going to your neuPrint server's
   webpage and right clicking on the icon showing your Google account on the
   top right corner, and selecting \bold{AUTH_TOKEN}, or often at your
-  server's address \code{/token}, once you havw signed in via your approved
+  server's address \code{/token}, once you have signed in via your approved
   Google account. Contact the server's administrators if you do not have
   access, but think that you should. You can then set the
   \code{catmaid.token} package option, but no

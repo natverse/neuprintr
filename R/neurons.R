@@ -92,7 +92,7 @@ neuprint_read_neuron <- function(bodyid,
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    n = neuprint_read_neuron_simple(id2bit64(bodyid), dataset=dataset,
+    n = neuprint_read_neuron_simple(id2char(bodyid), dataset=dataset,
                                     conn = conn, heal = FALSE,...)
   }
   if(heal){
@@ -207,7 +207,7 @@ heal_skeleton <- function(x, ...){
 #' plot(dl1s, WithNode=F)
 #' }
 neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
-  bodyid=as.character(id2bit64(bodyid))
+  bodyid=id2char(bodyid)
   if(length(bodyid)>1) {
     fakenl=structure(bodyid, .Names=bodyid)
     nl=nat::nlapply(fakenl, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...)

@@ -32,7 +32,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     inroi = neuprint_bodies_in_ROI( roi = roi,
                                     dataset = dataset, conn=conn, ...)
     inroi = subset(inroi, voxels>voxel.thresh)
-    bodyids = unique(c(id2bit64(inroi$bodyid),id2bit64(bodyids)))
+    bodyids = unique(c(id2char(inroi$bodyid),id2char(bodyids)))
   }
   # Fetch neuron data
   message("Reading neurons from ", conn$server, " for dataset: ", dataset)

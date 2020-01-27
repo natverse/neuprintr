@@ -29,20 +29,32 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
   d
 }
 
-#' @title Get metadata for body (including name, type, status, size)
+#' @title Get key metadata for body (including name, type, status, size)
+#' @details Sometimes a \code{cellBodyFiber} will be present even when the
+#'   \code{soma} is not, so this may be a good test of if the neuron is present
+#'   in the volume. The \code{cellBodyFiber} should be matched to (hemi)lineage
+#'   information .
+#' @return a \code{data.frame} containing the neuron's \itemize{ \item name
 #'
-#' @return a \code{data.frame} containing the neuron's \itemize{
-#' \item name
-#' \item type Cell type of the neuron
-#' \item status (Traced etc)
-#' \item voxels size in voxels
-#' \item pre number of presynapses.
-#' \item post number of postsynapses
-#' \item cropped whether the neuron is cropped by the hemibrain volume
-#' }
+#'   \item type Cell type of the neuron
+#'
+#'   \item status (Traced etc)
+#'
+#'   \item voxels size in voxels
+#'
+#'   \item pre number of presynapses
+#'
+#'   \item post number of postsynapses
+#'
+#'   \item cropped whether the neuron is cropped by the hemibrain volume
+#'
+#'   \item soma whether the neuron has a soma in the hemibrain volume
+#'
+#'   \item cellBodyFiber names the tract connecting the soma to rest of neuron
+#'
+#'   }
 #'
 #' @inheritParams neuprint_get_adjacency_matrix
-#' @return a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.
 #' @export
 #' @examples
 #' \donttest{
@@ -56,7 +68,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, con
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
       "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped"
+      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber"
     ),
     id2json(bodyids),
     all_segments,
