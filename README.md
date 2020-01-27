@@ -78,7 +78,7 @@ neuprint_database()
 neuprint_ROIs()
 ```
 
-Use the client to request data from neuprint. The method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <https://neuprint.janelia.org/help>.
+Use the client to request data from neuprint. The `neuprint_fetch_custom` method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <https://neuprint.janelia.org/help>.
 
 Some cyphers and other API endpoints have been explored by this package. Have a look a the functions, for example, that give you neuron skeletons, synapse locations, connectivity matrices, etc.
 
