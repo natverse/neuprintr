@@ -24,7 +24,7 @@
 #' @return a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @examples
 #' \donttest{
-#' neurons = neuprint_read_neurons(c(818983130, 1796818119))
+#' neurons = neuprint_read_neurons(c("818983130", "1796818119"))
 #' nat::plot3d(neurons, col = "purple", lwd = 2)
 #' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
@@ -45,7 +45,7 @@ neuprint_read_neurons <- function(bodyids,
                                   resample = FALSE,
                                   conn = NULL,
                                   OmitFailures = TRUE, ...) {
-  neurons = nat::nlapply(id2bit64(bodyids),function(bodyid)
+  neurons = nat::nlapply(id2char(bodyids),function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
