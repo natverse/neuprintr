@@ -20,7 +20,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
   d
 }
 
-#' @title Get metadata for body (inc name, type, status, size)
+#' @title Get metadata for body (including name, type, status, size)
 #'
 #' @return a \code{data.frame} containing the neuron's \itemize{
 #' \item name
