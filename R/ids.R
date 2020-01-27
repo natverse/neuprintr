@@ -7,6 +7,13 @@ id2json <- function(x, uniqueids=TRUE, ...) {
 
 # ... this bit might also be useful
 id2bit64 <- function(x) {
+  if(is.data.frame(x)) {
+    nx=tolower(names(x))
+    if('bodyid' %in% nx)
+      x=x[[match('bodyid', nx)]]
+    else
+      stop("If you pass a data.frame, it must contain a `bodyid` column!")
+  }
   x=unlist(x, use.names = FALSE)
   if(is.factor(x)) {
     x=as.character(x)

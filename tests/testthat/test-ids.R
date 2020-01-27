@@ -25,4 +25,9 @@ test_that("id conversion works", {
                big.json2)
   expect_equal(as.character(id2json(list(bigid, bigid))),
                big.json)
+
+  df=data.frame(bodyId=bigid)
+  expect_equal(as.character(id2json(df)),
+               big.json)
+  expect_error(id2bit64(data.frame(id=bigid)))
 })

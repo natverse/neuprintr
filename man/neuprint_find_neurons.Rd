@@ -46,7 +46,11 @@ Find bodies that input/output within certain ROIs (i.e. they must have synapses 
 }
 \examples{
 \donttest{
-neuprint_get_neuron_names(c(818983130, 1796818119))
+# Find some neurons with inputs in the Antennal Lobe (AL) and
+# outputs in the LH
+pncands=neuprint_find_neurons(input_ROIs = "AL(R)", output_ROIs = "LH(R)")
+head(pncands)
+plot(`LH(R).pre`~`AL(R).post`, data=pncands)
 }
 }
 \seealso{

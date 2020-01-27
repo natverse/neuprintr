@@ -2,7 +2,7 @@
 % Please edit documentation in R/name.R
 \name{neuprint_get_meta}
 \alias{neuprint_get_meta}
-\title{Get metadata for body (inc name, type, status, size)}
+\title{Get metadata for body (including name, type, status, size)}
 \usage{
 neuprint_get_meta(
   bodyids,
@@ -38,7 +38,7 @@ a \code{data.frame} containing the neuron's \itemize{
 a dataframe, one row for each given body id, columns bodyid, name, status, voxels, pre and post. If data is missing, NA is returned.
 }
 \description{
-Get metadata for body (inc name, type, status, size)
+Get metadata for body (including name, type, status, size)
 }
 \examples{
 \donttest{
