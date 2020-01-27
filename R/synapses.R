@@ -26,6 +26,7 @@
 #' }
 neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
   conn = neuprint_login(conn)
+  bodyids = id2char(bodyids)
   if (is.null(roi)) {
     roi = ""
   } else{
@@ -79,8 +80,6 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   m = data.frame(do.call(rbind,apply(m, 1, function(x) nullToNA(x))))
   m[,] = unlist(m)
   m$prepost = ifelse(m$prepost=="post",1,0)
- # m$bodyid = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[3])
- # m$partner = sapply(m$datasetBodyIds, function(i) unlist(strsplit(i,":"))[2])
   m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
   m = subset(m, bodyid!=partner) # Automatically remove autapses, hopefully we only need to do this temporarily
   m
