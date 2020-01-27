@@ -50,8 +50,7 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   prepost = match.arg(prepost)
   conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  #
-  # bodyids=unique(id2bit64(bodyids))
+  bodyids=unique(id2char(bodyids))
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   }
