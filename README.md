@@ -21,7 +21,7 @@ library(neuprintr)
 Authentication
 --------------
 
-In order to use *neuprintr* you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. Currently this means you have to have an authorised account.
+In order to use *neuprintr* you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your `@gmail` address without an authentication process. Navigate to a neuPrint website, e.g. <https://neuprint.janelia.org>, and hit 'login'. Sign in using an `@gmail` account. If you have authentication/the server is public, you will now be able to see your access token by going to 'Account':
 
 ![access your bearer token](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png)
 
@@ -49,7 +49,7 @@ conn = neuprint_login(server= "https://neuprint.janelia.org/",
    token= "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU")
 ```
 
-This is also the approach that you would take if you were working with more than 2 neuPrint servers.
+This is also the approach that you would take if you were working with more than two neuPrint servers.
 
 Example
 -------
