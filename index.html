@@ -122,7 +122,7 @@
 <div id="authentication" class="section level2">
 <h2 class="hasAnchor">
 <a href="#authentication" class="anchor"></a>Authentication</h2>
-<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. Currently this means you have to have an authorised account.</p>
+<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g. <a href="https://neuprint.janelia.org" class="uri">https://neuprint.janelia.org</a>, and hit ‘login’. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to ‘Account’:</p>
 <p><img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png" alt="access your bearer token"></p>
 <p>To make life easier, you can then edit your <code>.Renviron</code> file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. A convenient way to do this is to do</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">edit_r_environ</span>()</a></code></pre></div>
@@ -135,7 +135,7 @@
 <p>Finally you can also login on the command line once per session, like so:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">conn =<span class="st"> </span><span class="kw"><a href="reference/neuprint_login.html">neuprint_login</a></span>(<span class="dt">server=</span> <span class="st">"https://neuprint.janelia.org/"</span>,</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">   <span class="dt">token=</span> <span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span>)</a></code></pre></div>
-<p>This is also the approach that you would take if you were working with more than 2 neuPrint servers.</p>
+<p>This is also the approach that you would take if you were working with more than two neuPrint servers.</p>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
