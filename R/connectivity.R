@@ -363,3 +363,46 @@ extract_connectivity_df <- function(rois, json){
 }
 
 
+
+
+##' @title Get a matrix for connectivity between neuron/neuronlist objects
+#'
+#' @description Get an adjacency matrix for the synaptic connectivity between \code{nat::neuron}/\code{nat::neuronlist} objects. This function does not query a neuPrint server.
+#' It uses information on synaptic connectivity stored in a \code{nat::neuron}/\code{nat::neuronlist} object, as read from neuPrint by \code{neuprint_read_neurons}.
+#' This can be particularly useful if you have neurons that you have been pruned using \code{nat:prune} family functions, because you just want to know the connectivity associated with
+#' this modified skeleton, and not all connectivity associated with a bodyid on neuPrint.
+#' @param pre a neuron/neuronlist object. Putative input neurons (rows of returned matrix). If \code{post} is \code{NULL}, then these are also the putative target neurons (columns of returned matrix)
+#' @param post a neuron/neuronlist object. Putative target neurons. Defaults to \code{NULL}
+#' @param ... methods sent to \code{nat::nlapply}
+#' @return a n x n matrix, where the rows are input neurons and the columns are their targets. Names are bodyids.
+#' @seealso \code{\link{neuprint_connection_table}}, \code{\link{neuprint_read_neurons}}, \code{\link{neuprint_common_connectivity}}
+#' @examples
+#' \donttest{
+#' neurons = neuprint_read_neurons(c(818983130,1143677310))
+#' M = neuprint_skeleton_connectivity_matrix(neurons)
+#' stats::heatmap(M)
+#' }
+#' @export
+#' @rdname neuprint_skeleton_connectivity_matrix
+neuprint_skeleton_connectivity_matrix <- function (pre, post = NULL, ...) {
+  pre = nat::as.neuronlist(pre)
+  outs = nat::nlapply(pre, function(x) subset(x$connectors$bodyid,x$connectors$prepost == 0),...)
+  if(is.null(post)){
+    post = pre
+  }else{
+    post = nat::as.neuronlist(post)
+  }
+  ins = nat::nlapply(post, function(x) subset(x$connectors$partner,x$connectors$prepost == 1),...)
+  m = matrix(0, nrow = length(pre), ncol = length(post))
+  colnames(m) = names(post)
+  rownames(m) = names(pre)
+  for (skel in names(pre)) {
+    for (skel2 in names(post)) {
+      a = sum(outs[[skel]]==skel2)
+      b = sum(ins[[skel2]]==skel)
+      syns = min(a,b)
+      m[skel, skel2] <- syns
+    }
+  }
+  m
+}
