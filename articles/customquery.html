@@ -153,7 +153,12 @@
 </li>
 </ul>
 <p>The latter is arguably the best approach, but it relies on an add-on package (bit64) rather than base R.</p>
-<p>Bottom line, always use <code>id2json()</code> on your body ids and you should be fine.</p>
+<p>Bottom line</p>
+<ul>
+<li>always use <code>id2json()</code> on your body ids when building your cypher</li>
+<li>if you work with your body ids inside your function then do <code>id2char</code> to put them into the most robust standard form (a character vector).</li>
+</ul>
+<p><code>id2bit64</code> is also available. This sounds better, but these <code><a href="https://rdrr.io/pkg/bit64/man/bit64-package.html">bit64::integer64()</a></code> are a bit fragile. In particular you cannot turn them into a list or run <code>lapply</code> without losing their class.</p>
 </div>
 <div id="connecting-to-neuprint" class="section level3">
 <h3 class="hasAnchor">
