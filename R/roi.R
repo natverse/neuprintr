@@ -12,7 +12,11 @@
 #' @return a n x n matrix, where the rows are input neurons and the columns are their targets
 #' @examples
 #' \donttest{
-#' neuprint_get_neuron_names(c(818983130, 1796818119))
+#' # Find some neurons with inputs in the Antennal Lobe (AL) and
+#' # outputs in the LH
+#' pncands=neuprint_find_neurons(input_ROIs = "AL(R)", output_ROIs = "LH(R)")
+#' head(pncands)
+#' plot(`LH(R).pre`~`AL(R).post`, data=pncands)
 #' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
