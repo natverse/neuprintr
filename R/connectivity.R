@@ -50,13 +50,13 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
   prepost = match.arg(prepost)
   conn=neuprint_login(conn)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  #
-  # bodyids=unique(id2bit64(bodyids))
+  bodyids=unique(id2bit64(bodyids))
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   }
   if(progress){
-    d  = do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_connection_table(
+    # sadly you can't lapply a set of int64 ...
+    d  = do.call(rbind, pbapply::pblapply(as.character(bodyids), function(bi) tryCatch(neuprint_connection_table(
       bodyids = bi,
       prepost = prepost,
       roi = roi,
@@ -124,7 +124,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   all_segments = ifelse(all_segments,"true","false")
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
                             dataset,
-                            id2json(bodyids),
+                            id2json(bodyids, uniqueids = TRUE),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
                             all_segments))
@@ -174,6 +174,8 @@ neuprint_simple_connectivity <- function(bodyids,
                                          ...){
   prepost = match.arg(prepost)
   find_inputs = ifelse(prepost=="PRE", "false","true")
+  # nb looks odd, but convert back to character to allow pblapply ...
+  bodyids=as.character(unique(id2bit64(bodyids)))
   if(length(bodyids)>10){
     m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
                                 bodyids = bi,
@@ -259,8 +261,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  id2json(body_pre),
-  id2json(body_post),
+  id2json(body_pre, uniqueids = TRUE),
+  id2json(body_post, uniqueids = TRUE),
   all_segments.json,
   n[1]-1,
   n[2],
@@ -325,8 +327,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  id2json(body_pre),
-  id2json(body_post),
+  id2json(body_pre, uniqueids = TRUE),
+  id2json(body_post, uniqueids = TRUE),
   all_segments.json,
   all_segments.json,
   weightT,
