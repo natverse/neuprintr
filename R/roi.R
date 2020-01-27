@@ -135,6 +135,7 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic
 #' @export
 #' @rdname neuprint_ROI_mesh
 neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
+  dataset = check_dataset(dataset)
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   dataset = check_dataset(dataset)
   roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh",dataset,roi,sep="/"),parse.json = FALSE,include_headers = FALSE)
