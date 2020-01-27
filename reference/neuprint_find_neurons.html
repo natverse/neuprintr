@@ -200,8 +200,23 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='neuprint_get_neuron_names.html'>neuprint_get_neuron_names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt;           818983130          1796818119 
-#&gt; "mPN1_DA2(AVM02)_R" "mPN1_DA2(AVM02)_R" </div><div class='input'># }
+<span class='co'># Find some neurons with inputs in the Antennal Lobe (AL) and</span>
+<span class='co'># outputs in the LH</span>
+<span class='no'>pncands</span><span class='kw'>=</span><span class='fu'>neuprint_find_neurons</span>(<span class='kw'>input_ROIs</span> <span class='kw'>=</span> <span class='st'>"AL(R)"</span>, <span class='kw'>output_ROIs</span> <span class='kw'>=</span> <span class='st'>"LH(R)"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>pncands</span>)</div><div class='output co'>#&gt;              bodyid            bodyname                  bodytype neuronStatus
+#&gt; 294792184 294792184      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced
+#&gt; 329566174 329566174  OA-VPM3(NO2/NO3)_R                   OA-VPM3       Traced
+#&gt; 420274150 420274150 AVM03m_pct(AVM03)_R                AVM03m_pct       Traced
+#&gt; 424379864 424379864 AVM03e_pct(AVM03)_R                AVM03e_pct       Traced
+#&gt; 425790257 425790257               APL_R                       APL       Traced
+#&gt; 480927537 480927537      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced
+#&gt;                  size  npre  npost AL(R).pre AL(R).post LH(R).pre LH(R).post
+#&gt; 294792184   420662445    93    344         1        162        20         25
+#&gt; 329566174  6840451191  8568   9998         7          2       235        160
+#&gt; 420274150  1402341169   912    841         0          1        72         96
+#&gt; 424379864  1338354844  1066    809         0          7         7          0
+#&gt; 425790257 23074962804 16060 126513         2         10         0         38
+#&gt; 480927537   239954420    82    273         0        122        67        132</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>`LH(R).pre`</span>~<span class='no'>`AL(R).post`</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>pncands</span>)</div><div class='img'><img src='neuprint_find_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
