@@ -123,7 +123,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   all_segments = ifelse(all_segments,"true","false")
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
                             dataset,
-                            id2json(bodyids),
+                            id2json(bodyids, uniqueids = TRUE),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
                             all_segments))
@@ -173,6 +173,8 @@ neuprint_simple_connectivity <- function(bodyids,
                                          ...){
   prepost = match.arg(prepost)
   find_inputs = ifelse(prepost=="PRE", "false","true")
+  # nb looks odd, but convert back to character to allow pblapply ...
+  bodyids=unique(id2char(bodyids))
   if(length(bodyids)>10){
     m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
                                 bodyids = bi,
@@ -258,8 +260,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  id2json(body_pre),
-  id2json(body_post),
+  id2json(body_pre, uniqueids = TRUE),
+  id2json(body_post, uniqueids = TRUE),
   all_segments.json,
   n[1]-1,
   n[2],
@@ -324,8 +326,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  id2json(body_pre),
-  id2json(body_post),
+  id2json(body_pre, uniqueids = TRUE),
+  id2json(body_post, uniqueids = TRUE),
   all_segments.json,
   all_segments.json,
   weightT,
@@ -367,3 +369,46 @@ extract_connectivity_df <- function(rois, json){
 }
 
 
+
+
+##' @title Get a matrix for connectivity between neuron/neuronlist objects
+#'
+#' @description Get an adjacency matrix for the synaptic connectivity between \code{nat::neuron}/\code{nat::neuronlist} objects. This function does not query a neuPrint server.
+#' It uses information on synaptic connectivity stored in a \code{nat::neuron}/\code{nat::neuronlist} object, as read from neuPrint by \code{neuprint_read_neurons}.
+#' This can be particularly useful if you have neurons that you have been pruned using \code{nat:prune} family functions, because you just want to know the connectivity associated with
+#' this modified skeleton, and not all connectivity associated with a bodyid on neuPrint.
+#' @param pre a neuron/neuronlist object. Putative input neurons (rows of returned matrix). If \code{post} is \code{NULL}, then these are also the putative target neurons (columns of returned matrix)
+#' @param post a neuron/neuronlist object. Putative target neurons. Defaults to \code{NULL}
+#' @param ... methods sent to \code{nat::nlapply}
+#' @return a n x n matrix, where the rows are input neurons and the columns are their targets. Names are bodyids.
+#' @seealso \code{\link{neuprint_connection_table}}, \code{\link{neuprint_read_neurons}}, \code{\link{neuprint_common_connectivity}}
+#' @examples
+#' \donttest{
+#' neurons = neuprint_read_neurons(c(818983130,1143677310))
+#' M = neuprint_skeleton_connectivity_matrix(neurons)
+#' stats::heatmap(M)
+#' }
+#' @export
+#' @rdname neuprint_skeleton_connectivity_matrix
+neuprint_skeleton_connectivity_matrix <- function (pre, post = NULL, ...) {
+  pre = nat::as.neuronlist(pre)
+  outs = nat::nlapply(pre, function(x) subset(x$connectors$bodyid,x$connectors$prepost == 0),...)
+  if(is.null(post)){
+    post = pre
+  }else{
+    post = nat::as.neuronlist(post)
+  }
+  ins = nat::nlapply(post, function(x) subset(x$connectors$partner,x$connectors$prepost == 1),...)
+  m = matrix(0, nrow = length(pre), ncol = length(post))
+  colnames(m) = names(post)
+  rownames(m) = names(pre)
+  for (skel in names(pre)) {
+    for (skel2 in names(post)) {
+      a = sum(outs[[skel]]==skel2)
+      b = sum(ins[[skel2]]==skel)
+      syns = min(a,b)
+      m[skel, skel2] <- syns
+    }
+  }
+  m
+}

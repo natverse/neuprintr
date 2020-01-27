@@ -84,7 +84,7 @@ details.}
 \item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
 }
 \value{
-a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
+a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
 }
 \description{
 Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
@@ -93,8 +93,8 @@ If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retriev
 }
 \examples{
 \donttest{
-n = neuprint_read_neurons("5813115796")
-nat::plot3d(n, col = "purple", lwd = 2)
+neurons = neuprint_read_neurons(c(818983130, 1796818119))
+nat::plot3d(neurons, col = "purple", lwd = 2)
 }
 \donttest{
 dl1.info <- neuprint_search('.*mPN.*DL1.*')

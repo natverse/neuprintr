@@ -21,11 +21,11 @@
 #' If NULL, your defaults set in your R.profile or R.environ are used.
 #' @inheritParams nat::nlapply
 #' @param ... methods passed to \code{neuprint_login}
-#' @return a data frame in SWC format, or a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
+#' @return a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @examples
 #' \donttest{
-#' n = neuprint_read_neurons("5813115796")
-#' nat::plot3d(n, col = "purple", lwd = 2)
+#' neurons = neuprint_read_neurons(c(818983130, 1796818119))
+#' nat::plot3d(neurons, col = "purple", lwd = 2)
 #' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 #' @importFrom drvid read.neuron.dvid
