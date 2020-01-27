@@ -257,14 +257,14 @@ details.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame in SWC format, or a neuron/neuronlist object as dictated used by the <code>nat</code> and <code>rcatmaid</code> packages</p>
+    <p>a data frame in SWC format, or a <code><a href='https://rdrr.io/pkg/nat/man/neuron.html'>nat::neuron</a></code>/<code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> object as dictated used by the <code>nat</code> and <code>rcatmaid</code> packages</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>, <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='neuprint_assign_connectors.html'>neuprint_assign_connectors</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>n</span> <span class='kw'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='st'>"5813115796"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in neuprint_read_neurons("5813115796"): Error: none of the given bodyids have skeletons that could be fetched</span></div><div class='input'><span class='kw pkg'>nat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nat/man/plot3d.html'>plot3d</a></span>(<span class='no'>n</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"purple"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'plot3d' is not an exported object from 'namespace:nat'</span></div><div class='input'><span class='co'># }</span>
+<span class='no'>neurons</span> <span class='kw'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt; <span class='error'>Error in neuprint_read_neurons(c(818983130, 1796818119)): Error: none of the given bodyids have skeletons that could be fetched</span></div><div class='input'><span class='kw pkg'>nat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nat/man/plot3d.html'>plot3d</a></span>(<span class='no'>neurons</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"purple"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'plot3d' is not an exported object from 'namespace:nat'</span></div><div class='input'><span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='no'>dl1.info</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*mPN.*DL1.*'</span>)
 <span class='no'>dl1.info</span></div><div class='output co'>#&gt;       bodyid              name     type status     voxels  pre post cropped
