@@ -10,3 +10,4 @@
 ^pkgdown$
 ^\.httr-oauth$
 ^examples$
+^codecov\.yml$
