@@ -12,11 +12,11 @@ Tutorial
 To help you get to grips with `neuprintr`, we have made a tutorial in classic presentation form. This tutorial uses data from the [Janelia Fly EM](https://www.janelia.org/project-team/flyem) team's [hemibrain](https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1) project. You can also see the vignettes in this package for the same examples and more.
 
 <p align="center">
-<iframe src="https://www.slideshare.net/slideshow/embed_code/key/GScw5pO0zojSPg" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/GcE2Blzz02nfhM" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
 </iframe>
-<strong> <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr" title="Accessing hemibrain data using Neuprintr " target="_blank">Accessing hemibrain data using Neuprintr </a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alexander Bates</a></strong>
-
 </p>
+<strong> <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr-225098909" title="Accessing hemibrain data using Neuprintr " target="_blank">Accessing hemibrain data using Neuprintr </a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alexander Bates</a></strong>
+
 Installation
 ------------
 
