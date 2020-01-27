@@ -4,7 +4,18 @@
 neuprintr
 =========
 
-The goal of *neuprintr* is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find [neuprint](https://github.com/connectome-neuprint/neuPrint) on Github. There is also a great python client available from Philipp Schlegel, [neuprint-python](https://github.com/schlegelp/neuprint-python) if that's your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the [hemibrain](https://www.janelia.org/project-team/flyem/hemibrain), densely reconstructed adult Drosophila brain dataset available at <https://neuprint.janelia.org/>. For more information, have a look [here](https://neuprint.janelia.org/help). Using this R package in concert with the [natverse](https://github.com/natverse/natverse) ecosystem is highly recommended.
+The goal of *neuprintr* is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find [neuprint](https://github.com/connectome-neuprint/neuPrint) on Github. There is also a great python client available from Philipp Schlegel, [neuprint-python](https://github.com/schlegelp/neuprint-python) if that's your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the [hemibrain](https://www.janelia.org/project-team/flyem/hemibrain) densely reconstructed adult Drosophila brain dataset available at <https://neuprint.janelia.org/>. For more information, have a look [here](https://neuprint.janelia.org/help). Using this R package in concert with the [nat](https://github.com/jefferis/nat) ecosystem developed primarily by Greg Jefferis is highly recommended.
+
+Tutorial
+--------
+
+To help you get to grips with `neuprintr`, we have made a tutorial in classic presentation form. This tutorial uses data from the [Janelia Fly EM](https://www.janelia.org/project-team/flyem) team's [hemibrain](https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1) project. You can also see the vignettes in this package for the same examples and more.
+
+<p align="center">
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/GcE2Blzz02nfhM" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
+</iframe>
+</p>
+<strong> <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr-225098909" title="Accessing hemibrain data using Neuprintr " target="_blank">Accessing hemibrain data using Neuprintr </a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alexander Bates</a></strong>
 
 Installation
 ------------
