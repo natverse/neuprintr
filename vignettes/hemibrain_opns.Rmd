@@ -88,7 +88,7 @@ Let's find some in our HemiBrain data:
 ```{r find.neurons, eval = FALSE}
 ### Let's find some in our HemiBrain data:
 opn.info = neuprint_search(".*mPN1.*")
-opn.info[!is.na(opn.info$type),"type"] = opn.info[!is.na(opn.info$type),"name"]
+opn.info[is.na(opn.info$type),"type"] = opn.info[is.na(opn.info$type),"name"]
 rownames(opn.info) = opn.info$bodyid
 #### Add AL glomerulus information from the name
 name.split = strsplit(opn.info$name,split=c("\\(|\\_"))
