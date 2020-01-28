@@ -60,7 +60,7 @@ This might be faster, and this might also enable access to skeletons on an under
 
 \item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
 
-\item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}}
+\item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{nat::stitch_neurons_mst}}
 
 \item{connectors}{whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
 This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}}
@@ -74,9 +74,9 @@ This can be done for synapse-less skeletons using \code{neuprint_assign_connecto
 \item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
 If NULL, your defaults set in your R.profile or R.environ are used.}
 
-\item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an
-error. The default value (\code{NA}) will result in nlapply stopping with
-an error message the moment there is an error. For other values, see
+\item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an 
+error. The default value (\code{NA}) will result in nlapply stopping with 
+an error message the moment there is an eror. For other values, see 
 details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
@@ -93,7 +93,7 @@ If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retriev
 }
 \examples{
 \donttest{
-neurons = neuprint_read_neurons(c("818983130", "1796818119"))
+neurons = neuprint_read_neurons(c(818983130, 1796818119))
 nat::plot3d(neurons, col = "purple", lwd = 2)
 }
 \donttest{
