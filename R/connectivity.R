@@ -6,8 +6,15 @@
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
+#' @examples
+#' \donnttest{
+#' da2s=neuprint_search(".*DA2.*")
+#' # these will mostly be axo-axonic connections
+#' neuprint_get_adjacency_matrix(da2s$bodyid)
+#' }
 neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
+  conn=neuprint_login(conn)
   namefield=neuprint_name_field(conn)
   cypher = sprintf(
     paste(
