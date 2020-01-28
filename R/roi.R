@@ -138,9 +138,13 @@ neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
   dataset = check_dataset(dataset)
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   dataset = check_dataset(dataset)
-  roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh",dataset,roi,sep="/"),parse.json = FALSE,include_headers = FALSE)
+  roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh", dataset, roi,
+                                       sep="/"),
+                            parse.json = FALSE,
+                            include_headers = FALSE)
   tf = tempfile()
-  writeLines(httr::content(roiQuery,as="text"),tf)
+  on.exit(unlink(tf))
+  writeLines(httr::content(roiQuery, as="text", encoding = "UTF-8"), tf)
   readobj::read.obj(tf,convert.rgl=TRUE)[[1]]
 }
 

@@ -37,6 +37,12 @@ a n x m matrix where n correspond to the neurons that all connect to m bodyids
 \description{
 Get the neurons that are shared synaptic partners for a set of given bodyids, either upstream or downstream.
 }
+\examples{
+\donttest{
+da2s=neuprint_search(".*DA2.*")
+neuprint_common_connectivity(da2s$bodyid)
+}
+}
 \seealso{
 \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_get_adjacency_matrix}}
 }

@@ -6,8 +6,15 @@
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
+#' @examples
+#' \donttest{
+#' da2s=neuprint_search(".*DA2.*")
+#' # these will mostly be axo-axonic connections
+#' neuprint_get_adjacency_matrix(da2s$bodyid)
+#' }
 neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
+  conn=neuprint_login(conn)
   namefield=neuprint_name_field(conn)
   cypher = sprintf(
     paste(
@@ -108,6 +115,11 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
 #' @seealso \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_common_connectivity
+#' @examples
+#' \donttest{
+#' da2s=neuprint_search(".*DA2.*")
+#' neuprint_common_connectivity(da2s$bodyid)
+#' }
 neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                                 prepost = c("PRE","POST"),
                                 all_segments = FALSE,
@@ -121,8 +133,9 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   }
   find_inputs = ifelse(prepost=="PRE", "false","true")
   all_segments = ifelse(all_segments,"true","false")
+
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
-                            dataset,
+                            check_dataset(dataset),
                             id2json(bodyids, uniqueids = TRUE),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
@@ -229,6 +242,10 @@ neuprint_simple_connectivity <- function(bodyids,
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
+#' @examples
+#' \donttest{
+#' neuprint_get_paths(c(695956656,725951521),755644082,c(2,3),weightT=20)
+#' }
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
@@ -284,6 +301,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                stringsAsFactors = FALSE)
                   })), error= function(e) NULL)
   }))
+  connTable
 }
 
 #' @title Get a list of the shortest paths between two neurons
@@ -308,6 +326,10 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
+#' @examples
+#' \donttest{
+#' neuprint_get_shortest_paths(c(1128092885,481121605),5813041365,weightT=20)
+#' }
 neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   conn <- neuprint_login(conn)
@@ -349,6 +371,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
                  stringsAsFactors = FALSE)
     })), error = function(e) NULL)
   }))
+  connTable
 }
 
 # hidden, caution, does not deal with left/right neuropils
