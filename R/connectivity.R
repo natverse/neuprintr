@@ -229,6 +229,10 @@ neuprint_simple_connectivity <- function(bodyids,
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
+#' @examples
+#' \donttest{
+#' neuprint_get_paths(c(695956656,725951521),755644082,c(2,3),weightT=20)
+#' }
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
@@ -284,6 +288,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                stringsAsFactors = FALSE)
                   })), error= function(e) NULL)
   }))
+  connTable
 }
 
 #' @title Get a list of the shortest paths between two neurons
@@ -308,6 +313,10 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
+#' @examples
+#' \donttest{
+#' neuprint_get_shortest_paths(c(1128092885,481121605),5813041365,weightT=20)
+#' }
 neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   conn <- neuprint_login(conn)
@@ -349,6 +358,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
                  stringsAsFactors = FALSE)
     })), error = function(e) NULL)
   }))
+  connTable
 }
 
 # hidden, caution, does not deal with left/right neuropils
