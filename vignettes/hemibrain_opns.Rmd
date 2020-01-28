@@ -206,7 +206,7 @@ plot3d(lh.mesh, add = TRUE, alpha = 0.3, col = lacroix[["green"]])
 plot3d(malt.mesh, add = TRUE, alpha = 0.9, col = "grey30")
 rgl.snapshot(filename = "images/hemibrain_olfactory_neuropils.png", fmt ="png")
 
-## Maybe get the whole hemibrai mesh?
+## Maybe get the whole hemibrain mesh?
 ## hemibrain = neuprint_ROI_mesh(roi = "hemibrain")
 
 # And with some neurons!
