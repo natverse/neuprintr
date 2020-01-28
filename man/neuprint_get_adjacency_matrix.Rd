@@ -31,7 +31,7 @@ a n x n matrix, where the rows are input neurons and the columns are their targe
 Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
 }
 \examples{
-\donnttest{
+\donttest{
 da2s=neuprint_search(".*DA2.*")
 # these will mostly be axo-axonic connections
 neuprint_get_adjacency_matrix(da2s$bodyid)

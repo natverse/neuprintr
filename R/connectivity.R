@@ -7,7 +7,7 @@
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
 #' @examples
-#' \donnttest{
+#' \donttest{
 #' da2s=neuprint_search(".*DA2.*")
 #' # these will mostly be axo-axonic connections
 #' neuprint_get_adjacency_matrix(da2s$bodyid)
