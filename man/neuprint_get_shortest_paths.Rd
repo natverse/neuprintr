@@ -42,6 +42,11 @@ set in your R.profile or R.environ are used.}
 Get all of the shortest paths in the database that connect the
   query neurons with at least weightT synapses at each step
 }
+\examples{
+\donttest{
+neuprint_get_shortest_paths(c(1128092885,481121605),5813041365,weightT=20)
+}
+}
 \seealso{
 \code{\link{neuprint_get_paths}},
   \code{\link{neuprint_common_connectivity}},
