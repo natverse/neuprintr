@@ -115,6 +115,11 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
 #' @seealso \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_common_connectivity
+#' @examples
+#' \donttest{
+#' da2s=neuprint_search(".*DA2.*")
+#' neuprint_common_connectivity(da2s$bodyid)
+#' }
 neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                                 prepost = c("PRE","POST"),
                                 all_segments = FALSE,
@@ -128,8 +133,9 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   }
   find_inputs = ifelse(prepost=="PRE", "false","true")
   all_segments = ifelse(all_segments,"true","false")
+
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
-                            dataset,
+                            check_dataset(dataset),
                             id2json(bodyids, uniqueids = TRUE),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
