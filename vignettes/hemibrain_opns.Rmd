@@ -65,7 +65,7 @@ available.datasets
 
 If you need help/have not before logged into neuPrint via R, please see the package README or see `?neuprint_login`.
 
-The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:
+The main point is that to make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:
 
 `neuprint_token = "YOUR_TOKEN_HERE"`
 `neuprint_server = 'https://neuprint.janelia.org/'`
@@ -79,7 +79,7 @@ Then restart your R session.
 
 First, we need to find neurons to read from neuPrint. We can do this easily in two ways - we can search by name, and we can search by brain region.
 
-So what do we want to look at? Some of the best studied neurons in the brain are the olfactory projections neurons (OPNs) [Grabe et al. 2016](https://www.ncbi.nlm.nih.gov/pubmed/27653699). These are second-order olfactory neurons that project from the fly's equivalent of the olfactory bulb, i.e. the antennal lobe, to higher order brain regions that genrate innate behaviours (the lateral horn, LH) [(Frechter. 209,](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6550879) [Dolan et al. 2019)](https://www.ncbi.nlm.nih.gov/pubmed/31112130) and learning & memory (the mushroom body) [(Aso et al. 2014a,](https://www.ncbi.nlm.nih.gov/pubmed/25535793) [Aso et al. 2014b)](https://www.ncbi.nlm.nih.gov/pubmed/25535794). We know a fair bit about them, compared with most neurons in the fly brain. For example, a bit of their odour response profiles [Badel et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27321924).
+So what do we want to look at? Some of the best studied neurons in the brain are the olfactory projections neurons (OPNs) [Grabe et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27653699). These are second-order olfactory neurons that project from the fly's equivalent of the olfactory bulb, i.e. the antennal lobe, to higher order brain regions that genrate innate behaviours (the lateral horn, LH) [Frechter et al., 2019](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6550879) [Dolan et al., 2019)](https://www.ncbi.nlm.nih.gov/pubmed/31112130) and learning & memory (the mushroom body) [Aso et al., 2014a](https://www.ncbi.nlm.nih.gov/pubmed/25535793) [Aso et al., 2014b](https://www.ncbi.nlm.nih.gov/pubmed/25535794). We know a fair bit about them, compared with most neurons in the fly brain. For example, a bit of their odour response profiles [Badel et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27321924).
 
 Perhaps we could look at some popular OPN types and see if they connect to each other? How do we get this information?
 
@@ -122,7 +122,7 @@ rgl.snapshot(filename = "images/hemibrain_an_opn.png", fmt ="png")
 ### output synapses in red, input ones in blue
 ### You can see the auto-segmentation goes a bit crazy where the soma is
 
-## Now that we have all of the bodyIds, we can read these neurons from neuPrint:
+## Now that we have all of the bodyids, we can read these neurons from neuPrint:
 opns = neuprint_read_neurons(opn.info$bodyid)
 nopen3d(userMatrix = structure(c(0.98370349407196, -0.104569993913174, 
                                  -0.146263062953949, 0, 0.147007316350937, -0.000597098842263222, 
@@ -133,7 +133,7 @@ plot3d(opns, col = sample(lacroix,length(opns), replace = TRUE), lwd = 2)
 rgl.snapshot(filename = "images/hemibrain_opns.png", fmt ="png")
 ### Why is this function so slow?
 ### Because it fetches fragmented neuron skeletons assigned to the same neuron
-### Stitched them into one neuron, grabs all the neuron's synapses
+### Stitches them into one neuron, grabs all the neuron's synapses
 ### and tries to work out where the soma is. If you want to move faster
 ### You can grab bits separately and quickly:
 ?neuprint_read_neuron_simple
