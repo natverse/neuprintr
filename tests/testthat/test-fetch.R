@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("neuprint_list2df works", {
   lin=list(
     columns = list(
       "id",

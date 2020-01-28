@@ -66,9 +66,13 @@ neuprint_error_check <- function(req) {
 #' @param cols Character vector specifying which columns to include (by default
 #'   all of those named in \code{x}, see details).
 #' @param return_empty_df Return a zero row data frame when there is no result.
+#' @param stringsAsFactors Whether to return character vector columns as
+#'   factors. Note that the default of \code{FALSE} differs from
+#'   \code{\link{data.frame}} and friends.
 #' @param ... Additional arguments passed to \code{\link{as.data.frame}}
 #' @export
-neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE, ...) {
+neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
+                             stringsAsFactors=FALSE, ...) {
 
   if(length(x)>=2 && all(c("columns", "data") %in% names(x))) {
     if(is.null(cols)) cols=unlist(x$columns)
@@ -97,7 +101,7 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE, ...) {
     }
     l[[cols[i]]]=raw_col
   }
-  as.data.frame(l, ...)
+  as.data.frame(l, stringsAsFactors=stringsAsFactors, ...)
 }
 
 #' @importFrom memoise memoise

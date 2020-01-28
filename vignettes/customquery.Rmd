@@ -146,7 +146,10 @@ If you are getting a nested list specifying
 a table (i.e. a `data.frame` or spreadsheet like result) then there is a
 function `neuprint_list2df()` which will do a lot of the heavy lifting.
 It is strongly recommended to make use of this whenever possible. See
-`neuprint_get_meta()` for an example.
+`neuprint_get_meta()` for an example. Note that `neuprint_list2df()` has an 
+argument with default `stringsAsFactors=FALSE` to ensure that columns in the
+output `data.frame` will be character vectors unless you take steps to make 
+them factors.
 
 ## Need help?
 

@@ -4,7 +4,13 @@
 \alias{neuprint_list2df}
 \title{Parse neuprint return list to a data frame}
 \usage{
-neuprint_list2df(x, cols = NULL, return_empty_df = FALSE, ...)
+neuprint_list2df(
+  x,
+  cols = NULL,
+  return_empty_df = FALSE,
+  stringsAsFactors = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{A list returned by \code{\link{neuprint_fetch_custom}}}
@@ -13,6 +19,10 @@ neuprint_list2df(x, cols = NULL, return_empty_df = FALSE, ...)
 all of those named in \code{x}, see details).}
 
 \item{return_empty_df}{Return a zero row data frame when there is no result.}
+
+\item{stringsAsFactors}{Whether to return character vector columns as
+factors. Note that the default of \code{FALSE} differs from
+\code{\link{data.frame}} and friends.}
 
 \item{...}{Additional arguments passed to \code{\link{as.data.frame}}}
 }
