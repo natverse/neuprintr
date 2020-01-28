@@ -24,7 +24,7 @@
 #' @return a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @examples
 #' \donttest{
-#' neurons = neuprint_read_neurons(c("818983130", "1796818119"))
+#' neurons = neuprint_read_neurons(c(818983130, 1796818119))
 #' nat::plot3d(neurons, col = "purple", lwd = 2)
 #' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
@@ -46,7 +46,8 @@ neuprint_read_neurons <- function(bodyids,
                                   conn = NULL,
                                   OmitFailures = TRUE,
                                   ...) {
-  neurons = nat::nlapply(id2char(bodyids),function(bodyid)
+  bodyids = unique(id2char(bodyids))
+  neurons = nat::nlapply(bodyids,function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
@@ -61,10 +62,13 @@ neuprint_read_neurons <- function(bodyids,
                          ...),
     OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
+  names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(length(neurons)==0){
     stop("Error: none of the given bodyids have skeletons that could be fetched")
+  }else if(!all(bodyids%in%names(neurons))){
+    missed = setdiff(bodyids,names(neurons))
+    warning("Dropping given bodyids that could not be read from ", neuprint_login(conn=conn)$server," : ", missed)
   }
-  names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(meta){
     attr(neurons,"df") = neuprint_get_meta(bodyids = names(neurons),
                                            dataset = dataset,
@@ -91,11 +95,13 @@ neuprint_read_neuron <- function(bodyid,
                                  conn = NULL, ...){
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   if(drvid){
-    n = drvid::read.neuron.dvid(bodyid)
+    n = tryCatch(drvid::read.neuron.dvid(bodyid),error = function(e) NULL)
     d = n$d
   }else{
-    n = tryCatch(neuprint_read_neuron_simple(id2char(bodyid), dataset=dataset,conn = conn, heal = FALSE,...),
-                  error = function(e) warning("Failed to read neuron ",bodyid, " from", neuprint_login()$server))
+    n = tryCatch(neuprint_read_neuron_simple(id2char(bodyid), dataset=dataset,conn = conn, heal = FALSE,...),error = function(e) NULL)
+  }
+  if(is.null(n)){
+    warning("Failed to read neuron ", bodyid , " from ", neuprint_login(conn=conn)$server,", dropping ...")
   }
   if(heal){
     n = suppressWarnings( nat::stitch_neurons_mst(x = n) )
