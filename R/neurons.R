@@ -47,7 +47,7 @@ neuprint_read_neurons <- function(bodyids,
                                   OmitFailures = TRUE,
                                   ...) {
   bodyids = unique(id2char(bodyids))
-  neurons = nat::nlapply(bodyids,function(bodyid)
+  neurons = suppressWarnings(nat::nlapply(bodyids,function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
@@ -60,14 +60,14 @@ neuprint_read_neurons <- function(bodyids,
                          resample = resample,
                          conn= conn,
                          ...),
-    OmitFailures = OmitFailures)
+    OmitFailures = OmitFailures))
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(length(neurons)==0){
     stop("Error: none of the given bodyids have skeletons that could be fetched")
   }else if(!all(bodyids%in%names(neurons))){
     missed = setdiff(bodyids,names(neurons))
-    warning("Dropping given bodyids that could not be read from ", neuprint_login(conn=conn)$server," : ", missed)
+    warning("Dropping given bodyids that could not be read from ", neuprint_login(conn=conn)$server," : ", paste(missed, collapse = ", "))
   }
   if(meta){
     attr(neurons,"df") = neuprint_get_meta(bodyids = names(neurons),
