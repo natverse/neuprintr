@@ -67,9 +67,9 @@ If you need help/have not before logged into neuPrint via R, please see the pack
 
 The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:
 
-`neuprint_token = "YOUR_TOKEN_HERE"`
-`neuprint_server = 'https://neuprint.janelia.org/'`
-neuprint_dataset = 'hemibrain:v1.0'
+`neuprint_token="YOUR_TOKEN_HERE"`
+`neuprint_server='https://neuprint.janelia.org/'`
+`neuprint_dataset='hemibrain:v1.0'`
 
 Then restart your R session.
 
@@ -123,7 +123,7 @@ rgl.snapshot(filename = "images/hemibrain_an_opn.png", fmt ="png")
 ### You can see the auto-segmentation goes a bit crazy where the soma is
 
 ## Now that we have all of the bodyIds, we can read these neurons from neuPrint:
-opns = neuprint_read_neurons(opn.info$bodyid)
+opns = neuprint_read_neuron_simple(opn.info$bodyid)
 nopen3d(userMatrix = structure(c(0.98370349407196, -0.104569993913174, 
                                  -0.146263062953949, 0, 0.147007316350937, -0.000597098842263222, 
                                  0.989135324954987, 0, -0.103521309792995, -0.994517505168915, 
@@ -131,9 +131,15 @@ nopen3d(userMatrix = structure(c(0.98370349407196, -0.104569993913174,
         windowRect = c(20L, 65L, 1191L, 843L))
 plot3d(opns, col = sample(lacroix,length(opns), replace = TRUE), lwd = 2)
 rgl.snapshot(filename = "images/hemibrain_opns.png", fmt ="png")
-### Why is this function so slow?
+
+## The simple version of read neurons just reads the skeleton for a neuron
+### We might also want our neuron objects to contain meta data and synapse information
+### We have an all-in-one function to do this. Here we go!
+opns = neuprint_read_neuron_simple(opn.info$bodyid)
+
+##But why is this function so slow?
 ### Because it fetches fragmented neuron skeletons assigned to the same neuron
-### Stitched them into one neuron, grabs all the neuron's synapses
+### Stitched them into one neuron (healing), grabs all the neuron's synapses
 ### and tries to work out where the soma is. If you want to move faster
 ### You can grab bits separately and quickly:
 ?neuprint_read_neuron_simple
@@ -285,6 +291,12 @@ View(DM1.common.meta) # Huhh, local neurons, the APL and some LH stuff
 DM1.opn.connected = neuprint_connection_table(DM1.opn.info$bodyid, prepost = "POST")
 ### In which brain region are these partners?
 table(DM1.opn.connected$roi)
+
+## Important note!!
+### The results from neuprint_connection_table can list the same bodyid-partner pairing
+### multiple times. This is because there is a separate entry for each of FlyEM's designated
+### regions of interest (ROIs). You need to sum across the different ROIs for each pairing, in
+### order to get your unitary connection strength between two neurons.
 
 ## Let's have a look at what the strongest downstream partners look like
 DM1.opn.connected.strong = subset(DM1.opn.connected,weight>100, prepost = "POST")
