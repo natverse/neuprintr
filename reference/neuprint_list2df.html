@@ -140,7 +140,13 @@
     <p>Parse neuprint return list to a data frame</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_list2df</span>(<span class='no'>x</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>return_empty_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_list2df</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>return_empty_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,6 +163,12 @@ all of those named in <code>x</code>, see details).</p></td>
     <tr>
       <th>return_empty_df</th>
       <td><p>Return a zero row data frame when there is no result.</p></td>
+    </tr>
+    <tr>
+      <th>stringsAsFactors</th>
+      <td><p>Whether to return character vector columns as
+factors. Note that the default of <code>FALSE</code> differs from
+<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code> and friends.</p></td>
     </tr>
     <tr>
       <th>...</th>
