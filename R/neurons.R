@@ -11,7 +11,7 @@
 #' @param meta whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
 #' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses
-#' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
+#' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{nat::stitch_neurons_mst}
 #' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
 #' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
@@ -44,7 +44,8 @@ neuprint_read_neurons <- function(bodyids,
                                   dataset = NULL,
                                   resample = FALSE,
                                   conn = NULL,
-                                  OmitFailures = TRUE, ...) {
+                                  OmitFailures = TRUE,
+                                  ...) {
   neurons = nat::nlapply(id2char(bodyids),function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
@@ -56,7 +57,8 @@ neuprint_read_neurons <- function(bodyids,
                          dataset = dataset,
                          all_segments = all_segments,
                          resample = resample,
-                         conn= conn, ...),
+                         conn= conn,
+                         ...),
     OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   if(length(neurons)==0){
@@ -92,11 +94,11 @@ neuprint_read_neuron <- function(bodyid,
     n = drvid::read.neuron.dvid(bodyid)
     d = n$d
   }else{
-    n = neuprint_read_neuron_simple(id2char(bodyid), dataset=dataset,
-                                    conn = conn, heal = FALSE,...)
+    n = tryCatch(neuprint_read_neuron_simple(id2char(bodyid), dataset=dataset,conn = conn, heal = FALSE,...),
+                  error = function(e) warning("Failed to read neuron ",bodyid, " from", neuprint_login()$server))
   }
   if(heal){
-    n = suppressWarnings( heal_skeleton(x = n) )
+    n = suppressWarnings( nat::stitch_neurons_mst(x = n) )
     d = n$d
   }
   if(resample){
@@ -174,31 +176,6 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), datase
     neuprint_assign_connectors.neuron(x=x[[i]],bodyids=bodyids[i]),dataset=dataset,conn=conn,...)
 }
 
-#' @title Heal a fragmented skeleton for a neuron
-#'
-#' @description  Mend breaks in a skeleton for a neuron, predicting merge sites using the minimum spanning tree method, utilising \code{igraph::mst}
-#' @inheritParams neuprint_read_neurons
-#' @param x either an object of class neuron, or neuronlist
-#' @return a cohesive SWC like data frame, or a cohesive neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
-#' @seealso \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
-#' @export
-#' @importFrom igraph mst
-heal_skeleton <- function(x, ...){
-  n = nat::as.ngraph(x)
-  mstree = igraph::mst(graph = n, ...)
-  healed = nat::as.neuron(mstree)
-  if(healed$nTrees>1){
-    fragmented = break_into_subtress(healed)
-    healed = stitch_neurons(x=fragmented)
-  }
-  if(nat::is.neuron(x)){
-    healed$connectors = x$connectors
-    #healed$d = merge(healed$d, x$d)
-    healed
-  }else{
-    healed$d
-  }
-}
 
 #' @export
 #' @rdname neuprint_read_neurons
@@ -224,5 +201,5 @@ neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TR
   # convert radius to diameter
   df$W=df$W*2
   n=nat::as.neuron(df)
-  if(heal) heal_skeleton(n) else n
+  if(heal) nat::stitch_neurons_mst(n) else n
 }
