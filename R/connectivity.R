@@ -125,7 +125,7 @@ neuprint_connection_table <- function(bodyids,
                    ifelse(prepost=="POST","partner","bodyid"),
                    ifelse(!is.null(roi)|by.roi,", k AS roi, apoc.convert.fromJsonMap(c.roiInfo)[k].post AS ROIweight","")
                   )
-  nc <-neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset)
+  nc <-neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
   if(!is.null(roi)|by.roi){
     nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
