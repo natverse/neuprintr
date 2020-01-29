@@ -17,7 +17,8 @@ set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 
-\item{superlevel}{whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.}
+\item{superlevel}{whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
+If set to NULL, both low-level and superlevel ROIs are returned.}
 }
 \description{
 Get the regions of interest (ROIs) used in a neuPrint project
