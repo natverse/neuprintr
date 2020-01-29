@@ -7,6 +7,9 @@
 neuprint_ROIs(superLevel = FALSE, dataset = NULL, conn = NULL, ...)
 }
 \arguments{
+\item{superLevel}{whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
+If set to NULL, both low-level and superlevel ROIs are returned.}
+
 \item{dataset}{optional, a dataset you want to query. If NULL, the default
 specified by your R environ file is used. See \code{neuprint_login} for
 details.}
@@ -16,9 +19,6 @@ neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
-
-\item{superlevel}{whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
-If set to NULL, both low-level and superlevel ROIs are returned.}
 }
 \description{
 Get the regions of interest (ROIs) used in a neuPrint project

@@ -48,7 +48,7 @@ neuprint_version <- function(conn = NULL, ...){
 #' @title Get a vector of all the ROIs in a specified dataset
 #'
 #' @description Get the regions of interest (ROIs) used in a neuPrint project
-#' @param superlevel whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
+#' @param superLevel whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
 #' If set to NULL, both low-level and superlevel ROIs are returned.
 #' @param dataset optional, a dataset you want to query. If NULL, the default
 #'   specified by your R environ file is used. See \code{neuprint_login} for

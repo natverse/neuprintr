@@ -39,8 +39,7 @@ Get the neurons that are shared synaptic partners for a set of given bodyids, ei
 }
 \examples{
 \donttest{
-da2s=neuprint_search(".*DA2.*")
-neuprint_common_connectivity(da2s$bodyid)
+conn = neuprint_common_connectivity(c(818983130, 1796818119))
 }
 }
 \seealso{

@@ -36,6 +36,12 @@ a n x m matrix where n correspond to the neurons that connect to m
 Get all of the neurons in the database that connect to the
   query neurons, either upstream or downstream of them
 }
+\examples{
+\donttest{
+da2s=neuprint_search(".*DA2.*")
+neuprint_common_connectivity(da2s$bodyid)
+}
+}
 \seealso{
 \code{\link{neuprint_common_connectivity}},
   \code{\link{neuprint_get_adjacency_matrix}}

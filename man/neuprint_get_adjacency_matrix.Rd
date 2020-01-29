@@ -25,7 +25,8 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a n x n matrix, where the rows are input neurons and the columns are their targets
+a n x n matrix, where the rows are input neurons and the columns are their targets. Only neurons supplied as the argument
+`bodyids` are considered.
 }
 \description{
 Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
