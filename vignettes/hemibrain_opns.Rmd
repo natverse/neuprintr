@@ -294,9 +294,8 @@ table(DM1.opn.connected$roi)
 
 ## Important note!!
 ### The results from neuprint_connection_table can list the same bodyid-partner pairing
-### multiple times. This is because there is a separate entry for each of FlyEM's designated
-### regions of interest (ROIs). You need to sum across the different ROIs for each pairing, in
-### order to get your unitary connection strength between two neurons.
+### multiple times if by.roi = TRUE. This is because there is a separate entry for each of FlyEM's designated
+### regions of interest (ROIs), and because a super-level ROI can include multiple smaller ROIs. 
 
 ## Let's have a look at what the strongest downstream partners look like
 DM1.opn.connected.strong = subset(DM1.opn.connected,weight>100, prepost = "POST")
