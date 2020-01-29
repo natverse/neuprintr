@@ -2,7 +2,7 @@
 #'
 #' @description  Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
 #' Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
-#' If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retrieved.
+#' If \code{neuprint_read_skeletons} is used, just a simple skeleton is retrieved.
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
 #' @param bodyid a single body ID for a neuron/segment (body) you wish to query
 #' @param drvid whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
@@ -26,6 +26,12 @@
 #' \donttest{
 #' neurons = neuprint_read_neurons(c(818983130, 1796818119))
 #' nat::plot3d(neurons, col = "purple", lwd = 2)
+#'
+#' ## In this example, in hemibrain:v1.0, an erroneously connected bit of
+#' ## neuron skeleton is removed.
+#' n1 = neuprint_read_neurons(5812980863)
+#' ## compare with
+#' n2 = neuprint_read_neurons(5812980863, heal = FALSE)
 #' }
 #' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
 #' @importFrom drvid read.neuron.dvid
@@ -97,13 +103,13 @@ neuprint_read_neuron <- function(bodyid,
     n = tryCatch(drvid::read.neuron.dvid(bodyid),error = function(e) NULL)
     d = n$d
   }else{
-    n = tryCatch(neuprint_read_neuron_simple(id2char(bodyid), dataset=dataset,conn = conn, heal = FALSE,...),error = function(e) NULL)
+    n = tryCatch(neuprint_read_skeletons(id2char(bodyid), dataset=dataset,conn = conn, heal = FALSE,...),error = function(e) NULL)
   }
   if(is.null(n)){
     warning("Failed to read neuron ", bodyid , " from ", neuprint_login(conn=conn)$server,", dropping ...")
   }
   if(heal){
-    n = suppressWarnings(nat::stitch_neurons_mst(x = n))
+    n = suppressWarnings(nat::stitch_neurons_mst(x = n, thresh_el = 1000))
     d = n$d
   }
   if(resample){
@@ -188,14 +194,14 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), datase
 #' \donttest{
 #' dl1.info <- neuprint_search('.*mPN.*DL1.*')
 #' dl1.info
-#' dl1s=neuprint_read_neuron_simple(dl1.info$bodyid)
+#' dl1s=neuprint_read_skeletons(dl1.info$bodyid)
 #' plot(dl1s, WithNode=F)
 #' }
-neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
+neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
   bodyid=id2char(bodyid)
   if(length(bodyid)>1) {
     fakenl=structure(bodyid, .Names=bodyid)
-    nl=nat::nlapply(fakenl, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...)
+    nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, ...)
     return(nl)
   }
   dataset=check_dataset(dataset)
@@ -206,5 +212,5 @@ neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TR
   # convert radius to diameter
   df$W=df$W*2
   n=nat::as.neuron(df)
-  if(heal) nat::stitch_neurons_mst(n) else n
+  if(heal) nat::stitch_neurons_mst(x = n, thresh_el = 1000) else n
 }
