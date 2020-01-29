@@ -4,7 +4,7 @@
 \alias{neuprint_ROIs}
 \title{Get a vector of all the ROIs in a specified dataset}
 \usage{
-neuprint_ROIs(dataset = NULL, superLevel = FALSE, conn = NULL, ...)
+neuprint_ROIs(superLevel = FALSE, dataset = NULL, conn = NULL, ...)
 }
 \arguments{
 \item{dataset}{optional, a dataset you want to query. If NULL, the default
@@ -16,10 +16,11 @@ neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 set in your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
+
+\item{superlevel}{whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.}
 }
 \description{
-Get summary information about the datasets hosted by the
-  neuPrint server in which you are interested
+Get the regions of interest (ROIs) used in a neuPrint project
 }
 \seealso{
 \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
