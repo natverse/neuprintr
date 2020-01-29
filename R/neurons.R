@@ -109,7 +109,7 @@ neuprint_read_neuron <- function(bodyid,
     warning("Failed to read neuron ", bodyid , " from ", neuprint_login(conn=conn)$server,", dropping ...")
   }
   if(heal){
-    n = suppressWarnings(nat::stitch_neurons_mst(x = n, thresh_el = 1000))
+    n = nat::stitch_neurons_mst(x = n, thresh_el = 1000)
     d = n$d
   }
   if(resample){
