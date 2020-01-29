@@ -2,7 +2,7 @@
 % Please edit documentation in R/roi.R
 \name{neuprint_ROI_mesh}
 \alias{neuprint_ROI_mesh}
-\title{Import a region of interest as a mesh}
+\title{Download a region of interest as a mesh}
 \usage{
 neuprint_ROI_mesh(roi, dataset = NULL, conn = NULL, ...)
 }
@@ -17,5 +17,5 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \description{
-Import a region of interest as a mesh
+Download a region of interest as a mesh
 }

@@ -40,7 +40,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 #'
 #'   \item status (Traced etc)
 #'
-#'   \item voxels size in voxels
+#'   \item size size in voxels
 #'
 #'   \item pre number of presynapses
 #'

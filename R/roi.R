@@ -125,7 +125,7 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic
   results
 }
 
-#' @title Import a region of interest as a mesh
+#' @title Download a region of interest as a mesh
 #'
 #' @param roi region of interest for a dataset
 #' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.

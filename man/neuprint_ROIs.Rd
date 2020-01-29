@@ -4,7 +4,7 @@
 \alias{neuprint_ROIs}
 \title{Get a vector of all the ROIs in a specified dataset}
 \usage{
-neuprint_ROIs(dataset = NULL, conn = NULL, ...)
+neuprint_ROIs(dataset = NULL, superLevel = FALSE, conn = NULL, ...)
 }
 \arguments{
 \item{dataset}{optional, a dataset you want to query. If NULL, the default

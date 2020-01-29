@@ -58,10 +58,15 @@ neuprint_version <- function(conn = NULL, ...){
 #' @param ... methods passed to \code{neuprint_login}
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
 #' @export
-neuprint_ROIs <- function(dataset = NULL, conn = NULL, ...){
+neuprint_ROIs <- function(dataset = NULL, superLevel = FALSE, conn = NULL, ...){
   ds = neuprint_datasets(conn=conn, ...)
-  rois = unlist(ds)
-  rois[grepl("ROI",names(rois))]
+  dataset = check_dataset(dataset)
+  if(superLevel){
+    rois = ds[[dataset]]$superLevelROIs
+  }else{
+    rois = ds[[dataset]]$ROIs
+  }
+  sort(rois)
 }
 
 
