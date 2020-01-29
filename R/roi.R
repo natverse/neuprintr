@@ -150,10 +150,10 @@ neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
 
 # hidden
 neuprint_check_roi <- function(rois, dataset = NULL, conn = NULL, ...){
-  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, ...)
+  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, superLevel = NULL, ...)
   if(!all(rois%in%possible.rois)){
     stop("Regions of interest provided that are not demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
-         ". Please call neuprint_ROIs() to see the available ROIs.")
+         ". Please call neuprint_ROIs(superLevel = NULL) to see the available ROIs.")
   }else{
     TRUE
   }
