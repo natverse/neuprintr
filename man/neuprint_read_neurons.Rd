@@ -2,7 +2,6 @@
 % Please edit documentation in R/neurons.R
 \name{neuprint_read_neurons}
 \alias{neuprint_read_neurons}
-\alias{neuprint_read_neuron}
 \alias{neuprint_read_neuron_simple}
 \title{Read bodies from the neuPrint server as skeletons}
 \usage{
@@ -20,21 +19,6 @@ neuprint_read_neurons(
   resample = FALSE,
   conn = NULL,
   OmitFailures = TRUE,
-  ...
-)
-
-neuprint_read_neuron(
-  bodyid,
-  nat = TRUE,
-  drvid = FALSE,
-  soma = TRUE,
-  estimate.soma = FALSE,
-  heal = TRUE,
-  connectors = TRUE,
-  dataset = NULL,
-  all_segments = TRUE,
-  resample = FALSE,
-  conn = NULL,
   ...
 )
 

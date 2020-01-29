@@ -80,8 +80,7 @@ neuprint_read_neurons <- function(bodyids,
   neurons
 }
 
-#' @export
-#' @rdname neuprint_read_neurons
+# hidden
 neuprint_read_neuron <- function(bodyid,
                                  nat = TRUE,
                                  drvid = FALSE,
