@@ -27,8 +27,8 @@
 #' neurons = neuprint_read_neurons(c(818983130, 1796818119))
 #' nat::plot3d(neurons, col = "purple", lwd = 2)
 #'
-#' ## In this example, in hemibrain:v1.0, an erroneously connected bit of
-#' ## neuron skeleton is removed.
+#' ## In this example, in hemibrain:v1.0, an erroneously connected bit
+#' ## of neuron skeleton is removed.
 #' n1 = neuprint_read_neurons(5812980863)
 #' ## compare with
 #' n2 = neuprint_read_neurons(5812980863, heal = FALSE)

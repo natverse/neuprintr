@@ -2,7 +2,7 @@
 % Please edit documentation in R/neurons.R
 \name{neuprint_read_neurons}
 \alias{neuprint_read_neurons}
-\alias{neuprint_read_neuron_simple}
+\alias{neuprint_read_skeletons}
 \title{Read bodies from the neuPrint server as skeletons}
 \usage{
 neuprint_read_neurons(
@@ -22,13 +22,7 @@ neuprint_read_neurons(
   ...
 )
 
-neuprint_read_neuron_simple(
-  bodyid,
-  dataset = NULL,
-  conn = NULL,
-  heal = TRUE,
-  ...
-)
+neuprint_read_skeletons(bodyid, dataset = NULL, conn = NULL, heal = TRUE, ...)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
@@ -73,17 +67,23 @@ a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} objec
 \description{
 Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
 Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
-If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retrieved.
+If \code{neuprint_read_skeletons} is used, just a simple skeleton is retrieved.
 }
 \examples{
 \donttest{
 neurons = neuprint_read_neurons(c(818983130, 1796818119))
 nat::plot3d(neurons, col = "purple", lwd = 2)
+
+## In this example, in hemibrain:v1.0, an erroneously connected bit
+## of neuron skeleton is removed.
+n1 = neuprint_read_neurons(5812980863)
+## compare with
+n2 = neuprint_read_neurons(5812980863, heal = FALSE)
 }
 \donttest{
 dl1.info <- neuprint_search('.*mPN.*DL1.*')
 dl1.info
-dl1s=neuprint_read_neuron_simple(dl1.info$bodyid)
+dl1s=neuprint_read_skeletons(dl1.info$bodyid)
 plot(dl1s, WithNode=F)
 }
 }
