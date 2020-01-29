@@ -43,8 +43,7 @@
 
 
 <meta property="og:title" content="Get a vector of all the ROIs in a specified dataset — neuprint_ROIs" />
-<meta property="og:description" content="Get summary information about the datasets hosted by the
-  neuPrint server in which you are interested" />
+<meta property="og:description" content="Get the regions of interest (ROIs) used in a neuPrint project" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -138,15 +137,19 @@
     </div>
 
     <div class="ref-description">
-    <p>Get summary information about the datasets hosted by the
-  neuPrint server in which you are interested</p>
+    <p>Get the regions of interest (ROIs) used in a neuPrint project</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_ROIs</span>(<span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_ROIs</span>(<span class='kw'>superLevel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>superLevel</th>
+      <td><p>whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
+If set to NULL, both low-level and superlevel ROIs are returned.</p></td>
+    </tr>
     <tr>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If NULL, the default
