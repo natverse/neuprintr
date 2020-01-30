@@ -7,7 +7,7 @@
 neuprint_get_meta(
   bodyids,
   dataset = NULL,
-  all_segments = FALSE,
+  all_segments = TRUE,
   conn = NULL,
   ...
 )
