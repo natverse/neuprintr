@@ -12,10 +12,36 @@ test_that("neuprint_connection_table works", {
                                  by.roi = TRUE, roi = "LH(R)"), 'data.frame')
 })
 
-test_that("neuprint_connection_table works", {
+test_that("other connectivity functions work", {
   da2s=neuprint_search(".*DA2.*")
   expect_is(t1 <- neuprint_get_adjacency_matrix(da2s$bodyid), 'matrix')
+  expect_equal(neuprint_get_adjacency_matrix(inputids = da2s$bodyid, outputids = da2s$bodyid),
+               t1)
+  expect_equal(neuprint_get_adjacency_matrix(inputids = da2s$bodyid[1:2],
+                                             outputids = da2s$bodyid[3:5]),
+               t1[1:2,3:5])
+
+  expect_error(neuprint_get_adjacency_matrix(bodyids = da2s$bodyid, outputids = da2s$bodyid))
+  expect_error(neuprint_get_adjacency_matrix(outputids = da2s$bodyid))
+
   expect_equal(colnames(t1), rownames(t1))
   expect_is(t2 <- neuprint_common_connectivity(da2s$bodyid), 'matrix')
   expect_equal(rownames(t1), rownames(t2))
+
+  expect_is(t3 <- neuprint_simple_connectivity(da2s$bodyid[1], prepost='PRE'),
+            'data.frame')
+  pns11=neuprint_search('.*PN.*', meta=FALSE, all_segments = FALSE)[1:11]
+
+  expect_is(c1 <- neuprint_simple_connectivity(pns11[1], prepost='PRE'),
+            'data.frame')
+  expect_is(c11 <- neuprint_simple_connectivity(pns11, prepost='PRE'),
+            'data.frame')
+
+  # check that results for one neuron are consistent with the same
+  # neuron as part of a larger query
+  c11.sel=c11[names(c1)]
+  c11.sel=c11.sel[!is.na(c11.sel$`2002436731_weight`),,drop=FALSE]
+  c11.sel=c11.sel[order(c11.sel$input),,drop=FALSE]
+  c1=c1[order(c1$input),,drop=FALSE]
+  expect_equal(c1, c11.sel)
 })

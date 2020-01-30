@@ -1,10 +1,16 @@
 #' @title Get a matrix of connectivities between bodies
 #'
-#' @description  Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
+#' @description  Get an adjacency matrix for the synaptic connectivity within a
+#'   set of specified bodies
+#' @param inputids,outputids identifiers for input and output bodies (use as an
+#'   alternative to \code{bodyids})
 #' @inheritParams neuprint_read_neurons
-#' @return a n x n matrix, where the rows are input neurons and the columns are their targets. Only neurons supplied as the argument
-#' `bodyids` are considered.
-#' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+#' @return a n x n matrix, where the rows are input neurons and the columns are
+#'   their targets. Only neurons supplied as the argument `bodyids` are
+#'   considered.
+#' @seealso \code{\link{neuprint_fetch_custom}},
+#'   \code{\link{neuprint_simple_connectivity}},
+#'   \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
 #' @examples
@@ -12,25 +18,43 @@
 #' da2s=neuprint_search(".*DA2.*")
 #' # these will mostly be axo-axonic connections
 #' neuprint_get_adjacency_matrix(da2s$bodyid)
+#'
+#' # rectangular matrix with different in/out neurons
+#' # nb these can be completely different groups
+#' neuprint_get_adjacency_matrix(inputids=da2s$bodyid[1],
+#'   outputids=da2s$bodyid[-1])
 #' }
-neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL, outputids=NULL,
+                                          dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+  if(is.null(bodyids)) {
+    if(is.null(inputids) || is.null(outputids))
+      stop("You must either specify bodyids OR (inputids AND outputids)!")
+  } else {
+    if(!is.null(inputids) || !is.null(outputids))
+      stop("You must either specify bodyids OR (inputids AND outputids)!")
+    inputids <- outputids <- bodyids
+  }
+  inputids <- unique(id2char(inputids))
+  outputids <- unique(id2char(outputids))
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
   namefield=neuprint_name_field(conn)
   cypher = sprintf(
     paste(
-      "WITH %s AS input MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
-      "WHERE n.bodyId IN input AND m.bodyId IN input",
+      "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
+      "WHERE n.bodyId IN input AND m.bodyId IN output",
       "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.%s AS upName, m.%s AS downName"
     ),
-    id2json(bodyids, uniqueids = TRUE),
+    id2json(inputids),
+    id2json(outputids),
     all_segments.json,
     namefield,
     namefield
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
-  m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
-  rownames(m) = colnames(m) = bodyids
+  m = matrix(0,nrow = length(inputids),ncol = length(outputids))
+  rownames(m) = inputids
+  colnames(m) = outputids
   for(i in 1:length(nc$data)){
     s = unlist(nc$data[[i]])
     m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
@@ -228,24 +252,43 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
 #' @seealso \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
-#' @rdname neuprint_simple_connectivity
+#' @examples
+#' inputs <- neuprint_simple_connectivity(5901222731, prepost='PRE')
+#' head(inputs)
+#' # top inputs
+#' head(sort(table(inputs$type), decreasing = TRUE))
+#' outputs <- neuprint_simple_connectivity(5901222731, prepost='POST')
+#' head(outputs)
 neuprint_simple_connectivity <- function(bodyids,
                                          prepost = c("PRE","POST"),
                                          dataset = NULL,
                                          conn = NULL,
                                          ...){
   prepost = match.arg(prepost)
-  find_inputs = ifelse(prepost=="PRE", "false","true")
-  # nb looks odd, but convert back to character to allow pblapply ...
+  dataset=check_dataset(dataset = dataset)
   bodyids=unique(id2char(bodyids))
-  if(length(bodyids)>10){
-    m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
-                                bodyids = bi,
-                                prepost = prepost,
-                                dataset = dataset, conn = conn, ...),
-                                error = function(e) NULL))))
+  if(length(bodyids)>10) {
+    m  = Reduce(function(x, y, ...)
+      dplyr::full_join(x, y, by = c(
+        "name", ifelse(prepost=="PRE","input","output"), "type"
+      )),
+      (pbapply::pblapply(bodyids, function(bi)
+        tryCatch(
+          neuprint_simple_connectivity(
+            bodyids = bi,
+            prepost = prepost,
+            dataset = dataset,
+            conn = conn,
+            ...
+          ),
+          error = function(e)
+            NULL
+        ))))
+    # FIXME need to convert NA weights to 0
     return(m)
   }
+
+  find_inputs = ifelse(prepost=="PRE", "true", "false")
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"find_inputs":%s}',
                             dataset,
                             id2json(bodyids),
