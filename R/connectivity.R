@@ -270,13 +270,13 @@ neuprint_simple_connectivity <- function(bodyids,
   if(length(bodyids)>10) {
     m  = Reduce(function(x, y, ...)
       dplyr::full_join(x, y, by = c(
-        "name", partners, "type"
+        "name", ifelse(prepost=="PRE","input","output"), "type"
       )),
       (pbapply::pblapply(bodyids, function(bi)
         tryCatch(
           neuprint_simple_connectivity(
             bodyids = bi,
-            partners = partners,
+            prepost = prepost,
             dataset = dataset,
             conn = conn,
             ...
