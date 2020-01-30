@@ -1,6 +1,6 @@
 #' @title Get the name of a neuron
 #'
-#' @description  If a bodyID has a name associated with it, fetch that name, otherwise, return NA
+#' @description If a bodyid has a name associated with it, fetch that name, otherwise, return \code{NA}
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @return a vector of names, named with the input bodyids
 #' @export
@@ -8,9 +8,10 @@
 #' \donttest{
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
-neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...) {
+neuprint_get_neuron_names <- function(bodyids, dataset = NULL,
+                                      all_segments = FALSE, conn = NULL, ...) {
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  bodyids <- id2bit64(bodyids)
+  bodyids <- id2char(bodyids)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
     unames=neuprint_get_neuron_names(bodyids=ubodyids, dataset=dataset,
@@ -19,14 +20,20 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
     return(res)
   }
 
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name, n.bodyId AS bodyid",
                    id2json(bodyids),
                    all_segments.json)
 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
-  d =  unlist(lapply(nc$data,nullToNA))
-  names(d) = bodyids
-  d
+  df=neuprint_list2df(nc, return_empty_df = TRUE)
+  nn=df$name
+  names(nn) = df$bodyid
+  missing=setdiff(bodyids, names(nn))
+  if(length(missing)>0) {
+    nn[missing]=NA_character_
+    nn=nn[bodyids]
+  }
+  nn
 }
 
 #' @title Get key metadata for body (including name, type, status, size)

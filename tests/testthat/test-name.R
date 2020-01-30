@@ -19,4 +19,15 @@ test_that("test name searches ", {
                  "soma",
                  "cellBodyFiber"
                ))
+  id1=da2s$bodyid[1]
+  n1=da2s$name[1]
+
+  iddup=rep(da2s$bodyid[1], 2)
+  ndup=rep(n1, 2)
+  # check we can handle missing values
+  expect_equivalent(neuprint_get_neuron_names(1), NA_character_)
+  # duplicates and missing values
+  expect_equal(neuprint_get_neuron_names(c(1, iddup)),
+               structure(c(NA_character_, ndup), .Names=c(1,iddup)))
+
 })

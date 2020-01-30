@@ -28,7 +28,7 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 a vector of names, named with the input bodyids
 }
 \description{
-If a bodyID has a name associated with it, fetch that name, otherwise, return NA
+If a bodyid has a name associated with it, fetch that name, otherwise, return \code{NA}
 }
 \examples{
 \donttest{
