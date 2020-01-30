@@ -141,7 +141,7 @@ neuprint_read_neuron <- function(bodyid,
     d = n$d
   }
   if(connectors){
-    near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
+    near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)
     synapses$treenode_id = n$d[near$nn.idx,"PointNo"]
     synapses = synapses[near$nn.dists<1000,] # remove erroneously associated synapses
     synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
