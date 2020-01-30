@@ -199,7 +199,7 @@ neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, 
   bodyid=id2char(bodyid)
   if(length(bodyid)>1) {
     fakenl=structure(bodyid, .Names=bodyid)
-    nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, ...)
+    nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, heal=heal, ...)
     return(nl)
   }
   dataset=check_dataset(dataset)
