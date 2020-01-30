@@ -5,7 +5,9 @@
 \title{Get a matrix of connectivities between bodies}
 \usage{
 neuprint_get_adjacency_matrix(
-  bodyids,
+  bodyids = NULL,
+  inputids = NULL,
+  outputids = NULL,
   dataset = NULL,
   all_segments = FALSE,
   conn = NULL,
@@ -14,6 +16,9 @@ neuprint_get_adjacency_matrix(
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+
+\item{inputids, outputids}{identifiers for input and output bodies (use as an
+alternative to \code{bodyids})}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
 
@@ -25,19 +30,28 @@ If NULL, your defaults set in your R.profile or R.environ are used.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a n x n matrix, where the rows are input neurons and the columns are their targets. Only neurons supplied as the argument
-`bodyids` are considered.
+a n x n matrix, where the rows are input neurons and the columns are
+  their targets. Only neurons supplied as the argument `bodyids` are
+  considered.
 }
 \description{
-Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
+Get an adjacency matrix for the synaptic connectivity within a
+  set of specified bodies
 }
 \examples{
 \donttest{
 da2s=neuprint_search(".*DA2.*")
 # these will mostly be axo-axonic connections
 neuprint_get_adjacency_matrix(da2s$bodyid)
+
+# rectangular matrix with different in/out neurons
+# nb these can be completely different groups
+neuprint_get_adjacency_matrix(inputids=da2s$bodyid[1],
+  outputids=da2s$bodyid[-1])
 }
 }
 \seealso{
-\code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+\code{\link{neuprint_fetch_custom}},
+  \code{\link{neuprint_simple_connectivity}},
+  \code{\link{neuprint_common_connectivity}}
 }
