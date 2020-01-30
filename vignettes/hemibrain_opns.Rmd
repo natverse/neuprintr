@@ -65,11 +65,13 @@ available.datasets
 
 If you need help/have not before logged into neuPrint via R, please see the package README or see `?neuprint_login`.
 
-The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:
+The main point is that you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add these lines to your R environ to specify the hemibrain dataset:
 
 `neuprint_token="YOUR_TOKEN_HERE"`
 `neuprint_server='https://neuprint.janelia.org/'`
 `neuprint_dataset='hemibrain:v1.0'`
+
+Leave a blank line at the end of the file.
 
 Then restart your R session.
 
@@ -290,7 +292,7 @@ View(DM1.common.meta) # Huhh, local neurons, the APL and some LH stuff
 ## Another interesting question we can ask is whether PNs get axonic inouts in the calyx
 ### from Kenyon cells (KCs). In their other axon collateral in the LH it has already been shown
 ### That they get innervation from local neurons.
-kc.info = neuprint_search(".*KC.*")
+kc.info = neuprint_search("KC.*")
 opn.conn = neuprint_connection_table(bodyids = opn.info$bodyid, prepost = "PRE")
 opn.conn = opn.conn[opn.conn$partner%in%kc.info$bodyid,]
 opn.conn$glom = gloms[as.character(opn.conn$bodyid)]
