@@ -237,6 +237,7 @@ neuprint_simple_connectivity <- function(bodyids,
   prepost = match.arg(prepost)
   find_inputs = ifelse(prepost=="PRE", "false","true")
   # nb looks odd, but convert back to character to allow pblapply ...
+  dataset=check_dataset(dataset = dataset)
   bodyids=unique(id2char(bodyids))
   if(length(bodyids)>10){
     m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
