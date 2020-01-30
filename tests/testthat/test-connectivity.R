@@ -15,4 +15,6 @@ test_that("neuprint_connection_table works", {
   expect_equal(colnames(t1), rownames(t1))
   expect_is(t2 <- neuprint_common_connectivity(da2s$bodyid), 'matrix')
   expect_equal(rownames(t1), rownames(t2))
+  expect_is(t3 <- neuprint_simple_connectivity(da2s$bodyid[1], prepost='PRE'),
+            'data.frame')
 })

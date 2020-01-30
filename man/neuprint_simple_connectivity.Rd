@@ -41,6 +41,12 @@ Get all of the neurons in the database that connect to the
 da2s=neuprint_search(".*DA2.*")
 neuprint_common_connectivity(da2s$bodyid)
 }
+inputs <- neuprint_simple_connectivity(5901222731, prepost='PRE')
+head(inputs)
+# top inputs
+head(sort(table(inputs$type), decreasing = TRUE))
+outputs <- neuprint_simple_connectivity(5901222731, prepost='POST')
+head(outputs)
 }
 \seealso{
 \code{\link{neuprint_common_connectivity}},
