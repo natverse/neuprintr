@@ -228,24 +228,43 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
 #' @seealso \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
-#' @rdname neuprint_simple_connectivity
+#' @examples
+#' inputs <- neuprint_simple_connectivity(5901222731, prepost='PRE')
+#' head(inputs)
+#' # top inputs
+#' head(sort(table(inputs$type), decreasing = TRUE))
+#' outputs <- neuprint_simple_connectivity(5901222731, prepost='POST')
+#' head(outputs)
 neuprint_simple_connectivity <- function(bodyids,
                                          prepost = c("PRE","POST"),
                                          dataset = NULL,
                                          conn = NULL,
                                          ...){
   prepost = match.arg(prepost)
-  find_inputs = ifelse(prepost=="PRE", "false","true")
-  # nb looks odd, but convert back to character to allow pblapply ...
+  dataset=check_dataset(dataset = dataset)
   bodyids=unique(id2char(bodyids))
-  if(length(bodyids)>10){
-    m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
-                                bodyids = bi,
-                                prepost = prepost,
-                                dataset = dataset, conn = conn, ...),
-                                error = function(e) NULL))))
+  if(length(bodyids)>10) {
+    m  = Reduce(function(x, y, ...)
+      dplyr::full_join(x, y, by = c(
+        "name", partners, "type"
+      )),
+      (pbapply::pblapply(bodyids, function(bi)
+        tryCatch(
+          neuprint_simple_connectivity(
+            bodyids = bi,
+            partners = partners,
+            dataset = dataset,
+            conn = conn,
+            ...
+          ),
+          error = function(e)
+            NULL
+        ))))
+    # FIXME need to convert NA weights to 0
     return(m)
   }
+
+  find_inputs = ifelse(prepost=="PRE", "true", "false")
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"find_inputs":%s}',
                             dataset,
                             id2json(bodyids),
