@@ -7,6 +7,9 @@ test_that("neuprint_connection_table works", {
   expect_equal(neuprint_connection_table(c(818983130, 1796818119),
                                          progress = TRUE),
                t1)
+
+  expect_is(neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
+                                 by.roi = TRUE, roi = "LH(R)"), 'data.frame')
 })
 
 test_that("neuprint_connection_table works", {
