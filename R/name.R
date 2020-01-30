@@ -8,7 +8,7 @@
 #' \donttest{
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
-neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...) {
+neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   bodyids <- id2bit64(bodyids)
   if(any(duplicated(bodyids))) {
@@ -61,7 +61,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 #' da2s=neuprint_search(".*DA2.*")
 #' neuprint_get_meta(da2s$bodyid)
 #' }
-neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   conn = neuprint_login(conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
