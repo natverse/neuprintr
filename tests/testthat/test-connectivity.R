@@ -12,9 +12,18 @@ test_that("neuprint_connection_table works", {
                                  by.roi = TRUE, roi = "LH(R)"), 'data.frame')
 })
 
-test_that("neuprint_connection_table works", {
+test_that("other connectivity functions work", {
   da2s=neuprint_search(".*DA2.*")
   expect_is(t1 <- neuprint_get_adjacency_matrix(da2s$bodyid), 'matrix')
+  expect_equal(neuprint_get_adjacency_matrix(inputids = da2s$bodyid, outputids = da2s$bodyid),
+               t1)
+  expect_equal(neuprint_get_adjacency_matrix(inputids = da2s$bodyid[1:2],
+                                             outputids = da2s$bodyid[3:5]),
+               t1[1:2,3:5])
+
+  expect_error(neuprint_get_adjacency_matrix(bodyids = da2s$bodyid, outputids = da2s$bodyid))
+  expect_error(neuprint_get_adjacency_matrix(outputids = da2s$bodyid))
+
   expect_equal(colnames(t1), rownames(t1))
   expect_is(t2 <- neuprint_common_connectivity(da2s$bodyid), 'matrix')
   expect_equal(rownames(t1), rownames(t2))
