@@ -150,8 +150,9 @@
 <a class="sourceLine" id="cb1-36" data-line-number="36">available.datasets =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_info.html">neuprint_datasets</a></span>()</a>
 <a class="sourceLine" id="cb1-37" data-line-number="37">available.datasets</a></code></pre></div>
 <p>If you need help/have not before logged into neuPrint via R, please see the package README or see <code><a href="../reference/neuprint_login.html">?neuprint_login</a></code>.</p>
-<p>The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package <code>usethis</code> to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:</p>
+<p>The main point is that you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package <code>usethis</code> to easily edit your R environ file. You will need to add these lines to your R environ to specify the hemibrain dataset:</p>
 <p><code>neuprint_token="YOUR_TOKEN_HERE"</code> <code>neuprint_server='https://neuprint.janelia.org/'</code> <code>neuprint_dataset='hemibrain:v1.0'</code></p>
+<p>Leave a blank line at the end of the file.</p>
 <p>Then restart your R session.</p>
 </div>
 <div id="find-neurons" class="section level2">
@@ -171,88 +172,89 @@
 <a class="sourceLine" id="cb2-5" data-line-number="5">#### Add AL glomerulus information from the name</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">name.split =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(opn.info<span class="op">$</span>name,<span class="dt">split=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"</span><span class="ch">\\</span><span class="st">(|</span><span class="ch">\\</span><span class="st">_"</span>))</a>
 <a class="sourceLine" id="cb2-7" data-line-number="7">gloms =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(name.split, <span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span>(x[[<span class="dv">2</span>]], <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="st">""</span>))</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">opn.info<span class="op">$</span>glomerulus =<span class="st"> </span>gloms</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">opn.info =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(opn.info, glomerulus<span class="op">!=</span><span class="st">""</span>)</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">#### so there seem to be</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(gloms))</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">#### OPNs and</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">#### And</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(gloms)))</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">#### OPNs with unique glomerulus innervations</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17">## Let's see what meta-info we get, along with stuff with 'mPN1' in the name.</a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">## This is a reference to the OPN naming scheme by Tanaka et al. (2012)</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(opn.info)</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">### Looks like we get their unique ID numbers (bodyIds), cell names,</a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">### types, their size (voxels) and synapse numbers (pre=output, post=input).</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23">## Let's quickly read one neuron, and have a look at it!</a>
-<a class="sourceLine" id="cb2-24" data-line-number="24">opn =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron</a></span>(opn.info<span class="op">$</span>bodyid[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb2-25" data-line-number="25">### visualise:</a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.985064148902893</span>, <span class="fl">0.164582148194313</span>, </a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="fl">0.05061025172472</span>, <span class="dv">0</span>, <span class="fl">0.00997132062911987</span>, <span class="fl">-0.347956597805023</span>, </a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="fl">0.93745756149292</span>, <span class="dv">0</span>, <span class="fl">0.171898916363716</span>, <span class="fl">-0.922951519489288</span>, <span class="fl">-0.344400823116302</span>, </a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">.Dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(4L, 4L)), <span class="dt">zoom =</span> <span class="fl">0.746215641498566</span>, </a>
-<a class="sourceLine" id="cb2-30" data-line-number="30">    <span class="dt">windowRect =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(20L, 65L, 1191L, 843L)) <span class="co"># set view</span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="kw">plot3d</span>(opn, <span class="dt">WithConnectors =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> lacroix[[<span class="st">"brown"</span>]], <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"images"</span>)</a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_an_opn.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
-<a class="sourceLine" id="cb2-34" data-line-number="34">### output synapses in red, input ones in blue</a>
-<a class="sourceLine" id="cb2-35" data-line-number="35">### You can see the auto-segmentation goes a bit crazy where the soma is</a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37">## Now that we have all of the bodyIds, we can read these neurons from neuPrint:</a>
-<a class="sourceLine" id="cb2-38" data-line-number="38">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron_simple</a></span>(opn.info<span class="op">$</span>bodyid)</a>
-<a class="sourceLine" id="cb2-39" data-line-number="39"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.98370349407196</span>, <span class="fl">-0.104569993913174</span>, </a>
-<a class="sourceLine" id="cb2-40" data-line-number="40">                                 <span class="fl">-0.146263062953949</span>, <span class="dv">0</span>, <span class="fl">0.147007316350937</span>, <span class="fl">-0.000597098842263222</span>, </a>
-<a class="sourceLine" id="cb2-41" data-line-number="41">                                 <span class="fl">0.989135324954987</span>, <span class="dv">0</span>, <span class="fl">-0.103521309792995</span>, <span class="fl">-0.994517505168915</span>, </a>
-<a class="sourceLine" id="cb2-42" data-line-number="42">                                 <span class="fl">0.0147849693894386</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">.Dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(4L, 4L)), <span class="dt">zoom =</span> <span class="fl">0.644609212875366</span>, </a>
-<a class="sourceLine" id="cb2-43" data-line-number="43">        <span class="dt">windowRect =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(20L, 65L, 1191L, 843L))</a>
-<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="kw">plot3d</span>(opns, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(lacroix,<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(opns), <span class="dt">replace =</span> <span class="ot">TRUE</span>), <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_opns.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
-<a class="sourceLine" id="cb2-46" data-line-number="46"></a>
-<a class="sourceLine" id="cb2-47" data-line-number="47">## The simple version of read neurons just reads the skeleton for a neuron</a>
-<a class="sourceLine" id="cb2-48" data-line-number="48">### We might also want our neuron objects to contain meta data and synapse information</a>
-<a class="sourceLine" id="cb2-49" data-line-number="49">### We have an all-in-one function to do this. Here we go!</a>
-<a class="sourceLine" id="cb2-50" data-line-number="50">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron_simple</a></span>(opn.info<span class="op">$</span>bodyid)</a>
-<a class="sourceLine" id="cb2-51" data-line-number="51"></a>
-<a class="sourceLine" id="cb2-52" data-line-number="52">##But why is this function so slow?</a>
-<a class="sourceLine" id="cb2-53" data-line-number="53">### Because it fetches fragmented neuron skeletons assigned to the same neuron</a>
-<a class="sourceLine" id="cb2-54" data-line-number="54">### Stitched them into one neuron (healing), grabs all the neuron's synapses</a>
-<a class="sourceLine" id="cb2-55" data-line-number="55">### and tries to work out where the soma is. If you want to move faster</a>
-<a class="sourceLine" id="cb2-56" data-line-number="56">### You can grab bits separately and quickly:</a>
-<a class="sourceLine" id="cb2-57" data-line-number="57">?neuprint_read_neuron_simple</a>
-<a class="sourceLine" id="cb2-58" data-line-number="58">?neuprint_get_synapses</a>
-<a class="sourceLine" id="cb2-59" data-line-number="59">?neuprint_assign_connectors</a>
-<a class="sourceLine" id="cb2-60" data-line-number="60">?neuprint_locate_soma</a>
-<a class="sourceLine" id="cb2-61" data-line-number="61">?neuprint_get_neuron_names</a>
-<a class="sourceLine" id="cb2-62" data-line-number="62">?neuprint_get_meta</a>
-<a class="sourceLine" id="cb2-63" data-line-number="63"></a>
-<a class="sourceLine" id="cb2-64" data-line-number="64">## Do we have to know what's in the name to find interesting neurons? No!</a>
-<a class="sourceLine" id="cb2-65" data-line-number="65">### We can also read neurons from a region of interest (ROI) of the brain.</a>
-<a class="sourceLine" id="cb2-66" data-line-number="66">### The regions of interest available are:</a>
-<a class="sourceLine" id="cb2-67" data-line-number="67">rois =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="kw"><a href="../reference/neuprint_ROIs.html">neuprint_ROIs</a></span>())</a>
-<a class="sourceLine" id="cb2-68" data-line-number="68">rois</a>
-<a class="sourceLine" id="cb2-69" data-line-number="69"></a>
-<a class="sourceLine" id="cb2-70" data-line-number="70">## We don't we try fetching all of the neurons in a glomerulus of the mushroom body input zone, the calyx?</a>
-<a class="sourceLine" id="cb2-71" data-line-number="71">ca.info =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_find_neurons.html">neuprint_find_neurons</a></span>(</a>
-<a class="sourceLine" id="cb2-72" data-line-number="72">  <span class="dt">input_ROIs =</span> <span class="st">"CA(R)"</span>,</a>
-<a class="sourceLine" id="cb2-73" data-line-number="73">  <span class="dt">output_ROIs =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb2-74" data-line-number="74">  <span class="dt">all_segments =</span> <span class="ot">FALSE</span> <span class="co"># if true, fragments smaller than 'neurons' are returned as well</span></a>
-<a class="sourceLine" id="cb2-75" data-line-number="75">)</a>
-<a class="sourceLine" id="cb2-76" data-line-number="76"></a>
-<a class="sourceLine" id="cb2-77" data-line-number="77">## So how many neurons is that?</a>
-<a class="sourceLine" id="cb2-78" data-line-number="78"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(ca.info))</a>
-<a class="sourceLine" id="cb2-79" data-line-number="79"></a>
-<a class="sourceLine" id="cb2-80" data-line-number="80">## A lot! But what about that pesky load of Kenyon cells</a>
-<a class="sourceLine" id="cb2-81" data-line-number="81">### The most populous neurons in the brain</a>
-<a class="sourceLine" id="cb2-82" data-line-number="82">ca.info =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(ca.info, <span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(bodyname) <span class="op">&amp;</span><span class="st"> </span>neuronStatus <span class="op">==</span><span class="st"> "Traced"</span>)</a>
-<a class="sourceLine" id="cb2-83" data-line-number="83">ca.info =<span class="st"> </span>ca.info[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"KC"</span>,ca.info<span class="op">$</span>bodyname),]</a>
-<a class="sourceLine" id="cb2-84" data-line-number="84"></a>
-<a class="sourceLine" id="cb2-85" data-line-number="85">## So how many neurons is that?</a>
-<a class="sourceLine" id="cb2-86" data-line-number="86"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(ca.info))</a>
-<a class="sourceLine" id="cb2-87" data-line-number="87"></a>
-<a class="sourceLine" id="cb2-88" data-line-number="88">## Getting all that data took a while, so let's save it for later</a>
-<a class="sourceLine" id="cb2-89" data-line-number="89"><span class="kw"><a href="https://rdrr.io/r/base/save.html">save</a></span>(opns,<span class="dt">file =</span> <span class="st">"hemibrain_opns.rda"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(gloms) =<span class="st"> </span>opn.info<span class="op">$</span>bodyid</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">opn.info<span class="op">$</span>glomerulus =<span class="st"> </span>gloms</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">opn.info =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(opn.info, glomerulus<span class="op">!=</span><span class="st">""</span>)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">#### so there seem to be</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(gloms))</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">#### OPNs and</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">#### And</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(gloms)))</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">#### OPNs with unique glomerulus innervations</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">## Let's see what meta-info we get, along with stuff with 'mPN1' in the name.</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">## This is a reference to the OPN naming scheme by Tanaka et al. (2012)</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(opn.info)</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">### Looks like we get their unique ID numbers (bodyIds), cell names,</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">### types, their size (voxels) and synapse numbers (pre=output, post=input).</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">## Let's quickly read one neuron, and have a look at it!</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">opn =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron</a></span>(opn.info<span class="op">$</span>bodyid[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">### visualise:</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.985064148902893</span>, <span class="fl">0.164582148194313</span>, </a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="fl">0.05061025172472</span>, <span class="dv">0</span>, <span class="fl">0.00997132062911987</span>, <span class="fl">-0.347956597805023</span>, </a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="fl">0.93745756149292</span>, <span class="dv">0</span>, <span class="fl">0.171898916363716</span>, <span class="fl">-0.922951519489288</span>, <span class="fl">-0.344400823116302</span>, </a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">.Dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(4L, 4L)), <span class="dt">zoom =</span> <span class="fl">0.746215641498566</span>, </a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">    <span class="dt">windowRect =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(20L, 65L, 1191L, 843L)) <span class="co"># set view</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="kw">plot3d</span>(opn, <span class="dt">WithConnectors =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> lacroix[[<span class="st">"brown"</span>]], <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"images"</span>)</a>
+<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_an_opn.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
+<a class="sourceLine" id="cb2-35" data-line-number="35">### output synapses in red, input ones in blue</a>
+<a class="sourceLine" id="cb2-36" data-line-number="36">### You can see the auto-segmentation goes a bit crazy where the soma is</a>
+<a class="sourceLine" id="cb2-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb2-38" data-line-number="38">## Now that we have all of the bodyIds, we can read these neurons from neuPrint:</a>
+<a class="sourceLine" id="cb2-39" data-line-number="39">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron_simple</a></span>(opn.info<span class="op">$</span>bodyid)</a>
+<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.98370349407196</span>, <span class="fl">-0.104569993913174</span>, </a>
+<a class="sourceLine" id="cb2-41" data-line-number="41">                                 <span class="fl">-0.146263062953949</span>, <span class="dv">0</span>, <span class="fl">0.147007316350937</span>, <span class="fl">-0.000597098842263222</span>, </a>
+<a class="sourceLine" id="cb2-42" data-line-number="42">                                 <span class="fl">0.989135324954987</span>, <span class="dv">0</span>, <span class="fl">-0.103521309792995</span>, <span class="fl">-0.994517505168915</span>, </a>
+<a class="sourceLine" id="cb2-43" data-line-number="43">                                 <span class="fl">0.0147849693894386</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">.Dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(4L, 4L)), <span class="dt">zoom =</span> <span class="fl">0.644609212875366</span>, </a>
+<a class="sourceLine" id="cb2-44" data-line-number="44">        <span class="dt">windowRect =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(20L, 65L, 1191L, 843L))</a>
+<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="kw">plot3d</span>(opns, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(lacroix,<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(opns), <span class="dt">replace =</span> <span class="ot">TRUE</span>), <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb2-46" data-line-number="46"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_opns.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
+<a class="sourceLine" id="cb2-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb2-48" data-line-number="48">## The simple version of read neurons just reads the skeleton for a neuron</a>
+<a class="sourceLine" id="cb2-49" data-line-number="49">### We might also want our neuron objects to contain meta data and synapse information</a>
+<a class="sourceLine" id="cb2-50" data-line-number="50">### We have an all-in-one function to do this. Here we go!</a>
+<a class="sourceLine" id="cb2-51" data-line-number="51">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron_simple</a></span>(opn.info<span class="op">$</span>bodyid)</a>
+<a class="sourceLine" id="cb2-52" data-line-number="52"></a>
+<a class="sourceLine" id="cb2-53" data-line-number="53">##But why is this function so slow?</a>
+<a class="sourceLine" id="cb2-54" data-line-number="54">### Because it fetches fragmented neuron skeletons assigned to the same neuron</a>
+<a class="sourceLine" id="cb2-55" data-line-number="55">### Stitched them into one neuron (healing), grabs all the neuron's synapses</a>
+<a class="sourceLine" id="cb2-56" data-line-number="56">### and tries to work out where the soma is. If you want to move faster</a>
+<a class="sourceLine" id="cb2-57" data-line-number="57">### You can grab bits separately and quickly:</a>
+<a class="sourceLine" id="cb2-58" data-line-number="58">?neuprint_read_neuron_simple</a>
+<a class="sourceLine" id="cb2-59" data-line-number="59">?neuprint_get_synapses</a>
+<a class="sourceLine" id="cb2-60" data-line-number="60">?neuprint_assign_connectors</a>
+<a class="sourceLine" id="cb2-61" data-line-number="61">?neuprint_locate_soma</a>
+<a class="sourceLine" id="cb2-62" data-line-number="62">?neuprint_get_neuron_names</a>
+<a class="sourceLine" id="cb2-63" data-line-number="63">?neuprint_get_meta</a>
+<a class="sourceLine" id="cb2-64" data-line-number="64"></a>
+<a class="sourceLine" id="cb2-65" data-line-number="65">## Do we have to know what's in the name to find interesting neurons? No!</a>
+<a class="sourceLine" id="cb2-66" data-line-number="66">### We can also read neurons from a region of interest (ROI) of the brain.</a>
+<a class="sourceLine" id="cb2-67" data-line-number="67">### The regions of interest available are:</a>
+<a class="sourceLine" id="cb2-68" data-line-number="68">rois =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="kw"><a href="../reference/neuprint_ROIs.html">neuprint_ROIs</a></span>())</a>
+<a class="sourceLine" id="cb2-69" data-line-number="69">rois</a>
+<a class="sourceLine" id="cb2-70" data-line-number="70"></a>
+<a class="sourceLine" id="cb2-71" data-line-number="71">## We don't we try fetching all of the neurons in a glomerulus of the mushroom body input zone, the calyx?</a>
+<a class="sourceLine" id="cb2-72" data-line-number="72">ca.info =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_find_neurons.html">neuprint_find_neurons</a></span>(</a>
+<a class="sourceLine" id="cb2-73" data-line-number="73">  <span class="dt">input_ROIs =</span> <span class="st">"CA(R)"</span>,</a>
+<a class="sourceLine" id="cb2-74" data-line-number="74">  <span class="dt">output_ROIs =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb2-75" data-line-number="75">  <span class="dt">all_segments =</span> <span class="ot">FALSE</span> <span class="co"># if true, fragments smaller than 'neurons' are returned as well</span></a>
+<a class="sourceLine" id="cb2-76" data-line-number="76">)</a>
+<a class="sourceLine" id="cb2-77" data-line-number="77"></a>
+<a class="sourceLine" id="cb2-78" data-line-number="78">## So how many neurons is that?</a>
+<a class="sourceLine" id="cb2-79" data-line-number="79"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(ca.info))</a>
+<a class="sourceLine" id="cb2-80" data-line-number="80"></a>
+<a class="sourceLine" id="cb2-81" data-line-number="81">## A lot! But what about that pesky load of Kenyon cells</a>
+<a class="sourceLine" id="cb2-82" data-line-number="82">### The most populous neurons in the brain</a>
+<a class="sourceLine" id="cb2-83" data-line-number="83">ca.info =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(ca.info, <span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(bodyname) <span class="op">&amp;</span><span class="st"> </span>neuronStatus <span class="op">==</span><span class="st"> "Traced"</span>)</a>
+<a class="sourceLine" id="cb2-84" data-line-number="84">ca.info =<span class="st"> </span>ca.info[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"KC"</span>,ca.info<span class="op">$</span>bodyname),]</a>
+<a class="sourceLine" id="cb2-85" data-line-number="85"></a>
+<a class="sourceLine" id="cb2-86" data-line-number="86">## So how many neurons is that?</a>
+<a class="sourceLine" id="cb2-87" data-line-number="87"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(ca.info))</a>
+<a class="sourceLine" id="cb2-88" data-line-number="88"></a>
+<a class="sourceLine" id="cb2-89" data-line-number="89">## Getting all that data took a while, so let's save it for later</a>
+<a class="sourceLine" id="cb2-90" data-line-number="90"><span class="kw"><a href="https://rdrr.io/r/base/save.html">save</a></span>(opns,<span class="dt">file =</span> <span class="st">"hemibrain_opns.rda"</span>)</a></code></pre></div>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns.png" alt="hemibrain_opns"><p class="caption">hemibrain_opns</p>
 </div>
@@ -361,112 +363,127 @@
 <a class="sourceLine" id="cb4-35" data-line-number="35">DM1.common.meta =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_get_meta.html">neuprint_get_meta</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(DM1.common)) <span class="co"># what are they?</span></a>
 <a class="sourceLine" id="cb4-36" data-line-number="36"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(DM1.common.meta) <span class="co"># Huhh, local neurons, the APL and some LH stuff</span></a>
 <a class="sourceLine" id="cb4-37" data-line-number="37"></a>
-<a class="sourceLine" id="cb4-38" data-line-number="38">## We can also get all of the neurons in the database that connect to the</a>
-<a class="sourceLine" id="cb4-39" data-line-number="39">### query neurons, either upstream or downstream of them</a>
-<a class="sourceLine" id="cb4-40" data-line-number="40">DM1.opn.connected =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_connection_table.html">neuprint_connection_table</a></span>(DM1.opn.info<span class="op">$</span>bodyid, <span class="dt">prepost =</span> <span class="st">"POST"</span>)</a>
-<a class="sourceLine" id="cb4-41" data-line-number="41">### In which brain region are these partners?</a>
-<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(DM1.opn.connected<span class="op">$</span>roi)</a>
-<a class="sourceLine" id="cb4-43" data-line-number="43"></a>
-<a class="sourceLine" id="cb4-44" data-line-number="44">## Important note!!</a>
-<a class="sourceLine" id="cb4-45" data-line-number="45">### The results from neuprint_connection_table can list the same bodyid-partner pairing</a>
-<a class="sourceLine" id="cb4-46" data-line-number="46">### multiple times if by.roi = TRUE. This is because there is a separate entry for each of FlyEM's designated</a>
-<a class="sourceLine" id="cb4-47" data-line-number="47">### regions of interest (ROIs), and because a super-level ROI can include multiple smaller ROIs. </a>
-<a class="sourceLine" id="cb4-48" data-line-number="48"></a>
-<a class="sourceLine" id="cb4-49" data-line-number="49">## Let's have a look at what the strongest downstream partners look like</a>
-<a class="sourceLine" id="cb4-50" data-line-number="50">DM1.opn.connected.strong =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(DM1.opn.connected,weight<span class="op">&gt;</span><span class="dv">100</span>, <span class="dt">prepost =</span> <span class="st">"POST"</span>)</a>
-<a class="sourceLine" id="cb4-51" data-line-number="51">DM1.targets =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neurons</a></span>(DM1.opn.connected.strong<span class="op">$</span>partner)</a>
-<a class="sourceLine" id="cb4-52" data-line-number="52">DM1.targets =<span class="st"> </span><span class="kw">unspike</span>(DM1.targets, <span class="dt">threshold=</span><span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb4-53" data-line-number="53"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.964227318763733</span>, <span class="fl">-0.0444099828600883</span>, </a>
-<a class="sourceLine" id="cb4-54" data-line-number="54"><span class="fl">-0.261329621076584</span>, <span class="dv">0</span>, <span class="fl">0.249727189540863</span>, <span class="fl">-0.178416073322296</span>, </a>
-<a class="sourceLine" id="cb4-55" data-line-number="55"><span class="fl">0.951737523078918</span>, <span class="dv">0</span>, <span class="fl">-0.088891975581646</span>, <span class="fl">-0.982952415943146</span>, </a>
-<a class="sourceLine" id="cb4-56" data-line-number="56"><span class="fl">-0.160943150520325</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">.Dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(4L, 4L)), <span class="dt">zoom =</span> <span class="fl">0.783526360988617</span>, </a>
-<a class="sourceLine" id="cb4-57" data-line-number="57">    <span class="dt">windowRect =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span>6L, 71L, 1434L, 927L))</a>
-<a class="sourceLine" id="cb4-58" data-line-number="58"><span class="kw">plot3d</span>(DM1.targets, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(lacroix,<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(DM1.targets),<span class="dt">replace=</span><span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb4-59" data-line-number="59"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_DM1_strong_downstream_partners.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
-<a class="sourceLine" id="cb4-60" data-line-number="60"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(DM1.targets[,])</a>
-<a class="sourceLine" id="cb4-61" data-line-number="61"></a>
-<a class="sourceLine" id="cb4-62" data-line-number="62">## So there are three lateral horn neuron targets of the axon there</a>
-<a class="sourceLine" id="cb4-63" data-line-number="63">### c("359214479", "359891881", "511616870"), found using nat::find.neuron</a>
-<a class="sourceLine" id="cb4-64" data-line-number="64">### Let's move forward with those</a>
-<a class="sourceLine" id="cb4-65" data-line-number="65">lhns =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"359214479"</span>, <span class="st">"359891881"</span>, <span class="st">"511616870"</span>)</a>
-<a class="sourceLine" id="cb4-66" data-line-number="66">lhn.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lacroix[[<span class="st">"marine"</span>]],lacroix[[<span class="st">"blue"</span>]],lacroix[[<span class="st">"green"</span>]])</a>
-<a class="sourceLine" id="cb4-67" data-line-number="67"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(lhn.cols) =<span class="st"> </span>DM1.targets[lhns,<span class="st">"type"</span>]</a>
-<a class="sourceLine" id="cb4-68" data-line-number="68">lh.targets =<span class="st"> </span>DM1.targets[lhns]</a>
-<a class="sourceLine" id="cb4-69" data-line-number="69"><span class="kw">clear3d</span>()</a>
-<a class="sourceLine" id="cb4-70" data-line-number="70"><span class="kw">plot3d</span>(lh.targets, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lacroix[[<span class="st">"marine"</span>]],</a>
-<a class="sourceLine" id="cb4-71" data-line-number="71">                                    lacroix[[<span class="st">"blue"</span>]],</a>
-<a class="sourceLine" id="cb4-72" data-line-number="72">                                    lacroix[[<span class="st">"green"</span>]]))</a>
-<a class="sourceLine" id="cb4-73" data-line-number="73"><span class="kw">plot3d</span>(<span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(opns,<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"DM1"</span>,name)),<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">col=</span>lacroix[[<span class="st">"orange"</span>]])</a>
-<a class="sourceLine" id="cb4-74" data-line-number="74"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_DM1_strong_LH_targets.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
-<a class="sourceLine" id="cb4-75" data-line-number="75"></a>
-<a class="sourceLine" id="cb4-76" data-line-number="76">## Can other OPNs influence these strong partners?</a>
-<a class="sourceLine" id="cb4-77" data-line-number="77">### Which other OPNs impinge on it?</a>
-<a class="sourceLine" id="cb4-78" data-line-number="78">### Via whatever path?</a>
-<a class="sourceLine" id="cb4-79" data-line-number="79">shortest.paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>()</a>
-<a class="sourceLine" id="cb4-80" data-line-number="80"><span class="cf">for</span>(lhn <span class="cf">in</span> lhns){</a>
-<a class="sourceLine" id="cb4-81" data-line-number="81">  <span class="cf">for</span>(b <span class="cf">in</span> opn.info<span class="op">$</span>bodyid){ <span class="co"># PN -&gt; LHN</span></a>
-<a class="sourceLine" id="cb4-82" data-line-number="82">    sp =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_get_shortest_paths.html">neuprint_get_shortest_paths</a></span>(<span class="dt">body_pre =</span> b, <span class="dt">body_post =</span> lhn, <span class="dt">weightT =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb4-83" data-line-number="83">    dupe =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>( <span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>]),<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(sp),<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb4-84" data-line-number="84">    shortest =<span class="st"> </span>sp[<span class="dv">1</span><span class="op">:</span>dupe,]</a>
-<a class="sourceLine" id="cb4-85" data-line-number="85">    <span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&gt;</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&lt;</span><span class="dv">5</span> ){</a>
-<a class="sourceLine" id="cb4-86" data-line-number="86">      shortest<span class="op">$</span>order.to =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest), <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest), <span class="dt">sep =</span> <span class="st">"/"</span>)</a>
-<a class="sourceLine" id="cb4-87" data-line-number="87">      shortest<span class="op">$</span>order.from =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">-</span><span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest), <span class="dt">sep =</span> <span class="st">"/"</span>)</a>
-<a class="sourceLine" id="cb4-88" data-line-number="88">      shortest[<span class="dv">1</span>,<span class="st">"order.from"</span>] =<span class="st"> </span>opn.info[<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(b),<span class="st">"glomerulus"</span>]</a>
-<a class="sourceLine" id="cb4-89" data-line-number="89">      shortest[<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest),<span class="st">"order.to"</span>] =<span class="st"> </span>DM1.targets[lhn,<span class="st">"type"</span>]</a>
-<a class="sourceLine" id="cb4-90" data-line-number="90">      shortest.paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(shortest.paths, shortest) </a>
-<a class="sourceLine" id="cb4-91" data-line-number="91">    }</a>
-<a class="sourceLine" id="cb4-92" data-line-number="92">  }</a>
-<a class="sourceLine" id="cb4-93" data-line-number="93">  <span class="cf">for</span>(b <span class="cf">in</span> opn.info<span class="op">$</span>bodyid){ <span class="co"># LHN -&gt; PN</span></a>
-<a class="sourceLine" id="cb4-94" data-line-number="94">    sp =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_get_shortest_paths.html">neuprint_get_shortest_paths</a></span>(<span class="dt">body_post =</span> b, <span class="dt">body_pre =</span> lhn, <span class="dt">weightT =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb4-95" data-line-number="95">    dupe =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>( <span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>]),<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(sp),<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb4-96" data-line-number="96">    shortest =<span class="st"> </span>sp[<span class="dv">1</span><span class="op">:</span>dupe,]</a>
-<a class="sourceLine" id="cb4-97" data-line-number="97">    <span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&gt;</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&lt;</span><span class="dv">2</span>){</a>
-<a class="sourceLine" id="cb4-98" data-line-number="98">      shortest[<span class="dv">1</span>,<span class="st">"order.from"</span>] =<span class="st"> </span>opn.info[<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(b),<span class="st">"glomerulus"</span>]</a>
-<a class="sourceLine" id="cb4-99" data-line-number="99">      shortest[<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest),<span class="st">"order.to"</span>] =<span class="st"> </span>DM1.targets[lhn,<span class="st">"type"</span>]</a>
-<a class="sourceLine" id="cb4-100" data-line-number="100">      shortest.paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(shortest.paths, shortest) </a>
-<a class="sourceLine" id="cb4-101" data-line-number="101">    }</a>
-<a class="sourceLine" id="cb4-102" data-line-number="102">  }</a>
-<a class="sourceLine" id="cb4-103" data-line-number="103">}</a>
-<a class="sourceLine" id="cb4-104" data-line-number="104"></a>
-<a class="sourceLine" id="cb4-105" data-line-number="105"><span class="co"># Make network</span></a>
-<a class="sourceLine" id="cb4-106" data-line-number="106"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">42</span>)</a>
-<a class="sourceLine" id="cb4-107" data-line-number="107">paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">weight =</span> shortest.paths<span class="op">$</span>weight), <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">order.from =</span> shortest.paths<span class="op">$</span>order.from,</a>
-<a class="sourceLine" id="cb4-108" data-line-number="108">                                                             <span class="dt">order.to =</span> shortest.paths<span class="op">$</span>order.to),</a>
-<a class="sourceLine" id="cb4-109" data-line-number="109">                           sum)</a>
-<a class="sourceLine" id="cb4-110" data-line-number="110">n =<span class="st"> </span><span class="kw">network</span>(paths,</a>
-<a class="sourceLine" id="cb4-111" data-line-number="111">            <span class="dt">matrix.type =</span> <span class="st">"edgelist"</span>,</a>
-<a class="sourceLine" id="cb4-112" data-line-number="112">            <span class="dt">ignore.eval =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb4-113" data-line-number="113">            <span class="dt">layout =</span> <span class="st">"fruchtermanreingold"</span>,</a>
-<a class="sourceLine" id="cb4-114" data-line-number="114">            <span class="dt">names.eval =</span> <span class="st">"weight"</span>,</a>
-<a class="sourceLine" id="cb4-115" data-line-number="115">            <span class="dt">directed =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-116" data-line-number="116">n =<span class="st"> </span><span class="kw">ggnetwork</span>(n, <span class="dt">cell.jitter =</span> <span class="fl">0.75</span>, <span class="dt">arrow.gap =</span> <span class="fl">0.01</span>)</a>
-<a class="sourceLine" id="cb4-117" data-line-number="117"></a>
-<a class="sourceLine" id="cb4-118" data-line-number="118"><span class="co"># Set colours</span></a>
-<a class="sourceLine" id="cb4-119" data-line-number="119">orders =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(paths<span class="op">$</span>order.to,paths<span class="op">$</span>order.from))</a>
-<a class="sourceLine" id="cb4-120" data-line-number="120">order.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"grey30"</span>,<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(orders))</a>
-<a class="sourceLine" id="cb4-121" data-line-number="121"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(order.cols) =<span class="st"> </span>orders</a>
-<a class="sourceLine" id="cb4-122" data-line-number="122">gloms =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(opn.info<span class="op">$</span>glomerulus)</a>
-<a class="sourceLine" id="cb4-123" data-line-number="123">opn.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(lacroix[[<span class="st">"orange"</span>]],<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(gloms))</a>
-<a class="sourceLine" id="cb4-124" data-line-number="124"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(opn.cols) =<span class="st"> </span>gloms</a>
-<a class="sourceLine" id="cb4-125" data-line-number="125">opn.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(opn.cols,lhn.cols,order.cols[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(order.cols)<span class="op">%in%</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(lhn.cols),<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(opn.cols))])</a>
-<a class="sourceLine" id="cb4-126" data-line-number="126"></a>
-<a class="sourceLine" id="cb4-127" data-line-number="127"><span class="co"># Plot</span></a>
-<a class="sourceLine" id="cb4-128" data-line-number="128"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-129" data-line-number="129"><span class="kw"><a href="https://rdrr.io/r/grDevices/pdf.html">pdf</a></span>(<span class="dt">file =</span> <span class="st">"images/DM1_OPN_input_graph.pdf"</span>, <span class="dt">height =</span> <span class="dv">5</span>, <span class="dt">width =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb4-130" data-line-number="130"><span class="kw">ggplot</span>(n, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">xend =</span> xend, <span class="dt">yend =</span> yend)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-131" data-line-number="131"><span class="st">  </span><span class="kw">geom_edges</span>(<span class="kw">aes</span>(<span class="dt">color =</span> vertex.names),</a>
-<a class="sourceLine" id="cb4-132" data-line-number="132">             <span class="dt">curvature =</span> <span class="fl">0.05</span>,</a>
-<a class="sourceLine" id="cb4-133" data-line-number="133">             <span class="dt">arrow =</span> <span class="kw">arrow</span>(<span class="dt">length =</span> <span class="kw">unit</span>(<span class="dv">6</span>, <span class="st">"pt"</span>), </a>
-<a class="sourceLine" id="cb4-134" data-line-number="134">                           <span class="dt">type =</span> <span class="st">"closed"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-135" data-line-number="135"><span class="st">  </span><span class="kw">geom_nodes</span>(<span class="kw">aes</span>(<span class="dt">color =</span> vertex.names, <span class="dt">size =</span> <span class="dv">6</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-136" data-line-number="136"><span class="st">  </span><span class="kw">geom_edgetext</span>(<span class="kw">aes</span>(<span class="dt">label =</span> weight, <span class="dt">color =</span> vertex.names), <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-137" data-line-number="137"><span class="st">  </span><span class="kw">geom_nodelabel_repel</span>(<span class="kw">aes</span>(<span class="dt">color =</span> vertex.names, <span class="dt">label =</span> vertex.names),</a>
-<a class="sourceLine" id="cb4-138" data-line-number="138">                       <span class="dt">fontface =</span> <span class="st">"bold"</span>, <span class="dt">box.padding =</span> <span class="kw">unit</span>(<span class="dv">1</span>, <span class="st">"lines"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-139" data-line-number="139"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> opn.cols) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-140" data-line-number="140"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> opn.cols) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-141" data-line-number="141"><span class="st">  </span><span class="kw">theme_blank</span>() <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb4-142" data-line-number="142"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="ot">FALSE</span>, <span class="dt">shape =</span> <span class="ot">FALSE</span>, <span class="dt">fill =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> <span class="ot">FALSE</span>, <span class="dt">linetype =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">""</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">""</span>)</a>
-<a class="sourceLine" id="cb4-143" data-line-number="143"><span class="kw"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb4-38" data-line-number="38">## Another interesting question we can ask is whether PNs get axonic inouts in the calyx</a>
+<a class="sourceLine" id="cb4-39" data-line-number="39">### from Kenyon cells (KCs). In their other axon collateral in the LH it has already been shown</a>
+<a class="sourceLine" id="cb4-40" data-line-number="40">### That they get innervation from local neurons.</a>
+<a class="sourceLine" id="cb4-41" data-line-number="41">kc.info =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_search.html">neuprint_search</a></span>(<span class="st">"KC.*"</span>)</a>
+<a class="sourceLine" id="cb4-42" data-line-number="42">opn.conn =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_connection_table.html">neuprint_connection_table</a></span>(<span class="dt">bodyids =</span> opn.info<span class="op">$</span>bodyid, <span class="dt">prepost =</span> <span class="st">"PRE"</span>)</a>
+<a class="sourceLine" id="cb4-43" data-line-number="43">opn.conn =<span class="st"> </span>opn.conn[opn.conn<span class="op">$</span>partner<span class="op">%in%</span>kc.info<span class="op">$</span>bodyid,]</a>
+<a class="sourceLine" id="cb4-44" data-line-number="44">opn.conn<span class="op">$</span>glom =<span class="st"> </span>gloms[<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(opn.conn<span class="op">$</span>bodyid)]</a>
+<a class="sourceLine" id="cb4-45" data-line-number="45">glom.conn =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">weight =</span> opn.conn<span class="op">$</span>weight),</a>
+<a class="sourceLine" id="cb4-46" data-line-number="46">                      <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">glom =</span> opn.conn<span class="op">$</span>glom,</a>
+<a class="sourceLine" id="cb4-47" data-line-number="47">                           <span class="dt">prepost =</span> opn.conn<span class="op">$</span>prepost),</a>
+<a class="sourceLine" id="cb4-48" data-line-number="48">                      sum)</a>
+<a class="sourceLine" id="cb4-49" data-line-number="49"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(opn.conn<span class="op">$</span>weight) <span class="co"># Most barely connect</span></a>
+<a class="sourceLine" id="cb4-50" data-line-number="50"><span class="kw"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(opn.conn<span class="op">$</span>weight, <span class="dt">breaks =</span> <span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb4-51" data-line-number="51"><span class="kw"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(glom.conn<span class="op">$</span>weight, <span class="dt">breaks =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(glom.conn<span class="op">$</span>weight)<span class="op">/</span><span class="dv">10</span>) <span class="co"># However if you add up by uPN cell type, the numbers can look high</span></a>
+<a class="sourceLine" id="cb4-52" data-line-number="52"></a>
+<a class="sourceLine" id="cb4-53" data-line-number="53">## We can also get all of the neurons in the database that connect to the</a>
+<a class="sourceLine" id="cb4-54" data-line-number="54">### query neurons, either upstream or downstream of them</a>
+<a class="sourceLine" id="cb4-55" data-line-number="55">DM1.opn.connected =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_connection_table.html">neuprint_connection_table</a></span>(DM1.opn.info<span class="op">$</span>bodyid, <span class="dt">prepost =</span> <span class="st">"POST"</span>)</a>
+<a class="sourceLine" id="cb4-56" data-line-number="56">### In which brain region are these partners?</a>
+<a class="sourceLine" id="cb4-57" data-line-number="57"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(DM1.opn.connected<span class="op">$</span>roi)</a>
+<a class="sourceLine" id="cb4-58" data-line-number="58"></a>
+<a class="sourceLine" id="cb4-59" data-line-number="59">## Important note!!</a>
+<a class="sourceLine" id="cb4-60" data-line-number="60">### The results from neuprint_connection_table can list the same bodyid-partner pairing</a>
+<a class="sourceLine" id="cb4-61" data-line-number="61">### multiple times if by.roi = TRUE. This is because there is a separate entry for each of FlyEM's designated</a>
+<a class="sourceLine" id="cb4-62" data-line-number="62">### regions of interest (ROIs), and because a super-level ROI can include multiple smaller ROIs. </a>
+<a class="sourceLine" id="cb4-63" data-line-number="63"></a>
+<a class="sourceLine" id="cb4-64" data-line-number="64">## Let's have a look at what the strongest downstream partners look like</a>
+<a class="sourceLine" id="cb4-65" data-line-number="65">DM1.opn.connected.strong =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(DM1.opn.connected,weight<span class="op">&gt;</span><span class="dv">100</span>, <span class="dt">prepost =</span> <span class="st">"POST"</span>)</a>
+<a class="sourceLine" id="cb4-66" data-line-number="66">DM1.targets =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neurons</a></span>(DM1.opn.connected.strong<span class="op">$</span>partner)</a>
+<a class="sourceLine" id="cb4-67" data-line-number="67">DM1.targets =<span class="st"> </span><span class="kw">unspike</span>(DM1.targets, <span class="dt">threshold=</span><span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb4-68" data-line-number="68"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.964227318763733</span>, <span class="fl">-0.0444099828600883</span>, </a>
+<a class="sourceLine" id="cb4-69" data-line-number="69"><span class="fl">-0.261329621076584</span>, <span class="dv">0</span>, <span class="fl">0.249727189540863</span>, <span class="fl">-0.178416073322296</span>, </a>
+<a class="sourceLine" id="cb4-70" data-line-number="70"><span class="fl">0.951737523078918</span>, <span class="dv">0</span>, <span class="fl">-0.088891975581646</span>, <span class="fl">-0.982952415943146</span>, </a>
+<a class="sourceLine" id="cb4-71" data-line-number="71"><span class="fl">-0.160943150520325</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">.Dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(4L, 4L)), <span class="dt">zoom =</span> <span class="fl">0.783526360988617</span>, </a>
+<a class="sourceLine" id="cb4-72" data-line-number="72">    <span class="dt">windowRect =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span>6L, 71L, 1434L, 927L))</a>
+<a class="sourceLine" id="cb4-73" data-line-number="73"><span class="kw">plot3d</span>(DM1.targets, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(lacroix,<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(DM1.targets),<span class="dt">replace=</span><span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb4-74" data-line-number="74"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_DM1_strong_downstream_partners.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
+<a class="sourceLine" id="cb4-75" data-line-number="75"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(DM1.targets[,])</a>
+<a class="sourceLine" id="cb4-76" data-line-number="76"></a>
+<a class="sourceLine" id="cb4-77" data-line-number="77">## So there are three lateral horn neuron targets of the axon there</a>
+<a class="sourceLine" id="cb4-78" data-line-number="78">### c("359214479", "359891881", "511616870"), found using nat::find.neuron</a>
+<a class="sourceLine" id="cb4-79" data-line-number="79">### Let's move forward with those</a>
+<a class="sourceLine" id="cb4-80" data-line-number="80">lhns =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"359214479"</span>, <span class="st">"359891881"</span>, <span class="st">"511616870"</span>)</a>
+<a class="sourceLine" id="cb4-81" data-line-number="81">lhn.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lacroix[[<span class="st">"marine"</span>]],lacroix[[<span class="st">"blue"</span>]],lacroix[[<span class="st">"green"</span>]])</a>
+<a class="sourceLine" id="cb4-82" data-line-number="82"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(lhn.cols) =<span class="st"> </span>DM1.targets[lhns,<span class="st">"type"</span>]</a>
+<a class="sourceLine" id="cb4-83" data-line-number="83">lh.targets =<span class="st"> </span>DM1.targets[lhns]</a>
+<a class="sourceLine" id="cb4-84" data-line-number="84"><span class="kw">clear3d</span>()</a>
+<a class="sourceLine" id="cb4-85" data-line-number="85"><span class="kw">plot3d</span>(lh.targets, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lacroix[[<span class="st">"marine"</span>]],</a>
+<a class="sourceLine" id="cb4-86" data-line-number="86">                                    lacroix[[<span class="st">"blue"</span>]],</a>
+<a class="sourceLine" id="cb4-87" data-line-number="87">                                    lacroix[[<span class="st">"green"</span>]]))</a>
+<a class="sourceLine" id="cb4-88" data-line-number="88"><span class="kw">plot3d</span>(<span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(opns,<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"DM1"</span>,name)),<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">col=</span>lacroix[[<span class="st">"orange"</span>]])</a>
+<a class="sourceLine" id="cb4-89" data-line-number="89"><span class="kw">rgl.snapshot</span>(<span class="dt">filename =</span> <span class="st">"images/hemibrain_DM1_strong_LH_targets.png"</span>, <span class="dt">fmt =</span><span class="st">"png"</span>)</a>
+<a class="sourceLine" id="cb4-90" data-line-number="90"></a>
+<a class="sourceLine" id="cb4-91" data-line-number="91">## Can other OPNs influence these strong partners?</a>
+<a class="sourceLine" id="cb4-92" data-line-number="92">### Which other OPNs impinge on it?</a>
+<a class="sourceLine" id="cb4-93" data-line-number="93">### Via whatever path?</a>
+<a class="sourceLine" id="cb4-94" data-line-number="94">shortest.paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>()</a>
+<a class="sourceLine" id="cb4-95" data-line-number="95"><span class="cf">for</span>(lhn <span class="cf">in</span> lhns){</a>
+<a class="sourceLine" id="cb4-96" data-line-number="96">  <span class="cf">for</span>(b <span class="cf">in</span> opn.info<span class="op">$</span>bodyid){ <span class="co"># PN -&gt; LHN</span></a>
+<a class="sourceLine" id="cb4-97" data-line-number="97">    sp =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_get_shortest_paths.html">neuprint_get_shortest_paths</a></span>(<span class="dt">body_pre =</span> b, <span class="dt">body_post =</span> lhn, <span class="dt">weightT =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb4-98" data-line-number="98">    dupe =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>( <span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>]),<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(sp),<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb4-99" data-line-number="99">    shortest =<span class="st"> </span>sp[<span class="dv">1</span><span class="op">:</span>dupe,]</a>
+<a class="sourceLine" id="cb4-100" data-line-number="100">    <span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&gt;</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&lt;</span><span class="dv">5</span> ){</a>
+<a class="sourceLine" id="cb4-101" data-line-number="101">      shortest<span class="op">$</span>order.to =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest), <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest), <span class="dt">sep =</span> <span class="st">"/"</span>)</a>
+<a class="sourceLine" id="cb4-102" data-line-number="102">      shortest<span class="op">$</span>order.from =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">-</span><span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest), <span class="dt">sep =</span> <span class="st">"/"</span>)</a>
+<a class="sourceLine" id="cb4-103" data-line-number="103">      shortest[<span class="dv">1</span>,<span class="st">"order.from"</span>] =<span class="st"> </span>opn.info[<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(b),<span class="st">"glomerulus"</span>]</a>
+<a class="sourceLine" id="cb4-104" data-line-number="104">      shortest[<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest),<span class="st">"order.to"</span>] =<span class="st"> </span>DM1.targets[lhn,<span class="st">"type"</span>]</a>
+<a class="sourceLine" id="cb4-105" data-line-number="105">      shortest.paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(shortest.paths, shortest) </a>
+<a class="sourceLine" id="cb4-106" data-line-number="106">    }</a>
+<a class="sourceLine" id="cb4-107" data-line-number="107">  }</a>
+<a class="sourceLine" id="cb4-108" data-line-number="108">  <span class="cf">for</span>(b <span class="cf">in</span> opn.info<span class="op">$</span>bodyid){ <span class="co"># LHN -&gt; PN</span></a>
+<a class="sourceLine" id="cb4-109" data-line-number="109">    sp =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_get_shortest_paths.html">neuprint_get_shortest_paths</a></span>(<span class="dt">body_post =</span> b, <span class="dt">body_pre =</span> lhn, <span class="dt">weightT =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb4-110" data-line-number="110">    dupe =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>( <span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>]),<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(sp),<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span>(sp<span class="op">$</span>to))[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb4-111" data-line-number="111">    shortest =<span class="st"> </span>sp[<span class="dv">1</span><span class="op">:</span>dupe,]</a>
+<a class="sourceLine" id="cb4-112" data-line-number="112">    <span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&gt;</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest)<span class="op">&lt;</span><span class="dv">2</span>){</a>
+<a class="sourceLine" id="cb4-113" data-line-number="113">      shortest[<span class="dv">1</span>,<span class="st">"order.from"</span>] =<span class="st"> </span>opn.info[<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(b),<span class="st">"glomerulus"</span>]</a>
+<a class="sourceLine" id="cb4-114" data-line-number="114">      shortest[<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(shortest),<span class="st">"order.to"</span>] =<span class="st"> </span>DM1.targets[lhn,<span class="st">"type"</span>]</a>
+<a class="sourceLine" id="cb4-115" data-line-number="115">      shortest.paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(shortest.paths, shortest) </a>
+<a class="sourceLine" id="cb4-116" data-line-number="116">    }</a>
+<a class="sourceLine" id="cb4-117" data-line-number="117">  }</a>
+<a class="sourceLine" id="cb4-118" data-line-number="118">}</a>
+<a class="sourceLine" id="cb4-119" data-line-number="119"></a>
+<a class="sourceLine" id="cb4-120" data-line-number="120"><span class="co"># Make network</span></a>
+<a class="sourceLine" id="cb4-121" data-line-number="121"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb4-122" data-line-number="122">paths =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">weight =</span> shortest.paths<span class="op">$</span>weight), <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">order.from =</span> shortest.paths<span class="op">$</span>order.from,</a>
+<a class="sourceLine" id="cb4-123" data-line-number="123">                                                             <span class="dt">order.to =</span> shortest.paths<span class="op">$</span>order.to),</a>
+<a class="sourceLine" id="cb4-124" data-line-number="124">                           sum)</a>
+<a class="sourceLine" id="cb4-125" data-line-number="125">n =<span class="st"> </span><span class="kw">network</span>(paths,</a>
+<a class="sourceLine" id="cb4-126" data-line-number="126">            <span class="dt">matrix.type =</span> <span class="st">"edgelist"</span>,</a>
+<a class="sourceLine" id="cb4-127" data-line-number="127">            <span class="dt">ignore.eval =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb4-128" data-line-number="128">            <span class="dt">layout =</span> <span class="st">"fruchtermanreingold"</span>,</a>
+<a class="sourceLine" id="cb4-129" data-line-number="129">            <span class="dt">names.eval =</span> <span class="st">"weight"</span>,</a>
+<a class="sourceLine" id="cb4-130" data-line-number="130">            <span class="dt">directed =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-131" data-line-number="131">n =<span class="st"> </span><span class="kw">ggnetwork</span>(n, <span class="dt">cell.jitter =</span> <span class="fl">0.75</span>, <span class="dt">arrow.gap =</span> <span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb4-132" data-line-number="132"></a>
+<a class="sourceLine" id="cb4-133" data-line-number="133"><span class="co"># Set colours</span></a>
+<a class="sourceLine" id="cb4-134" data-line-number="134">orders =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(paths<span class="op">$</span>order.to,paths<span class="op">$</span>order.from))</a>
+<a class="sourceLine" id="cb4-135" data-line-number="135">order.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"grey30"</span>,<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(orders))</a>
+<a class="sourceLine" id="cb4-136" data-line-number="136"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(order.cols) =<span class="st"> </span>orders</a>
+<a class="sourceLine" id="cb4-137" data-line-number="137">gloms =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(opn.info<span class="op">$</span>glomerulus)</a>
+<a class="sourceLine" id="cb4-138" data-line-number="138">opn.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(lacroix[[<span class="st">"orange"</span>]],<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(gloms))</a>
+<a class="sourceLine" id="cb4-139" data-line-number="139"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(opn.cols) =<span class="st"> </span>gloms</a>
+<a class="sourceLine" id="cb4-140" data-line-number="140">opn.cols =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(opn.cols,lhn.cols,order.cols[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(order.cols)<span class="op">%in%</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(lhn.cols),<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(opn.cols))])</a>
+<a class="sourceLine" id="cb4-141" data-line-number="141"></a>
+<a class="sourceLine" id="cb4-142" data-line-number="142"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb4-143" data-line-number="143"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-144" data-line-number="144"><span class="kw"><a href="https://rdrr.io/r/grDevices/pdf.html">pdf</a></span>(<span class="dt">file =</span> <span class="st">"images/DM1_OPN_input_graph.pdf"</span>, <span class="dt">height =</span> <span class="dv">5</span>, <span class="dt">width =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb4-145" data-line-number="145"><span class="kw">ggplot</span>(n, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">xend =</span> xend, <span class="dt">yend =</span> yend)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-146" data-line-number="146"><span class="st">  </span><span class="kw">geom_edges</span>(<span class="kw">aes</span>(<span class="dt">color =</span> vertex.names),</a>
+<a class="sourceLine" id="cb4-147" data-line-number="147">             <span class="dt">curvature =</span> <span class="fl">0.05</span>,</a>
+<a class="sourceLine" id="cb4-148" data-line-number="148">             <span class="dt">arrow =</span> <span class="kw">arrow</span>(<span class="dt">length =</span> <span class="kw">unit</span>(<span class="dv">6</span>, <span class="st">"pt"</span>), </a>
+<a class="sourceLine" id="cb4-149" data-line-number="149">                           <span class="dt">type =</span> <span class="st">"closed"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-150" data-line-number="150"><span class="st">  </span><span class="kw">geom_nodes</span>(<span class="kw">aes</span>(<span class="dt">color =</span> vertex.names, <span class="dt">size =</span> <span class="dv">6</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-151" data-line-number="151"><span class="st">  </span><span class="kw">geom_edgetext</span>(<span class="kw">aes</span>(<span class="dt">label =</span> weight, <span class="dt">color =</span> vertex.names), <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-152" data-line-number="152"><span class="st">  </span><span class="kw">geom_nodelabel_repel</span>(<span class="kw">aes</span>(<span class="dt">color =</span> vertex.names, <span class="dt">label =</span> vertex.names),</a>
+<a class="sourceLine" id="cb4-153" data-line-number="153">                       <span class="dt">fontface =</span> <span class="st">"bold"</span>, <span class="dt">box.padding =</span> <span class="kw">unit</span>(<span class="dv">1</span>, <span class="st">"lines"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-154" data-line-number="154"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> opn.cols) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-155" data-line-number="155"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> opn.cols) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-156" data-line-number="156"><span class="st">  </span><span class="kw">theme_blank</span>() <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb4-157" data-line-number="157"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="ot">FALSE</span>, <span class="dt">shape =</span> <span class="ot">FALSE</span>, <span class="dt">fill =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> <span class="ot">FALSE</span>, <span class="dt">linetype =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">""</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">""</span>)</a>
+<a class="sourceLine" id="cb4-158" data-line-number="158"><span class="kw"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span>()</a></code></pre></div>
 </div>
 <div id="article" class="section level2">
 <h2 class="hasAnchor">
