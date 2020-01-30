@@ -103,14 +103,11 @@ neuprint_read_neuron <- function(bodyid,
     n = tryCatch(drvid::read.neuron.dvid(bodyid),error = function(e) NULL)
     d = n$d
   }else{
-    n = tryCatch(neuprint_read_skeletons(id2char(bodyid), dataset=dataset,conn = conn, heal = FALSE,...),error = function(e) NULL)
+    n = tryCatch(neuprint_read_skeletons(id2char(bodyid), dataset=dataset,conn = conn, heal = heal,...),error = function(e) NULL)
+    d = n$d
   }
   if(is.null(n)){
     warning("Failed to read neuron ", bodyid , " from ", neuprint_login(conn=conn)$server,", dropping ...")
-  }
-  if(heal){
-    n = nat::stitch_neurons_mst(x = n, thresh_el = 1000)
-    d = n$d
   }
   if(resample){
     n = nat::resample(x=n,stepsize=resample)
@@ -145,7 +142,8 @@ neuprint_read_neuron <- function(bodyid,
   }
   if(connectors){
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    synapses$treenode_id = n$d[near,"PointNo"]
+    synapses$treenode_id = n$d[near$nn.idx,"PointNo"]
+    synapses = synapses[near$nn.dists<1000,] # remove erroneously associated synapses
     synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
     n$connectors = synapses
   }
