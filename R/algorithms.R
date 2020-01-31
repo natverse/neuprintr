@@ -19,6 +19,7 @@
 #' or dendrite (Label = 3) in the returned objects, at neuron$d$Label.
 #' This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
 #' or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").
+#' @param ... methods sent to \code{nat::nlapply}
 #'
 #' @details From Schneider-Mizell et al. (2016): "We use flow centrality for
 #'   four purposes. First, to split an arbor into axon and dendrite at the
@@ -45,7 +46,8 @@
 #' \donttest{
 #' \dontrun{
 #' # Get neuron
-#' neuron = neuprint_read_neuron("818983130")
+#' neuron = neuprint_read_neurons("818983130")
+#' neuron1 = neuprint_read_neurons("5813056622")
 #'
 #' # Split neuron
 #' neuron.flow = flow_centrality(neuron)
@@ -66,7 +68,8 @@ flow_centrality <-function(x,
                            polypre = TRUE,
                            primary.dendrite = 0.9,
                            bending.flow = FALSE,
-                           split = c("postsynapses","presynapses","distance")) UseMethod("flow_centrality")
+                           split = c("distance","postsynapses","presynapses"),
+                           ...) UseMethod("flow_centrality")
 
 # hidden
 flow_centrality.neuron <- function(x, mode = c("sum", "centrifugal", "centripetal"),
@@ -206,7 +209,7 @@ flow_centrality.neuron <- function(x, mode = c("sum", "centrifugal", "centripeta
   main1 = names(main1$membership[main1$membership %in% 1])
   nodes.upstream = nodes[as.character(main1), ]
   tract.parent = unique(nodes.upstream$Parent[!nodes.upstream$Parent %in%nodes.upstream$PointNo])
-  upstream.tract.parent = match(tract.parent, nodes$PointNo)
+  upstream.tract.parent = ifelse(tract.parent==-1,root,match(tract.parent, nodes$PointNo))
   if (sum(match(tract.parent, nodes$PointNo) %in% p.n) > 0) {
     bps.all = rownames(nodes)[match(as.numeric(nat::branchpoints(nodes)),nodes$PointNo)]
     bps.upstream = bps.all[bps.all %in% upstream.unclassed]
@@ -291,7 +294,7 @@ flow_centrality.neuron <- function(x, mode = c("sum", "centrifugal", "centripeta
 }
 
 # hidden
-flow_centrality.neuronlist <- function(x, mode = c("sum","centrifugal","centripetal"), polypre = T, primary.dendrite = 0.9, bending.flow = FALSE,split = c("postsynapses","presynapses","distance")){
-  neurons = nat::nlapply(x, flow_centrality, mode = mode, polypre = polypre, primary.dendrite = primary.dendrite, OmitFailures = T, split = split)
+flow_centrality.neuronlist <- function(x, mode = c("sum","centrifugal","centripetal"), polypre = T, primary.dendrite = 0.9, bending.flow = FALSE,split = c("postsynapses","presynapses","distance"), ...){
+  neurons = nat::nlapply(x, flow_centrality, mode = mode, polypre = polypre, primary.dendrite = primary.dendrite, OmitFailures = T, split = split, ...)
   neurons
 }
