@@ -65,11 +65,13 @@ available.datasets
 
 If you need help/have not before logged into neuPrint via R, please see the package README or see `?neuprint_login`.
 
-The main point is that To make life easier, you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add this line to your R environ to specify the hemibrain dataset:
+The main point is that you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package `usethis` to easily edit your R environ file. You will need to add these lines to your R environ to specify the hemibrain dataset:
 
 `neuprint_token="YOUR_TOKEN_HERE"`
 `neuprint_server='https://neuprint.janelia.org/'`
 `neuprint_dataset='hemibrain:v1.0'`
+
+Leave a blank line at the end of the file.
 
 Then restart your R session.
 
@@ -93,6 +95,7 @@ rownames(opn.info) = opn.info$bodyid
 #### Add AL glomerulus information from the name
 name.split = strsplit(opn.info$name,split=c("\\(|\\_"))
 gloms = sapply(name.split, function(x) tryCatch(x[[2]], error = function(e) ""))
+names(gloms) = opn.info$bodyid
 opn.info$glomerulus = gloms
 opn.info = subset(opn.info, glomerulus!="")
 #### so there seem to be
@@ -285,6 +288,21 @@ DM1.common = neuprint_common_connectivity(DM1.opn.info$bodyid, prepost = "PRE")
 dim(DM1.common) 
 DM1.common.meta = neuprint_get_meta(colnames(DM1.common)) # what are they?
 View(DM1.common.meta) # Huhh, local neurons, the APL and some LH stuff
+
+## Another interesting question we can ask is whether PNs get axonic inouts in the calyx
+### from Kenyon cells (KCs). In their other axon collateral in the LH it has already been shown
+### That they get innervation from local neurons.
+kc.info = neuprint_search("KC.*")
+opn.conn = neuprint_connection_table(bodyids = opn.info$bodyid, prepost = "PRE")
+opn.conn = opn.conn[opn.conn$partner%in%kc.info$bodyid,]
+opn.conn$glom = gloms[as.character(opn.conn$bodyid)]
+glom.conn = aggregate(list(weight = opn.conn$weight),
+                      list(glom = opn.conn$glom,
+                           prepost = opn.conn$prepost),
+                      sum)
+table(opn.conn$weight) # Most barely connect
+hist(opn.conn$weight, breaks = 9)
+hist(glom.conn$weight, breaks = max(glom.conn$weight)/10) # However if you add up by uPN cell type, the numbers can look high
 
 ## We can also get all of the neurons in the database that connect to the
 ### query neurons, either upstream or downstream of them

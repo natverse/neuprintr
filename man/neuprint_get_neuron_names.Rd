@@ -7,7 +7,7 @@
 neuprint_get_neuron_names(
   bodyids,
   dataset = NULL,
-  all_segments = FALSE,
+  all_segments = TRUE,
   conn = NULL,
   ...
 )
