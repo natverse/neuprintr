@@ -6,6 +6,7 @@
 \usage{
 neuprint_search(
   search,
+  field = "name",
   meta = TRUE,
   all_segments = FALSE,
   dataset = NULL,
@@ -15,6 +16,10 @@ neuprint_search(
 }
 \arguments{
 \item{search}{name to search. See examples.}
+
+\item{field}{the meta data field in which you want a match for your search query.
+Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
+Other common options include type, status, cellBodyFiber etc.}
 
 \item{meta}{if TRUE, meta data for found bodyids is also pulled}
 
@@ -39,5 +44,9 @@ neuprint_search(".*DA2.*")
 }
 \dontrun{
 neuprint_search("MBON.*")
+neuprint_search("AVF1",field = "cellBodyFiber")
 }
+}
+\seealso{
+\code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
 }

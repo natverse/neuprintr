@@ -113,6 +113,9 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' @description Search for bodyids corresponding to a given name, Regex sensitive
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param search name to search. See examples.
+#' @param field the meta data field in which you want a match for your search query.
+#' Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
+#' Other common options include type, status, cellBodyFiber etc.
 #' @param meta if TRUE, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
@@ -123,14 +126,18 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' }
 #' \dontrun{
 #' neuprint_search("MBON.*")
+#' neuprint_search("AVF1",field = "cellBodyFiber")
 #' }
-neuprint_search <- function(search, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
-  # (because we want to use neuprint_name_field)
-  conn = neuprint_login(conn)
+#' @seealso \code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
+neuprint_search <- function(search, field = "name", meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
+  if(field=="name"){
+    conn = neuprint_login(conn)
+    field = neuprint_name_field(conn)
+  }
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("MATCH (n:`%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
                    all_segments.cypher,
-                   neuprint_name_field(conn),
+                   field,
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)
