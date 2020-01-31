@@ -10,7 +10,8 @@ flow_centrality(
   polypre = TRUE,
   primary.dendrite = 0.9,
   bending.flow = FALSE,
-  split = c("postsynapses", "presynapses", "distance")
+  split = c("distance", "postsynapses", "presynapses"),
+  ...
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ Assigning to NULL will prevent generating this compartment.}
 or dendrite (Label = 3) in the returned objects, at neuron$d$Label.
 This assignment can be based which compartment contains the most postsynapses ("postsynapses") or presynapses ("presynapses"),
 or the Euclidean distance of its first branch point from the primary branch point (i.e. the first branch point from the soma) ("distance").}
+
+\item{...}{methods sent to \code{nat::nlapply}}
 }
 \value{
 the neuron or neuron list object inputted, with centripetal flow
@@ -63,7 +66,8 @@ From Schneider-Mizell et al. (2016): "We use flow centrality for
 \donttest{
 \dontrun{
 # Get neuron
-neuron = neuprint_read_neuron("818983130")
+neuron = neuprint_read_neurons("818983130")
+neuron1 = neuprint_read_neurons("5813056622")
 
 # Split neuron
 neuron.flow = flow_centrality(neuron)
@@ -73,9 +77,9 @@ dendrites.v = subset(rownames(neuron.flow$d), neuron.flow$d$Label == 3)
 axon.v = subset(rownames(neuron.flow$d), neuron.flow$d$Label == 2)
 dendrites = nat::prune_vertices(neuron.flow, verticestoprune = dendrites.v, invert = TRUE)
 axon = nat::prune_vertices(neuron.flow, verticestoprune = axon.v, invert = TRUE)
-rgl::plot3d(dendrites, col = "cyan", lwd = 2)
-rgl::plot3d(axon, col = "firebrick", lwd = 2)
-rgl::plot3d(neuron, col = "grey30",lwd=2)
+plot3d(dendrites, col = "cyan", lwd = 2)
+plot3d(axon, col = "firebrick", lwd = 2)
+plot3d(neuron, col = "grey30",lwd=2)
 }}
 }
 \references{
