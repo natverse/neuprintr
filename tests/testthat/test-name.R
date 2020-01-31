@@ -4,6 +4,7 @@ skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 test_that("test name searches ", {
   da2s = neuprint_search(".*DA2.*")
   expect_match(neuprint_get_neuron_names(da2s$bodyid[1]), 'DA2')
+  expect_is(neuprint_search("DA2.*",field = "type"), 'data.frame')
 
   expect_is(mt <- neuprint_get_meta(da2s$bodyid[1]), 'data.frame')
   expect_named(mt,
@@ -29,5 +30,4 @@ test_that("test name searches ", {
   # duplicates and missing values
   expect_equal(neuprint_get_neuron_names(c(1, iddup)),
                structure(c(NA_character_, ndup), .Names=c(1,iddup)))
-
 })

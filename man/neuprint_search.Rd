@@ -44,6 +44,7 @@ neuprint_search(".*DA2.*")
 }
 \dontrun{
 neuprint_search("MBON.*")
+neuprint_search("MBON.*",field = "type")
 neuprint_search("AVF1",field = "cellBodyFiber")
 }
 }

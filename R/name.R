@@ -126,6 +126,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' }
 #' \dontrun{
 #' neuprint_search("MBON.*")
+#' neuprint_search("MBON.*",field = "type")
 #' neuprint_search("AVF1",field = "cellBodyFiber")
 #' }
 #' @seealso \code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
