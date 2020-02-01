@@ -15,7 +15,6 @@ neuprint_dump(
   nat = TRUE,
   drvid = FALSE,
   soma = TRUE,
-  estimate.soma = FALSE,
   heal = TRUE,
   connectors = TRUE,
   all_segments = FALSE,
