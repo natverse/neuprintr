@@ -17,7 +17,7 @@
 #' @rdname neuprint_dump
 #' @importFrom nat write.neurons
 neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, connectivity = TRUE, volumes = TRUE,
-                          meta = TRUE, nat = TRUE, drvid = FALSE, soma = TRUE, estimate.soma = FALSE,
+                          meta = TRUE, nat = TRUE, drvid = FALSE, soma = TRUE,
                           heal = TRUE, connectors = TRUE, all_segments = FALSE, resample = FALSE,
                           scale = 4, voxel.thresh = 1e+07,
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
