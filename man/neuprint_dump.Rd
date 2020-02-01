@@ -52,8 +52,6 @@ This might be faster, and this might also enable access to skeletons on an under
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
 
-\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
-
 \item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{nat::stitch_neurons_mst}}
 
 \item{connectors}{whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.

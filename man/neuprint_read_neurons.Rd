@@ -11,7 +11,6 @@ neuprint_read_neurons(
   nat = TRUE,
   drvid = FALSE,
   soma = TRUE,
-  estimate.soma = FALSE,
   heal = TRUE,
   connectors = TRUE,
   all_segments = TRUE,
@@ -35,8 +34,6 @@ neuprint_read_skeletons(bodyid, dataset = NULL, conn = NULL, heal = TRUE, ...)
 This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.}
 
 \item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
-
-\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
 
 \item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{nat::stitch_neurons_mst}}
 

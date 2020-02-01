@@ -10,7 +10,6 @@
 #' @param nat whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)
 #' @param meta whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}
 #' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
-#' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses
 #' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{nat::stitch_neurons_mst}
 #' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
 #' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
@@ -43,7 +42,6 @@ neuprint_read_neurons <- function(bodyids,
                                   nat = TRUE,
                                   drvid = FALSE,
                                   soma = TRUE,
-                                  estimate.soma = FALSE,
                                   heal = TRUE,
                                   connectors = TRUE,
                                   all_segments = TRUE,
@@ -58,7 +56,6 @@ neuprint_read_neurons <- function(bodyids,
                          nat=nat,
                          drvid=drvid,
                          soma = soma,
-                         estimate.soma = estimate.soma,
                          heal = heal,
                          connectors = connectors,
                          dataset = dataset,
@@ -91,7 +88,6 @@ neuprint_read_neuron <- function(bodyid,
                                  nat = TRUE,
                                  drvid = FALSE,
                                  soma = TRUE,
-                                 estimate.soma = FALSE,
                                  heal = TRUE,
                                  connectors = TRUE,
                                  dataset = NULL,
@@ -120,16 +116,6 @@ neuprint_read_neuron <- function(bodyid,
                          error = function(e) NA)
     if(sum(is.na(somapoint))==0){
       near.soma = nabor::knn(query=somapoint,data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    }else if (estimate.soma){ # Quickly stimate soma location as the leaf node furthest from synapses, or other leaf nodes
-      leaves = nat::endpoints(n)
-      avoid = rbind(nat::xyzmatrix(n$d[leaves,]),nat::xyzmatrix(synapses))
-      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=avoid,k=10)$nn.dist
-      leaves = leaves[which(far.leaves[,10]>mean(far.leaves[,10]))]
-      dists = sapply(leaves, function(l) mean(sapply(igraph::all_shortest_paths(graph = nat::as.ngraph(d),
-                                   from = l,
-                                   to = leaves,
-                                   mode = c("all"),weights = NULL)$res,length)))
-      near.soma = leaves[which.max(dists)]
     }else{
       leaves = nat::endpoints(n)
       far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=100)$nn.dist
