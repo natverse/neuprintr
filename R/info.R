@@ -64,10 +64,19 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
   dataset = check_dataset(dataset)
   if(is.null(superLevel)){
     rois = c(ds[[dataset]]$superLevelROIs,ds[[dataset]]$ROIs)
+    if(is.null(rois)){
+      rois = c(ds[[1]]$superLevelROIs,ds[[1]]$ROIs)
+    }
   }else if(superLevel){
     rois = ds[[dataset]]$superLevelROIs
+    if(is.null(rois)){
+      rois = ds[[1]]$superLevelROIs
+    }
   }else{
     rois = ds[[dataset]]$ROIs
+    if(is.null(rois)){
+      rois = ds[[1]]$ROIs
+    }
   }
   sort(rois)
 }
