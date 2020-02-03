@@ -73,4 +73,57 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
 }
 
 
+#' @title Get the reigion of interest (ROI) hierachy in a dataset
+#'
+#' @description Get a data frame describing how ROIs are related.
+#' @param dataset optional, a dataset you want to query. If NULL, the default
+#'   specified by your R environ file is used. See \code{neuprint_login} for
+#'   details.
+#' @param conn optional, a neuprintr connection object, which also specifies the
+#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
+#'   set in your R.profile or R.environ are used.
+#' @param ... methods passed to \code{neuprint_fetch_custom}
+#' @examples
+#' \donttest{
+#' roi.hierarchy = neuprint_ROI_hierarchy()
+#' g = igraph::graph_from_data_frame(roi.hierarchy, directed = TRUE)
+#' igraph::plot.igraph(g, layout=igraph::layout_as_tree)
+#' }
+#' @seealso \code{\link{neuprint_ROIs}}, \code{\link{neuprint_get_roiInfo}}
+#' @export
+neuprint_ROI_hierarchy <- function(dataset = NULL,
+                                   conn = NULL,
+                                   ...){
+  dataset = check_dataset(dataset)
+  cypher = sprintf("MATCH (m:Meta) WITH m as m, apoc.convert.fromJsonMap(m.roiHierarchy) as roiHierarchy RETURN roiHierarchy")
+  nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
+  roi.edgelist = data.frame()
+  addin <- function(x, parent){
+    y = unlist(x, recursive = FALSE)
+    nams = names(y)
+    if(is.null(nams)){
+      addin(x=y, parent = parent)
+    }else{
+      roi = grepl("name",nams)
+      children = (grepl("children", nams)+!roi)>1
+      if(length(roi)&sum(roi)>0){
+        e = data.frame(parent = parent, roi = unlist(y[which(roi)]))
+        roi.edgelist ->> roi.edgelist
+        roi.edgelist <<- rbind(roi.edgelist, e)
+      }
+      if(length(children)&sum(children)>0){
+        for(child in which(children)){
+          addin(x = y[which(children)][child],
+                parent = ifelse(sum(roi)>0,unlist(y[which(roi)]),parent)
+                )
+        }
+      }
+    }
+  }
+  addin(nc$data, parent = dataset)
+  rownames(roi.edgelist) = 1:nrow(roi.edgelist)
+  roi.edgelist
+}
+
+
 
