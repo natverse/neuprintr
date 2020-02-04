@@ -43,7 +43,8 @@
 
 
 <meta property="og:title" content="Get the common synaptic partners for a set of neurons — neuprint_common_connectivity" />
-<meta property="og:description" content="Get the neurons that are shared synaptic partners for a set of given bodyids, either upstream or downstream." />
+<meta property="og:description" content="Get the neurons that are shared synaptic partners for a set of
+  given bodyids, either upstream or downstream." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -137,7 +138,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Get the neurons that are shared synaptic partners for a set of given bodyids, either upstream or downstream.</p>
+    <p>Get the neurons that are shared synaptic partners for a set of
+  given bodyids, either upstream or downstream.</p>
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_common_connectivity</span>(
@@ -159,25 +161,32 @@
     </tr>
     <tr>
       <th>statuses</th>
-      <td><p>if not NULL, only bodies with the given status are considered. Statuses include:
-Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.</p></td>
+      <td><p>if not NULL, only bodies with the given status are
+considered. Statuses include: Unimportant,0.5assign,Leaves,Prelim Roughly
+Traced, Anchor, Orphan.</p></td>
     </tr>
     <tr>
       <th>prepost</th>
-      <td><p>whether to look for partners presynaptic to postsynaptic to the given bodyids</p></td>
+      <td><p>whether to look for partners presynaptic or postsynaptic to
+the given bodyids. So when <code>prepost="PRE"</code> you will return inputs
+(upstream partners) of your starting neurons.</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
-      <td><p>if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
+      <td><p>if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
-      <td><p>optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See <code>neuprint_login</code> for details.</p></td>
+      <td><p>optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See <code>neuprint_login</code> for
+details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>optional, a neuprintr connection object, which also specifies the neuPrint server see <code><a href='neuprint_login.html'>?neuprint_login</a></code>.
-If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
+      <td><p>optional, a neuprintr connection object, which also specifies the
+neuPrint server see <code><a href='neuprint_login.html'>?neuprint_login</a></code>. If NULL, your defaults set in
+your R.profile or R.environ are used.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -187,15 +196,19 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a n x m matrix where n correspond to the neurons that all connect to m bodyids</p>
+    <p>a n x m matrix where n correspond to the neurons that all connect to
+  m bodyids</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>, <code><a href='neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
+  <code><a href='neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_common_connectivity</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))
-<span class='co'># }</span></div></pre>
+<span class='no'>da2s</span><span class='kw'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*DA2.*'</span>)
+<span class='no'>da2conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_common_connectivity</span>(<span class='no'>da2s</span>$<span class='no'>bodyid</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>prepost</span><span class='kw'>=</span><span class='st'>'PRE'</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>da2conn</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='error'>Error in plot.window(...): need finite 'xlim' values</span></div><div class='img'><img src='neuprint_common_connectivity-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>da2conn</span>), <span class='kw'>sum</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='no'>da2conn</span>)))</div><div class='output co'>#&gt;      1796817841 1827516355 sum</div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
