@@ -16,7 +16,6 @@ Description: Access to the neuprint connectome analysis service, including
 License: GPL-3
 LazyData: true
 Suggests: 
-    catnat,
     spelling,
     testthat (>= 2.1.0),
     knitr,
