@@ -171,23 +171,36 @@ neuprint_connection_table <- function(bodyids,
 
 #' @title Get the common synaptic partners for a set of neurons
 #'
-#' @description  Get the neurons that are shared synaptic partners for a set of given bodyids, either upstream or downstream.
+#' @description  Get the neurons that are shared synaptic partners for a set of
+#'   given bodyids, either upstream or downstream.
 #' @param bodyids the cypher by which to make your search
-#' @param statuses if not NULL, only bodies with the given status are considered. Statuses include:
-#' Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.
-#' @param prepost whether to look for partners presynaptic to postsynaptic to the given bodyids
-#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
-#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
+#' @param statuses if not NULL, only bodies with the given status are
+#'   considered. Statuses include: Unimportant,0.5assign,Leaves,Prelim Roughly
+#'   Traced, Anchor, Orphan.
+#' @param prepost whether to look for partners presynaptic or postsynaptic to
+#'   the given bodyids. So when \code{prepost="PRE"} you will return inputs
+#'   (upstream partners) of your starting neurons.
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only
+#'   'Neurons', i.e. bodies with a status roughly traced status.
+#' @param dataset optional, a dataset you want to query. If NULL, the default
+#'   specified by your R environ file is used. See \code{neuprint_login} for
+#'   details.
+#' @param conn optional, a neuprintr connection object, which also specifies the
+#'   neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
+#'   your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
-#' @return a n x m matrix where n correspond to the neurons that all connect to m bodyids
-#' @seealso \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_get_adjacency_matrix}}
+#' @return a n x m matrix where n correspond to the neurons that all connect to
+#'   m bodyids
+#' @seealso \code{\link{neuprint_simple_connectivity}},
+#'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_common_connectivity
 #' @examples
 #' \donttest{
-#' conn = neuprint_common_connectivity(c(818983130, 1796818119))
+#' da2s=neuprint_search('.*DA2.*')
+#' da2conn = neuprint_common_connectivity(da2s$bodyid[1:2], prepost='PRE')
+#' plot(t(da2conn))
+#' head(cbind(t(da2conn), sum=colSums(da2conn)))
 #' }
 neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                                 prepost = c("PRE","POST"),
@@ -200,7 +213,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
       stop("Invalid stauses provided. Statuses must be NULL to accept any body status, or on of: ", possible.statuses)
     }
   }
-  find_inputs = ifelse(prepost=="PRE", "false","true")
+  find_inputs = ifelse(prepost=="POST", "false","true")
   all_segments = ifelse(all_segments,"true","false")
 
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
