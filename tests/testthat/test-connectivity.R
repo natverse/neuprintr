@@ -8,8 +8,21 @@ test_that("neuprint_connection_table works", {
                                          progress = TRUE),
                t1)
 
-  expect_is(neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
-                                 by.roi = TRUE, roi = "LH(R)"), 'data.frame')
+  expect_is(t2 <- neuprint_connection_table(c(818983130, 1796818119),
+                                            prepost = "POST",
+                                            by.roi = TRUE),
+            'data.frame')
+  expect_equal(neuprint_connection_table(c(818983130, 1796818119),
+                                            prepost = "POST",
+                                            by.roi = TRUE, progress=TRUE),
+            t2)
+
+  expect_is(t3 <- neuprint_connection_table(c(818983130, 1796818119),
+                                            prepost = "POST",
+                                            roi = "LH(R)"),
+            'data.frame')
+  # equivalent so we don't worry about rownames
+  expect_equivalent(subset(t2, roi=='LH(R)'), t3)
 })
 
 test_that("other connectivity functions work", {

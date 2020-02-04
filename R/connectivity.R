@@ -127,6 +127,7 @@ neuprint_connection_table <- function(bodyids,
       bodyids = bi,
       prepost = prepost,
       roi = roi,
+      by.roi = by.roi,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) NULL)))
