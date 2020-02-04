@@ -82,7 +82,7 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
 }
 
 
-#' @title Get the reigion of interest (ROI) hierachy in a dataset
+#' @title Get the region of interest (ROI) hierarchy in a dataset
 #'
 #' @description Get a data frame describing how ROIs are related.
 #' @param dataset optional, a dataset you want to query. If NULL, the default

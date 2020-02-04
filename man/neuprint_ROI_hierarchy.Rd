@@ -2,7 +2,7 @@
 % Please edit documentation in R/info.R
 \name{neuprint_ROI_hierarchy}
 \alias{neuprint_ROI_hierarchy}
-\title{Get the reigion of interest (ROI) hierachy in a dataset}
+\title{Get the region of interest (ROI) hierarchy in a dataset}
 \usage{
 neuprint_ROI_hierarchy(dataset = NULL, conn = NULL, ...)
 }
