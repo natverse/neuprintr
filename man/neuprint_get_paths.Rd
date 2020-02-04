@@ -48,7 +48,7 @@ Get all of the paths in the database that connect the query
 }
 \examples{
 \donttest{
-neuprint_get_paths(c(695956656,725951521),755644082,c(2,3),weightT=20)
+neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 }
 }
 \seealso{
