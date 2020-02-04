@@ -225,7 +225,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                             all_segments))
   class(Payload) = "json"
   com.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, ...)
-  partnerType <- ifelse(prepost=="PRE","output","input")
+  partnerType <- ifelse(prepost=="POST","output","input")
   partnerNames <- sapply(com.conn$data[[1]][[1]],function(d) d[[partnerType]])
   partnerCount <- table(partnerNames)
   commonPartners <- names(partnerCount[partnerCount == length(bodyids)])
