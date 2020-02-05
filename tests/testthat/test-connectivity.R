@@ -8,8 +8,21 @@ test_that("neuprint_connection_table works", {
                                          progress = TRUE),
                t1)
 
-  expect_is(neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
-                                 by.roi = TRUE, roi = "LH(R)"), 'data.frame')
+  expect_is(t2 <- neuprint_connection_table(c(818983130, 1796818119),
+                                            prepost = "POST",
+                                            by.roi = TRUE),
+            'data.frame')
+  expect_equal(neuprint_connection_table(c(818983130, 1796818119),
+                                            prepost = "POST",
+                                            by.roi = TRUE, progress=TRUE),
+            t2)
+
+  expect_is(t3 <- neuprint_connection_table(c(818983130, 1796818119),
+                                            prepost = "POST",
+                                            roi = "LH(R)"),
+            'data.frame')
+  # equivalent so we don't worry about rownames
+  expect_equivalent(subset(t2, roi=='LH(R)'), t3)
 })
 
 test_that("other connectivity functions work", {
@@ -27,6 +40,7 @@ test_that("other connectivity functions work", {
   expect_equal(colnames(t1), rownames(t1))
   expect_is(t2 <- neuprint_common_connectivity(da2s$bodyid), 'matrix')
   expect_equal(rownames(t1), rownames(t2))
+  expect_true(length(t1)>0)
 
   expect_is(t3 <- neuprint_simple_connectivity(da2s$bodyid[1], prepost='PRE'),
             'data.frame')
@@ -44,4 +58,12 @@ test_that("other connectivity functions work", {
   c11.sel=c11.sel[order(c11.sel$input),,drop=FALSE]
   c1=c1[order(c1$input),,drop=FALSE]
   expect_equal(c1, c11.sel)
+})
+
+test_that("path functions work", {
+  expect_is(p1 <- neuprint_get_shortest_paths(c(1128092885, 481121605), 5813041365,
+                                        weightT=20), 'data.frame')
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20),
+               p1)
 })

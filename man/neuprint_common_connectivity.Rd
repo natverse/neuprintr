@@ -17,31 +17,44 @@ neuprint_common_connectivity(
 \arguments{
 \item{bodyids}{the cypher by which to make your search}
 
-\item{statuses}{if not NULL, only bodies with the given status are considered. Statuses include:
-Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.}
+\item{statuses}{if not NULL, only bodies with the given status are
+considered. Statuses include: Unimportant,0.5assign,Leaves,Prelim Roughly
+Traced, Anchor, Orphan.}
 
-\item{prepost}{whether to look for partners presynaptic to postsynaptic to the given bodyids}
+\item{prepost}{whether to look for partners presynaptic or postsynaptic to
+the given bodyids. So when \code{prepost="PRE"} you will return inputs
+(upstream partners) of your starting neurons.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{dataset}{optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See \code{neuprint_login} for
+details.}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
+your R.profile or R.environ are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a n x m matrix where n correspond to the neurons that all connect to m bodyids
+a n x m matrix where n correspond to the neurons that all connect to
+  m bodyids
 }
 \description{
-Get the neurons that are shared synaptic partners for a set of given bodyids, either upstream or downstream.
+Get the neurons that are shared synaptic partners for a set of
+  given bodyids, either upstream or downstream.
 }
 \examples{
 \donttest{
-conn = neuprint_common_connectivity(c(818983130, 1796818119))
+da2s=neuprint_search('.*DA2.*')
+da2conn = neuprint_common_connectivity(da2s$bodyid[1:2], prepost='PRE')
+plot(t(da2conn))
+head(cbind(t(da2conn), sum=colSums(da2conn)))
 }
 }
 \seealso{
-\code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_get_adjacency_matrix}}
+\code{\link{neuprint_simple_connectivity}},
+  \code{\link{neuprint_get_adjacency_matrix}}
 }
