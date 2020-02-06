@@ -1,9 +1,16 @@
 #' @title Get a matrix of connectivities between bodies
 #'
-#' @description  Get an adjacency matrix for the synaptic connectivity within a set of specified bodies
+#' @description  Get an adjacency matrix for the synaptic connectivity within a
+#'   set of specified bodies
+#' @param inputids,outputids identifiers for input and output bodies (use as an
+#'   alternative to \code{bodyids})
 #' @inheritParams neuprint_read_neurons
-#' @return a n x n matrix, where the rows are input neurons and the columns are their targets
-#' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+#' @return a n x n matrix, where the rows are input neurons and the columns are
+#'   their targets. Only neurons supplied as the argument `bodyids` are
+#'   considered.
+#' @seealso \code{\link{neuprint_fetch_custom}},
+#'   \code{\link{neuprint_simple_connectivity}},
+#'   \code{\link{neuprint_common_connectivity}}
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
 #' @examples
@@ -11,25 +18,43 @@
 #' da2s=neuprint_search(".*DA2.*")
 #' # these will mostly be axo-axonic connections
 #' neuprint_get_adjacency_matrix(da2s$bodyid)
+#'
+#' # rectangular matrix with different in/out neurons
+#' # nb these can be completely different groups
+#' neuprint_get_adjacency_matrix(inputids=da2s$bodyid[1],
+#'   outputids=da2s$bodyid[-1])
 #' }
-neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL, outputids=NULL,
+                                          dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+  if(is.null(bodyids)) {
+    if(is.null(inputids) || is.null(outputids))
+      stop("You must either specify bodyids OR (inputids AND outputids)!")
+  } else {
+    if(!is.null(inputids) || !is.null(outputids))
+      stop("You must either specify bodyids OR (inputids AND outputids)!")
+    inputids <- outputids <- bodyids
+  }
+  inputids <- unique(id2char(inputids))
+  outputids <- unique(id2char(outputids))
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
   namefield=neuprint_name_field(conn)
   cypher = sprintf(
     paste(
-      "WITH %s AS input MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
-      "WHERE n.bodyId IN input AND m.bodyId IN input",
+      "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
+      "WHERE n.bodyId IN input AND m.bodyId IN output",
       "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.%s AS upName, m.%s AS downName"
     ),
-    id2json(bodyids, uniqueids = TRUE),
+    id2json(inputids),
+    id2json(outputids),
     all_segments.json,
     namefield,
     namefield
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
-  m = matrix(0,nrow = length(bodyids),ncol = length(bodyids))
-  rownames(m) = colnames(m) = bodyids
+  m = matrix(0,nrow = length(inputids),ncol = length(outputids))
+  rownames(m) = inputids
+  colnames(m) = outputids
   for(i in 1:length(nc$data)){
     s = unlist(nc$data[[i]])
     m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
@@ -42,30 +67,67 @@ neuprint_get_adjacency_matrix <- function(bodyids, dataset = NULL, all_segments 
 #' @description Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified
 #' @inheritParams neuprint_read_neurons
 #' @inheritParams neuprint_find_neurons
-#' @param prepost whether to look for partners presynaptic to postsynaptic to the given bodyids
-#' @param progress default FALSE. If TRUE, the API is called separately for each neuron and you can assess its progress, if an error is thrown by any one \code{bodyid}, that \code{bodyid} is ignored
-#' @return a data frame giving partners within a set of ROIs, the connection strength for weights to or from that partner, and the direction, for the given bodyid
-#' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+#' @param prepost whether to look for partners presynaptic to postsynaptic
+#' to the given bodyids
+#' @param by.roi logical, whether or not to break neurons' connectivity down by
+#'  region of interest (ROI)
+#' @param superLevel When `by.roi` is `TRUE`, should we look at low-level ROIs
+#'  (`FALSE`) or super-level ROIs (`TRUE`). A super-level ROIs can
+#'  contain multiple
+#'  lower-level ROIs. If set to `NULL`, both are returned.
+#' @param progress default FALSE. If TRUE, the API is called separately for
+#' each neuron and you can assess its progress, if an error is thrown by any
+#' one \code{bodyid}, that \code{bodyid} is ignored
+#' @return a data frame giving partners within a set of ROIs, the connection
+#' strength for weights to or from that partner, and the direction, for the
+#' given bodyid
+#' @seealso \code{\link{neuprint_fetch_custom}},
+#' \code{\link{neuprint_simple_connectivity}},
+#' \code{\link{neuprint_common_connectivity}}, \code{\link{neuprint_ROIs}}
 #' @export
 #' @rdname neuprint_connection_table
 #' @examples
 #' \donttest{
-#' neuprint_connection_table(c(818983130, 1796818119))
+#' ## Unitary connection strengths between two chosen neurons,
+#' ## and their downstream targets
+#' c1 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST")
+#'
+#' ## The same connection strength broken down by ROI
+#' c2 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
+#'                                by.roi = TRUE)
+#'
+#' ## The same connection strength broken down by super-level ROI
+#' c3 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
+#'                                by.roi = TRUE, superLevel = TRUE)
+#'
+#' ## Find connections in a specific ROI
+#' c4 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
+#'                                by.roi = TRUE, roi = "LH(R)")
+#'
 #' }
-neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = NULL, progress = FALSE,
-                                      dataset = NULL, all_segments = FALSE, conn = NULL, ...){
-  prepost = match.arg(prepost)
-  conn=neuprint_login(conn)
-  all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  bodyids=unique(id2char(bodyids))
+neuprint_connection_table <- function(bodyids,
+                                      prepost = c("PRE","POST"),
+                                      roi = NULL,
+                                      by.roi = FALSE,
+                                      superLevel = FALSE,
+                                      progress = FALSE,
+                                      dataset = NULL,
+                                      all_segments = FALSE,
+                                      conn = NULL,
+                                      ...){
+  prepost <- match.arg(prepost)
+  conn<-neuprint_login(conn)
+  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
+  bodyids<-unique(id2char(bodyids))
   if(!is.null(roi)){
-    roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
+    roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
   if(progress){
-    d  = do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_connection_table(
+    d <- do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_connection_table(
       bodyids = bi,
       prepost = prepost,
       roi = roi,
+      by.roi = by.roi,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) NULL)))
@@ -73,52 +135,68 @@ neuprint_connection_table <- function(bodyids, prepost = c("PRE","POST"), roi = 
     rownames(d) <- NULL
     return(d)
   }
-  cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
+  cypher <-sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                          "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
                          "WHERE %s.bodyId=bodyId",
-                         "UNWIND %s AS k",
-                         "RETURN a.bodyId AS %s, b.bodyId AS %s, k AS roi,",
-                         "apoc.convert.fromJsonMap(c.roiInfo)[k].post AS weight"),
+                         "%s",
+                         "RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight",
+                         "%s"),
                    id2json(bodyids),
                    all_segments.json,
                    all_segments.json,
                    ifelse(prepost=="POST","a","b"),
-                   ifelse(is.null(roi),"keys(apoc.convert.fromJsonMap(c.roiInfo))",paste("['",paste(roi,collapse="','"),"']",sep="")),
+                   ifelse(!is.null(roi)|by.roi,"UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""),
                    ifelse(prepost=="POST","bodyid","partner"),
-                   ifelse(prepost=="POST","partner","bodyid")
+                   ifelse(prepost=="POST","partner","bodyid"),
+                   ifelse(!is.null(roi)|by.roi,", k AS roi, apoc.convert.fromJsonMap(c.roiInfo)[k].post AS ROIweight","")
                   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
+  nc <-neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
-  nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
-  d <-  data.frame(do.call(rbind,lapply(nc$data,unlist)),stringsAsFactors = FALSE)
-  colnames(d) <-  unlist(nc$columns)
+  if(!is.null(roi)|by.roi){
+    nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
+  }
+  d <- neuprint_list2df(nc, return_empty_df = TRUE)
   d$weight <- as.integer(d$weight)
   d$prepost <-  ifelse(prepost=="PRE",0,1)
+  if(!is.null(roi)){
+    d <- d[d$roi%in%roi,]
+  }
+  if(by.roi&is.null(roi)){
+    rois <- neuprint_ROIs(superLevel = superLevel)
+    d <- d[d$roi%in%rois,]
+  }
   d <-  d[order(d$weight,decreasing=TRUE),]
   rownames(d) <- NULL
-  d[,c("bodyid", "partner", "roi","weight", "prepost")]
+  d[,sort(colnames(d))]
 }
 
 #' @title Get the common synaptic partners for a set of neurons
 #'
-#' @description  Get the neurons that are shared synaptic partners for a set of given bodyids, either upstream or downstream.
+#' @description  Get the neurons that are shared synaptic partners for a set of
+#'   given bodyids, either upstream or downstream.
 #' @param bodyids the cypher by which to make your search
-#' @param statuses if not NULL, only bodies with the given status are considered. Statuses include:
-#' Unimportant,0.5assign,Leaves,Prelim Roughly Traced, Anchor, Orphan.
-#' @param prepost whether to look for partners presynaptic to postsynaptic to the given bodyids
-#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
-#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
+#' @param statuses if not NULL, only bodies with the given status are
+#'   considered. Statuses include: Unimportant,0.5assign,Leaves,Prelim Roughly
+#'   Traced, Anchor, Orphan.
+#' @param prepost whether to look for partners presynaptic or postsynaptic to
+#'   the given bodyids. So when \code{prepost="PRE"} you will return inputs
+#'   (upstream partners) of your starting neurons.
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only
+#'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param ... methods passed to \code{neuprint_login}
-#' @return a n x m matrix where n correspond to the neurons that all connect to m bodyids
-#' @seealso \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_get_adjacency_matrix}}
+#' @inheritParams neuprint_fetch_custom
+#' @return a n x m matrix where n correspond to the neurons that all connect to
+#'   m bodyids
+#' @seealso \code{\link{neuprint_simple_connectivity}},
+#'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @rdname neuprint_common_connectivity
 #' @examples
 #' \donttest{
-#' da2s=neuprint_search(".*DA2.*")
-#' neuprint_common_connectivity(da2s$bodyid)
+#' da2s=neuprint_search('.*DA2.*')
+#' da2conn = neuprint_common_connectivity(da2s$bodyid[1:2], prepost='PRE')
+#' plot(t(da2conn))
+#' head(cbind(t(da2conn), sum=colSums(da2conn)))
 #' }
 neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                                 prepost = c("PRE","POST"),
@@ -131,18 +209,21 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
       stop("Invalid stauses provided. Statuses must be NULL to accept any body status, or on of: ", possible.statuses)
     }
   }
-  find_inputs = ifelse(prepost=="PRE", "false","true")
+  find_inputs = ifelse(prepost=="POST", "false","true")
   all_segments = ifelse(all_segments,"true","false")
 
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
+
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
-                            check_dataset(dataset),
+                            dataset,
                             id2json(bodyids, uniqueids = TRUE),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
                             all_segments))
   class(Payload) = "json"
   com.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, ...)
-  partnerType <- ifelse(prepost=="PRE","output","input")
+  partnerType <- ifelse(prepost=="POST","output","input")
   partnerNames <- sapply(com.conn$data[[1]][[1]],function(d) d[[partnerType]])
   partnerCount <- table(partnerNames)
   commonPartners <- names(partnerCount[partnerCount == length(bodyids)])
@@ -166,36 +247,56 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
 #' @param bodyids the cypher by which to make your search
 #' @param prepost whether to look for partners presynaptic to postsynaptic to
 #'   the given bodyids
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @return a n x m matrix where n correspond to the neurons that connect to m
 #'   bodyids
+#' @examples
+#' \donttest{
+#' da2s=neuprint_search(".*DA2.*")
+#' neuprint_common_connectivity(da2s$bodyid)
+#' }
 #' @seealso \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
-#' @rdname neuprint_simple_connectivity
+#' @examples
+#' inputs <- neuprint_simple_connectivity(5901222731, prepost='PRE')
+#' head(inputs)
+#' # top inputs
+#' head(sort(table(inputs$type), decreasing = TRUE))
+#' outputs <- neuprint_simple_connectivity(5901222731, prepost='POST')
+#' head(outputs)
 neuprint_simple_connectivity <- function(bodyids,
                                          prepost = c("PRE","POST"),
                                          dataset = NULL,
                                          conn = NULL,
                                          ...){
   prepost = match.arg(prepost)
-  find_inputs = ifelse(prepost=="PRE", "false","true")
-  # nb looks odd, but convert back to character to allow pblapply ...
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
   bodyids=unique(id2char(bodyids))
-  if(length(bodyids)>10){
-    m  = Reduce(function(x,y,...) dplyr::full_join(x,y,by=c("name",ifelse(prepost=="PRE","output","input"),"type")),(pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_simple_connectivity(
-                                bodyids = bi,
-                                prepost = prepost,
-                                dataset = dataset, conn = conn, ...),
-                                error = function(e) NULL))))
+  if(length(bodyids)>10) {
+    m  = Reduce(function(x, y, ...)
+      dplyr::full_join(x, y, by = c(
+        "name", ifelse(prepost=="PRE","input","output"), "type"
+      )),
+      (pbapply::pblapply(bodyids, function(bi)
+        tryCatch(
+          neuprint_simple_connectivity(
+            bodyids = bi,
+            prepost = prepost,
+            dataset = dataset,
+            conn = conn,
+            ...
+          ),
+          error = function(e)
+            NULL
+        ))))
+    # FIXME need to convert NA weights to 0
     return(m)
   }
+
+  find_inputs = ifelse(prepost=="PRE", "true", "false")
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"find_inputs":%s}',
                             dataset,
                             id2json(bodyids),
@@ -227,24 +328,19 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param n the length of the path. If \code{n} is a vector, paths of length
 #'   n[1] to n[2] are considered
 #' @param weightT weight threshold
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
 #' @export
 #' @examples
 #' \donttest{
-#' neuprint_get_paths(c(695956656,725951521),755644082,c(2,3),weightT=20)
+#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 #' }
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                dataset = NULL, conn = NULL, all_segments=FALSE, ...){
@@ -311,17 +407,12 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #' @param body_pre the bodyid of the neuron at the start of the path
 #' @param body_post the bodyid of the neuron at the end of the path
 #' @param weightT weight threshold
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_paths}},
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}

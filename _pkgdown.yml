@@ -21,11 +21,12 @@ reference:
 - title: Connectivity between neurons
   desc: ~
   contents:
+  - '`neuprint_connection_table`'
+  - '`neuprint_simple_connectivity`'
   - '`neuprint_ROI_connectivity`'
   - '`neuprint_common_connectivity`'
   - '`neuprint_get_adjacency_matrix`'
-  - '`neuprint_simple_connectivity`'
-  - '`neuprint_connection_table`'
+  - '`neuprint_skeleton_connectivity_matrix`'
   - '`neuprint_get_paths`'
   - '`neuprint_get_shortest_paths`'
 - title: ROI information
@@ -34,6 +35,7 @@ reference:
   - '`neuprint_ROIs`'
   - '`neuprint_get_roiInfo`'
   - '`neuprint_ROI_mesh`'
+  - '`neuprint_ROI_hierarchy`'
 - title: Neuron manipulation
   desc: ~
   contents:

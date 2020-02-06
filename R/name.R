@@ -1,6 +1,6 @@
 #' @title Get the name of a neuron
 #'
-#' @description  If a bodyID has a name associated with it, fetch that name, otherwise, return NA
+#' @description If a bodyid has a name associated with it, fetch that name, otherwise, return \code{NA}
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @return a vector of names, named with the input bodyids
 #' @export
@@ -8,9 +8,9 @@
 #' \donttest{
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
-neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...) {
+neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  bodyids <- id2bit64(bodyids)
+  bodyids <- id2char(bodyids)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
     unames=neuprint_get_neuron_names(bodyids=ubodyids, dataset=dataset,
@@ -19,14 +19,20 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
     return(res)
   }
 
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
+  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name, n.bodyId AS bodyid",
                    id2json(bodyids),
                    all_segments.json)
 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
-  d =  unlist(lapply(nc$data,nullToNA))
-  names(d) = bodyids
-  d
+  df=neuprint_list2df(nc, return_empty_df = TRUE)
+  nn=df$name
+  names(nn) = df$bodyid
+  missing=setdiff(bodyids, names(nn))
+  if(length(missing)>0) {
+    nn[missing]=NA_character_
+    nn=nn[bodyids]
+  }
+  nn
 }
 
 #' @title Get key metadata for body (including name, type, status, size)
@@ -40,7 +46,9 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 #'
 #'   \item status (Traced etc)
 #'
-#'   \item voxels size in voxels
+#'   \item statusLabel similar to \code{status} but often a bit more specific
+
+#'   \item size size in voxels
 #'
 #'   \item pre number of presynapses
 #'
@@ -61,14 +69,14 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 #' da2s=neuprint_search(".*DA2.*")
 #' neuprint_get_meta(da2s$bodyid)
 #' }
-neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   conn = neuprint_login(conn)
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
       "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber"
+      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber"
     ),
     id2json(bodyids),
     all_segments,
@@ -107,6 +115,9 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' @description Search for bodyids corresponding to a given name, Regex sensitive
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param search name to search. See examples.
+#' @param field the meta data field in which you want a match for your search query.
+#' Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
+#' Other common options include type, status, cellBodyFiber etc.
 #' @param meta if TRUE, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
@@ -117,14 +128,19 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' }
 #' \dontrun{
 #' neuprint_search("MBON.*")
+#' neuprint_search("MBON.*",field = "type")
+#' neuprint_search("AVF1",field = "cellBodyFiber")
 #' }
-neuprint_search <- function(search, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
-  # (because we want to use neuprint_name_field)
-  conn = neuprint_login(conn)
+#' @seealso \code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
+neuprint_search <- function(search, field = "name", meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
+  if(field=="name"){
+    conn = neuprint_login(conn)
+    field = neuprint_name_field(conn)
+  }
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("MATCH (n:`%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
                    all_segments.cypher,
-                   neuprint_name_field(conn),
+                   field,
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)

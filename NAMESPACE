@@ -2,6 +2,7 @@
 
 S3method(print,neuprint_connection)
 export(neuprint_ROI_connectivity)
+export(neuprint_ROI_hierarchy)
 export(neuprint_ROI_mesh)
 export(neuprint_ROIs)
 export(neuprint_assign_connectors)
