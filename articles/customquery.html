@@ -146,7 +146,7 @@
 <h3 class="hasAnchor">
 <a href="#body-ids" class="anchor"></a>Body ids</h3>
 <p>You need to be a little careful with the handling of body ids. These are 64 bit integers (often called <code>bigint</code>s), which are commonly used as keys in databases. However like many programming languages R does not have a native 64 bit integer type. R’s default numeric format is double width floating point. This can exactly handle numbers with up to 53 bits of precision.</p>
-<p>However, the biggest integer that we need to worry about is 2^64-1 = 9223372036854775806. This cannot be represented as a numeric. I have yet to spot a body id in this upper range, but the <code>id2json</code> function will take care that you do not use one. If you need to specify a large bodyid as input to your function then you should insist on</p>
+<p>However, the biggest integer (here data is represented in signed format <code>int64</code>) that we need to worry about is (2^63)-1 = 9,223,372,036,854,775,807. This cannot be represented as a numeric. I have yet to spot a body id in this upper range, but the <code>id2json</code> function will take care that you do not use one. If you need to specify a large bodyid as input to your function then you should insist on</p>
 <ul>
 <li>character vector input</li>
 <li>64 bit integers provided by <code><a href="https://rdrr.io/pkg/bit64/man/bit64-package.html">bit64::integer64()</a></code>
