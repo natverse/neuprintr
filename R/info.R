@@ -61,7 +61,8 @@ neuprint_version <- function(conn = NULL, ...){
 #' @export
 neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
   ds = neuprint_datasets(conn=conn, ...)
-  dataset = check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
   if(is.null(superLevel)){
     rois = c(ds[[dataset]]$superLevelROIs,ds[[dataset]]$ROIs)
     if(is.null(rois)){
@@ -103,9 +104,10 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
 neuprint_ROI_hierarchy <- function(dataset = NULL,
                                    conn = NULL,
                                    ...){
-  dataset = check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
   cypher = sprintf("MATCH (m:Meta) WITH m as m, apoc.convert.fromJsonMap(m.roiHierarchy) as roiHierarchy RETURN roiHierarchy")
-  nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, conn=conn, ...)
   roi.edgelist = data.frame()
   addin <- function(x, parent){
     y = unlist(x, recursive = FALSE)

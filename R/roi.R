@@ -29,7 +29,7 @@ neuprint_find_neurons <- function(input_ROIs,
                                   ...){
   all_segments = ifelse(all_segments,"true","false")
   conn=neuprint_login(conn = conn)
-  dataset=check_dataset(dataset)
+  dataset = check_dataset(dataset, conn=conn)
   roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
   Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"enable_contains":true,"all_segments":%s}',
                             dataset, jsonlite::toJSON(input_ROIs),
@@ -135,9 +135,9 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic
 #' @export
 #' @rdname neuprint_ROI_mesh
 neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
-  dataset = check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-  dataset = check_dataset(dataset)
   roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh", dataset, roi,
                                        sep="/"),
                             parse.json = FALSE,

@@ -217,8 +217,11 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
   find_inputs = ifelse(prepost=="POST", "false","true")
   all_segments = ifelse(all_segments,"true","false")
 
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
+
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
-                            check_dataset(dataset),
+                            dataset,
                             id2json(bodyids, uniqueids = TRUE),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
@@ -279,7 +282,8 @@ neuprint_simple_connectivity <- function(bodyids,
                                          conn = NULL,
                                          ...){
   prepost = match.arg(prepost)
-  dataset=check_dataset(dataset = dataset)
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
   bodyids=unique(id2char(bodyids))
   if(length(bodyids)>10) {
     m  = Reduce(function(x, y, ...)
