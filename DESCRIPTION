@@ -38,7 +38,8 @@ Imports:
     dplyr,
     bit64
 Remotes: 
-    natverse/drvid
+    natverse/drvid,
+    natverse/nat@feature/elmr_features
 Encoding: UTF-8
 Language: en-GB
 RoxygenNote: 7.0.2
