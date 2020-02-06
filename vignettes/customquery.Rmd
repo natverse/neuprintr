@@ -91,7 +91,7 @@ However like many programming languages R does not have a native 64 bit integer
 type. R's default numeric format is double width floating point. This can 
 exactly handle numbers with up to 53 bits of precision. 
 
-However, the biggest integer that we need to worry about is 2^64-1 = 9223372036854775806. This cannot be represented as a numeric. I have yet to 
+However, the biggest integer (here data is represented in signed format `int64`) that we need to worry about is (2^63)-1 = 9,223,372,036,854,775,807. This cannot be represented as a numeric. I have yet to 
 spot a body id in this upper range, but the `id2json` function will take care
 that you do not use one. If you need to specify a large bodyid as input to your
 function then you should insist on 
