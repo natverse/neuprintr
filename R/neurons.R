@@ -21,9 +21,6 @@
 #'   \code{neuprint_get_meta}
 #' @param soma whether or not to fetch a possible soma location for the given
 #'   bodyids, using \code{neuprint_locate_soma}
-#' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a
-#'   soma has not been tagged in the dataset, one is estimated by finding the
-#'   leaf node with the largest mean geodesic distance from all synapses
 #' @param heal whether or not to heal a fragmented skeleton using a minimum
 #'   spanning tree, via \code{nat::stitch_neurons_mst}
 #' @param heal.threshold distance in raw units beyond which isolated fragments

@@ -88,10 +88,6 @@ details.}
 \item{...}{methods passed to \code{neuprint_login}}
 
 \item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
-
-\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a
-soma has not been tagged in the dataset, one is estimated by finding the
-leaf node with the largest mean geodesic distance from all synapses}
 }
 \value{
 a data frame in SWC format, or a
