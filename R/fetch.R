@@ -132,15 +132,43 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
 })
 
 # hidden
-check_dataset <- function(dataset=NULL) {   # Get a default dataset if none specified
-  if(is.null(dataset)){
-    dataset = unlist(getenvoroption("dataset"))
-    if(is.null(dataset)){
-      warning("Please supply a dataset or set a default one using the ",
-           "neuprint_dataset environment variable! See ?neuprint_login for details.
-           For now we will use hemibrain:v1.0")
-    dataset = "hemibrain:v1.0"
+check_dataset <-
+  function(dataset = NULL, conn = NULL) {
+    # Get a default dataset if none specified
+    defaults4conn <- default_dataset(conn)
+
+    if (is.null(dataset)) {
+      dataset = unlist(getenvoroption("dataset"))
+      if (is.null(dataset) || nchar(dataset)<1) {
+        if (length(defaults4conn) == 0)
+          stop(
+            "I'm sorry I can't find a default dataset for your current neuPrint connection.\n",
+            "Please supply a dataset argument or set a default one using the ",
+            "neuprint_dataset environment variable!\nSee ?neuprint_login for details."
+          )
+        dataset = defaults4conn[1]
+        if (length(defaults4conn) > 1) {
+          warning(
+            "Please supply a dataset or set a default one using the ",
+            "neuprint_dataset environment variable! See ?neuprint_login for details.",
+            " For now we will use ",
+            dataset
+          )
+        }
+      }
     }
+    if(length(defaults4conn) && !dataset %in% defaults4conn){
+      warning("Specified dataset: `", dataset, "` does not match those provided by your ",
+      "neuPrint connection:\n  ", paste(defaults4conn, collapse=", "),
+      "\nSee ?neuprint_login for details.")
+    }
+    dataset
   }
-  dataset
+
+default_dataset <- function(conn=NULL, ...) {
+  conn=neuprint_login(conn)
+  ds=neuprint_datasets_memo(conn=conn, ...)
+  datasets <- names(ds)
+  if(length(datasets)==0) return(NULL) else datasets
 }
+

@@ -14,12 +14,10 @@
 #' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
 #' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
 #' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
-#' @param dataset optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param resample if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
-#' @inheritParams nat::nlapply
+#' @inherit neuprint_fetch_custom params
+#' @inherit nat::nlapply params
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @examples
@@ -210,13 +208,14 @@ heal_skeleton <- function(x, ...){
 #' plot(dl1s, WithNode=F)
 #' }
 neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
+  conn=neuprint_login(conn)
   bodyid=id2char(bodyid)
   if(length(bodyid)>1) {
     fakenl=structure(bodyid, .Names=bodyid)
     nl=nat::nlapply(fakenl, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...)
     return(nl)
   }
-  dataset=check_dataset(dataset)
+  dataset = check_dataset(dataset, conn=conn)
   path=file.path("api/skeletons/skeleton", dataset, bodyid)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
   colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")

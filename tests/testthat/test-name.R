@@ -32,3 +32,7 @@ test_that("test name searches ", {
   expect_equal(neuprint_get_neuron_names(c(1, iddup)),
                structure(c(NA_character_, ndup), .Names=c(1,iddup)))
 })
+
+test_that("test bad dataset specification ", {
+  expect_warning(neuprint_search(".*DA2.*", dataset = 'hemibrain'))
+})

@@ -1,9 +1,9 @@
 #' @title Find out what some information about your neuPrint server
 #'
-#' @description  Get summary information about the datasets hosted by the neuPrint server in which you are interested
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
+#' @description  Get summary information about the datasets hosted by the
+#'   neuPrint server in which you are interested
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_login}}
 #' @export
 #' @rdname neuprint_info
@@ -15,6 +15,10 @@
 neuprint_datasets <- function(conn = NULL, ...){
   neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, simplifyVector = TRUE, include_headers = FALSE, ...)
 }
+
+# memoised version
+# nb this will timeout after 1h, which seems a reasonable trade-off
+neuprint_datasets_memo <- memoise::memoise(neuprint_datasets, ~memoise::timeout(3600))
 
 #' @export
 #' @rdname neuprint_info
@@ -50,18 +54,14 @@ neuprint_version <- function(conn = NULL, ...){
 #' @description Get the regions of interest (ROIs) used in a neuPrint project
 #' @param superLevel whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
 #' If set to NULL, both low-level and superlevel ROIs are returned.
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
 #' @export
 neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
   ds = neuprint_datasets(conn=conn, ...)
-  dataset = check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
   if(is.null(superLevel)){
     rois = c(ds[[dataset]]$superLevelROIs,ds[[dataset]]$ROIs)
     if(is.null(rois)){
@@ -85,13 +85,8 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
 #' @title Get the region of interest (ROI) hierarchy in a dataset
 #'
 #' @description Get a data frame describing how ROIs are related.
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_fetch_custom}
+#' @inheritParams neuprint_fetch_custom
 #' @examples
 #' \donttest{
 #' roi.hierarchy = neuprint_ROI_hierarchy()
@@ -103,9 +98,10 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
 neuprint_ROI_hierarchy <- function(dataset = NULL,
                                    conn = NULL,
                                    ...){
-  dataset = check_dataset(dataset)
+  conn=neuprint_login(conn)
+  dataset = check_dataset(dataset, conn=conn)
   cypher = sprintf("MATCH (m:Meta) WITH m as m, apoc.convert.fromJsonMap(m.roiHierarchy) as roiHierarchy RETURN roiHierarchy")
-  nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, conn=conn, ...)
   roi.edgelist = data.frame()
   addin <- function(x, parent){
     y = unlist(x, recursive = FALSE)
