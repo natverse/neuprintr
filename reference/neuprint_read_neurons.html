@@ -268,12 +268,12 @@ details.</p></td>
 <span class='kw pkg'>nat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nat/man/plot3d.html'>plot3d</a></span>(<span class='no'>neurons</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"purple"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'plot3d' is not an exported object from 'namespace:nat'</span></div><div class='input'><span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='no'>dl1.info</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*mPN.*DL1.*'</span>)
-<span class='no'>dl1.info</span></div><div class='output co'>#&gt;       bodyid              name     type status     voxels  pre post cropped
-#&gt; 1 1700946301 mPN1_DL1(AVM01)_R DL1 adPN Traced 2058578297 1474 4428   FALSE
-#&gt; 2 1700937093 mPN1_DL1(AVM01)_R DL1 adPN Traced 2435730455 1374 4313   FALSE
-#&gt;    soma cellBodyFiber
-#&gt; 1 FALSE           A11
-#&gt; 2  TRUE           A11</div><div class='input'><span class='no'>dl1s</span><span class='kw'>=</span><span class='fu'>neuprint_read_neuron_simple</span>(<span class='no'>dl1.info</span>$<span class='no'>bodyid</span>)
+<span class='no'>dl1.info</span></div><div class='output co'>#&gt;       bodyid              name     type status    statusLabel     voxels  pre
+#&gt; 1 1700946301 mPN1_DL1(AVM01)_R DL1 adPN Traced Roughly traced 2058578297 1474
+#&gt; 2 1700937093 mPN1_DL1(AVM01)_R DL1 adPN Traced Roughly traced 2435730455 1374
+#&gt;   post cropped  soma cellBodyFiber
+#&gt; 1 4428   FALSE FALSE           A11
+#&gt; 2 4313   FALSE  TRUE           A11</div><div class='input'><span class='no'>dl1s</span><span class='kw'>=</span><span class='fu'>neuprint_read_neuron_simple</span>(<span class='no'>dl1.info</span>$<span class='no'>bodyid</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dl1s</span>, <span class='kw'>WithNode</span><span class='kw'>=</span><span class='no'>F</span>)</div><div class='img'><img src='neuprint_read_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'># }
 </div></pre>
   </div>

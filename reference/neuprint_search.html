@@ -195,18 +195,18 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_search</span>(<span class='st'>".*DA2.*"</span>)</div><div class='output co'>#&gt;       bodyid              name    type status    voxels pre post cropped  soma
-#&gt; 1 1796817841 mPN1_DA2(AVM02)_R DA2 lPN Traced 723036360 392  512   FALSE  TRUE
-#&gt; 2 1827516355 mPN1_DA2(AVM02)_R DA2 lPN Traced 737014743 391  548   FALSE  TRUE
-#&gt; 3  818983130 mPN1_DA2(AVM02)_R DA2 lPN Traced 606338969 408  562   FALSE FALSE
-#&gt; 4 1797505019 mPN1_DA2(AVM02)_R DA2 lPN Traced 445320106 339  479   FALSE FALSE
-#&gt; 5 1796818119 mPN1_DA2(AVM02)_R DA2 lPN Traced 907369420 510  818   FALSE  TRUE
-#&gt;   cellBodyFiber
-#&gt; 1           A12
-#&gt; 2           A12
-#&gt; 3           A12
-#&gt; 4           A12
-#&gt; 5           A12</div><div class='input'><span class='co'># }</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>".*DA2.*"</span>)</div><div class='output co'>#&gt;       bodyid              name    type status    statusLabel    voxels pre post
+#&gt; 1 1796817841 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 723036360 392  512
+#&gt; 2 1827516355 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 737014743 391  548
+#&gt; 3  818983130 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 606338969 408  562
+#&gt; 4 1797505019 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 445320106 339  479
+#&gt; 5 1796818119 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 907369420 510  818
+#&gt;   cropped  soma cellBodyFiber
+#&gt; 1   FALSE  TRUE           A12
+#&gt; 2   FALSE  TRUE           A12
+#&gt; 3   FALSE FALSE           A12
+#&gt; 4   FALSE FALSE           A12
+#&gt; 5   FALSE  TRUE           A12</div><div class='input'><span class='co'># }</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>)
 <span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>,<span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>)
