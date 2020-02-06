@@ -3,7 +3,8 @@
 \name{neuprint_read_neurons}
 \alias{neuprint_read_neurons}
 \alias{neuprint_read_skeletons}
-\title{Read bodies from the neuPrint server as skeletons}
+\alias{neuprint_read_neurons_simple}
+\title{Read skeleleton and optional synapse information for neuPrint bodies}
 \usage{
 neuprint_read_neurons(
   bodyids,
@@ -13,6 +14,7 @@ neuprint_read_neurons(
   soma = TRUE,
   estimate.soma = FALSE,
   heal = TRUE,
+  heal.threshold = 1000,
   connectors = TRUE,
   all_segments = TRUE,
   dataset = NULL,
@@ -22,35 +24,65 @@ neuprint_read_neurons(
   ...
 )
 
-neuprint_read_skeletons(bodyid, dataset = NULL, conn = NULL, heal = TRUE, ...)
+neuprint_read_skeletons(
+  bodyid,
+  dataset = NULL,
+  conn = NULL,
+  heal = TRUE,
+  heal.threshold = 1000,
+  ...
+)
+
+neuprint_read_neurons_simple(bodyid, ...)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
-\item{meta}{whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}}
+\item{meta}{whether or not to fetch a meta data for the given bodyids, using
+\code{neuprint_get_meta}}
 
-\item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
+\item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects
+(TRUE) or get SWC data frame (FALSE)}
 
-\item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
-This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.}
+\item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than
+a cypher post request to \code{neuprint_fetch_custom}, in order to read a
+neuron. This might be faster, and this might also enable access to
+skeletons on an underlying DVID database that have not yet been ported to
+neuprint.}
 
-\item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
+\item{soma}{whether or not to fetch a possible soma location for the given
+bodyids, using \code{neuprint_locate_soma}}
 
-\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
+\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a
+soma has not been tagged in the dataset, one is estimated by finding the
+leaf node with the largest mean geodesic distance from all synapses}
 
-\item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{nat::stitch_neurons_mst}}
+\item{heal}{whether or not to heal a fragmented skeleton using a minimum
+spanning tree, via \code{nat::stitch_neurons_mst}}
 
-\item{connectors}{whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
-This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}}
+\item{heal.threshold}{distance in raw units beyond which isolated fragments
+will not be merged onto the main skeleton. The default of \code{1000}
+implies 8000 nm for the hemibrain dataset.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{connectors}{whether or not to add synapse data to the retrieved
+skeletons in the format used by the \code{rcatmaid} package, for easy use
+with \code{rcatmaid} or \code{catnat} functions. This can be done for
+synapse-less skeletons using \code{neuprint_assign_connectors}}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
-\item{resample}{if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.}
+\item{dataset}{optional, a dataset you want to query. If NULL, the default
+specified by your R environ file is used. See \code{neuprint_login} for
+details.}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{resample}{if a number, the neuron is resampled using
+\code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no
+resampling occurs.}
+
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
+your R.profile or R.environ are used.}
 
 \item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an
 error. The default value (\code{NA}) will result in nlapply stopping with
@@ -62,12 +94,19 @@ details.}
 \item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
 }
 \value{
-a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
+a data frame in SWC format, or a
+  \code{nat::\link{neuronlist}}/\code{nat::\link{neuron}} object as used by
+  the \code{nat} and \code{catmaid} packages
 }
 \description{
-Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
-If \code{neuprint_read_skeletons} is used, just a simple skeleton is retrieved.
+\code{neuprint_read_neurons} is a full service function that
+  tries to build as complete \code{\link{neuron}} objects as possible. Choose
+  whether or not to heal the fetched skeletons, assign a soma (if tagged in
+  neuprint) and assign synapses to approximate treenode positions, in the
+  style of neuron objects used by the rcatmaid package.
+
+  If \code{neuprint_read_skeletons} is used, just a simple skeleton is
+  retrieved.
 }
 \examples{
 \donttest{
@@ -88,5 +127,7 @@ plot(dl1s, WithNode=F)
 }
 }
 \seealso{
-\code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
+\code{\link{neuprint_fetch_custom}},
+  \code{\link{neuprint_get_synapses}},
+  \code{\link{neuprint_assign_connectors}}
 }
