@@ -43,19 +43,3 @@ Language: en-GB
 RoxygenNote: 7.0.2
 URL: https://github.com/natverse/neuprintr
 BugReports: https://github.com/natverse/neuprintr/issues
-Collate: 
-    'conn.R'
-    'connectivity.R'
-    'cypher.R'
-    'dump.R'
-    'info.R'
-    'fetch.R'
-    'ids.R'
-    'name.R'
-    'neuprintr-package.R'
-    'neurons.R'
-    'roi.R'
-    'soma.R'
-    'synapses.R'
-    'utilities.R'
-    'zzz.R'

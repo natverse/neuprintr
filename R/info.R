@@ -14,6 +14,10 @@ neuprint_datasets <- function(conn = NULL, ...){
   neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, simplifyVector = TRUE, include_headers = FALSE, ...)
 }
 
+# memoised version
+# nb this will timeout after 1h, which seems a reasonable trade-off
+neuprint_datasets_memo <- memoise::memoise(neuprint_datasets, ~memoise::timeout(3600))
+
 #' @export
 #' @rdname neuprint_info
 neuprint_database <- function(conn = NULL, ...){
