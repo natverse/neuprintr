@@ -212,3 +212,8 @@ neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, 
   n=nat::as.neuron(df)
   if(heal) nat::stitch_neurons_mst(x = n, thresh_el = 1000) else n
 }
+
+#' @rdname neuprint_read_neurons
+neuprint_read_neurons_simple <- function(bodyid, ...) {
+  .Defunct("neuprint_read_skeletons")
+}
