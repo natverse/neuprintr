@@ -46,6 +46,8 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'
 #'   \item status (Traced etc)
 #'
+#'   \item statusLabel similar to \code{status} but often a bit more specific
+
 #'   \item size size in voxels
 #'
 #'   \item pre number of presynapses
@@ -74,7 +76,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
       "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber"
+      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber"
     ),
     id2json(bodyids),
     all_segments,

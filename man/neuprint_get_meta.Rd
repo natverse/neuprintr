@@ -31,6 +31,7 @@ a \code{data.frame} containing the neuron's \itemize{ \item name
 
   \item status (Traced etc)
 
+  \item statusLabel similar to \code{status} but often a bit more specific
   \item size size in voxels
 
   \item pre number of presynapses

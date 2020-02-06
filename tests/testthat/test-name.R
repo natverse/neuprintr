@@ -13,6 +13,7 @@ test_that("test name searches ", {
                  "name",
                  "type",
                  "status",
+                 "statusLabel",
                  "voxels",
                  "pre",
                  "post",
