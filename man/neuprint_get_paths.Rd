@@ -26,12 +26,9 @@ n[1] to n[2] are considered}
 
 \item{weightT}{weight threshold}
 
-\item{roi}{Limit the search to connections happening within a certain ROI or
-set of ROIs (NULL by default)}
-
-\item{dataset}{optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See \code{neuprint_login} for
-details.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
 neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults

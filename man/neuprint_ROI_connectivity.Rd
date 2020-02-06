@@ -23,10 +23,9 @@ neuprint_ROI_connectivity(
 
 \item{statistic}{either "weight" or count" (default "weight"). Which number to return (see neuprint explorer for details) for summary results (either `full` is FALSE or `cached` is TRUE)}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
-
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }

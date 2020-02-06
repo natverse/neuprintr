@@ -1,8 +1,6 @@
 #' @title Find out what some information about your neuPrint server
 #'
 #' @description  Get summary information about the datasets hosted by the neuPrint server in which you are interested
-#' @param conn optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-#' If NULL, your defaults set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
 #' @seealso \code{\link{neuprint_login}}
 #' @export
@@ -50,13 +48,8 @@ neuprint_version <- function(conn = NULL, ...){
 #' @description Get the regions of interest (ROIs) used in a neuPrint project
 #' @param superLevel whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
 #' If set to NULL, both low-level and superlevel ROIs are returned.
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
 #' @export
 neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
@@ -86,13 +79,8 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
 #' @title Get the region of interest (ROI) hierarchy in a dataset
 #'
 #' @description Get a data frame describing how ROIs are related.
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_fetch_custom}
+#' @inheritParams neuprint_fetch_custom
 #' @examples
 #' \donttest{
 #' roi.hierarchy = neuprint_ROI_hierarchy()

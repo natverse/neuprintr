@@ -16,9 +16,6 @@ neuprint_available(conn = NULL, ...)
 neuprint_version(conn = NULL, ...)
 }
 \arguments{
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
-
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \description{

@@ -27,10 +27,9 @@ neuprint_bodies_in_ROI(
 
 \item{output_ROIs}{a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
-
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
 

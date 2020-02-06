@@ -183,13 +183,8 @@ neuprint_connection_table <- function(bodyids,
 #'   (upstream partners) of your starting neurons.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
-#'   your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @return a n x m matrix where n correspond to the neurons that all connect to
 #'   m bodyids
 #' @seealso \code{\link{neuprint_simple_connectivity}},
@@ -252,13 +247,8 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
 #' @param bodyids the cypher by which to make your search
 #' @param prepost whether to look for partners presynaptic to postsynaptic to
 #'   the given bodyids
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @return a n x m matrix where n correspond to the neurons that connect to m
 #'   bodyids
 #' @examples
@@ -338,17 +328,13 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param n the length of the path. If \code{n} is a vector, paths of length
 #'   n[1] to n[2] are considered
 #' @param weightT weight threshold
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param conn optional, a neuprintr connection object, which also specifies the
 #'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
 #'   set in your R.profile or R.environ are used.
-#' @param roi Limit the search to connections happening within a certain ROI or
-#'   set of ROIs (NULL by default)
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}
@@ -422,17 +408,12 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #' @param body_pre the bodyid of the neuron at the start of the path
 #' @param body_post the bodyid of the neuron at the end of the path
 #' @param weightT weight threshold
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_paths}},
 #'   \code{\link{neuprint_common_connectivity}},
 #'   \code{\link{neuprint_get_adjacency_matrix}}

@@ -25,13 +25,9 @@ neuprint_get_shortest_paths(
 \item{roi}{Limit the search to connections happening within a certain ROI or
 set of ROIs (NULL by default)}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See \code{neuprint_login} for
-details.}
-
-\item{conn}{optional, a neuprintr connection object, which also specifies the
-neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-set in your R.profile or R.environ are used.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}

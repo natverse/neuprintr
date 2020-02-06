@@ -2,7 +2,8 @@
 % Please edit documentation in R/cypher.R
 \name{neuprint_fetch_custom}
 \alias{neuprint_fetch_custom}
-\title{Use a cypher to make a custom query to the neuPrint server specifying the information you want to obtain}
+\title{Use a cypher to make a custom query to the neuPrint server specifying
+  the information you want to obtain}
 \usage{
 neuprint_fetch_custom(
   cypher = "MATCH (n:Meta) RETURN n.dataset, n.meshHost",
@@ -12,19 +13,18 @@ neuprint_fetch_custom(
 )
 }
 \arguments{
-\item{cypher}{the cypher by which to make your search, the default returns the available datasets and the servers that host their associated mesh data}
+\item{cypher}{the cypher by which to make your search, the default returns
+the available datasets and the servers that host their associated mesh data}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See \code{neuprint_login} for
-details.}
-
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \description{
-Get summary information about the datasets hosted by the neuPrint server in which you are interested
+Get summary information about the datasets hosted by the
+  neuPrint server in which you are interested
 }
 \seealso{
 \code{\link{neuprint_login}}, \code{\link{neuprint_available}}

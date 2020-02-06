@@ -69,10 +69,11 @@ volume in block coordinates.}
 
 \item{voxel.thresh}{the size threshold, in number of voxels, a neuron/segment must exceed, to be included in the dump, if read from an ROI}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{conn}{optional DVID connection object (see \code{\link[drvid]{dv_conn}})}
 
 \item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an
 error. The default value (\code{NA}) will result in nlapply stopping with
