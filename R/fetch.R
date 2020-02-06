@@ -165,8 +165,9 @@ check_dataset <-
     dataset
   }
 
+# nb this will timeout after 1h, which seems a reasonable trade-off
 #' @include info.R
-neuprint_datasets_memo <- memoise::memoise(neuprint_datasets)
+neuprint_datasets_memo <- memoise::memoise(neuprint_datasets, ~memoise::timeout(3600))
 default_dataset <- function(conn=NULL, ...) {
   conn=neuprint_login(conn)
   ds=neuprint_datasets_memo(conn=conn, ...)
