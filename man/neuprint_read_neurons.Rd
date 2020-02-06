@@ -73,6 +73,11 @@ current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{resample}{if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.}
 
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
+
 \item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an
 error. The default value (\code{NA}) will result in nlapply stopping with
 an error message the moment there is an error. For other values, see

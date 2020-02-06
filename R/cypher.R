@@ -5,6 +5,10 @@
 #'   neuPrint server in which you are interested
 #' @param cypher the cypher by which to make your search, the default returns
 #'   the available datasets and the servers that host their associated mesh data
+#' @param conn optional, a neuprintr connection object, which also specifies the
+#'   neuPrint server. If NULL, the defaults set in your
+#'   \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+#'   used. See \code{\link{neuprint_login}} for details.
 #' @param dataset optional, a dataset you want to query. If \code{NULL}, the
 #'   default specified by your R environ file is used or, failing that the
 #'   current connection, is used. See \code{\link{neuprint_login}} for details.

@@ -73,7 +73,10 @@ volume in block coordinates.}
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
 
-\item{conn}{optional DVID connection object (see \code{\link[drvid]{dv_conn}})}
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
 
 \item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an
 error. The default value (\code{NA}) will result in nlapply stopping with

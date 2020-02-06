@@ -1,7 +1,9 @@
 #' @title Find out what some information about your neuPrint server
 #'
-#' @description  Get summary information about the datasets hosted by the neuPrint server in which you are interested
+#' @description  Get summary information about the datasets hosted by the
+#'   neuPrint server in which you are interested
 #' @param ... methods passed to \code{neuprint_login}
+#' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_login}}
 #' @export
 #' @rdname neuprint_info

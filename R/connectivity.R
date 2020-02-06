@@ -330,9 +330,8 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param weightT weight threshold
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-#'   set in your R.profile or R.environ are used.
+#' @param roi Limit the search to connections happening within a certain ROI or
+#'   set of ROIs (NULL by default)
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},

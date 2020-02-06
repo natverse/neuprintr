@@ -16,8 +16,8 @@
 #' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
 #' @param resample if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.
-#' @inheritParams nat::nlapply
-#' @inheritParams neuprint_fetch_custom
+#' @inherit neuprint_fetch_custom params
+#' @inherit nat::nlapply params
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
 #' @examples
