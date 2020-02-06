@@ -18,13 +18,14 @@ neuprint_simple_connectivity(
 \item{prepost}{whether to look for partners presynaptic to postsynaptic to
 the given bodyids}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See \code{neuprint_login} for
-details.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
-neuPrint server see \code{\link{neuprint_login}}. If NULL, your defaults
-set in your R.profile or R.environ are used.}
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
@@ -35,6 +36,18 @@ a n x m matrix where n correspond to the neurons that connect to m
 \description{
 Get all of the neurons in the database that connect to the
   query neurons, either upstream or downstream of them
+}
+\examples{
+\donttest{
+da2s=neuprint_search(".*DA2.*")
+neuprint_common_connectivity(da2s$bodyid)
+}
+inputs <- neuprint_simple_connectivity(5901222731, prepost='PRE')
+head(inputs)
+# top inputs
+head(sort(table(inputs$type), decreasing = TRUE))
+outputs <- neuprint_simple_connectivity(5901222731, prepost='POST')
+head(outputs)
 }
 \seealso{
 \code{\link{neuprint_common_connectivity}},

@@ -6,6 +6,7 @@
 \usage{
 neuprint_search(
   search,
+  field = "name",
   meta = TRUE,
   all_segments = FALSE,
   dataset = NULL,
@@ -16,14 +17,23 @@ neuprint_search(
 \arguments{
 \item{search}{name to search. See examples.}
 
+\item{field}{the meta data field in which you want a match for your search query.
+Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
+Other common options include type, status, cellBodyFiber etc.}
+
 \item{meta}{if TRUE, meta data for found bodyids is also pulled}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
@@ -39,5 +49,10 @@ neuprint_search(".*DA2.*")
 }
 \dontrun{
 neuprint_search("MBON.*")
+neuprint_search("MBON.*",field = "type")
+neuprint_search("AVF1",field = "cellBodyFiber")
 }
+}
+\seealso{
+\code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
 }

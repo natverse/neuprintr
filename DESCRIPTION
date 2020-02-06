@@ -16,7 +16,6 @@ Description: Access to the neuprint connectome analysis service, including
 License: GPL-3
 LazyData: true
 Suggests: 
-    catnat,
     spelling,
     testthat (>= 2.1.0),
     knitr,
@@ -38,7 +37,8 @@ Imports:
     dplyr,
     bit64
 Remotes: 
-    natverse/drvid
+    natverse/drvid,
+    natverse/nat@feature/elmr_features
 Encoding: UTF-8
 Language: en-GB
 RoxygenNote: 7.0.2

@@ -8,6 +8,8 @@ neuprint_connection_table(
   bodyids,
   prepost = c("PRE", "POST"),
   roi = NULL,
+  by.roi = FALSE,
+  superLevel = FALSE,
   progress = FALSE,
   dataset = NULL,
   all_segments = FALSE,
@@ -18,32 +20,67 @@ neuprint_connection_table(
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
-\item{prepost}{whether to look for partners presynaptic to postsynaptic to the given bodyids}
+\item{prepost}{whether to look for partners presynaptic to postsynaptic
+to the given bodyids}
 
 \item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
 
-\item{progress}{default FALSE. If TRUE, the API is called separately for each neuron and you can assess its progress, if an error is thrown by any one \code{bodyid}, that \code{bodyid} is ignored}
+\item{by.roi}{logical, whether or not to break neurons' connectivity down by
+region of interest (ROI)}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{superLevel}{When `by.roi` is `TRUE`, should we look at low-level ROIs
+(`FALSE`) or super-level ROIs (`TRUE`). A super-level ROIs can
+contain multiple
+lower-level ROIs. If set to `NULL`, both are returned.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{progress}{default FALSE. If TRUE, the API is called separately for
+each neuron and you can assess its progress, if an error is thrown by any
+one \code{bodyid}, that \code{bodyid} is ignored}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
+
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
+
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a data frame giving partners within a set of ROIs, the connection strength for weights to or from that partner, and the direction, for the given bodyid
+a data frame giving partners within a set of ROIs, the connection
+strength for weights to or from that partner, and the direction, for the
+given bodyid
 }
 \description{
 Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified
 }
 \examples{
 \donttest{
-neuprint_connection_table(c(818983130, 1796818119))
+## Unitary connection strengths between two chosen neurons,
+## and their downstream targets
+c1 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST")
+
+## The same connection strength broken down by ROI
+c2 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
+                               by.roi = TRUE)
+
+## The same connection strength broken down by super-level ROI
+c3 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
+                               by.roi = TRUE, superLevel = TRUE)
+
+## Find connections in a specific ROI
+c4 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
+                               by.roi = TRUE, roi = "LH(R)")
+
 }
 }
 \seealso{
-\code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+\code{\link{neuprint_fetch_custom}},
+\code{\link{neuprint_simple_connectivity}},
+\code{\link{neuprint_common_connectivity}}, \code{\link{neuprint_ROIs}}
 }

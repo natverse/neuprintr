@@ -12,7 +12,6 @@ neuprint_read_neurons(
   nat = TRUE,
   drvid = FALSE,
   soma = TRUE,
-  estimate.soma = FALSE,
   heal = TRUE,
   heal.threshold = 1000,
   connectors = TRUE,
@@ -53,10 +52,6 @@ neuprint.}
 \item{soma}{whether or not to fetch a possible soma location for the given
 bodyids, using \code{neuprint_locate_soma}}
 
-\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a
-soma has not been tagged in the dataset, one is estimated by finding the
-leaf node with the largest mean geodesic distance from all synapses}
-
 \item{heal}{whether or not to heal a fragmented skeleton using a minimum
 spanning tree, via \code{nat::stitch_neurons_mst}}
 
@@ -72,17 +67,18 @@ synapse-less skeletons using \code{neuprint_assign_connectors}}
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See \code{neuprint_login} for
-details.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{resample}{if a number, the neuron is resampled using
 \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no
 resampling occurs.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
-neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
-your R.profile or R.environ are used.}
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
 
 \item{OmitFailures}{Whether to omit neurons for which \code{FUN} gives an
 error. The default value (\code{NA}) will result in nlapply stopping with
@@ -92,6 +88,10 @@ details.}
 \item{...}{methods passed to \code{neuprint_login}}
 
 \item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
+
+\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a
+soma has not been tagged in the dataset, one is estimated by finding the
+leaf node with the largest mean geodesic distance from all synapses}
 }
 \value{
 a data frame in SWC format, or a

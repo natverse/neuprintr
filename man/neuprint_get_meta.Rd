@@ -7,7 +7,7 @@
 neuprint_get_meta(
   bodyids,
   dataset = NULL,
-  all_segments = FALSE,
+  all_segments = TRUE,
   conn = NULL,
   ...
 )
@@ -15,12 +15,17 @@ neuprint_get_meta(
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
 
-\item{dataset}{optional, a dataset you want to query. If NULL, the default specified by your R environ file is used. See \code{neuprint_login} for details.}
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
-\item{conn}{optional, a neuprintr connection object, which also specifies the neuPrint server see \code{?neuprint_login}.
-If NULL, your defaults set in your R.profile or R.environ are used.}
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
@@ -31,7 +36,8 @@ a \code{data.frame} containing the neuron's \itemize{ \item name
 
   \item status (Traced etc)
 
-  \item voxels size in voxels
+  \item statusLabel similar to \code{status} but often a bit more specific
+  \item size size in voxels
 
   \item pre number of presynapses
 

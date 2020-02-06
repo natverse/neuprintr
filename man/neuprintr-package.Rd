@@ -11,6 +11,12 @@ Access to the neuprint connectome analysis service, including
     functions to fetch skeletons, synapses and ROIs, query connectivity data
     and develop new low level queries.
 }
+\section{Login}{
+ See \code{\link{neuprint_login}} or the package README for
+  details of the how to login to a neuPrint server, the recommended initial
+  setup and (optionally) how to specify a default dataset.
+}
+
 \section{Online Documentation}{
  See
   \url{https://natverse.github.io/neuprintr/} for structured online

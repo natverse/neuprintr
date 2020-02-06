@@ -93,12 +93,17 @@ and then edit the file that pops up, adding a section like
 neuprint_server="https://neuprint.janelia.org"
 # nb this token is a dummy
 neuprint_token="asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"
+```
+
+Make sure you have a blank line at the end of your `.Renviron` file.
+Note that you can optionally specify a default dataset:
+
+``` r
 neuprint_dataset = "hemibrain:v1.0"
 ```
 
-Make sure you have a blank line at the end of your `.Renviron` file. For
-further information try about neuprintr login, see the help for
-`neuprint_login()`.
+if your neuPrint server has more than one dataset. For further
+information about neuprintr login, see the help for `neuprint_login()`.
 
 Finally you can also login on the command line once per session, like
 so:

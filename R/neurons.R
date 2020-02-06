@@ -33,17 +33,12 @@
 #'   skeletons in the format used by the \code{rcatmaid} package, for easy use
 #'   with \code{rcatmaid} or \code{catnat} functions. This can be done for
 #'   synapse-less skeletons using \code{neuprint_assign_connectors}
-#' @param dataset optional, a dataset you want to query. If NULL, the default
-#'   specified by your R environ file is used. See \code{neuprint_login} for
-#'   details.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param resample if a number, the neuron is resampled using
 #'   \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no
 #'   resampling occurs.
-#' @param conn optional, a neuprintr connection object, which also specifies the
-#'   neuPrint server see \code{?neuprint_login}. If NULL, your defaults set in
-#'   your R.profile or R.environ are used.
+#' @inherit neuprint_fetch_custom params
 #' @inheritParams nat::nlapply
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a data frame in SWC format, or a
@@ -72,7 +67,6 @@ neuprint_read_neurons <- function(bodyids,
                                   nat = TRUE,
                                   drvid = FALSE,
                                   soma = TRUE,
-                                  estimate.soma = FALSE,
                                   heal = TRUE,
                                   heal.threshold=1000,
                                   connectors = TRUE,
@@ -88,7 +82,6 @@ neuprint_read_neurons <- function(bodyids,
                          nat=nat,
                          drvid=drvid,
                          soma = soma,
-                         estimate.soma = estimate.soma,
                          heal = heal,
                          heal.threshold=heal.threshold,
                          connectors = connectors,
@@ -122,7 +115,6 @@ neuprint_read_neuron <- function(bodyid,
                                  nat = TRUE,
                                  drvid = FALSE,
                                  soma = TRUE,
-                                 estimate.soma = FALSE,
                                  heal = TRUE,
                                  heal.threshold=1000,
                                  connectors = TRUE,
@@ -152,16 +144,6 @@ neuprint_read_neuron <- function(bodyid,
                          error = function(e) NA)
     if(sum(is.na(somapoint))==0){
       near.soma = nabor::knn(query=somapoint,data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    }else if (estimate.soma){ # Quickly stimate soma location as the leaf node furthest from synapses, or other leaf nodes
-      leaves = nat::endpoints(n)
-      avoid = rbind(nat::xyzmatrix(n$d[leaves,]),nat::xyzmatrix(synapses))
-      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=avoid,k=10)$nn.dist
-      leaves = leaves[which(far.leaves[,10]>mean(far.leaves[,10]))]
-      dists = sapply(leaves, function(l) mean(sapply(igraph::all_shortest_paths(graph = nat::as.ngraph(d),
-                                   from = l,
-                                   to = leaves,
-                                   mode = c("all"),weights = NULL)$res,length)))
-      near.soma = leaves[which.max(dists)]
     }else{
       leaves = nat::endpoints(n)
       far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=100)$nn.dist
@@ -235,7 +217,7 @@ neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE,
     nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, heal=heal, ...)
     return(nl)
   }
-  dataset=check_dataset(dataset)
+  dataset = check_dataset(dataset, conn=conn)
   path=file.path("api/skeletons/skeleton", dataset, bodyid)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
   colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")

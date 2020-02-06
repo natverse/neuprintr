@@ -20,6 +20,7 @@
 #'   \code{\link{neuprint_simple_connectivity}},
 #'   \code{\link{neuprint_common_connectivity}}
 #' @export
+#' @inheritParams neuprint_fetch_custom
 #' @examples
 #' \donttest{
 #' neuprint_get_synapses(c(818983130, 1796818119))
