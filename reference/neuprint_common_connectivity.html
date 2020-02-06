@@ -178,15 +178,16 @@ the given bodyids. So when <code>prepost="PRE"</code> you will return inputs
     </tr>
     <tr>
       <th>dataset</th>
-      <td><p>optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See <code>neuprint_login</code> for
-details.</p></td>
+      <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
-neuPrint server see <code><a href='neuprint_login.html'>?neuprint_login</a></code>. If NULL, your defaults set in
-your R.profile or R.environ are used.</p></td>
+neuPrint server. If NULL, the defaults set in your
+<code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
+used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>

@@ -43,7 +43,8 @@
 
 
 <meta property="og:title" content="Find out what some information about your neuPrint server — neuprint_datasets" />
-<meta property="og:description" content="Get summary information about the datasets hosted by the neuPrint server in which you are interested" />
+<meta property="og:description" content="Get summary information about the datasets hosted by the
+  neuPrint server in which you are interested" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -137,7 +138,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Get summary information about the datasets hosted by the neuPrint server in which you are interested</p>
+    <p>Get summary information about the datasets hosted by the
+  neuPrint server in which you are interested</p>
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_datasets</span>(<span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
@@ -153,8 +155,10 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>conn</th>
-      <td><p>optional, a neuprintr connection object, which also specifies the neuPrint server see <code><a href='neuprint_login.html'>?neuprint_login</a></code>.
-If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
+      <td><p>optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+<code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
+used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -177,57 +181,57 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 #&gt; [1] "52a13328874c4bb7b15dc4280da26576"
 #&gt; 
 #&gt; $`hemibrain:v1.0.1`$ROIs
-#&gt;   [1] "AOTU(R)"           "b2(R)"             "NO(R)"            
-#&gt;   [4] "LH(R)"             "LAL(L)"            "FBl6"             
-#&gt;   [7] "FBl8"              "NO"                "SIP(R)"           
-#&gt;  [10] "aL(L)"             "PB(R6)"            "PB(R4)"           
-#&gt;  [13] "a'3(R)"            "CA(L)"             "SPS(L)"           
-#&gt;  [16] "EBr6"              "a'1(R)"            "g5(R)"            
-#&gt;  [19] "b'L(L)"            "PB(R7)"            "VES(R)"           
-#&gt;  [22] "GNG"               "SAD"               "SNP(R)"           
-#&gt;  [25] "SNP(L)"            "IPS(R)"            "LX(L)"            
-#&gt;  [28] "INP"               "MB(R)"             "PENP"             
-#&gt;  [31] "PB(L5)"            "b1(R)"             "OL(R)"            
-#&gt;  [34] "PB(R5)"            "AB(L)"             "GA(R)"            
-#&gt;  [37] "GOR(L)"            "BU(L)"             "g4(R)"            
-#&gt;  [40] "PB(R9)"            "MB(+ACA)(R)"       "bL(R)"            
-#&gt;  [43] "VES(L)"            "GF(R)"             "PLP(R)"           
-#&gt;  [46] "BU(R)"             "EPA(R)"            "gL(R)"            
-#&gt;  [49] "PB(L9)"            "FBl5"              "LAL(R)"           
-#&gt;  [52] "LAL(-GA)(R)"       "SCL(L)"            "PB(L4)"           
-#&gt;  [55] "g2(R)"             "SIP(L)"            "MB(L)"            
-#&gt;  [58] "NO2(R)"            "CRE(R)"            "FBl7"             
-#&gt;  [61] "PB(R2)"            "AOT(R)"            "FBl2"             
-#&gt;  [64] "SAD(-AMMC)"        "CRE(L)"            "PB(L8)"           
-#&gt;  [67] "CA(R)"             "AME(R)"            "GOR(R)"           
-#&gt;  [70] "NO3(R)"            "b'L(R)"            "a'2(R)"           
-#&gt;  [73] "PB(L6)"            "ATL(R)"            "NO(L)"            
-#&gt;  [76] "AMMC"              "hemibrain"         "WED(R)"           
-#&gt;  [79] "NO1(L)"            "SCL(R)"            "gL(L)"            
-#&gt;  [82] "PVLP(R)"           "AL(R)"             "a1(R)"            
-#&gt;  [85] "PRW"               "GC"                "g1(R)"            
-#&gt;  [88] "FLA(R)"            "FBl3"              "EPA(L)"           
-#&gt;  [91] "PB(L3)"            "FB"                "LO(R)"            
-#&gt;  [94] "PB(R3)"            "CAN(R)"            "SPS(R)"           
-#&gt;  [97] "FBl4"              "EBr3d"             "ME(R)"            
-#&gt; [100] "AL(L)"             "FBl9"              "VLNP(R)"          
-#&gt; [103] "b'1(R)"            "PB(L2)"            "vACA(R)"          
-#&gt; [106] "LX(R)"             "EBr5"              "mALT(L)"          
-#&gt; [109] "NO2(L)"            "aL(R)"             "PB"               
-#&gt; [112] "PB(L7)"            "EBr3am"            "g3(R)"            
-#&gt; [115] "EBr1"              "dACA(R)"           "ICL(L)"           
-#&gt; [118] "a'L(L)"            "POC"               "CX"               
-#&gt; [121] "SMP(L)"            "EBr3pw"            "SLP(R)"           
-#&gt; [124] "bL(L)"             "NO3(L)"            "SMP(R)"           
-#&gt; [127] "lACA(R)"           "PED(R)"            "a'L(R)"           
-#&gt; [130] "ROB(R)"            "LOP(R)"            "ATL(L)"           
-#&gt; [133] "a2(R)"             "VMNP"              "PB(R1)"           
-#&gt; [136] "FBl1"              "AB(R)"             "RUB(L)"           
-#&gt; [139] "RUB(R)"            "IB"                "NO1(R)"           
-#&gt; [142] "mALT(R)"           "PB(L1)"            "EB"               
-#&gt; [145] "AVLP(R)"           "ICL(R)"            "a3(R)"            
-#&gt; [148] "CRE(-ROB,-RUB)(R)" "b'2(R)"            "EBr2r4"           
-#&gt; [151] "PB(R8)"           
+#&gt;   [1] "FBl2"              "GNG"               "PB(L2)"           
+#&gt;   [4] "aL(R)"             "EBr2r4"            "a'1(R)"           
+#&gt;   [7] "LX(L)"             "a3(R)"             "PB(L1)"           
+#&gt;  [10] "PB(L6)"            "PB(R1)"            "FBl6"             
+#&gt;  [13] "SLP(R)"            "PB(R4)"            "NO2(L)"           
+#&gt;  [16] "EPA(R)"            "SIP(R)"            "ROB(R)"           
+#&gt;  [19] "bL(L)"             "AB(R)"             "NO1(R)"           
+#&gt;  [22] "PB(R8)"            "ATL(R)"            "RUB(R)"           
+#&gt;  [25] "AMMC"              "LH(R)"             "b'1(R)"           
+#&gt;  [28] "PB(R7)"            "WED(R)"            "a'L(R)"           
+#&gt;  [31] "PB(L7)"            "MB(+ACA)(R)"       "LAL(L)"           
+#&gt;  [34] "AOTU(R)"           "LO(R)"             "VLNP(R)"          
+#&gt;  [37] "IB"                "CRE(-ROB,-RUB)(R)" "hemibrain"        
+#&gt;  [40] "b'L(R)"            "EBr5"              "bL(R)"            
+#&gt;  [43] "AB(L)"             "SCL(R)"            "BU(L)"            
+#&gt;  [46] "PB(L4)"            "CX"                "PLP(R)"           
+#&gt;  [49] "IPS(R)"            "INP"               "b'L(L)"           
+#&gt;  [52] "FB"                "LAL(R)"            "SCL(L)"           
+#&gt;  [55] "a1(R)"             "FBl4"              "NO(L)"            
+#&gt;  [58] "mALT(L)"           "GA(R)"             "g2(R)"            
+#&gt;  [61] "dACA(R)"           "SPS(L)"            "EBr3pw"           
+#&gt;  [64] "GOR(R)"            "AL(R)"             "AOT(R)"           
+#&gt;  [67] "PRW"               "SPS(R)"            "ME(R)"            
+#&gt;  [70] "NO2(R)"            "EPA(L)"            "SMP(R)"           
+#&gt;  [73] "LOP(R)"            "ATL(L)"            "NO"               
+#&gt;  [76] "PB(L9)"            "PVLP(R)"           "aL(L)"            
+#&gt;  [79] "PB(L5)"            "AL(L)"             "PB(L3)"           
+#&gt;  [82] "mALT(R)"           "CRE(R)"            "EBr6"             
+#&gt;  [85] "VMNP"              "ICL(R)"            "CAN(R)"           
+#&gt;  [88] "VES(L)"            "a2(R)"             "lACA(R)"          
+#&gt;  [91] "b2(R)"             "LX(R)"             "FBl7"             
+#&gt;  [94] "a'3(R)"            "PB(R6)"            "SAD(-AMMC)"       
+#&gt;  [97] "FBl3"              "AVLP(R)"           "b'2(R)"           
+#&gt; [100] "PED(R)"            "EBr3d"             "POC"              
+#&gt; [103] "EBr3am"            "LAL(-GA)(R)"       "FBl8"             
+#&gt; [106] "NO3(R)"            "RUB(L)"            "PENP"             
+#&gt; [109] "g3(R)"             "VES(R)"            "SNP(L)"           
+#&gt; [112] "FBl1"              "AME(R)"            "GF(R)"            
+#&gt; [115] "SMP(L)"            "PB(L8)"            "a'2(R)"           
+#&gt; [118] "CRE(L)"            "CA(L)"             "GOR(L)"           
+#&gt; [121] "g4(R)"             "NO(R)"             "gL(R)"            
+#&gt; [124] "g5(R)"             "BU(R)"             "NO3(L)"           
+#&gt; [127] "PB(R3)"            "MB(R)"             "SIP(L)"           
+#&gt; [130] "FLA(R)"            "FBl5"              "b1(R)"            
+#&gt; [133] "a'L(L)"            "g1(R)"             "NO1(L)"           
+#&gt; [136] "gL(L)"             "FBl9"              "CA(R)"            
+#&gt; [139] "EBr1"              "PB"                "SNP(R)"           
+#&gt; [142] "ICL(L)"            "SAD"               "EB"               
+#&gt; [145] "PB(R9)"            "PB(R2)"            "OL(R)"            
+#&gt; [148] "GC"                "MB(L)"             "PB(R5)"           
+#&gt; [151] "vACA(R)"          
 #&gt; 
 #&gt; $`hemibrain:v1.0.1`$superLevelROIs
 #&gt;  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" 
@@ -246,20 +250,20 @@ If NULL, your defaults set in your R.profile or R.environ are used.</p></td>
 #&gt; </div><div class='input'><span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='co'># list API endpoints</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>neuprint_available</span>())</div><div class='output co'>#&gt;      method path                                     
-#&gt; [1,] "GET"  "/api/v:ver/npexplorer/neuronmeta"       
-#&gt; [2,] "GET"  "/api/npexplorer/roisinneuron"           
-#&gt; [3,] "GET"  "/api/custom/custom"                     
-#&gt; [4,] "POST" "/api/v:ver/custom/custom"               
-#&gt; [5,] "GET"  "/api/v:ver/npexplorer/distribution"     
-#&gt; [6,] "GET"  "/api/v:ver/roimeshes/mesh/:dataset/:roi"
-#&gt;      name                                                                                        
-#&gt; [1,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                        
-#&gt; [2,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getROIsInNeuron-fm"
-#&gt; [3,] "github.com/connectome-neuprint/neuPrintHTTP/api/custom.cypherAPI.getCustom-fm"             
-#&gt; [4,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                        
-#&gt; [5,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                        
-#&gt; [6,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                        </div><div class='input'><span class='co'># }</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>neuprint_available</span>())</div><div class='output co'>#&gt;      method  path                                     
+#&gt; [1,] "GET"   "/api/npexplorer/rankedtable"            
+#&gt; [2,] "PATCH" "/api/*"                                 
+#&gt; [3,] "POST"  "/api/v:ver/npexplorer/distribution"     
+#&gt; [4,] "GET"   "/api/npexplorer/neuronmeta"             
+#&gt; [5,] "GET"   "/api/v:ver/npexplorer/simpleconnections"
+#&gt; [6,] "POST"  "/api/v:ver/npexplorer/autapses"         
+#&gt;      name                                                                                       
+#&gt; [1,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getRankedTable-fm"
+#&gt; [2,] "github.com/labstack/echo.glob..func1"                                                     
+#&gt; [3,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       
+#&gt; [4,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getNeuronMeta-fm" 
+#&gt; [5,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       
+#&gt; [6,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       </div><div class='input'><span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='fu'>neuprint_version</span>()</div><div class='output co'>#&gt; $Version
 #&gt; [1] "0.1.0"
