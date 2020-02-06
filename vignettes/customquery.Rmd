@@ -118,7 +118,11 @@ In order to make a query, you need to specify which neuPrint *server* you want t
 talk to as well as the *dataset* you would like to use. The server is specified
 by a `neuprint_connection()` object. 99% of the time you will not need to do 
 anything as this will be handled transparently by a one time user setting to
-specify their preferred server and authentication token. The same is true of the dataset parameter.
+specify their preferred server and authentication token. 
+
+The same is true of the dataset parameter, with the additional feature that 
+that `neuprint_fetch_custom()` will internally check for a default dataset for
+the current server (as defined by the `conn` connection object).
 
 However your function must allow people to specify both of these things if they
 wish. Therefore your function should look something like this in outline:
