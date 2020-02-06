@@ -57,7 +57,8 @@ spanning tree, via \code{nat::stitch_neurons_mst}}
 
 \item{heal.threshold}{distance in raw units beyond which isolated fragments
 will not be merged onto the main skeleton. The default of \code{1000}
-implies 8000 nm for the hemibrain dataset.}
+implies 8000 nm for the hemibrain dataset. Use \code{Inf} to merge all
+fragments.}
 
 \item{connectors}{whether or not to add synapse data to the retrieved
 skeletons in the format used by the \code{rcatmaid} package, for easy use

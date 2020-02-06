@@ -25,7 +25,8 @@
 #'   spanning tree, via \code{nat::stitch_neurons_mst}
 #' @param heal.threshold distance in raw units beyond which isolated fragments
 #'   will not be merged onto the main skeleton. The default of \code{1000}
-#'   implies 8000 nm for the hemibrain dataset.
+#'   implies 8000 nm for the hemibrain dataset. Use \code{Inf} to merge all
+#'   fragments.
 #' @param connectors whether or not to add synapse data to the retrieved
 #'   skeletons in the format used by the \code{rcatmaid} package, for easy use
 #'   with \code{rcatmaid} or \code{catnat} functions. This can be done for
@@ -222,7 +223,7 @@ neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE,
   # convert radius to diameter
   df$W=df$W*2
   n=nat::as.neuron(df)
-  if(heal) nat::stitch_neurons_mst(x = n, thresh_el = heal.threshold) else n
+  if(heal) nat::stitch_neurons_mst(x = n, threshold = heal.threshold) else n
 }
 
 #' @rdname neuprint_read_neurons
