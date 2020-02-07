@@ -15,7 +15,6 @@ neuprint_dump(
   nat = TRUE,
   drvid = FALSE,
   soma = TRUE,
-  estimate.soma = FALSE,
   heal = TRUE,
   connectors = TRUE,
   all_segments = FALSE,
@@ -43,25 +42,35 @@ the neuprint server using \code{neuprint_read_neurons}}
 \item{volumes}{whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
 the package drvid}
 
-\item{meta}{whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}}
+\item{meta}{whether or not to fetch a meta data for the given bodyids, using
+\code{neuprint_get_meta}}
 
-\item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)}
+\item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects
+(TRUE) or get SWC data frame (FALSE)}
 
-\item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
-This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.}
+\item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than
+a cypher post request to \code{neuprint_fetch_custom}, in order to read a
+neuron. This might be faster, and this might also enable access to
+skeletons on an underlying DVID database that have not yet been ported to
+neuprint.}
 
-\item{soma}{whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}}
+\item{soma}{whether or not to fetch a possible soma location for the given
+bodyids, using \code{neuprint_locate_soma}}
 
-\item{estimate.soma}{if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses}
+\item{heal}{whether or not to heal a fragmented skeleton using a minimum
+spanning tree, via \code{nat::stitch_neurons_mst}}
 
-\item{heal}{whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}}
+\item{connectors}{whether or not to add synapse data to the retrieved
+skeletons in the format used by the \code{rcatmaid} package, for easy use
+with \code{rcatmaid} or \code{catnat} functions. This can be done for
+synapse-less skeletons using \code{neuprint_assign_connectors}}
 
-\item{connectors}{whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
-This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
-
-\item{resample}{if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.}
+\item{resample}{if a number, the neuron is resampled using
+\code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no
+resampling occurs.}
 
 \item{scale}{Resolution of sparse volume starting with 0 where each level
 beyond 0 has 1/2 resolution of previous level. "coarse" will return the

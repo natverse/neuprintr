@@ -31,7 +31,8 @@ used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 }
 \value{
 a neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages

@@ -1,31 +1,61 @@
-#' @title Read bodies from the neuPrint server as skeletons
+#' @title Read skeleleton and optional synapse information for neuPrint bodies
 #'
-#' @description  Get \code{nat::neuronlist} objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-#' Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
-#' If \code{neuprint_read_neuron_simple} is used, just a simple skeleton is retrieved.
+#' @description \code{neuprint_read_neurons} is a full service function that
+#'   tries to build as complete \code{\link{neuron}} objects as possible. Choose
+#'   whether or not to heal the fetched skeletons, assign a soma (if tagged in
+#'   neuprint) and assign synapses to approximate treenode positions, in the
+#'   style of neuron objects used by the rcatmaid package.
+#'
+#'   If \code{neuprint_read_skeletons} is used, just a simple skeleton is
+#'   retrieved.
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
 #' @param bodyid a single body ID for a neuron/segment (body) you wish to query
-#' @param drvid whether or not to use \code{drvid::read.neuron.dvid} rather than a cypher post request to \code{neuprint_fetch_custom}, in order to read a neuron.
-#' This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.
-#' @param nat whether or not to read neurons are \code{nat::neuronlist} objects (TRUE) or get SWC data frame (FALSE)
-#' @param meta whether or not to fetch a meta data for the given bodyids, using \code{neuprint_get_meta}
-#' @param soma whether or not to fetch a possible soma location for the given bodyids, using \code{neuprint_locate_soma}
-#' @param estimate.soma if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses
-#' @param heal whether or not to heal a fragmented skeleton using a minimum spanning tree, via \code{heal_skeleton}
-#' @param connectors whether or not to add synapse data to the retrieved skeletons in the format used by the \code{rcatmaid} package, for easy use with \code{rcatmaid} or \code{catnat} functions.
-#' This can be done for synapse-less skeletons using \code{neuprint_assign_connectors}
-#' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
-#' @param resample if a number, the neuron is resampled using \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no resampling occurs.
+#' @param drvid whether or not to use \code{drvid::read.neuron.dvid} rather than
+#'   a cypher post request to \code{neuprint_fetch_custom}, in order to read a
+#'   neuron. This might be faster, and this might also enable access to
+#'   skeletons on an underlying DVID database that have not yet been ported to
+#'   neuprint.
+#' @param nat whether or not to read neurons are \code{nat::neuronlist} objects
+#'   (TRUE) or get SWC data frame (FALSE)
+#' @param meta whether or not to fetch a meta data for the given bodyids, using
+#'   \code{neuprint_get_meta}
+#' @param soma whether or not to fetch a possible soma location for the given
+#'   bodyids, using \code{neuprint_locate_soma}
+#' @param heal whether or not to heal a fragmented skeleton using a minimum
+#'   spanning tree, via \code{nat::stitch_neurons_mst}
+#' @param heal.threshold distance in raw units beyond which isolated fragments
+#'   will not be merged onto the main skeleton. The default of \code{1000}
+#'   implies 8000 nm for the hemibrain dataset. Use \code{Inf} to merge all
+#'   fragments.
+#' @param connectors whether or not to add synapse data to the retrieved
+#'   skeletons in the format used by the \code{rcatmaid} package, for easy use
+#'   with \code{rcatmaid} or \code{catnat} functions. This can be done for
+#'   synapse-less skeletons using \code{neuprint_assign_connectors}
+#' @param all_segments if TRUE, all bodies are considered, if FALSE, only
+#'   'Neurons', i.e. bodies with a status roughly traced status.
+#' @param resample if a number, the neuron is resampled using
+#'   \code{nat::resample}, stepsize = resample. If 0 or FALSE (default), no
+#'   resampling occurs.
 #' @inherit neuprint_fetch_custom params
-#' @inherit nat::nlapply params
+#' @inheritParams nat::nlapply
 #' @param ... methods passed to \code{neuprint_login}
-#' @return a data frame in SWC format, or a \code{nat::neuron}/\code{nat::neuronlist} object as dictated used by the \code{nat} and \code{rcatmaid} packages
+#' @return a data frame in SWC format, or a
+#'   \code{nat::\link{neuronlist}}/\code{nat::\link{neuron}} object as used by
+#'   the \code{nat} and \code{catmaid} packages
 #' @examples
 #' \donttest{
-#' neurons = neuprint_read_neurons(c("818983130", "1796818119"))
+#' neurons = neuprint_read_neurons(c(818983130, 1796818119))
 #' nat::plot3d(neurons, col = "purple", lwd = 2)
+#'
+#' ## In this example, in hemibrain:v1.0, an erroneously connected bit
+#' ## of neuron skeleton is removed.
+#' n1 = neuprint_read_neurons(5812980863)
+#' ## compare with
+#' n2 = neuprint_read_neurons(5812980863, heal = FALSE)
 #' }
-#' @seealso \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_assign_connectors}}
+#' @seealso \code{\link{neuprint_fetch_custom}},
+#'   \code{\link{neuprint_get_synapses}},
+#'   \code{\link{neuprint_assign_connectors}}
 #' @importFrom drvid read.neuron.dvid
 #' @export
 #' @rdname neuprint_read_neurons
@@ -35,32 +65,38 @@ neuprint_read_neurons <- function(bodyids,
                                   nat = TRUE,
                                   drvid = FALSE,
                                   soma = TRUE,
-                                  estimate.soma = FALSE,
                                   heal = TRUE,
+                                  heal.threshold=1000,
                                   connectors = TRUE,
                                   all_segments = TRUE,
                                   dataset = NULL,
                                   resample = FALSE,
                                   conn = NULL,
-                                  OmitFailures = TRUE, ...) {
-  neurons = nat::nlapply(id2char(bodyids),function(bodyid)
+                                  OmitFailures = TRUE,
+                                  ...) {
+  bodyids = unique(id2char(bodyids))
+  neurons = suppressMessages( suppressWarnings(nat::nlapply(bodyids,function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
                          soma = soma,
-                         estimate.soma = estimate.soma,
                          heal = heal,
+                         heal.threshold=heal.threshold,
                          connectors = connectors,
                          dataset = dataset,
                          all_segments = all_segments,
                          resample = resample,
-                         conn= conn, ...),
-    OmitFailures = OmitFailures)
+                         conn= conn,
+                         ...),
+    OmitFailures = OmitFailures)))
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
+  names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(length(neurons)==0){
     stop("Error: none of the given bodyids have skeletons that could be fetched")
+  }else if(!all(bodyids%in%names(neurons))){
+    missed = setdiff(bodyids,names(neurons))
+    warning("Dropping given bodyids that could not be read from ", neuprint_login(conn=conn)$server," : ", paste(missed, collapse = ", "))
   }
-  names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(meta){
     attr(neurons,"df") = neuprint_get_meta(bodyids = names(neurons),
                                            dataset = dataset,
@@ -72,14 +108,13 @@ neuprint_read_neurons <- function(bodyids,
   neurons
 }
 
-#' @export
-#' @rdname neuprint_read_neurons
+# hidden
 neuprint_read_neuron <- function(bodyid,
                                  nat = TRUE,
                                  drvid = FALSE,
                                  soma = TRUE,
-                                 estimate.soma = FALSE,
                                  heal = TRUE,
+                                 heal.threshold=1000,
                                  connectors = TRUE,
                                  dataset = NULL,
                                  all_segments = TRUE,
@@ -87,15 +122,14 @@ neuprint_read_neuron <- function(bodyid,
                                  conn = NULL, ...){
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   if(drvid){
-    n = drvid::read.neuron.dvid(bodyid)
+    n = tryCatch(drvid::read.neuron.dvid(bodyid),error = function(e) NULL)
     d = n$d
   }else{
-    n = neuprint_read_neuron_simple(id2char(bodyid), dataset=dataset,
-                                    conn = conn, heal = FALSE,...)
-  }
-  if(heal){
-    n = suppressWarnings( heal_skeleton(x = n) )
+    n = tryCatch(neuprint_read_skeletons(id2char(bodyid), dataset=dataset,conn = conn, heal = heal,heal.threshold=heal.threshold,...),error = function(e) NULL)
     d = n$d
+  }
+  if(is.null(n)){
+    warning("Failed to read neuron ", bodyid , " from ", neuprint_login(conn=conn)$server,", dropping ...")
   }
   if(resample){
     n = nat::resample(x=n,stepsize=resample)
@@ -108,16 +142,6 @@ neuprint_read_neuron <- function(bodyid,
                          error = function(e) NA)
     if(sum(is.na(somapoint))==0){
       near.soma = nabor::knn(query=somapoint,data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    }else if (estimate.soma){ # Quickly stimate soma location as the leaf node furthest from synapses, or other leaf nodes
-      leaves = nat::endpoints(n)
-      avoid = rbind(nat::xyzmatrix(n$d[leaves,]),nat::xyzmatrix(synapses))
-      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=avoid,k=10)$nn.dist
-      leaves = leaves[which(far.leaves[,10]>mean(far.leaves[,10]))]
-      dists = sapply(leaves, function(l) mean(sapply(igraph::all_shortest_paths(graph = nat::as.ngraph(d),
-                                   from = l,
-                                   to = leaves,
-                                   mode = c("all"),weights = NULL)$res,length)))
-      near.soma = leaves[which.max(dists)]
     }else{
       leaves = nat::endpoints(n)
       far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=100)$nn.dist
@@ -129,8 +153,9 @@ neuprint_read_neuron <- function(bodyid,
     d = n$d
   }
   if(connectors){
-    near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    synapses$treenode_id = n$d[near,"PointNo"]
+    near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)
+    synapses$treenode_id = n$d[near$nn.idx,"PointNo"]
+    synapses = synapses[near$nn.dists<1000,] # remove erroneously associated synapses
     synapses = synapses[,c("treenode_id","connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
     n$connectors = synapses
   }
@@ -172,31 +197,6 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), datase
     neuprint_assign_connectors.neuron(x=x[[i]],bodyids=bodyids[i]),dataset=dataset,conn=conn,...)
 }
 
-#' @title Heal a fragmented skeleton for a neuron
-#'
-#' @description  Mend breaks in a skeleton for a neuron, predicting merge sites using the minimum spanning tree method, utilising \code{igraph::mst}
-#' @inheritParams neuprint_read_neurons
-#' @param x either an object of class neuron, or neuronlist
-#' @return a cohesive SWC like data frame, or a cohesive neuron/neuronlist object as dictated used by the \code{nat} and \code{rcatmaid} packages
-#' @seealso \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
-#' @export
-#' @importFrom igraph mst
-heal_skeleton <- function(x, ...){
-  n = nat::as.ngraph(x)
-  mstree = igraph::mst(graph = n, ...)
-  healed = nat::as.neuron(mstree)
-  if(healed$nTrees>1){
-    fragmented = break_into_subtress(healed)
-    healed = stitch_neurons(x=fragmented)
-  }
-  if(nat::is.neuron(x)){
-    healed$connectors = x$connectors
-    #healed$d = merge(healed$d, x$d)
-    healed
-  }else{
-    healed$d
-  }
-}
 
 #' @export
 #' @rdname neuprint_read_neurons
@@ -204,15 +204,15 @@ heal_skeleton <- function(x, ...){
 #' \donttest{
 #' dl1.info <- neuprint_search('.*mPN.*DL1.*')
 #' dl1.info
-#' dl1s=neuprint_read_neuron_simple(dl1.info$bodyid)
+#' dl1s=neuprint_read_skeletons(dl1.info$bodyid)
 #' plot(dl1s, WithNode=F)
 #' }
-neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE, ...) {
-  conn=neuprint_login(conn)
+neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE,
+                                    heal.threshold=1000, ...) {
   bodyid=id2char(bodyid)
   if(length(bodyid)>1) {
     fakenl=structure(bodyid, .Names=bodyid)
-    nl=nat::nlapply(fakenl, neuprint_read_neuron_simple, dataset=dataset, conn=conn, ...)
+    nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, heal=heal, ...)
     return(nl)
   }
   dataset = check_dataset(dataset, conn=conn)
@@ -223,5 +223,10 @@ neuprint_read_neuron_simple <- function(bodyid, dataset=NULL, conn=NULL, heal=TR
   # convert radius to diameter
   df$W=df$W*2
   n=nat::as.neuron(df)
-  if(heal) heal_skeleton(n) else n
+  if(heal) nat::stitch_neurons_mst(x = n, threshold = heal.threshold) else n
+}
+
+#' @rdname neuprint_read_neurons
+neuprint_read_neurons_simple <- function(bodyid, ...) {
+  .Defunct("neuprint_read_skeletons")
 }

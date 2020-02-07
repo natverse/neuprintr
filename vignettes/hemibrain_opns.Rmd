@@ -126,7 +126,7 @@ rgl.snapshot(filename = "images/hemibrain_an_opn.png", fmt ="png")
 ### You can see the auto-segmentation goes a bit crazy where the soma is
 
 ## Now that we have all of the bodyIds, we can read these neurons from neuPrint:
-opns = neuprint_read_neuron_simple(opn.info$bodyid)
+opns = neuprint_read_skeletons(opn.info$bodyid)
 nopen3d(userMatrix = structure(c(0.98370349407196, -0.104569993913174, 
                                  -0.146263062953949, 0, 0.147007316350937, -0.000597098842263222, 
                                  0.989135324954987, 0, -0.103521309792995, -0.994517505168915, 
@@ -138,14 +138,14 @@ rgl.snapshot(filename = "images/hemibrain_opns.png", fmt ="png")
 ## The simple version of read neurons just reads the skeleton for a neuron
 ### We might also want our neuron objects to contain meta data and synapse information
 ### We have an all-in-one function to do this. Here we go!
-opns = neuprint_read_neuron_simple(opn.info$bodyid)
+opns = neuprint_read_skeletons(opn.info$bodyid)
 
 ##But why is this function so slow?
 ### Because it fetches fragmented neuron skeletons assigned to the same neuron
 ### Stitched them into one neuron (healing), grabs all the neuron's synapses
 ### and tries to work out where the soma is. If you want to move faster
 ### You can grab bits separately and quickly:
-?neuprint_read_neuron_simple
+?neuprint_read_skeletons
 ?neuprint_get_synapses
 ?neuprint_assign_connectors
 ?neuprint_locate_soma

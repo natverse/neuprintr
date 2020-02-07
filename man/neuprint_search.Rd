@@ -23,7 +23,8 @@ Other common options include type, status, cellBodyFiber etc.}
 
 \item{meta}{if TRUE, meta data for found bodyids is also pulled}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the

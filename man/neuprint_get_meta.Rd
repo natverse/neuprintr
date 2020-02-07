@@ -19,7 +19,8 @@ neuprint_get_meta(
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
 
-\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+\item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
