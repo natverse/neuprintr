@@ -75,7 +75,7 @@ neuprint_read_neurons <- function(bodyids,
                                   OmitFailures = TRUE,
                                   ...) {
   bodyids = unique(id2char(bodyids))
-  neurons = suppressMessages( suppressWarnings(nat::nlapply(bodyids,function(bodyid)
+  neurons = suppressWarnings(nat::nlapply(bodyids,function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
@@ -88,7 +88,7 @@ neuprint_read_neurons <- function(bodyids,
                          resample = resample,
                          conn= conn,
                          ...),
-    OmitFailures = OmitFailures)))
+    OmitFailures = OmitFailures))
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(length(neurons)==0){
