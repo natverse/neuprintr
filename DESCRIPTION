@@ -38,7 +38,7 @@ Imports:
     bit64
 Remotes: 
     natverse/drvid,
-    natverse/nat@feature/elmr_features
+    natverse/nat
 Encoding: UTF-8
 Language: en-GB
 RoxygenNote: 7.0.2
