@@ -189,7 +189,7 @@
 <a class="sourceLine" id="cb2-22" data-line-number="22">### types, their size (voxels) and synapse numbers (pre=output, post=input).</a>
 <a class="sourceLine" id="cb2-23" data-line-number="23"></a>
 <a class="sourceLine" id="cb2-24" data-line-number="24">## Let's quickly read one neuron, and have a look at it!</a>
-<a class="sourceLine" id="cb2-25" data-line-number="25">opn =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron</a></span>(opn.info<span class="op">$</span>bodyid[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">opn =<span class="st"> </span><span class="kw">neuprint_read_neuron</span>(opn.info<span class="op">$</span>bodyid[<span class="dv">1</span>])</a>
 <a class="sourceLine" id="cb2-26" data-line-number="26">### visualise:</a>
 <a class="sourceLine" id="cb2-27" data-line-number="27"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.985064148902893</span>, <span class="fl">0.164582148194313</span>, </a>
 <a class="sourceLine" id="cb2-28" data-line-number="28"><span class="fl">0.05061025172472</span>, <span class="dv">0</span>, <span class="fl">0.00997132062911987</span>, <span class="fl">-0.347956597805023</span>, </a>
@@ -203,7 +203,7 @@
 <a class="sourceLine" id="cb2-36" data-line-number="36">### You can see the auto-segmentation goes a bit crazy where the soma is</a>
 <a class="sourceLine" id="cb2-37" data-line-number="37"></a>
 <a class="sourceLine" id="cb2-38" data-line-number="38">## Now that we have all of the bodyIds, we can read these neurons from neuPrint:</a>
-<a class="sourceLine" id="cb2-39" data-line-number="39">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron_simple</a></span>(opn.info<span class="op">$</span>bodyid)</a>
+<a class="sourceLine" id="cb2-39" data-line-number="39">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_skeletons</a></span>(opn.info<span class="op">$</span>bodyid)</a>
 <a class="sourceLine" id="cb2-40" data-line-number="40"><span class="kw">nopen3d</span>(<span class="dt">userMatrix =</span> <span class="kw"><a href="https://rdrr.io/r/base/structure.html">structure</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.98370349407196</span>, <span class="fl">-0.104569993913174</span>, </a>
 <a class="sourceLine" id="cb2-41" data-line-number="41">                                 <span class="fl">-0.146263062953949</span>, <span class="dv">0</span>, <span class="fl">0.147007316350937</span>, <span class="fl">-0.000597098842263222</span>, </a>
 <a class="sourceLine" id="cb2-42" data-line-number="42">                                 <span class="fl">0.989135324954987</span>, <span class="dv">0</span>, <span class="fl">-0.103521309792995</span>, <span class="fl">-0.994517505168915</span>, </a>
@@ -215,14 +215,14 @@
 <a class="sourceLine" id="cb2-48" data-line-number="48">## The simple version of read neurons just reads the skeleton for a neuron</a>
 <a class="sourceLine" id="cb2-49" data-line-number="49">### We might also want our neuron objects to contain meta data and synapse information</a>
 <a class="sourceLine" id="cb2-50" data-line-number="50">### We have an all-in-one function to do this. Here we go!</a>
-<a class="sourceLine" id="cb2-51" data-line-number="51">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_neuron_simple</a></span>(opn.info<span class="op">$</span>bodyid)</a>
+<a class="sourceLine" id="cb2-51" data-line-number="51">opns =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_read_neurons.html">neuprint_read_skeletons</a></span>(opn.info<span class="op">$</span>bodyid)</a>
 <a class="sourceLine" id="cb2-52" data-line-number="52"></a>
 <a class="sourceLine" id="cb2-53" data-line-number="53">##But why is this function so slow?</a>
 <a class="sourceLine" id="cb2-54" data-line-number="54">### Because it fetches fragmented neuron skeletons assigned to the same neuron</a>
 <a class="sourceLine" id="cb2-55" data-line-number="55">### Stitched them into one neuron (healing), grabs all the neuron's synapses</a>
 <a class="sourceLine" id="cb2-56" data-line-number="56">### and tries to work out where the soma is. If you want to move faster</a>
 <a class="sourceLine" id="cb2-57" data-line-number="57">### You can grab bits separately and quickly:</a>
-<a class="sourceLine" id="cb2-58" data-line-number="58">?neuprint_read_neuron_simple</a>
+<a class="sourceLine" id="cb2-58" data-line-number="58">?neuprint_read_skeletons</a>
 <a class="sourceLine" id="cb2-59" data-line-number="59">?neuprint_get_synapses</a>
 <a class="sourceLine" id="cb2-60" data-line-number="60">?neuprint_assign_connectors</a>
 <a class="sourceLine" id="cb2-61" data-line-number="61">?neuprint_locate_soma</a>

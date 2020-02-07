@@ -151,7 +151,6 @@
   <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -195,41 +194,49 @@ the package drvid</p></td>
     </tr>
     <tr>
       <th>meta</th>
-      <td><p>whether or not to fetch a meta data for the given bodyids, using <code>neuprint_get_meta</code></p></td>
+      <td><p>whether or not to fetch a meta data for the given bodyids, using
+<code>neuprint_get_meta</code></p></td>
     </tr>
     <tr>
       <th>nat</th>
-      <td><p>whether or not to read neurons are <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> objects (TRUE) or get SWC data frame (FALSE)</p></td>
+      <td><p>whether or not to read neurons are <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> objects
+(TRUE) or get SWC data frame (FALSE)</p></td>
     </tr>
     <tr>
       <th>drvid</th>
-      <td><p>whether or not to use <code><a href='https://rdrr.io/pkg/drvid/man/read.neuron.dvid.html'>drvid::read.neuron.dvid</a></code> rather than a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a neuron.
-This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.</p></td>
+      <td><p>whether or not to use <code><a href='https://rdrr.io/pkg/drvid/man/read.neuron.dvid.html'>drvid::read.neuron.dvid</a></code> rather than
+a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a
+neuron. This might be faster, and this might also enable access to
+skeletons on an underlying DVID database that have not yet been ported to
+neuprint.</p></td>
     </tr>
     <tr>
       <th>soma</th>
-      <td><p>whether or not to fetch a possible soma location for the given bodyids, using <code>neuprint_locate_soma</code></p></td>
-    </tr>
-    <tr>
-      <th>estimate.soma</th>
-      <td><p>if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses</p></td>
+      <td><p>whether or not to fetch a possible soma location for the given
+bodyids, using <code>neuprint_locate_soma</code></p></td>
     </tr>
     <tr>
       <th>heal</th>
-      <td><p>whether or not to heal a fragmented skeleton using a minimum spanning tree, via <code>heal_skeleton</code></p></td>
+      <td><p>whether or not to heal a fragmented skeleton using a minimum
+spanning tree, via <code><a href='https://rdrr.io/pkg/nat/man/stitch_neurons_mst.html'>nat::stitch_neurons_mst</a></code></p></td>
     </tr>
     <tr>
       <th>connectors</th>
-      <td><p>whether or not to add synapse data to the retrieved skeletons in the format used by the <code>rcatmaid</code> package, for easy use with <code>rcatmaid</code> or <code>catnat</code> functions.
-This can be done for synapse-less skeletons using <code>neuprint_assign_connectors</code></p></td>
+      <td><p>whether or not to add synapse data to the retrieved
+skeletons in the format used by the <code>rcatmaid</code> package, for easy use
+with <code>rcatmaid</code> or <code>catnat</code> functions. This can be done for
+synapse-less skeletons using <code>neuprint_assign_connectors</code></p></td>
     </tr>
     <tr>
       <th>all_segments</th>
-      <td><p>if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
+      <td><p>if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.</p></td>
     </tr>
     <tr>
       <th>resample</th>
-      <td><p>if a number, the neuron is resampled using <code><a href='https://rdrr.io/pkg/nat/man/resample.html'>nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no resampling occurs.</p></td>
+      <td><p>if a number, the neuron is resampled using
+<code><a href='https://rdrr.io/pkg/nat/man/resample.html'>nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no
+resampling occurs.</p></td>
     </tr>
     <tr>
       <th>scale</th>

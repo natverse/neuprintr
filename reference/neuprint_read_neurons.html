@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read bodies from the neuPrint server as skeletons — neuprint_read_neurons • neuprintr</title>
+<title>Read skeleleton and optional synapse information for neuPrint bodies — neuprint_read_neurons • neuprintr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,10 +42,14 @@
 
 
 
-<meta property="og:title" content="Read bodies from the neuPrint server as skeletons — neuprint_read_neurons" />
-<meta property="og:description" content="Get nat::neuronlist objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
-If neuprint_read_neuron_simple is used, just a simple skeleton is retrieved." />
+<meta property="og:title" content="Read skeleleton and optional synapse information for neuPrint bodies — neuprint_read_neurons" />
+<meta property="og:description" content="neuprint_read_neurons is a full service function that
+  tries to build as complete neuron objects as possible. Choose
+  whether or not to heal the fetched skeletons, assign a soma (if tagged in
+  neuprint) and assign synapses to approximate treenode positions, in the
+  style of neuron objects used by the rcatmaid package.
+If neuprint_read_skeletons is used, just a simple skeleton is
+  retrieved." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -133,15 +137,19 @@ If neuprint_read_neuron_simple is used, just a simple skeleton is retrieved." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read bodies from the neuPrint server as skeletons</h1>
+    <h1>Read skeleleton and optional synapse information for neuPrint bodies</h1>
     <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/neurons.R'><code>R/neurons.R</code></a></small>
     <div class="hidden name"><code>neuprint_read_neurons.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> objects or data frames in the format of SWC files, for neurons retrievable from a neuPrint server.
-Choose whether or not to heal the fetched skeletons, assign a soma (if tagged in neuprint) and assign synapses to approximate treenode positions, in the style of neuron objects used by the rcatmaid package.
-If <code>neuprint_read_neuron_simple</code> is used, just a simple skeleton is retrieved.</p>
+    <p><code>neuprint_read_neurons</code> is a full service function that
+  tries to build as complete <code>neuron</code> objects as possible. Choose
+  whether or not to heal the fetched skeletons, assign a soma (if tagged in
+  neuprint) and assign synapses to approximate treenode positions, in the
+  style of neuron objects used by the rcatmaid package.</p>
+<p>If <code>neuprint_read_skeletons</code> is used, just a simple skeleton is
+  retrieved.</p>
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_read_neurons</span>(
@@ -150,8 +158,8 @@ If <code>neuprint_read_neuron_simple</code> is used, just a simple skeleton is r
   <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>heal.threshold</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -161,28 +169,16 @@ If <code>neuprint_read_neuron_simple</code> is used, just a simple skeleton is r
   <span class='no'>...</span>
 )
 
-<span class='fu'>neuprint_read_neuron</span>(
+<span class='fu'>neuprint_read_skeletons</span>(
   <span class='no'>bodyid</span>,
-  <span class='kw'>nat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>drvid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>soma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>estimate.soma</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>connectors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>resample</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>heal.threshold</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='no'>...</span>
 )
 
-<span class='fu'>neuprint_read_neuron_simple</span>(
-  <span class='no'>bodyid</span>,
-  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>neuprint_read_neurons_simple</span>(<span class='no'>bodyid</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,37 +189,50 @@ If <code>neuprint_read_neuron_simple</code> is used, just a simple skeleton is r
     </tr>
     <tr>
       <th>meta</th>
-      <td><p>whether or not to fetch a meta data for the given bodyids, using <code>neuprint_get_meta</code></p></td>
+      <td><p>whether or not to fetch a meta data for the given bodyids, using
+<code>neuprint_get_meta</code></p></td>
     </tr>
     <tr>
       <th>nat</th>
-      <td><p>whether or not to read neurons are <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> objects (TRUE) or get SWC data frame (FALSE)</p></td>
+      <td><p>whether or not to read neurons are <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> objects
+(TRUE) or get SWC data frame (FALSE)</p></td>
     </tr>
     <tr>
       <th>drvid</th>
-      <td><p>whether or not to use <code><a href='https://rdrr.io/pkg/drvid/man/read.neuron.dvid.html'>drvid::read.neuron.dvid</a></code> rather than a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a neuron.
-This might be faster, and this might also enable access to skeletons on an underlying DVID database that have not yet been ported to neuprint.</p></td>
+      <td><p>whether or not to use <code><a href='https://rdrr.io/pkg/drvid/man/read.neuron.dvid.html'>drvid::read.neuron.dvid</a></code> rather than
+a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a
+neuron. This might be faster, and this might also enable access to
+skeletons on an underlying DVID database that have not yet been ported to
+neuprint.</p></td>
     </tr>
     <tr>
       <th>soma</th>
-      <td><p>whether or not to fetch a possible soma location for the given bodyids, using <code>neuprint_locate_soma</code></p></td>
-    </tr>
-    <tr>
-      <th>estimate.soma</th>
-      <td><p>if soma = TRUE, and estimate.soma = TRUE, then when a soma has not been tagged in the dataset, one is estimated by finding the leaf node with the largest mean geodesic distance from all synapses</p></td>
+      <td><p>whether or not to fetch a possible soma location for the given
+bodyids, using <code>neuprint_locate_soma</code></p></td>
     </tr>
     <tr>
       <th>heal</th>
-      <td><p>whether or not to heal a fragmented skeleton using a minimum spanning tree, via <code>heal_skeleton</code></p></td>
+      <td><p>whether or not to heal a fragmented skeleton using a minimum
+spanning tree, via <code><a href='https://rdrr.io/pkg/nat/man/stitch_neurons_mst.html'>nat::stitch_neurons_mst</a></code></p></td>
+    </tr>
+    <tr>
+      <th>heal.threshold</th>
+      <td><p>distance in raw units beyond which isolated fragments
+will not be merged onto the main skeleton. The default of <code>1000</code>
+implies 8000 nm for the hemibrain dataset. Use <code>Inf</code> to merge all
+fragments.</p></td>
     </tr>
     <tr>
       <th>connectors</th>
-      <td><p>whether or not to add synapse data to the retrieved skeletons in the format used by the <code>rcatmaid</code> package, for easy use with <code>rcatmaid</code> or <code>catnat</code> functions.
-This can be done for synapse-less skeletons using <code>neuprint_assign_connectors</code></p></td>
+      <td><p>whether or not to add synapse data to the retrieved
+skeletons in the format used by the <code>rcatmaid</code> package, for easy use
+with <code>rcatmaid</code> or <code>catnat</code> functions. This can be done for
+synapse-less skeletons using <code>neuprint_assign_connectors</code></p></td>
     </tr>
     <tr>
       <th>all_segments</th>
-      <td><p>if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
+      <td><p>if TRUE, all bodies are considered, if FALSE, only
+'Neurons', i.e. bodies with a status roughly traced status.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
@@ -233,7 +242,9 @@ current connection, is used. See <code><a href='neuprint_login.html'>neuprint_lo
     </tr>
     <tr>
       <th>resample</th>
-      <td><p>if a number, the neuron is resampled using <code><a href='https://rdrr.io/pkg/nat/man/resample.html'>nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no resampling occurs.</p></td>
+      <td><p>if a number, the neuron is resampled using
+<code><a href='https://rdrr.io/pkg/nat/man/resample.html'>nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no
+resampling occurs.</p></td>
     </tr>
     <tr>
       <th>conn</th>
@@ -261,15 +272,25 @@ details.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame in SWC format, or a <code><a href='https://rdrr.io/pkg/nat/man/neuron.html'>nat::neuron</a></code>/<code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code> object as dictated used by the <code>nat</code> and <code>rcatmaid</code> packages</p>
+    <p>a data frame in SWC format, or a
+  <code><a href='https://rdrr.io/pkg/nat/man/neuronlist.html'>nat::neuronlist</a></code>/<code><a href='https://rdrr.io/pkg/nat/man/neuron.html'>nat::neuron</a></code> object as used by
+  the <code>nat</code> and <code>catmaid</code> packages</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>, <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='neuprint_assign_connectors.html'>neuprint_assign_connectors</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
+  <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>,
+  <code><a href='neuprint_assign_connectors.html'>neuprint_assign_connectors</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>neurons</span> <span class='kw'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"818983130"</span>, <span class='st'>"1796818119"</span>))
-<span class='kw pkg'>nat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nat/man/plot3d.html'>plot3d</a></span>(<span class='no'>neurons</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"purple"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'plot3d' is not an exported object from 'namespace:nat'</span></div><div class='input'><span class='co'># }</span>
+<span class='no'>neurons</span> <span class='kw'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))
+<span class='kw pkg'>nat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nat/man/plot3d.html'>plot3d</a></span>(<span class='no'>neurons</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"purple"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'plot3d' is not an exported object from 'namespace:nat'</span></div><div class='input'>
+<span class='co'>## In this example, in hemibrain:v1.0, an erroneously connected bit</span>
+<span class='co'>## of neuron skeleton is removed.</span>
+<span class='no'>n1</span> <span class='kw'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fl'>5812980863</span>)
+<span class='co'>## compare with</span>
+<span class='no'>n2</span> <span class='kw'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fl'>5812980863</span>, <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='no'>dl1.info</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*mPN.*DL1.*'</span>)
 <span class='no'>dl1.info</span></div><div class='output co'>#&gt;       bodyid              name     type status    statusLabel     voxels  pre
@@ -277,8 +298,7 @@ details.</p></td>
 #&gt; 2 1700937093 mPN1_DL1(AVM01)_R DL1 adPN Traced Roughly traced 2435730455 1374
 #&gt;   post cropped  soma cellBodyFiber
 #&gt; 1 4428   FALSE FALSE           A11
-#&gt; 2 4313   FALSE  TRUE           A11</div><div class='input'><span class='no'>dl1s</span><span class='kw'>=</span><span class='fu'>neuprint_read_neuron_simple</span>(<span class='no'>dl1.info</span>$<span class='no'>bodyid</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dl1s</span>, <span class='kw'>WithNode</span><span class='kw'>=</span><span class='no'>F</span>)</div><div class='img'><img src='neuprint_read_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+#&gt; 2 4313   FALSE  TRUE           A11</div><div class='input'><span class='no'>dl1s</span><span class='kw'>=</span><span class='fu'>neuprint_read_skeletons</span>(<span class='no'>dl1.info</span>$<span class='no'>bodyid</span>)</div><div class='output co'>#&gt; <span class='message'>The neuron is already complete, so not stiching it further</span></div><div class='output co'>#&gt; <span class='message'>The neuron is already complete, so not stiching it further</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dl1s</span>, <span class='kw'>WithNode</span><span class='kw'>=</span><span class='no'>F</span>)</div><div class='img'><img src='neuprint_read_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -204,9 +204,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="neuprint_read_neurons.html">neuprint_read_neurons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_neuron()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_neuron_simple()</a></code> </p>
+          <p><code><a href="neuprint_read_neurons.html">neuprint_read_neurons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_skeletons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_neurons_simple()</a></code> </p>
         </td>
-        <td><p>Read bodies from the neuPrint server as skeletons</p></td>
+        <td><p>Read skeleleton and optional synapse information for neuPrint bodies</p></td>
       </tr><tr>
         
         <td>
@@ -312,15 +312,149 @@
       <tr>
         
         <td>
-          <p><code><a href="heal_skeleton.html">heal_skeleton()</a></code> </p>
+          <p><code><a href="neuprint_ROI_connectivity.html">neuprint_ROI_connectivity()</a></code> </p>
         </td>
-        <td><p>Heal a fragmented skeleton for a neuron</p></td>
+        <td><p>Get the connectivity between ROIs in a neuPrint dataset</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_ROI_hierarchy.html">neuprint_ROI_hierarchy()</a></code> </p>
+        </td>
+        <td><p>Get the region of interest (ROI) hierarchy in a dataset</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_ROI_mesh.html">neuprint_ROI_mesh()</a></code> </p>
+        </td>
+        <td><p>Download a region of interest as a mesh</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_ROIs.html">neuprint_ROIs()</a></code> </p>
+        </td>
+        <td><p>Get a vector of all the ROIs in a specified dataset</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="neuprint_assign_connectors.html">neuprint_assign_connectors()</a></code> <code><a href="neuprint_assign_connectors.html">neuprint_locate_soma()</a></code> </p>
         </td>
         <td><p>Assign synapses to a neuronal tree</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_common_connectivity.html">neuprint_common_connectivity()</a></code> </p>
+        </td>
+        <td><p>Get the common synaptic partners for a set of neurons</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_connection_table.html">neuprint_connection_table()</a></code> </p>
+        </td>
+        <td><p>Get the upstream and downstream connectivity of a neuron</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_dump.html">neuprint_dump()</a></code> </p>
+        </td>
+        <td><p>Download data from neuprint for specified bodyids / a specified ROI</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> </p>
+        </td>
+        <td><p>Use a cypher to make a custom query to the neuPrint server specifying
+  the information you want to obtain</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_find_neurons.html">neuprint_find_neurons()</a></code> <code><a href="neuprint_find_neurons.html">neuprint_bodies_in_ROI()</a></code> </p>
+        </td>
+        <td><p>Find bodies within a given ROI</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_adjacency_matrix.html">neuprint_get_adjacency_matrix()</a></code> </p>
+        </td>
+        <td><p>Get a matrix of connectivities between bodies</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_meta.html">neuprint_get_meta()</a></code> </p>
+        </td>
+        <td><p>Get key metadata for body (including name, type, status, size)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_neuron_names.html">neuprint_get_neuron_names()</a></code> </p>
+        </td>
+        <td><p>Get the name of a neuron</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_paths.html">neuprint_get_paths()</a></code> </p>
+        </td>
+        <td><p>Get a list of paths of length n between 2 neurons</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_roiInfo.html">neuprint_get_roiInfo()</a></code> </p>
+        </td>
+        <td><p>Get roiInfo associated with a body</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_shortest_paths.html">neuprint_get_shortest_paths()</a></code> </p>
+        </td>
+        <td><p>Get a list of the shortest paths between two neurons</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_synapses.html">neuprint_get_synapses()</a></code> </p>
+        </td>
+        <td><p>Get the locations of pre- and post synapses associated with a body</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_info.html">neuprint_datasets()</a></code> <code><a href="neuprint_info.html">neuprint_database()</a></code> <code><a href="neuprint_info.html">neuprint_available()</a></code> <code><a href="neuprint_info.html">neuprint_version()</a></code> </p>
+        </td>
+        <td><p>Find out what some information about your neuPrint server</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_list2df.html">neuprint_list2df()</a></code> </p>
+        </td>
+        <td><p>Parse neuprint return list to a data frame</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_login.html">neuprint_connection()</a></code> <code><a href="neuprint_login.html">neuprint_login()</a></code> </p>
+        </td>
+        <td><p>Connect to/authenticate with a neuPrint server and its Neo4j database,
+  returning a neuPrint connection object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_read_neurons.html">neuprint_read_neurons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_skeletons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_neurons_simple()</a></code> </p>
+        </td>
+        <td><p>Read skeleleton and optional synapse information for neuPrint bodies</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_search.html">neuprint_search()</a></code> </p>
+        </td>
+        <td><p>Search for body IDs based on a given name</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_simple_connectivity.html">neuprint_simple_connectivity()</a></code> </p>
+        </td>
+        <td><p>Get a list of connected partners for a neuron</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_skeleton_connectivity_matrix.html">neuprint_skeleton_connectivity_matrix()</a></code> </p>
+        </td>
+        <td><p>Get a matrix for connectivity between neuron/neuronlist objects</p></td>
       </tr>
     </tbody><tbody>
       <tr>
