@@ -58,9 +58,7 @@
 #'   \code{\link{neuprint_assign_connectors}}
 #' @importFrom drvid read.neuron.dvid
 #' @export
-#' @rdname neuprint_read_neurons
-#' @importFrom nat nlapply progress_natprogress
-#' @export progress_natprogress
+#' @importFrom nat nlapply
 neuprint_read_neurons <- function(bodyids,
                                   meta = TRUE,
                                   nat = TRUE,

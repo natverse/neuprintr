@@ -21,3 +21,8 @@ break_into_subtrees <- function(x){
 has_soma<-function(x){
   !is.null(x$tags$soma)
 }
+
+
+#' @importFrom nat progress_natprogress
+#' @export
+nat::progress_natprogress
