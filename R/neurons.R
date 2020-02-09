@@ -59,7 +59,8 @@
 #' @importFrom drvid read.neuron.dvid
 #' @export
 #' @rdname neuprint_read_neurons
-#' @importFrom nat nlapply
+#' @importFrom nat nlapply progress_natprogress
+#' @export progress_natprogress
 neuprint_read_neurons <- function(bodyids,
                                   meta = TRUE,
                                   nat = TRUE,
