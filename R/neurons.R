@@ -135,23 +135,22 @@ neuprint_read_neuron <- function(bodyid,
   }
   if(connectors){
     synapses = neuprint_get_synapses(bodyids = bodyid, dataset = dataset, roi = NULL, conn = conn, ...)
+  }else{
+    synapses = NULL
   }
   if(soma){
     somapoint = tryCatch(nat::xyzmatrix(neuprint_locate_soma(bodyids = bodyid, all_segments = all_segments, dataset = dataset, conn = conn, ...)),
                          error = function(e) NA)
     if(sum(is.na(somapoint))==0){
       near.soma = nabor::knn(query=somapoint,data=nat::xyzmatrix(n$d),k=1)$nn.idx
-    }else{
-      leaves = nat::endpoints(n)
-      far.leaves = nabor::knn(query=nat::xyzmatrix(n$d[leaves,]),data=nat::xyzmatrix(n$d[leaves,]),k=100)$nn.dist
-      near.soma = leaves[which.max(mean(far.leaves[,100]))]
+      n = nat::as.neuron(nat::as.ngraph(n$d), origin = c(near.soma))
+      n$d$Label[near.soma] = 1
+      n$soma = "tagged"
+      n$tags$soma = near.soma
+      d = n$d
     }
-    near.soma = n$d[c(near.soma),"PointNo"]
-    n = nat::as.neuron(nat::as.ngraph(n$d), origin = c(near.soma))
-    n$d$Label[near.soma] = 1
-    d = n$d
   }
-  if(connectors){
+  if(!is.null(synapses)&nrow(synapses)){
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)
     synapses$treenode_id = n$d[near$nn.idx,"PointNo"]
     synapses = synapses[near$nn.dists<1000,] # remove erroneously associated synapses
@@ -222,7 +221,7 @@ neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE,
   # convert radius to diameter
   df$W=df$W*2
   n=nat::as.neuron(df)
-  if(heal) nat::stitch_neurons_mst(x = n, threshold = heal.threshold) else n
+  if(heal) suppressMessages(nat::stitch_neurons_mst(x = n, threshold = heal.threshold)) else n
 }
 
 #' @rdname neuprint_read_neurons
