@@ -52,6 +52,11 @@ neuprint_find_neurons <- function(input_ROIs,
 
 #' @export
 #' @rdname neuprint_find_neurons
+#' @examples
+#' \donttest{
+#' lhr=neuprint_bodies_in_ROI('LH(R)')
+#' head(lhr)
+#' }
 neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   all_segments = ifelse(all_segments,"Segment","Neuron")
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
