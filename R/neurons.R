@@ -1,4 +1,4 @@
-#' @title Read skeleleton and optional synapse information for neuPrint bodies
+#' @title Read skeleton and optional synapse information for neuPrint bodies
 #'
 #' @description \code{neuprint_read_neurons} is a full service function that
 #'   tries to build as complete \code{\link{neuron}} objects as possible. Choose

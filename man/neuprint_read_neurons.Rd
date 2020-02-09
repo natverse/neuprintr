@@ -4,7 +4,7 @@
 \alias{neuprint_read_neurons}
 \alias{neuprint_read_skeletons}
 \alias{neuprint_read_neurons_simple}
-\title{Read skeleleton and optional synapse information for neuPrint bodies}
+\title{Read skeleton and optional synapse information for neuPrint bodies}
 \usage{
 neuprint_read_neurons(
   bodyids,
