@@ -52,18 +52,24 @@ neuprint_find_neurons <- function(input_ROIs,
 
 #' @export
 #' @rdname neuprint_find_neurons
+#' @examples
+#' \donttest{
+#' lhr=neuprint_bodies_in_ROI('LH(R)')
+#' head(lhr)
+#' }
 neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   all_segments = ifelse(all_segments,"Segment","Neuron")
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-  cypher = sprintf("MATCH (n :`%s`) WHERE n.%s WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.pre, n.post, roiInfo.%s.pre, roiInfo.%s.post",
+  cypher = sprintf("MATCH (n :`%s`) WHERE n.`%s` WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.pre AS pre, n.post as post, roiInfo.`%s`.pre AS roipre, roiInfo.`%s`.post AS roipost",
                 all_segments,
                 roi,
                 roi,
                 roi)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
-  d = data.frame(do.call(rbind,lapply(nc$data,unlist)))
-  colnames(d) = unlist(nc$columns)
-  d
+  df=neuprint_list2df(nc, return_empty_df = T)
+  df$roipre[is.na(df$roipre)]=0
+  df$roipost[is.na(df$roipost)]=0
+  df
 }
 
 #' @title Get the connectivity between ROIs in a neuPrint dataset
