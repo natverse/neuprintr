@@ -120,7 +120,8 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' Other common options include type, status, cellBodyFiber etc.
 #' @param fixed if FALSE (the default), \code{search} is interpreted as a regular expression
 #' ("Advanced input" in neuprint explorer). If TRUE, the string \code{search} is interpreted as
-#' a simple character string (the default search behavior in neuprint explorer).
+#' a simple character string (the default search behavior in neuprint explorer) to be matched
+#' (partial matches are fine)
 #' @param meta if TRUE, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
