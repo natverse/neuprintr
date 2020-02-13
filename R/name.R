@@ -132,15 +132,16 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' neuprint_search("AVF1",field = "cellBodyFiber")
 #' }
 #' @seealso \code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
-neuprint_search <- function(search, field = "name", meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
+neuprint_search <- function(search, field = "name", fixed=FALSE, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
   if(field=="name"){
     conn = neuprint_login(conn)
     field = neuprint_name_field(conn)
   }
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("MATCH (n:`%s`) WHERE n.%s=~'%s' RETURN n.bodyId",
+  cypher = sprintf("MATCH (n:`%s`) WHERE n.%s %s '%s' RETURN n.bodyId",
                    all_segments.cypher,
                    field,
+                   ifelse(fixed, "CONTAINS", "=~"),
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)
