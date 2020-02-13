@@ -118,6 +118,9 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' @param field the meta data field in which you want a match for your search query.
 #' Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
 #' Other common options include type, status, cellBodyFiber etc.
+#' @param fixed if FALSE (the default), \code{search} is interpreted as a regular expression
+#' ("Advanced input" in neuprint explorer). If TRUE, the string \code{search} is interpreted as
+#' a simple character string (the default search behavior in neuprint explorer).
 #' @param meta if TRUE, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
@@ -130,6 +133,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' neuprint_search("MBON.*")
 #' neuprint_search("MBON.*",field = "type")
 #' neuprint_search("AVF1",field = "cellBodyFiber")
+#' neuprint_search("PEN_a(PEN1)",field="type",fixed=TRUE)
 #' }
 #' @seealso \code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
 neuprint_search <- function(search, field = "name", fixed=FALSE, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
