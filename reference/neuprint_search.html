@@ -143,6 +143,7 @@
     <pre class="usage"><span class='fu'>neuprint_search</span>(
   <span class='no'>search</span>,
   <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"name"</span>,
+  <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -162,6 +163,13 @@
       <td><p>the meta data field in which you want a match for your search query.
 Defaults to name (or instance, as handled by <code>neuprintr:::neuprint_name_field</code>).
 Other common options include type, status, cellBodyFiber etc.</p></td>
+    </tr>
+    <tr>
+      <th>fixed</th>
+      <td><p>if FALSE (the default), <code>search</code> is interpreted as a regular expression
+("Advanced input" in neuprint explorer). If TRUE, the string <code>search</code> is interpreted as
+a simple character string (the default search behavior in neuprint explorer) to be matched
+(partial matches are fine)</p></td>
     </tr>
     <tr>
       <th>meta</th>
@@ -216,6 +224,7 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 <span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>)
 <span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>,<span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>)
 <span class='fu'>neuprint_search</span>(<span class='st'>"AVF1"</span>,<span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"cellBodyFiber"</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"PEN_a(PEN1)"</span>,<span class='kw'>field</span><span class='kw'>=</span><span class='st'>"type"</span>,<span class='kw'>fixed</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
