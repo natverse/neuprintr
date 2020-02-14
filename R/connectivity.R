@@ -472,6 +472,7 @@ extract_connectivity_df <- function(rois, json){
   }
   a <- unlist(jsonlite::fromJSON(json))
   values <-  data.frame(row.names = 1)
+  rois <- unique(rois) #this takes care if both the input and output ROIs are same..
   for(roi in rois){
     d <-  data.frame(0,0)
     colnames(d) <- paste0(roi,c(".pre",".post"))
