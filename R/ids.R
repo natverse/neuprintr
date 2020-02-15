@@ -1,3 +1,14 @@
+# this should return TRUE if we have something that looks bodyid ish
+looks_like_bodyid <- function(x) {
+  all(is.finite(bit64::as.integer64(x)))
+}
+
+# this is more stringent
+valid_id <- function(x) {
+  !isFALSE(tryCatch(id2bit64(x), error=function(e) FALSE))
+}
+
+
 # private function to convert 1 or more 64 bit ids (e.g. body ids) to JSON
 id2json <- function(x, uniqueids=FALSE, ...) {
   bx=id2bit64(x)

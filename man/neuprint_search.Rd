@@ -2,6 +2,7 @@
 % Please edit documentation in R/name.R
 \name{neuprint_search}
 \alias{neuprint_search}
+\alias{neuprint_ids}
 \title{Search for body IDs based on a given name}
 \usage{
 neuprint_search(
@@ -15,6 +16,8 @@ neuprint_search(
   conn = NULL,
   ...
 )
+
+neuprint_ids(x, fixed = TRUE, exact = NULL, conn = NULL, dataset = NULL, ...)
 }
 \arguments{
 \item{search}{Search query, by default a regular expression that must match
@@ -50,22 +53,43 @@ neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
 
-\item{...}{methods passed to \code{neuprint_login}}
+\item{...}{Additional arguments passed to \code{\link{neuprint_search}}}
+
+\item{x}{A set of bodyids or a query}
 }
 \value{
 a vector of body ids, or a data frame with their meta information
+
+For \code{neuprint_ids}, a character vector of bodyids (of length 0
+  when there are none).
 }
 \description{
-Search for bodyids corresponding to a given name, Regex
-  sensitive
+\code{neuprint_search} searches for bodyids corresponding to a
+  given name. By default performs regex sensitive matches against neuron
+  \bold{name}s and returns a \code{data.frame}.
+
+\code{neuprint_ids} provides for flexible search / specification
+  of neuprint body ids. Use it at the start of any function that accepts body
+  ids. Queries are by default partial, fixed (i.e. non-regex against type).
+  Returns a character vector of bodyids.
 }
 \examples{
 \donttest{
 neuprint_search(".*DA2.*")
 neuprint_search(".*DA2.*", meta=FALSE)
+
+# Search the type field
+neuprint_search("MBON.*", field = "type", meta=FALSE)
+neuprint_search("MBON[0-9]+", field = "type", meta=FALSE)
+
+# compact specification of field
+neuprint_search("type:MBON[0-9]+", meta=FALSE)
+
+# starts with MBON
+neuprint_search("type:MBON.*", meta=FALSE)
 }
+
 \dontrun{
-neuprint_search("MBON.*")
 neuprint_search("MBON.*", field = "type")
 
 # fixed=TRUE can be useful when you don't want to worry about special
@@ -73,13 +97,34 @@ neuprint_search("MBON.*", field = "type")
 neuprint_search("PEN_a(PEN1)", field="type", fixed=TRUE)
 # by default fixed=TRUE returns partial matches
 neuprint_search("MBON16", field = "type", fixed=TRUE)
-# here the type must be exactly
+# here the type must exactly match the query i.e. complete match
 neuprint_search("MBON16", field = "type", fixed=TRUE, exact = TRUE)
 
 neuprint_search("AVF1", field = "cellBodyFiber")
+neuprint_search("cellBodyFiber:AVF1")
+}
+\donttest{
+# partial match against type
+neuprint_ids("MBON")
+# exact match i.e. whole type
+neuprint_ids("MBON01", exact=TRUE)
+# search against name field rather than type
+neuprint_ids("name:MBON01")
+
+# initial / indicates to use regex search (which must be exact)
+neuprint_ids("/MBON01")
+# the same
+neuprint_ids("MBON01", fixed=FALSE)
+# more interesting regex search
+neuprint_ids("/MBON0[1-4]")
+
+# partial regex search against the name field (note leading/trailing .*)
+neuprint_ids("/name:.*MBON0[1-4].*")
 }
 }
 \seealso{
 \code{\link{neuprint_get_meta}},
   \code{\link{neuprint_get_neuron_names}}
+
+\code{\link[neuprintr]{neuprint_search}}
 }

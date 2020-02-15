@@ -37,7 +37,7 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
 }
 
 neuprint_error_check <- function(req) {
-  if(isTRUE(httr::status_code(req)==400L)) {
+  if(isTRUE(httr::status_code(req) %in% c(400L, 500L))) {
     parsed=neuprint_parse_json(req)
     stop("neuPrint error: ", parsed$error, call. = F)
   }
