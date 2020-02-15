@@ -112,8 +112,9 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 
 #' @title Search for body IDs based on a given name
 #'
-#' @description Search for bodyids corresponding to a given name, Regex
-#'   sensitive
+#' @description \code{neuprint_search} searches for bodyids corresponding to a
+#'   given name. By default performs regex sensitive matches against neuron
+#'   \bold{name}s and returns a \code{data.frame}.
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param search Search query, by default a regular expression that must match
 #'   the whole of the neuPrint instance name field. See examples and the
@@ -138,9 +139,19 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' \donttest{
 #' neuprint_search(".*DA2.*")
 #' neuprint_search(".*DA2.*", meta=FALSE)
+#'
+#' # Search the type field
+#' neuprint_search("MBON.*", field = "type", meta=FALSE)
+#' neuprint_search("MBON[0-9]+", field = "type", meta=FALSE)
+#'
+#' # compact specification of field
+#' neuprint_search("type:MBON[0-9]+", meta=FALSE)
+#'
+#' # starts with MBON
+#' neuprint_search("type:MBON.*", meta=FALSE)
 #' }
+#'
 #' \dontrun{
-#' neuprint_search("MBON.*")
 #' neuprint_search("MBON.*", field = "type")
 #'
 #' # fixed=TRUE can be useful when you don't want to worry about special
@@ -148,16 +159,27 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #' neuprint_search("PEN_a(PEN1)", field="type", fixed=TRUE)
 #' # by default fixed=TRUE returns partial matches
 #' neuprint_search("MBON16", field = "type", fixed=TRUE)
-#' # here the type must be exactly
+#' # here the type must exactly match the query i.e. complete match
 #' neuprint_search("MBON16", field = "type", fixed=TRUE, exact = TRUE)
 #'
 #' neuprint_search("AVF1", field = "cellBodyFiber")
+#' neuprint_search("cellBodyFiber:AVF1")
 #' }
 #' @seealso \code{\link{neuprint_get_meta}},
 #'   \code{\link{neuprint_get_neuron_names}}
 neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
                             meta = TRUE, all_segments = FALSE, dataset = NULL,
                             conn = NULL, ...){
+  if(isTRUE(substr(search, 1, 1)=='/')) {
+    fixed=FALSE
+    search <- substr(search, 2, nchar(search))
+  }
+  regexres <- stringr::str_match(search, "^([A-z]+):(.+)$")
+  if(isFALSE(is.na(regexres[,2]))){
+    field <- regexres[,2]
+    search <- regexres[,3]
+  }
+
   if(field=="name"){
     conn = neuprint_login(conn)
     field = neuprint_name_field(conn)
