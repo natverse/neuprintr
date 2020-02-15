@@ -33,4 +33,11 @@ test_that("id conversion works", {
 
   toobigid="9223372036854775807"
   expect_error(id2bit64(toobigid))
+
+  expect_equal(id2char(NULL), character(0))
+  expect_equal(id2char(character(0)), character(0))
+  expect_equal(id2char(logical(0)), character(0))
+  expect_equal(id2char(numeric(0)), character(0))
+  expect_equal(id2char(factor()), character(0))
+  expect_error(id2char(""))
 })
