@@ -17,7 +17,15 @@ neuprint_search(
   ...
 )
 
-neuprint_ids(x, fixed = TRUE, exact = NULL, conn = NULL, dataset = NULL, ...)
+neuprint_ids(
+  x,
+  fixed = TRUE,
+  exact = NULL,
+  conn = NULL,
+  dataset = NULL,
+  mustWork = TRUE,
+  ...
+)
 }
 \arguments{
 \item{search}{Search query, by default a regular expression that must match
@@ -56,6 +64,9 @@ used. See \code{\link{neuprint_login}} for details.}
 \item{...}{Additional arguments passed to \code{\link{neuprint_search}}}
 
 \item{x}{A set of bodyids or a query}
+
+\item{mustWork}{Whether to insist that at least one valid id is returned
+(default \code{TRUE})}
 }
 \value{
 a vector of body ids, or a data frame with their meta information

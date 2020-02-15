@@ -45,6 +45,9 @@ test_that("id conversion works", {
   expect_equal(neuprint_ids(1:4), as.character(1:4))
   expect_equal(neuprint_ids(factor(1:4)), as.character(1:4))
   expect_error(neuprint_ids(toobigid), 'cope')
+  expect_error(neuprint_ids(-1))
+  expect_error(neuprint_ids(numeric()))
+  expect_equal(neuprint_ids(numeric(), mustWork = FALSE), character())
 })
 
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))

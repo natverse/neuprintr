@@ -210,6 +210,8 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #'   Returns a character vector of bodyids.
 #'
 #' @param x A set of bodyids or a query
+#' @param mustWork Whether to insist that at least one valid id is returned
+#'   (default \code{TRUE})
 #' @param ... Additional arguments passed to \code{\link{neuprint_search}}
 #' @inheritParams neuprint_search
 #'
@@ -238,11 +240,15 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' neuprint_ids("/name:.*MBON0[1-4].*")
 #' }
 #' @rdname neuprint_search
-neuprint_ids <- function(x, fixed=TRUE, exact=NULL, conn=NULL, dataset=NULL, ...) {
+neuprint_ids <- function(x, fixed=TRUE, exact=NULL, conn=NULL, dataset=NULL,
+                         mustWork=TRUE, ...) {
   if(is.character(x) && length(x)==1 && !looks_like_bodyid(x)) {
     x <- neuprint_search(x, meta = F, fixed = fixed, exact=exact, field = 'type',
                          conn=conn, dataset=dataset, ...)
   }
-  id2char(x)
+  x <- id2char(x)
+  if(isTRUE(mustWork) && isFALSE(length(na.omit(x))>0))
+    stop("No valid ids provided!")
+  x
 }
 
