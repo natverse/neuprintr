@@ -206,7 +206,7 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 
 #' @description \code{neuprint_ids} provides for flexible search / specification
 #'   of neuprint body ids. Use it at the start of any function that accepts body
-#'   ids. Queries are by default partial, fixed (i.e. non-regex against type).
+#'   ids. Queries are by default exact, fixed (i.e. non-regex against type).
 #'   Returns a character vector of bodyids.
 #'
 #' @param x A set of bodyids or a query
@@ -220,10 +220,10 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #'
 #' @examples
 #' \donttest{
-#' # partial match against type
-#' neuprint_ids("MBON")
-#' # exact match i.e. whole type
-#' neuprint_ids("MBON01", exact=TRUE)
+#' # exact match against whole type
+#' neuprint_ids("MBON01")
+#' # partial match
+#' neuprint_ids("MBON", exact=FALSE)
 #' # search against name field rather than type
 #' neuprint_ids("name:MBON01")
 #'
@@ -238,8 +238,7 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' neuprint_ids("/name:.*MBON0[1-4].*")
 #' }
 #' @rdname neuprint_search
-neuprint_ids <- function(x, fixed=TRUE, exact=NULL,
-                         conn=NULL, dataset=NULL, ...) {
+neuprint_ids <- function(x, fixed=TRUE, exact=NULL, conn=NULL, dataset=NULL, ...) {
   if(is.character(x) && length(x)==1 && !looks_like_bodyid(x)) {
     x <- neuprint_search(x, meta = F, fixed = fixed, exact=exact, field = 'type',
                          conn=conn, dataset=dataset, ...)

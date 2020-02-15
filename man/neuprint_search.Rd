@@ -70,7 +70,7 @@ For \code{neuprint_ids}, a character vector of bodyids (of length 0
 
 \code{neuprint_ids} provides for flexible search / specification
   of neuprint body ids. Use it at the start of any function that accepts body
-  ids. Queries are by default partial, fixed (i.e. non-regex against type).
+  ids. Queries are by default exact, fixed (i.e. non-regex against type).
   Returns a character vector of bodyids.
 }
 \examples{
@@ -104,10 +104,10 @@ neuprint_search("AVF1", field = "cellBodyFiber")
 neuprint_search("cellBodyFiber:AVF1")
 }
 \donttest{
-# partial match against type
-neuprint_ids("MBON")
-# exact match i.e. whole type
-neuprint_ids("MBON01", exact=TRUE)
+# exact match against whole type
+neuprint_ids("MBON01")
+# partial match
+neuprint_ids("MBON", exact=FALSE)
 # search against name field rather than type
 neuprint_ids("name:MBON01")
 

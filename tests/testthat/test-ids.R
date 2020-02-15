@@ -54,5 +54,4 @@ test_that("neuprint_ids works", {
   expect_true(all(neuprint_ids("MBON01", exact=TRUE) %in% mbons))
   expect_equal(neuprint_ids("/MBON[0-9]+"),
                as.character(neuprint_search("type:MBON[0-9]+", meta=FALSE)))
-
 })
