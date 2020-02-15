@@ -12,6 +12,7 @@
 #' @rdname neuprint_assign_connectors
 neuprint_locate_soma <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
+  bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset, unique=FALSE)
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyId, n.somaLocation AS soma",
                    id2json(bodyids),
                    all_segments.json)

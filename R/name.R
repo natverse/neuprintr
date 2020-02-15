@@ -10,7 +10,7 @@
 #' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  bodyids <- id2char(bodyids)
+  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn, unique = FALSE)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
     unames=neuprint_get_neuron_names(bodyids=ubodyids, dataset=dataset,
@@ -212,6 +212,8 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' @param x A set of bodyids or a query
 #' @param mustWork Whether to insist that at least one valid id is returned
 #'   (default \code{TRUE})
+#' @param unique Whether to ensure that only unique ids are returned (default
+#'   \code{TRUE})
 #' @param ... Additional arguments passed to \code{\link{neuprint_search}}
 #' @inheritParams neuprint_search
 #'
@@ -241,7 +243,7 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' }
 #' @rdname neuprint_search
 neuprint_ids <- function(x, fixed=TRUE, exact=NULL, conn=NULL, dataset=NULL,
-                         mustWork=TRUE, ...) {
+                         mustWork=TRUE, unique=TRUE, ...) {
   if(is.character(x) && length(x)==1 && !looks_like_bodyid(x)) {
     x <- neuprint_search(x, meta = F, fixed = fixed, exact=exact, field = 'type',
                          conn=conn, dataset=dataset, ...)
@@ -249,6 +251,6 @@ neuprint_ids <- function(x, fixed=TRUE, exact=NULL, conn=NULL, dataset=NULL,
   x <- id2char(x)
   if(isTRUE(mustWork) && isFALSE(length(na.omit(x))>0))
     stop("No valid ids provided!")
-  x
+  if(isTRUE(unique)) unique(x) else x
 }
 

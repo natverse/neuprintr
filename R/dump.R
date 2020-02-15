@@ -23,7 +23,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
                           dataset = NULL, conn=NULL, OmitFailures = TRUE, ...){
   message("making data dump in directory ", dir)
   conn = neuprint_login(conn)
-  if(is.null(roi)&is.null(bodyids)){
+  if(is.null(roi) && is.null(bodyids)){
     stop("You must provide either a vector of bodyids or an ROI for your dataset, in order to select neurons to dump at location ", dir,
          " If both are provided, extra bodyids from within the ROI will be added to those in argument bodyids")
   }
@@ -32,7 +32,8 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
     inroi = neuprint_bodies_in_ROI( roi = roi,
                                     dataset = dataset, conn=conn, ...)
     inroi = subset(inroi, voxels>voxel.thresh)
-    bodyids = unique(c(id2char(inroi$bodyid),id2char(bodyids)))
+    bodyids = unique(c(id2char(inroi$bodyid),
+                       neuprint_ids(bodyids, conn=conn, dataset = dataset)))
   }
   # Fetch neuron data
   message("Reading neurons from ", conn$server, " for dataset: ", dataset)

@@ -44,7 +44,9 @@ This function takes one or more bodyids as input and returns the name of the
 neurons.
 
 ```{r, eval=FALSE}
-neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...) {
+neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FALSE,
+                                      conn = NULL, ...) {
+  bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
   all_segments.json = ifelse(all_segments,"Segment", "Neuron")
   cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name",
                    id2json(bodyids),
@@ -58,8 +60,10 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = FA
 ```
 
 `bodyids` is the main input argument. These typically come in as either character
-vector or numeric format. The internal function `id2json()` will look
-after formatting them appropriately for the query.
+vector or numeric format. By passing the argument to the `neuprint_ids()` function
+you can also enable a range of queries to define the bodyids. The internal function
+`id2json()` is eventually used to look after formatting them appropriately for
+the Neo4j cypher query.
 
 In this function, `cypher` is the actual query written in the 
 [Cypher query language](https://neo4j.com/developer/cypher-query-language/). 
@@ -85,32 +89,40 @@ need to use single or double quotes inside your queries.
 
 ### Body ids
 
-You need to be a little careful with the handling of body ids. These are 64 bit
+You need to be a little careful with the handling of body ids. The basic advice
+is to pass them to `neuprint_ids()` on entry to your function. This will ensure
+that there is at least one id (unless `mustWork=FALSE`) and convert to character
+vector. It also allows simple queries (by default exact matches against the 
+type field). Finally it will by default ensure that only unique ids are passed 
+in. This is *nearly* always what you want, but be careful.
+
+In more detail, body ids are 64 bit
 integers (often called `bigint`s), which are commonly used as keys in databases.
 However like many programming languages R does not have a native 64 bit integer
 type. R's default numeric format is double width floating point. This can 
 exactly handle numbers with up to 53 bits of precision. 
 
 However, the biggest integer (here data is represented in signed format `int64`) that we need to worry about is (2^63)-1 = 9,223,372,036,854,775,807. This cannot be represented as a numeric. I have yet to 
-spot a body id in this upper range, but the `id2json` function will take care
+spot a body id in this upper range, but the `neuprint_ids` function will take care
 that you do not use one. If you need to specify a large bodyid as input to your
 function then you should insist on 
 
 * character vector input
 * 64 bit integers provided by `bit64::integer64()`
 
-The latter is arguably the best approach, but it relies on an add-on package
-(bit64) rather than base R.
+The latter seems better in theory (since it is more compact) than using 
+character vectors, but it relies on an add-on package (bit64) rather than base R
+and I have seen subtle errors when `integer64` objects lose their class. 
+In particular you cannot turn them into a list or run `lapply` without losing their class. Therefore I recommend using character vectors where possible. 
 
 Bottom line
 
+* always apply `neuprint_ids()` to your incoming body ids to enable a range of 
+simple queries and check that your input looks sensible.
 * always use `id2json()` on your body ids when building your cypher
-* if you work with your body ids inside your function then do `id2char` to put
-them into the most robust standard form (a character vector).
-
-`id2bit64` is also available. This sounds better, but these `bit64::integer64()`
-are a bit fragile. In particular you cannot turn them into a list or run `lapply`
-without losing their class.
+* if you work with your body ids inside your function and do not start by passing
+them to `neuprint_ids()`, then at least use `id2char` to put them into the 
+most robust standard form (a character vector).
 
 ### Connecting to neuPrint
 

@@ -24,6 +24,7 @@ neuprint_ids(
   conn = NULL,
   dataset = NULL,
   mustWork = TRUE,
+  unique = TRUE,
   ...
 )
 }
@@ -67,6 +68,9 @@ used. See \code{\link{neuprint_login}} for details.}
 
 \item{mustWork}{Whether to insist that at least one valid id is returned
 (default \code{TRUE})}
+
+\item{unique}{Whether to ensure that only unique ids are returned (default
+\code{TRUE})}
 }
 \value{
 a vector of body ids, or a data frame with their meta information
