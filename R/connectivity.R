@@ -15,17 +15,20 @@
 #' @rdname neuprint_get_adjacency_matrix
 #' @examples
 #' \donttest{
-#' da2s=neuprint_search(".*DA2.*")
-#' # these will mostly be axo-axonic connections
-#' neuprint_get_adjacency_matrix(da2s$bodyid)
+#' # these will mostly be axo-axonic connections between DA2 PNs
+#' neuprint_get_adjacency_matrix('DA2 lPN')
 #'
 #' # rectangular matrix with different in/out neurons
-#' # nb these can be completely different groups
-#' neuprint_get_adjacency_matrix(inputids=da2s$bodyid[1],
-#'   outputids=da2s$bodyid[-1])
+#' neuprint_get_adjacency_matrix(inputids='DA2 lPN', outputids='DL4 adPN')
 #' }
-neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL, outputids=NULL,
-                                          dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+#' \dontrun{
+#' pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*')
+#' hist(colSums(pnkc), xlab = 'PN inputs / KC', br=100)
+#' sum(rowSums(pnkc)>0)
+#' }
+neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
+                                          outputids=NULL, dataset = NULL,
+                                          all_segments = FALSE, conn = NULL, ...){
   if(is.null(bodyids)) {
     if(is.null(inputids) || is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
