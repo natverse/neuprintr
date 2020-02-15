@@ -112,41 +112,66 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 
 #' @title Search for body IDs based on a given name
 #'
-#' @description Search for bodyids corresponding to a given name, Regex sensitive
+#' @description Search for bodyids corresponding to a given name, Regex
+#'   sensitive
 #' @inheritParams neuprint_get_adjacency_matrix
-#' @param search name to search. See examples.
-#' @param field the meta data field in which you want a match for your search query.
-#' Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
-#' Other common options include type, status, cellBodyFiber etc.
-#' @param fixed if FALSE (the default), \code{search} is interpreted as a regular expression
-#' ("Advanced input" in neuprint explorer). If TRUE, the string \code{search} is interpreted as
-#' a simple character string (the default search behavior in neuprint explorer) to be matched
-#' (partial matches are fine)
-#' @param meta if TRUE, meta data for found bodyids is also pulled
+#' @param search Search query, by default a regular expression that must match
+#'   the whole of the neuPrint instance name field. See examples and the
+#'   \code{field}, \code{fixed} and \code{exact} for how this can be modified.
+#' @param field the meta data field in which you want a match for your search
+#'   query. Defaults to name (or instance, as handled by
+#'   \code{neuprintr:::neuprint_name_field}). Other common options include type,
+#'   status, cellBodyFiber etc.
+#' @param fixed if \code{FALSE} (the default), \code{search} is interpreted as a
+#'   regular expression (i.e. "Advanced input" in neuPrint Explorer). If
+#'   \code{TRUE}, the string \code{search} is interpreted as a simple character
+#'   string to be matched (the default search behavior in neuPrint explorer). In
+#'   this case partial matches are fine.
+#' @param exact Whether the query must match the whole field. This is always
+#'   true for regular expression queries while the default (\code{NULL}) implies
+#'   false for \code{fixed} queries.
+#' @param meta if \code{TRUE}, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
 #' @rdname neuprint_search
 #' @examples
 #' \donttest{
 #' neuprint_search(".*DA2.*")
+#' neuprint_search(".*DA2.*", meta=FALSE)
 #' }
 #' \dontrun{
 #' neuprint_search("MBON.*")
-#' neuprint_search("MBON.*",field = "type")
-#' neuprint_search("AVF1",field = "cellBodyFiber")
-#' neuprint_search("PEN_a(PEN1)",field="type",fixed=TRUE)
+#' neuprint_search("MBON.*", field = "type")
+#'
+#' # fixed=TRUE can be useful when you don't want to worry about special
+#' # characters like brackets
+#' neuprint_search("PEN_a(PEN1)", field="type", fixed=TRUE)
+#' # by default fixed=TRUE returns partial matches
+#' neuprint_search("MBON16", field = "type", fixed=TRUE)
+#' # here the type must be exactly
+#' neuprint_search("MBON16", field = "type", fixed=TRUE, exact = TRUE)
+#'
+#' neuprint_search("AVF1", field = "cellBodyFiber")
 #' }
-#' @seealso \code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
-neuprint_search <- function(search, field = "name", fixed=FALSE, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
+#' @seealso \code{\link{neuprint_get_meta}},
+#'   \code{\link{neuprint_get_neuron_names}}
+neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
+                            meta = TRUE, all_segments = FALSE, dataset = NULL,
+                            conn = NULL, ...){
   if(field=="name"){
     conn = neuprint_login(conn)
     field = neuprint_name_field(conn)
   }
+  # we want fixed searches to be partial by default
+  if(isTRUE(fixed) && is.null(exact))
+    exact=FALSE
+  if(isFALSE(fixed) && isFALSE(exact))
+    warning("Ignoring exact=FALSE as regular expression searches are always exact!")
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("MATCH (n:`%s`) WHERE n.%s %s '%s' RETURN n.bodyId",
                    all_segments.cypher,
                    field,
-                   ifelse(fixed, "CONTAINS", "=~"),
+                   ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~"),
                    search)
   nc = neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)

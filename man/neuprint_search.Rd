@@ -8,6 +8,7 @@ neuprint_search(
   search,
   field = "name",
   fixed = FALSE,
+  exact = NULL,
   meta = TRUE,
   all_segments = FALSE,
   dataset = NULL,
@@ -16,18 +17,26 @@ neuprint_search(
 )
 }
 \arguments{
-\item{search}{name to search. See examples.}
+\item{search}{Search query, by default a regular expression that must match
+the whole of the neuPrint instance name field. See examples and the
+\code{field}, \code{fixed} and \code{exact} for how this can be modified.}
 
-\item{field}{the meta data field in which you want a match for your search query.
-Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
-Other common options include type, status, cellBodyFiber etc.}
+\item{field}{the meta data field in which you want a match for your search
+query. Defaults to name (or instance, as handled by
+\code{neuprintr:::neuprint_name_field}). Other common options include type,
+status, cellBodyFiber etc.}
 
-\item{fixed}{if FALSE (the default), \code{search} is interpreted as a regular expression
-("Advanced input" in neuprint explorer). If TRUE, the string \code{search} is interpreted as
-a simple character string (the default search behavior in neuprint explorer) to be matched
-(partial matches are fine)}
+\item{fixed}{if \code{FALSE} (the default), \code{search} is interpreted as a
+regular expression (i.e. "Advanced input" in neuPrint Explorer). If
+\code{TRUE}, the string \code{search} is interpreted as a simple character
+string to be matched (the default search behavior in neuPrint explorer). In
+this case partial matches are fine.}
 
-\item{meta}{if TRUE, meta data for found bodyids is also pulled}
+\item{exact}{Whether the query must match the whole field. This is always
+true for regular expression queries while the default (\code{NULL}) implies
+false for \code{fixed} queries.}
+
+\item{meta}{if \code{TRUE}, meta data for found bodyids is also pulled}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
@@ -47,19 +56,30 @@ used. See \code{\link{neuprint_login}} for details.}
 a vector of body ids, or a data frame with their meta information
 }
 \description{
-Search for bodyids corresponding to a given name, Regex sensitive
+Search for bodyids corresponding to a given name, Regex
+  sensitive
 }
 \examples{
 \donttest{
 neuprint_search(".*DA2.*")
+neuprint_search(".*DA2.*", meta=FALSE)
 }
 \dontrun{
 neuprint_search("MBON.*")
-neuprint_search("MBON.*",field = "type")
-neuprint_search("AVF1",field = "cellBodyFiber")
-neuprint_search("PEN_a(PEN1)",field="type",fixed=TRUE)
+neuprint_search("MBON.*", field = "type")
+
+# fixed=TRUE can be useful when you don't want to worry about special
+# characters like brackets
+neuprint_search("PEN_a(PEN1)", field="type", fixed=TRUE)
+# by default fixed=TRUE returns partial matches
+neuprint_search("MBON16", field = "type", fixed=TRUE)
+# here the type must be exactly
+neuprint_search("MBON16", field = "type", fixed=TRUE, exact = TRUE)
+
+neuprint_search("AVF1", field = "cellBodyFiber")
 }
 }
 \seealso{
-\code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
+\code{\link{neuprint_get_meta}},
+  \code{\link{neuprint_get_neuron_names}}
 }
