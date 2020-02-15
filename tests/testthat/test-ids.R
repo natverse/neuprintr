@@ -30,4 +30,7 @@ test_that("id conversion works", {
   expect_equal(as.character(id2json(df)),
                big.json)
   expect_error(id2bit64(data.frame(id=bigid)))
+
+  toobigid="9223372036854775807"
+  expect_error(id2bit64(toobigid))
 })

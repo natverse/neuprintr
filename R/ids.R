@@ -26,13 +26,18 @@ id2bit64 <- function(x) {
       stop("Some ids cannot be exactly represented! Please use character or bit64!")
   } else if(is.double(x)) {
     # biggest int that can be represented as double 2^(mantissa bits + 1)
-    BIGGESTINT=2^53+1
-    if(any(x>BIGGESTINT))
+    BIGGESTFLOAT=2^53+1
+    if(any(x>BIGGESTFLOAT))
       stop("Some ids cannot be exactly represented! Please use character or bit64!")
   } else {
     stop("Unexpected data type for id. Use character, bit64, or numeric!")
   }
-  bit64::as.integer64(x)
+  bx <- bit64::as.integer64(x)
+  # unfortunately if we pass a number >9223372036854775807 then we will get
+  # 9223372036854775807. So we must reject ids >= than this.
+  if(any(bx>=bit64::as.integer64('9223372036854775807')))
+    stop('I can only cope with ids < 9223372036854775807')
+  bx
 }
 
 # this is the easiest thing to use in your functions as character vectors
