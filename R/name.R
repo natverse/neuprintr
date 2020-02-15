@@ -148,7 +148,7 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, meta = TRUE, al
                    field,
                    ifelse(fixed, "CONTAINS", "=~"),
                    search)
-  nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)
   if(meta && isTRUE(length(foundbodyids)>0)){
     neuprint_get_meta(bodyids = foundbodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
