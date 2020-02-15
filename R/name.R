@@ -173,6 +173,9 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
   if(isTRUE(substr(search, 1, 1)=='/')) {
     fixed=FALSE
     search <- substr(search, 2, nchar(search))
+  } else if(isTRUE(substr(search, 1, 1)=='!')) {
+    exact <- fixed <- TRUE
+    search <- substr(search, 2, nchar(search))
   }
   regexres <- stringr::str_match(search, "^([A-z]+):(.+)$")
   if(isFALSE(is.na(regexres[,2]))){
@@ -206,8 +209,8 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 
 #' @description \code{neuprint_ids} provides for flexible search / specification
 #'   of neuprint body ids. Use it at the start of any function that accepts body
-#'   ids. Queries are by default exact, fixed (i.e. non-regex against type).
-#'   Returns a character vector of bodyids.
+#'   ids. Queries are by default partial and fixed (i.e. non-regex) against
+#'   type. Returns a character vector of bodyids.
 #'
 #' @param x A set of bodyids or a query
 #' @param mustWork Whether to insist that at least one valid id is returned
@@ -218,23 +221,35 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' @inheritParams neuprint_search
 #'
 #' @return For \code{neuprint_ids}, a character vector of bodyids (of length 0
-#'   when there are none).
+#'   when there are none and \code{mustWork=FALSE}).
 #' @export
 #' @seealso \code{\link[neuprintr]{neuprint_search}}
+#' @section Query syntax: It is probably best just to look at the examples, but
+#'   the query syntax is as follows where square brackets denote optional parts:
+#'
+#'   \code{[!/][<field>:]<query>}
+#'
+#'   Starting with the optional leading character. An exclamation mark denotes
+#'   an exact, fixed search. The / denotes a regular expression (exact) search.
+#'   When both are missing, a partial, fixed search is carried out.
+#'
+#'   The optional field argument terminated by a colon defines a field other
+#'   than the default one to use for the query.
+#'
+#'   Finally the query itself is a plain text (fixed) or regular expression
+#'   query.
 #'
 #' @examples
 #' \donttest{
 #' # exact match against whole type
-#' neuprint_ids("MBON01")
+#' neuprint_ids("!MBON01")
 #' # partial match
-#' neuprint_ids("MBON", exact=FALSE)
-#' # search against name field rather than type
+#' neuprint_ids("MBON01")
+#' # partial match against name field rather than type
 #' neuprint_ids("name:MBON01")
 #'
 #' # initial / indicates to use regex search (which must be exact)
 #' neuprint_ids("/MBON01")
-#' # the same
-#' neuprint_ids("MBON01", fixed=FALSE)
 #' # more interesting regex search
 #' neuprint_ids("/MBON0[1-4]")
 #'
@@ -242,10 +257,10 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' neuprint_ids("/name:.*MBON0[1-4].*")
 #' }
 #' @rdname neuprint_search
-neuprint_ids <- function(x, fixed=TRUE, exact=NULL, conn=NULL, dataset=NULL,
-                         mustWork=TRUE, unique=TRUE, ...) {
+#' @importFrom stats na.omit
+neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, dataset=NULL, ...) {
   if(is.character(x) && length(x)==1 && !looks_like_bodyid(x)) {
-    x <- neuprint_search(x, meta = F, fixed = fixed, exact=exact, field = 'type',
+    x <- neuprint_search(x, meta = F, field = 'type', fixed=fixed,
                          conn=conn, dataset=dataset, ...)
   }
   x <- id2char(x)

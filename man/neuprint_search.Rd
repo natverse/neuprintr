@@ -19,12 +19,11 @@ neuprint_search(
 
 neuprint_ids(
   x,
-  fixed = TRUE,
-  exact = NULL,
-  conn = NULL,
-  dataset = NULL,
   mustWork = TRUE,
   unique = TRUE,
+  fixed = TRUE,
+  conn = NULL,
+  dataset = NULL,
   ...
 )
 }
@@ -76,7 +75,7 @@ used. See \code{\link{neuprint_login}} for details.}
 a vector of body ids, or a data frame with their meta information
 
 For \code{neuprint_ids}, a character vector of bodyids (of length 0
-  when there are none).
+  when there are none and \code{mustWork=FALSE}).
 }
 \description{
 \code{neuprint_search} searches for bodyids corresponding to a
@@ -85,9 +84,26 @@ For \code{neuprint_ids}, a character vector of bodyids (of length 0
 
 \code{neuprint_ids} provides for flexible search / specification
   of neuprint body ids. Use it at the start of any function that accepts body
-  ids. Queries are by default exact, fixed (i.e. non-regex against type).
-  Returns a character vector of bodyids.
+  ids. Queries are by default partial and fixed (i.e. non-regex) against
+  type. Returns a character vector of bodyids.
 }
+\section{Query syntax}{
+ It is probably best just to look at the examples, but
+  the query syntax is as follows where square brackets denote optional parts:
+
+  \code{[!/][<field>:]<query>}
+
+  Starting with the optional leading character. An exclamation mark denotes
+  an exact, fixed search. The / denotes a regular expression (exact) search.
+  When both are missing, a partial, fixed search is carried out.
+
+  The optional field argument terminated by a colon defines a field other
+  than the default one to use for the query.
+
+  Finally the query itself is a plain text (fixed) or regular expression
+  query.
+}
+
 \examples{
 \donttest{
 neuprint_search(".*DA2.*")
@@ -120,16 +136,14 @@ neuprint_search("cellBodyFiber:AVF1")
 }
 \donttest{
 # exact match against whole type
-neuprint_ids("MBON01")
+neuprint_ids("!MBON01")
 # partial match
-neuprint_ids("MBON", exact=FALSE)
-# search against name field rather than type
+neuprint_ids("MBON01")
+# partial match against name field rather than type
 neuprint_ids("name:MBON01")
 
 # initial / indicates to use regex search (which must be exact)
 neuprint_ids("/MBON01")
-# the same
-neuprint_ids("MBON01", fixed=FALSE)
 # more interesting regex search
 neuprint_ids("/MBON0[1-4]")
 
