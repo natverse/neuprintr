@@ -3,6 +3,10 @@ skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("test name searches ", {
   da2s = neuprint_search(".*DA2.*")
+  penAs = neuprint_search("PEN_a.*",field="type")
+  penAbis = neuprint_search("PEN_a(",field="type",fixed=TRUE)
+  expect_is(penAbis,'data.frame')
+  expect_equal(penAs,penAbis)
   expect_match(neuprint_get_neuron_names(da2s$bodyid[1]), 'DA2')
   expect_is(neuprint_search("DA2.*",field = "type"), 'data.frame')
 

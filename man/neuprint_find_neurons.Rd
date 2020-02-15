@@ -56,6 +56,10 @@ pncands=neuprint_find_neurons(input_ROIs = "AL(R)", output_ROIs = "LH(R)")
 head(pncands)
 plot(`LH(R).pre`~`AL(R).post`, data=pncands)
 }
+\donttest{
+lhr=neuprint_bodies_in_ROI('LH(R)')
+head(lhr)
+}
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}}, \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
