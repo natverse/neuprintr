@@ -73,7 +73,7 @@ neuprint_read_neurons <- function(bodyids,
                                   conn = NULL,
                                   OmitFailures = TRUE,
                                   ...) {
-  bodyids = unique(id2char(bodyids))
+  bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
   neurons = suppressWarnings(nat::nlapply(bodyids,function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
@@ -207,13 +207,13 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), datase
 #' }
 neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE,
                                     heal.threshold=1000, ...) {
-  bodyid=id2char(bodyid)
+  dataset = check_dataset(dataset, conn=conn)
+  bodyid=neuprint_ids(bodyid, conn = conn, dataset = dataset)
   if(length(bodyid)>1) {
     fakenl=structure(bodyid, .Names=bodyid)
     nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, heal=heal, ...)
     return(nl)
   }
-  dataset = check_dataset(dataset, conn=conn)
   path=file.path("api/skeletons/skeleton", dataset, bodyid)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
   colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")

@@ -45,14 +45,16 @@ Get an adjacency matrix for the synaptic connectivity within a
 }
 \examples{
 \donttest{
-da2s=neuprint_search(".*DA2.*")
-# these will mostly be axo-axonic connections
-neuprint_get_adjacency_matrix(da2s$bodyid)
+# these will mostly be axo-axonic connections between DA2 PNs
+neuprint_get_adjacency_matrix('DA2 lPN')
 
 # rectangular matrix with different in/out neurons
-# nb these can be completely different groups
-neuprint_get_adjacency_matrix(inputids=da2s$bodyid[1],
-  outputids=da2s$bodyid[-1])
+neuprint_get_adjacency_matrix(inputids='DA2 lPN', outputids='DL4 adPN')
+}
+\dontrun{
+pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*')
+hist(colSums(pnkc), xlab = 'PN inputs / KC', br=100)
+sum(rowSums(pnkc)>0)
 }
 }
 \seealso{

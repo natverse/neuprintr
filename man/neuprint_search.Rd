@@ -2,32 +2,52 @@
 % Please edit documentation in R/name.R
 \name{neuprint_search}
 \alias{neuprint_search}
+\alias{neuprint_ids}
 \title{Search for body IDs based on a given name}
 \usage{
 neuprint_search(
   search,
   field = "name",
   fixed = FALSE,
+  exact = NULL,
   meta = TRUE,
   all_segments = FALSE,
   dataset = NULL,
   conn = NULL,
   ...
 )
+
+neuprint_ids(
+  x,
+  mustWork = TRUE,
+  unique = TRUE,
+  fixed = TRUE,
+  conn = NULL,
+  dataset = NULL,
+  ...
+)
 }
 \arguments{
-\item{search}{name to search. See examples.}
+\item{search}{Search query, by default a regular expression that must match
+the whole of the neuPrint instance name field. See examples and the
+\code{field}, \code{fixed} and \code{exact} for how this can be modified.}
 
-\item{field}{the meta data field in which you want a match for your search query.
-Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
-Other common options include type, status, cellBodyFiber etc.}
+\item{field}{the meta data field in which you want a match for your search
+query. Defaults to name (or instance, as handled by
+\code{neuprintr:::neuprint_name_field}). Other common options include type,
+status, cellBodyFiber etc.}
 
-\item{fixed}{if FALSE (the default), \code{search} is interpreted as a regular expression
-("Advanced input" in neuprint explorer). If TRUE, the string \code{search} is interpreted as
-a simple character string (the default search behavior in neuprint explorer) to be matched
-(partial matches are fine)}
+\item{fixed}{if \code{FALSE} (the default), \code{search} is interpreted as a
+regular expression (i.e. "Advanced input" in neuPrint Explorer). If
+\code{TRUE}, the string \code{search} is interpreted as a simple character
+string to be matched (the default search behavior in neuPrint explorer). In
+this case partial matches are fine.}
 
-\item{meta}{if TRUE, meta data for found bodyids is also pulled}
+\item{exact}{Whether the query must match the whole field. This is always
+true for regular expression queries while the default (\code{NULL}) implies
+false for \code{fixed} queries.}
+
+\item{meta}{if \code{TRUE}, meta data for found bodyids is also pulled}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
@@ -41,25 +61,99 @@ neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
 
-\item{...}{methods passed to \code{neuprint_login}}
+\item{...}{Additional arguments passed to \code{\link{neuprint_search}}}
+
+\item{x}{A set of bodyids or a query}
+
+\item{mustWork}{Whether to insist that at least one valid id is returned
+(default \code{TRUE})}
+
+\item{unique}{Whether to ensure that only unique ids are returned (default
+\code{TRUE})}
 }
 \value{
 a vector of body ids, or a data frame with their meta information
+
+For \code{neuprint_ids}, a character vector of bodyids (of length 0
+  when there are none and \code{mustWork=FALSE}).
 }
 \description{
-Search for bodyids corresponding to a given name, Regex sensitive
+\code{neuprint_search} searches for bodyids corresponding to a
+  given name. By default performs regex sensitive matches against neuron
+  \bold{name}s and returns a \code{data.frame}.
+
+\code{neuprint_ids} provides for flexible search / specification
+  of neuprint body ids. Use it at the start of any function that accepts body
+  ids. Queries are by default partial and fixed (i.e. non-regex) against
+  type. Returns a character vector of bodyids.
 }
+\section{Query syntax}{
+ It is probably best just to look at the examples, but
+  the query syntax is as follows where square brackets denote optional parts:
+
+  \code{[!/][<field>:]<query>}
+
+  Starting with the optional leading character. An exclamation mark denotes
+  an exact, fixed search. The / denotes a regular expression (exact) search.
+  When both are missing, a partial, fixed search is carried out.
+
+  The optional field argument terminated by a colon defines a field other
+  than the default one to use for the query.
+
+  Finally the query itself is a plain text (fixed) or regular expression
+  query.
+}
+
 \examples{
 \donttest{
 neuprint_search(".*DA2.*")
+neuprint_search(".*DA2.*", meta=FALSE)
+
+# Search the type field
+neuprint_search("MBON.*", field = "type", meta=FALSE)
+neuprint_search("MBON[0-9]+", field = "type", meta=FALSE)
+
+# compact specification of field
+neuprint_search("type:MBON[0-9]+", meta=FALSE)
+
+# starts with MBON
+neuprint_search("type:MBON.*", meta=FALSE)
 }
+
 \dontrun{
-neuprint_search("MBON.*")
-neuprint_search("MBON.*",field = "type")
-neuprint_search("AVF1",field = "cellBodyFiber")
-neuprint_search("PEN_a(PEN1)",field="type",fixed=TRUE)
+neuprint_search("MBON.*", field = "type")
+
+# fixed=TRUE can be useful when you don't want to worry about special
+# characters like brackets
+neuprint_search("PEN_a(PEN1)", field="type", fixed=TRUE)
+# by default fixed=TRUE returns partial matches
+neuprint_search("MBON16", field = "type", fixed=TRUE)
+# here the type must exactly match the query i.e. complete match
+neuprint_search("MBON16", field = "type", fixed=TRUE, exact = TRUE)
+
+neuprint_search("AVF1", field = "cellBodyFiber")
+neuprint_search("cellBodyFiber:AVF1")
+}
+\donttest{
+# exact match against whole type
+neuprint_ids("!MBON01")
+# partial match
+neuprint_ids("MBON01")
+# partial match against name field rather than type
+neuprint_ids("name:MBON01")
+
+# initial / indicates to use regex search (which must be exact)
+neuprint_ids("/MBON01")
+# more interesting regex search
+neuprint_ids("/MBON0[1-4]")
+
+# partial regex search against the name field (note leading/trailing .*)
+neuprint_ids("/name:.*MBON0[1-4].*")
 }
 }
 \seealso{
-\code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
+\code{\link{neuprint_get_meta}},
+  \code{\link{neuprint_get_neuron_names}}
+
+\code{\link[neuprintr]{neuprint_search}}
 }

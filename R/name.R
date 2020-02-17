@@ -10,7 +10,7 @@
 #' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  bodyids <- id2char(bodyids)
+  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn, unique = FALSE)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
     unames=neuprint_get_neuron_names(bodyids=ubodyids, dataset=dataset,
@@ -112,43 +112,93 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 
 #' @title Search for body IDs based on a given name
 #'
-#' @description Search for bodyids corresponding to a given name, Regex sensitive
+#' @description \code{neuprint_search} searches for bodyids corresponding to a
+#'   given name. By default performs regex sensitive matches against neuron
+#'   \bold{name}s and returns a \code{data.frame}.
 #' @inheritParams neuprint_get_adjacency_matrix
-#' @param search name to search. See examples.
-#' @param field the meta data field in which you want a match for your search query.
-#' Defaults to name (or instance, as handled by \code{neuprintr:::neuprint_name_field}).
-#' Other common options include type, status, cellBodyFiber etc.
-#' @param fixed if FALSE (the default), \code{search} is interpreted as a regular expression
-#' ("Advanced input" in neuprint explorer). If TRUE, the string \code{search} is interpreted as
-#' a simple character string (the default search behavior in neuprint explorer) to be matched
-#' (partial matches are fine)
-#' @param meta if TRUE, meta data for found bodyids is also pulled
+#' @param search Search query, by default a regular expression that must match
+#'   the whole of the neuPrint instance name field. See examples and the
+#'   \code{field}, \code{fixed} and \code{exact} for how this can be modified.
+#' @param field the meta data field in which you want a match for your search
+#'   query. Defaults to name (or instance, as handled by
+#'   \code{neuprintr:::neuprint_name_field}). Other common options include type,
+#'   status, cellBodyFiber etc.
+#' @param fixed if \code{FALSE} (the default), \code{search} is interpreted as a
+#'   regular expression (i.e. "Advanced input" in neuPrint Explorer). If
+#'   \code{TRUE}, the string \code{search} is interpreted as a simple character
+#'   string to be matched (the default search behavior in neuPrint explorer). In
+#'   this case partial matches are fine.
+#' @param exact Whether the query must match the whole field. This is always
+#'   true for regular expression queries while the default (\code{NULL}) implies
+#'   false for \code{fixed} queries.
+#' @param meta if \code{TRUE}, meta data for found bodyids is also pulled
 #' @return a vector of body ids, or a data frame with their meta information
 #' @export
 #' @rdname neuprint_search
 #' @examples
 #' \donttest{
 #' neuprint_search(".*DA2.*")
+#' neuprint_search(".*DA2.*", meta=FALSE)
+#'
+#' # Search the type field
+#' neuprint_search("MBON.*", field = "type", meta=FALSE)
+#' neuprint_search("MBON[0-9]+", field = "type", meta=FALSE)
+#'
+#' # compact specification of field
+#' neuprint_search("type:MBON[0-9]+", meta=FALSE)
+#'
+#' # starts with MBON
+#' neuprint_search("type:MBON.*", meta=FALSE)
 #' }
+#'
 #' \dontrun{
-#' neuprint_search("MBON.*")
-#' neuprint_search("MBON.*",field = "type")
-#' neuprint_search("AVF1",field = "cellBodyFiber")
-#' neuprint_search("PEN_a(PEN1)",field="type",fixed=TRUE)
+#' neuprint_search("MBON.*", field = "type")
+#'
+#' # fixed=TRUE can be useful when you don't want to worry about special
+#' # characters like brackets
+#' neuprint_search("PEN_a(PEN1)", field="type", fixed=TRUE)
+#' # by default fixed=TRUE returns partial matches
+#' neuprint_search("MBON16", field = "type", fixed=TRUE)
+#' # here the type must exactly match the query i.e. complete match
+#' neuprint_search("MBON16", field = "type", fixed=TRUE, exact = TRUE)
+#'
+#' neuprint_search("AVF1", field = "cellBodyFiber")
+#' neuprint_search("cellBodyFiber:AVF1")
 #' }
-#' @seealso \code{\link{neuprint_get_meta}}, \code{\link{neuprint_get_neuron_names}}
-neuprint_search <- function(search, field = "name", fixed=FALSE, meta = TRUE, all_segments = FALSE, dataset = NULL, conn = NULL, ...){
+#' @seealso \code{\link{neuprint_get_meta}},
+#'   \code{\link{neuprint_get_neuron_names}}
+neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
+                            meta = TRUE, all_segments = FALSE, dataset = NULL,
+                            conn = NULL, ...){
+  if(isTRUE(substr(search, 1, 1)=='/')) {
+    fixed=FALSE
+    search <- substr(search, 2, nchar(search))
+  } else if(isTRUE(substr(search, 1, 1)=='!')) {
+    exact <- fixed <- TRUE
+    search <- substr(search, 2, nchar(search))
+  }
+  regexres <- stringr::str_match(search, "^([A-z]+):(.+)$")
+  if(isFALSE(is.na(regexres[,2]))){
+    field <- regexres[,2]
+    search <- regexres[,3]
+  }
+
   if(field=="name"){
     conn = neuprint_login(conn)
     field = neuprint_name_field(conn)
   }
+  # we want fixed searches to be partial by default
+  if(isTRUE(fixed) && is.null(exact))
+    exact=FALSE
+  if(isFALSE(fixed) && isFALSE(exact))
+    warning("Ignoring exact=FALSE as regular expression searches are always exact!")
   all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf("MATCH (n:`%s`) WHERE n.%s %s '%s' RETURN n.bodyId",
                    all_segments.cypher,
                    field,
-                   ifelse(fixed, "CONTAINS", "=~"),
+                   ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~"),
                    search)
-  nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)
   if(meta && isTRUE(length(foundbodyids)>0)){
     neuprint_get_meta(bodyids = foundbodyids, dataset = dataset, all_segments = all_segments, conn = conn, ...)
@@ -156,3 +206,66 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, meta = TRUE, al
     foundbodyids
   }
 }
+
+#' @description \code{neuprint_ids} provides for flexible search / specification
+#'   of neuprint body ids. Use it at the start of any function that accepts body
+#'   ids. Queries are by default partial and fixed (i.e. non-regex) against
+#'   type. Returns a character vector of bodyids.
+#'
+#' @param x A set of bodyids or a query
+#' @param mustWork Whether to insist that at least one valid id is returned
+#'   (default \code{TRUE})
+#' @param unique Whether to ensure that only unique ids are returned (default
+#'   \code{TRUE})
+#' @param ... Additional arguments passed to \code{\link{neuprint_search}}
+#' @inheritParams neuprint_search
+#'
+#' @return For \code{neuprint_ids}, a character vector of bodyids (of length 0
+#'   when there are none and \code{mustWork=FALSE}).
+#' @export
+#' @seealso \code{\link[neuprintr]{neuprint_search}}
+#' @section Query syntax: It is probably best just to look at the examples, but
+#'   the query syntax is as follows where square brackets denote optional parts:
+#'
+#'   \code{[!/][<field>:]<query>}
+#'
+#'   Starting with the optional leading character. An exclamation mark denotes
+#'   an exact, fixed search. The / denotes a regular expression (exact) search.
+#'   When both are missing, a partial, fixed search is carried out.
+#'
+#'   The optional field argument terminated by a colon defines a field other
+#'   than the default one to use for the query.
+#'
+#'   Finally the query itself is a plain text (fixed) or regular expression
+#'   query.
+#'
+#' @examples
+#' \donttest{
+#' # exact match against whole type
+#' neuprint_ids("!MBON01")
+#' # partial match
+#' neuprint_ids("MBON01")
+#' # partial match against name field rather than type
+#' neuprint_ids("name:MBON01")
+#'
+#' # initial / indicates to use regex search (which must be exact)
+#' neuprint_ids("/MBON01")
+#' # more interesting regex search
+#' neuprint_ids("/MBON0[1-4]")
+#'
+#' # partial regex search against the name field (note leading/trailing .*)
+#' neuprint_ids("/name:.*MBON0[1-4].*")
+#' }
+#' @rdname neuprint_search
+#' @importFrom stats na.omit
+neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, dataset=NULL, ...) {
+  if(is.character(x) && length(x)==1 && !looks_like_bodyid(x)) {
+    x <- neuprint_search(x, meta = F, field = 'type', fixed=fixed,
+                         conn=conn, dataset=dataset, ...)
+  }
+  x <- id2char(x)
+  if(isTRUE(mustWork) && isFALSE(length(na.omit(x))>0))
+    stop("No valid ids provided!")
+  if(isTRUE(unique)) unique(x) else x
+}
+

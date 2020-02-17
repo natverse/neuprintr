@@ -15,27 +15,30 @@
 #' @rdname neuprint_get_adjacency_matrix
 #' @examples
 #' \donttest{
-#' da2s=neuprint_search(".*DA2.*")
-#' # these will mostly be axo-axonic connections
-#' neuprint_get_adjacency_matrix(da2s$bodyid)
+#' # these will mostly be axo-axonic connections between DA2 PNs
+#' neuprint_get_adjacency_matrix('DA2 lPN')
 #'
 #' # rectangular matrix with different in/out neurons
-#' # nb these can be completely different groups
-#' neuprint_get_adjacency_matrix(inputids=da2s$bodyid[1],
-#'   outputids=da2s$bodyid[-1])
+#' neuprint_get_adjacency_matrix(inputids='DA2 lPN', outputids='DL4 adPN')
 #' }
-neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL, outputids=NULL,
-                                          dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+#' \dontrun{
+#' pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*')
+#' hist(colSums(pnkc), xlab = 'PN inputs / KC', br=100)
+#' sum(rowSums(pnkc)>0)
+#' }
+neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
+                                          outputids=NULL, dataset = NULL,
+                                          all_segments = FALSE, conn = NULL, ...){
   if(is.null(bodyids)) {
     if(is.null(inputids) || is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
+    inputids=neuprint_ids(inputids, conn=conn, dataset = dataset)
+    outputids=neuprint_ids(outputids, conn=conn, dataset = dataset)
   } else {
     if(!is.null(inputids) || !is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
-    inputids <- outputids <- bodyids
+    inputids <- outputids <- neuprint_ids(bodyids, conn=conn, dataset = dataset)
   }
-  inputids <- unique(id2char(inputids))
-  outputids <- unique(id2char(outputids))
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
   namefield=neuprint_name_field(conn)
@@ -118,7 +121,7 @@ neuprint_connection_table <- function(bodyids,
   prepost <- match.arg(prepost)
   conn<-neuprint_login(conn)
   all_segments.json <- ifelse(all_segments,"Segment","Neuron")
-  bodyids<-unique(id2char(bodyids))
+  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
   if(!is.null(roi)){
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
@@ -214,10 +217,11 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
 
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
+  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
 
   Payload = noquote(sprintf('{"dataset":"%s","neuron_ids":%s,"statuses":%s,"find_inputs":%s,"all_segments":%s}',
                             dataset,
-                            id2json(bodyids, uniqueids = TRUE),
+                            id2json(bodyids),
                             ifelse(is.null(statuses),jsonlite::toJSON(list()),jsonlite::toJSON(statuses)),
                             find_inputs,
                             all_segments))
@@ -274,7 +278,7 @@ neuprint_simple_connectivity <- function(bodyids,
   prepost = match.arg(prepost)
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
-  bodyids=unique(id2char(bodyids))
+  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
   if(length(bodyids)>10) {
     m  = Reduce(function(x, y, ...)
       dplyr::full_join(x, y, by = c(
@@ -364,7 +368,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
-
+  body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
+  body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
   cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
                            "UNWIND bodies[0] AS bodypre",
                            "UNWIND bodies[1] AS bodypost",
@@ -373,8 +378,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  id2json(body_pre, uniqueids = TRUE),
-  id2json(body_post, uniqueids = TRUE),
+  id2json(body_pre),
+  id2json(body_post),
   all_segments.json,
   n[1]-1,
   n[2],
@@ -430,6 +435,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
     roi <- paste("AND (" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),")")
   }
+  body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
+  body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
 
   cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
                            "UNWIND bodies[0] AS bodypre",
@@ -440,8 +447,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  id2json(body_pre, uniqueids = TRUE),
-  id2json(body_post, uniqueids = TRUE),
+  id2json(body_pre),
+  id2json(body_post),
   all_segments.json,
   all_segments.json,
   weightT,

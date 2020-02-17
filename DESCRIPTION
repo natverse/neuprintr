@@ -36,7 +36,8 @@ Imports:
     readobj,
     memoise,
     dplyr,
-    bit64
+    bit64,
+    stringr
 Remotes: 
     natverse/drvid,
     natverse/nat
