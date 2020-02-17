@@ -201,20 +201,25 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>da2s</span><span class='kw'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>)
-<span class='co'># these will mostly be axo-axonic connections</span>
-<span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='no'>da2s</span>$<span class='no'>bodyid</span>)</div><div class='output co'>#&gt;            1796817841 1827516355 818983130 1797505019 1796818119
+<span class='co'># these will mostly be axo-axonic connections between DA2 PNs</span>
+<span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='st'>'DA2 lPN'</span>)</div><div class='output co'>#&gt;            1796817841 1827516355 818983130 1797505019 1796818119
 #&gt; 1796817841          0          6         7          7          1
 #&gt; 1827516355          3          0         3          1          5
 #&gt; 818983130           3          7         0          6          5
 #&gt; 1797505019          6          4         6          0         11
 #&gt; 1796818119          3          6         7         10          0</div><div class='input'>
 <span class='co'># rectangular matrix with different in/out neurons</span>
-<span class='co'># nb these can be completely different groups</span>
-<span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='kw'>inputids</span><span class='kw'>=</span><span class='no'>da2s</span>$<span class='no'>bodyid</span>[<span class='fl'>1</span>],
-  <span class='kw'>outputids</span><span class='kw'>=</span><span class='no'>da2s</span>$<span class='no'>bodyid</span>[-<span class='fl'>1</span>])</div><div class='output co'>#&gt;            1827516355 818983130 1797505019 1796818119
-#&gt; 1796817841          6         7          7          1</div><div class='input'># }
-</div></pre>
+<span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='kw'>inputids</span><span class='kw'>=</span><span class='st'>'DA2 lPN'</span>, <span class='kw'>outputids</span><span class='kw'>=</span><span class='st'>'DL4 adPN'</span>)</div><div class='output co'>#&gt;            1670934213
+#&gt; 1796817841          9
+#&gt; 1827516355          9
+#&gt; 818983130           0
+#&gt; 1797505019          4
+#&gt; 1796818119          9</div><div class='input'><span class='co'># }</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>pnkc</span><span class='kw'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='kw'>inputids</span><span class='kw'>=</span><span class='st'>'name:mPN'</span>, <span class='kw'>outputids</span><span class='kw'>=</span><span class='st'>'/KC.*'</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='no'>pnkc</span>), <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'PN inputs / KC'</span>, <span class='kw'>br</span><span class='kw'>=</span><span class='fl'>100</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='no'>pnkc</span>)<span class='kw'>&gt;</span><span class='fl'>0</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

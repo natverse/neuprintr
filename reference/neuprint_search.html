@@ -43,7 +43,13 @@
 
 
 <meta property="og:title" content="Search for body IDs based on a given name — neuprint_search" />
-<meta property="og:description" content="Search for bodyids corresponding to a given name, Regex sensitive" />
+<meta property="og:description" content="neuprint_search searches for bodyids corresponding to a
+  given name. By default performs regex sensitive matches against neuron
+  names and returns a data.frame.
+neuprint_ids provides for flexible search / specification
+  of neuprint body ids. Use it at the start of any function that accepts body
+  ids. Queries are by default partial and fixed (i.e. non-regex) against
+  type. Returns a character vector of bodyids." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -137,17 +143,34 @@
     </div>
 
     <div class="ref-description">
-    <p>Search for bodyids corresponding to a given name, Regex sensitive</p>
+    <p><code>neuprint_search</code> searches for bodyids corresponding to a
+  given name. By default performs regex sensitive matches against neuron
+  <b>name</b>s and returns a <code>data.frame</code>.</p>
+<p><code>neuprint_ids</code> provides for flexible search / specification
+  of neuprint body ids. Use it at the start of any function that accepts body
+  ids. Queries are by default partial and fixed (i.e. non-regex) against
+  type. Returns a character vector of bodyids.</p>
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_search</span>(
   <span class='no'>search</span>,
   <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"name"</span>,
   <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>exact</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)
+
+<span class='fu'>neuprint_ids</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>unique</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -156,24 +179,34 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>search</th>
-      <td><p>name to search. See examples.</p></td>
+      <td><p>Search query, by default a regular expression that must match
+the whole of the neuPrint instance name field. See examples and the
+<code>field</code>, <code>fixed</code> and <code>exact</code> for how this can be modified.</p></td>
     </tr>
     <tr>
       <th>field</th>
-      <td><p>the meta data field in which you want a match for your search query.
-Defaults to name (or instance, as handled by <code>neuprintr:::neuprint_name_field</code>).
-Other common options include type, status, cellBodyFiber etc.</p></td>
+      <td><p>the meta data field in which you want a match for your search
+query. Defaults to name (or instance, as handled by
+<code>neuprintr:::neuprint_name_field</code>). Other common options include type,
+status, cellBodyFiber etc.</p></td>
     </tr>
     <tr>
       <th>fixed</th>
-      <td><p>if FALSE (the default), <code>search</code> is interpreted as a regular expression
-("Advanced input" in neuprint explorer). If TRUE, the string <code>search</code> is interpreted as
-a simple character string (the default search behavior in neuprint explorer) to be matched
-(partial matches are fine)</p></td>
+      <td><p>if <code>FALSE</code> (the default), <code>search</code> is interpreted as a
+regular expression (i.e. "Advanced input" in neuPrint Explorer). If
+<code>TRUE</code>, the string <code>search</code> is interpreted as a simple character
+string to be matched (the default search behavior in neuPrint explorer). In
+this case partial matches are fine.</p></td>
+    </tr>
+    <tr>
+      <th>exact</th>
+      <td><p>Whether the query must match the whole field. This is always
+true for regular expression queries while the default (<code>NULL</code>) implies
+false for <code>fixed</code> queries.</p></td>
     </tr>
     <tr>
       <th>meta</th>
-      <td><p>if TRUE, meta data for found bodyids is also pulled</p></td>
+      <td><p>if <code>TRUE</code>, meta data for found bodyids is also pulled</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
@@ -195,16 +228,46 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
     </tr>
     <tr>
       <th>...</th>
-      <td><p>methods passed to <code>neuprint_login</code></p></td>
+      <td><p>Additional arguments passed to <code>neuprint_search</code></p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>A set of bodyids or a query</p></td>
+    </tr>
+    <tr>
+      <th>mustWork</th>
+      <td><p>Whether to insist that at least one valid id is returned
+(default <code>TRUE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td><p>Whether to ensure that only unique ids are returned (default
+<code>TRUE</code>)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a vector of body ids, or a data frame with their meta information</p>
+<p>For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
+  when there are none and <code>mustWork=FALSE</code>).</p>
+    <h2 class="hasAnchor" id="query-syntax"><a class="anchor" href="#query-syntax"></a>Query syntax</h2>
+
+    <p>It is probably best just to look at the examples, but
+  the query syntax is as follows where square brackets denote optional parts:</p>
+<p><code>[!/][&lt;field&gt;:]&lt;query&gt;</code></p>
+<p>Starting with the optional leading character. An exclamation mark denotes
+  an exact, fixed search. The / denotes a regular expression (exact) search.
+  When both are missing, a partial, fixed search is carried out.</p>
+<p>The optional field argument terminated by a colon defines a field other
+  than the default one to use for the query.</p>
+<p>Finally the query itself is a plain text (fixed) or regular expression
+  query.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_get_meta.html'>neuprint_get_meta</a></code>, <code><a href='neuprint_get_neuron_names.html'>neuprint_get_neuron_names</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_get_meta.html'>neuprint_get_meta</a></code>,
+  <code><a href='neuprint_get_neuron_names.html'>neuprint_get_neuron_names</a></code></p>
+<p><code>neuprint_search</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -219,19 +282,92 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 #&gt; 2   FALSE  TRUE           A12
 #&gt; 3   FALSE FALSE           A12
 #&gt; 4   FALSE FALSE           A12
-#&gt; 5   FALSE  TRUE           A12</div><div class='input'><span class='co'># }</span>
+#&gt; 5   FALSE  TRUE           A12</div><div class='input'><span class='fu'>neuprint_search</span>(<span class='st'>".*DA2.*"</span>, <span class='kw'>meta</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1796817841 1827516355  818983130 1797505019 1796818119</div><div class='input'>
+<span class='co'># Search the type field</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>, <span class='kw'>meta</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
+#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
+#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
+#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
+#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
+#&gt; [37]  673702721  673366098  457196643 5812981264 5812981543 5813020828
+#&gt; [43]  457196444  610463953  517854468  423774471  792368888 5813022896
+#&gt; [49] 5813042659  423382015  487143497  550081497  612742248  612422902
+#&gt; [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020
+#&gt; [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835
+#&gt; [67]  643847447  547552266 5813033000 1173814525</div><div class='input'><span class='fu'>neuprint_search</span>(<span class='st'>"MBON[0-9]+"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>, <span class='kw'>meta</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
+#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
+#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
+#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
+#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
+#&gt; [37]  673702721  673366098 5812981264 5813020828  457196444  610463953
+#&gt; [43]  517854468  423774471  792368888 5813022896 5813042659  423382015
+#&gt; [49]  487143497  550081497  612742248  612422902 5813075634  895441451
+#&gt; [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048
+#&gt; [61] 5813022234  894020730  706948318  642732835  643847447  547552266
+#&gt; [67] 5813033000 1173814525</div><div class='input'>
+<span class='co'># compact specification of field</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>"type:MBON[0-9]+"</span>, <span class='kw'>meta</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
+#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
+#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
+#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
+#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
+#&gt; [37]  673702721  673366098 5812981264 5813020828  457196444  610463953
+#&gt; [43]  517854468  423774471  792368888 5813022896 5813042659  423382015
+#&gt; [49]  487143497  550081497  612742248  612422902 5813075634  895441451
+#&gt; [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048
+#&gt; [61] 5813022234  894020730  706948318  642732835  643847447  547552266
+#&gt; [67] 5813033000 1173814525</div><div class='input'>
+<span class='co'># starts with MBON</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>"type:MBON.*"</span>, <span class='kw'>meta</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
+#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
+#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
+#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
+#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
+#&gt; [37]  673702721  673366098  457196643 5812981264 5812981543 5813020828
+#&gt; [43]  457196444  610463953  517854468  423774471  792368888 5813022896
+#&gt; [49] 5813042659  423382015  487143497  550081497  612742248  612422902
+#&gt; [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020
+#&gt; [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835
+#&gt; [67]  643847447  547552266 5813033000 1173814525</div><div class='input'><span class='co'># }</span>
+
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>)
-<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>,<span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>)
-<span class='fu'>neuprint_search</span>(<span class='st'>"AVF1"</span>,<span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"cellBodyFiber"</span>)
-<span class='fu'>neuprint_search</span>(<span class='st'>"PEN_a(PEN1)"</span>,<span class='kw'>field</span><span class='kw'>=</span><span class='st'>"type"</span>,<span class='kw'>fixed</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div></pre>
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>)
+
+<span class='co'># fixed=TRUE can be useful when you don't want to worry about special</span>
+<span class='co'># characters like brackets</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>"PEN_a(PEN1)"</span>, <span class='kw'>field</span><span class='kw'>=</span><span class='st'>"type"</span>, <span class='kw'>fixed</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='co'># by default fixed=TRUE returns partial matches</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON16"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>, <span class='kw'>fixed</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='co'># here the type must exactly match the query i.e. complete match</span>
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON16"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"type"</span>, <span class='kw'>fixed</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>exact</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>neuprint_search</span>(<span class='st'>"AVF1"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"cellBodyFiber"</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"cellBodyFiber:AVF1"</span>)
+}
+<span class='co'># \donttest{</span>
+<span class='co'># exact match against whole type</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"!MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match against name field rather than type</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"name:MBON01"</span>)</div><div class='output co'>#&gt; [1] "673509195" "612371421"</div><div class='input'>
+<span class='co'># initial / indicates to use regex search (which must be exact)</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"/MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># more interesting regex search</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"/MBON0[1-4]"</span>)</div><div class='output co'>#&gt; [1] "612371421"  "673509195"  "424789697"  "5813022341" "612738462" 
+#&gt; [6] "487925037"  "487925063"  "613079053" </div><div class='input'>
+<span class='co'># partial regex search against the name field (note leading/trailing .*)</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"/name:.*MBON0[1-4].*"</span>)</div><div class='output co'>#&gt; [1] "673509195"  "612371421"  "5813022341" "424789697"  "612738462" 
+#&gt; [6] "487925037"  "613079053"  "487925063" </div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#query-syntax">Query syntax</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -121,18 +121,20 @@
 <h3 class="hasAnchor">
 <a href="#basic-example" class="anchor"></a>Basic example</h3>
 <p>This function takes one or more bodyids as input and returns the name of the neurons.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">neuprint_get_neuron_names &lt;-<span class="st"> </span><span class="cf">function</span>(bodyids, <span class="dt">dataset =</span> <span class="ot">NULL</span>, <span class="dt">all_segments =</span> <span class="ot">FALSE</span>, <span class="dt">conn =</span> <span class="ot">NULL</span>, ...) {</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  all_segments.json =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(all_segments,<span class="st">"Segment"</span>, <span class="st">"Neuron"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  cypher =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name"</span>,</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">                   <span class="kw">id2json</span>(bodyids),</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">                   all_segments.json)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">  nc =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom</a></span>(<span class="dt">cypher=</span>cypher, <span class="dt">conn =</span> conn, <span class="dt">dataset =</span> dataset, ...)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">  d =<span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(nc<span class="op">$</span>data,nullToNA))</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(d) =<span class="st"> </span>bodyids</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">  d</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">}</a></code></pre></div>
-<p><code>bodyids</code> is the main input argument. These typically come in as either character vector or numeric format. The internal function <code>id2json()</code> will look after formatting them appropriately for the query.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">neuprint_get_neuron_names &lt;-<span class="st"> </span><span class="cf">function</span>(bodyids, <span class="dt">dataset =</span> <span class="ot">NULL</span>, <span class="dt">all_segments =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">                                      <span class="dt">conn =</span> <span class="ot">NULL</span>, ...) {</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  bodyids =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_search.html">neuprint_ids</a></span>(bodyids, <span class="dt">conn =</span> conn, <span class="dt">dataset =</span> dataset)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  all_segments.json =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(all_segments,<span class="st">"Segment"</span>, <span class="st">"Neuron"</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">  cypher =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name"</span>,</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">                   <span class="kw">id2json</span>(bodyids),</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">                   all_segments.json)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">  nc =<span class="st"> </span><span class="kw"><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom</a></span>(<span class="dt">cypher=</span>cypher, <span class="dt">conn =</span> conn, <span class="dt">dataset =</span> dataset, ...)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">  d =<span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(nc<span class="op">$</span>data,nullToNA))</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(d) =<span class="st"> </span>bodyids</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  d</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">}</a></code></pre></div>
+<p><code>bodyids</code> is the main input argument. These typically come in as either character vector or numeric format. By passing the argument to the <code><a href="../reference/neuprint_search.html">neuprint_ids()</a></code> function you can also enable a range of queries to define the bodyids. The internal function <code>id2json()</code> is eventually used to look after formatting them appropriately for the Neo4j cypher query.</p>
 <p>In this function, <code>cypher</code> is the actual query written in the <a href="https://neo4j.com/developer/cypher-query-language/">Cypher query language</a>. One helpful tip. <em>You can press the i key in neuPrint explorer to reveal the cypher query</em>!</p>
 <p>Many functions that operate on neurons will have an argument controlling whether they operate only for larger objects (aka <em>Neuron</em>) or also on fragments (aka <em>Segment</em>). Restricting queries to <em>Neuron</em> can result in big speed-ups in some cases. You can provide an <code>all_segments</code> argument to handle this option.</p>
 <p>Finally the results that come back from <code>neuprint_fetch_custom</code> are typically in a big list object. For simple results, you can just <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> this to make a vector. In this case a function <code>nullToNA</code> is first applied in order to ensure that any values that come back as <code>NULL</code> are converted to <code>NA</code>; this is necessary to ensure that you can make a vector - vector objects can only contain <code>NA</code>s not <code>NULL</code>s.</p>
@@ -145,20 +147,21 @@
 <div id="body-ids" class="section level3">
 <h3 class="hasAnchor">
 <a href="#body-ids" class="anchor"></a>Body ids</h3>
-<p>You need to be a little careful with the handling of body ids. These are 64 bit integers (often called <code>bigint</code>s), which are commonly used as keys in databases. However like many programming languages R does not have a native 64 bit integer type. R’s default numeric format is double width floating point. This can exactly handle numbers with up to 53 bits of precision.</p>
-<p>However, the biggest integer (here data is represented in signed format <code>int64</code>) that we need to worry about is (2^63)-1 = 9,223,372,036,854,775,807. This cannot be represented as a numeric. I have yet to spot a body id in this upper range, but the <code>id2json</code> function will take care that you do not use one. If you need to specify a large bodyid as input to your function then you should insist on</p>
+<p>You need to be a little careful with the handling of body ids. The basic advice is to pass them to <code><a href="../reference/neuprint_search.html">neuprint_ids()</a></code> on entry to your function. This will ensure that there is at least one id (unless <code>mustWork=FALSE</code>) and convert to character vector. It also allows simple queries (by default exact matches against the type field). Finally it will by default ensure that only unique ids are passed in. This is <em>nearly</em> always what you want, but be careful.</p>
+<p>In more detail, body ids are 64 bit integers (often called <code>bigint</code>s), which are commonly used as keys in databases. However like many programming languages R does not have a native 64 bit integer type. R’s default numeric format is double width floating point. This can exactly handle numbers with up to 53 bits of precision.</p>
+<p>However, the biggest integer (here data is represented in signed format <code>int64</code>) that we need to worry about is (2^63)-1 = 9,223,372,036,854,775,807. This cannot be represented as a numeric. I have yet to spot a body id in this upper range, but the <code>neuprint_ids</code> function will take care that you do not use one. If you need to specify a large bodyid as input to your function then you should insist on</p>
 <ul>
 <li>character vector input</li>
 <li>64 bit integers provided by <code><a href="https://rdrr.io/pkg/bit64/man/bit64-package.html">bit64::integer64()</a></code>
 </li>
 </ul>
-<p>The latter is arguably the best approach, but it relies on an add-on package (bit64) rather than base R.</p>
+<p>The latter seems better in theory (since it is more compact) than using character vectors, but it relies on an add-on package (bit64) rather than base R and I have seen subtle errors when <code>integer64</code> objects lose their class. In particular you cannot turn them into a list or run <code>lapply</code> without losing their class. Therefore I recommend using character vectors where possible.</p>
 <p>Bottom line</p>
 <ul>
+<li>always apply <code><a href="../reference/neuprint_search.html">neuprint_ids()</a></code> to your incoming body ids to enable a range of simple queries and check that your input looks sensible.</li>
 <li>always use <code>id2json()</code> on your body ids when building your cypher</li>
-<li>if you work with your body ids inside your function then do <code>id2char</code> to put them into the most robust standard form (a character vector).</li>
+<li>if you work with your body ids inside your function and do not start by passing them to <code><a href="../reference/neuprint_search.html">neuprint_ids()</a></code>, then at least use <code>id2char</code> to put them into the most robust standard form (a character vector).</li>
 </ul>
-<p><code>id2bit64</code> is also available. This sounds better, but these <code><a href="https://rdrr.io/pkg/bit64/man/bit64-package.html">bit64::integer64()</a></code> are a bit fragile. In particular you cannot turn them into a list or run <code>lapply</code> without losing their class.</p>
 </div>
 <div id="connecting-to-neuprint" class="section level3">
 <h3 class="hasAnchor">
