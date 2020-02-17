@@ -221,6 +221,7 @@ neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE,
   # convert radius to diameter
   df$W=df$W*2
   n=nat::as.neuron(df)
+  n$bodyid = bodyid
   if(heal) suppressMessages(nat::stitch_neurons_mst(x = n, threshold = heal.threshold)) else n
 }
 

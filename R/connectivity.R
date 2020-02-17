@@ -509,7 +509,7 @@ extract_connectivity_df <- function(rois, json){
 #' @rdname neuprint_skeleton_connectivity_matrix
 neuprint_skeleton_connectivity_matrix <- function (pre, post = NULL, ...) {
   pre = nat::as.neuronlist(pre)
-  outs = nat::nlapply(pre, function(x) subset(x$connectors$bodyid,x$connectors$prepost == 0),...)
+  outs = nat::nlapply(pre, function(x) subset(x$connectors$partner,x$connectors$prepost == 0),...)
   if(is.null(post)){
     post = pre
   }else{
