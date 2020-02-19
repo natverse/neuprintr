@@ -170,7 +170,7 @@ If neuprint_read_skeletons is used, just a simple skeleton is
 )
 
 <span class='fu'>neuprint_read_skeletons</span>(
-  <span class='no'>bodyid</span>,
+  <span class='no'>bodyids</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -178,14 +178,15 @@ If neuprint_read_skeletons is used, just a simple skeleton is
   <span class='no'>...</span>
 )
 
-<span class='fu'>neuprint_read_neurons_simple</span>(<span class='no'>bodyid</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>neuprint_read_neurons_simple</span>(<span class='no'>bodyids</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bodyids</th>
-      <td><p>the body IDs for neurons/segments (bodies) you wish to query</p></td>
+      <td><p>the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>meta</th>
@@ -264,10 +265,6 @@ details.</p></td>
       <th>...</th>
       <td><p>methods passed to <code>neuprint_login</code></p></td>
     </tr>
-    <tr>
-      <th>bodyid</th>
-      <td><p>a single body ID for a neuron/segment (body) you wish to query</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -292,13 +289,7 @@ details.</p></td>
 <span class='no'>n2</span> <span class='kw'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fl'>5812980863</span>, <span class='kw'>heal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
-<span class='no'>dl1.info</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*mPN.*DL1.*'</span>)
-<span class='no'>dl1.info</span></div><div class='output co'>#&gt;       bodyid              name     type status    statusLabel     voxels  pre
-#&gt; 1 1700946301 mPN1_DL1(AVM01)_R DL1 adPN Traced Roughly traced 2058578297 1474
-#&gt; 2 1700937093 mPN1_DL1(AVM01)_R DL1 adPN Traced Roughly traced 2435730455 1374
-#&gt;   post cropped  soma cellBodyFiber
-#&gt; 1 4428   FALSE FALSE           A11
-#&gt; 2 4313   FALSE  TRUE           A11</div><div class='input'><span class='no'>dl1s</span><span class='kw'>=</span><span class='fu'>neuprint_read_skeletons</span>(<span class='no'>dl1.info</span>$<span class='no'>bodyid</span>)
+<span class='no'>dl1s</span><span class='kw'>=</span><span class='fu'>neuprint_read_skeletons</span>(<span class='st'>'DL1 adPN'</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>dl1s</span>, <span class='kw'>WithNode</span><span class='kw'>=</span><span class='no'>F</span>)</div><div class='img'><img src='neuprint_read_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'># }
 </div></pre>
   </div>

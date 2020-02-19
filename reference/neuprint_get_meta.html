@@ -153,7 +153,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bodyids</th>
-      <td><p>the body IDs for neurons/segments (bodies) you wish to query</p></td>
+      <td><p>the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
@@ -205,6 +206,18 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='no'>da2s</span><span class='kw'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>)
 <span class='fu'>neuprint_get_meta</span>(<span class='no'>da2s</span>$<span class='no'>bodyid</span>)</div><div class='output co'>#&gt;       bodyid              name    type status    statusLabel    voxels pre post
+#&gt; 1 1796817841 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 723036360 392  512
+#&gt; 2 1827516355 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 737014743 391  548
+#&gt; 3  818983130 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 606338969 408  562
+#&gt; 4 1797505019 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 445320106 339  479
+#&gt; 5 1796818119 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 907369420 510  818
+#&gt;   cropped  soma cellBodyFiber
+#&gt; 1   FALSE  TRUE           A12
+#&gt; 2   FALSE  TRUE           A12
+#&gt; 3   FALSE FALSE           A12
+#&gt; 4   FALSE FALSE           A12
+#&gt; 5   FALSE  TRUE           A12</div><div class='input'><span class='co'># or simpler</span>
+<span class='fu'>neuprint_get_meta</span>(<span class='st'>'DA2'</span>)</div><div class='output co'>#&gt;       bodyid              name    type status    statusLabel    voxels pre post
 #&gt; 1 1796817841 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 723036360 392  512
 #&gt; 2 1827516355 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 737014743 391  548
 #&gt; 3  818983130 mPN1_DA2(AVM02)_R DA2 lPN Traced Roughly traced 606338969 408  562
