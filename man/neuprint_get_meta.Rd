@@ -64,5 +64,7 @@ Sometimes a \code{cellBodyFiber} will be present even when the
 \donttest{
 da2s=neuprint_search(".*DA2.*")
 neuprint_get_meta(da2s$bodyid)
+# or simpler
+neuprint_get_meta('DA2')
 }
 }
