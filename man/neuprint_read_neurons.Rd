@@ -24,7 +24,7 @@ neuprint_read_neurons(
 )
 
 neuprint_read_skeletons(
-  bodyid,
+  bodyids,
   dataset = NULL,
   conn = NULL,
   heal = TRUE,
@@ -32,7 +32,7 @@ neuprint_read_skeletons(
   ...
 )
 
-neuprint_read_neurons_simple(bodyid, ...)
+neuprint_read_neurons_simple(bodyids, ...)
 }
 \arguments{
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
@@ -88,8 +88,6 @@ an error message the moment there is an error. For other values, see
 details.}
 
 \item{...}{methods passed to \code{neuprint_login}}
-
-\item{bodyid}{a single body ID for a neuron/segment (body) you wish to query}
 }
 \value{
 a data frame in SWC format, or a
@@ -118,9 +116,7 @@ n1 = neuprint_read_neurons(5812980863)
 n2 = neuprint_read_neurons(5812980863, heal = FALSE)
 }
 \donttest{
-dl1.info <- neuprint_search('.*mPN.*DL1.*')
-dl1.info
-dl1s=neuprint_read_skeletons(dl1.info$bodyid)
+dl1s=neuprint_read_skeletons('DL1 adPN')
 plot(dl1s, WithNode=F)
 }
 }

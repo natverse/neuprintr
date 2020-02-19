@@ -10,7 +10,6 @@
 #'   retrieved.
 #' @param bodyids the body IDs for neurons/segments (bodies) you wish to query.
 #'   This can be in any form understood by \code{\link{neuprint_ids}}.
-#' @param bodyid a single body ID for a neuron/segment (body) you wish to query
 #' @param drvid whether or not to use \code{drvid::read.neuron.dvid} rather than
 #'   a cypher post request to \code{neuprint_fetch_custom}, in order to read a
 #'   neuron. This might be faster, and this might also enable access to
@@ -201,32 +200,30 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), datase
 #' @rdname neuprint_read_neurons
 #' @examples
 #' \donttest{
-#' dl1.info <- neuprint_search('.*mPN.*DL1.*')
-#' dl1.info
-#' dl1s=neuprint_read_skeletons(dl1.info$bodyid)
+#' dl1s=neuprint_read_skeletons('DL1 adPN')
 #' plot(dl1s, WithNode=F)
 #' }
-neuprint_read_skeletons <- function(bodyid, dataset=NULL, conn=NULL, heal=TRUE,
+neuprint_read_skeletons <- function(bodyids, dataset=NULL, conn=NULL, heal=TRUE,
                                     heal.threshold=1000, ...) {
   dataset = check_dataset(dataset, conn=conn)
-  bodyid=neuprint_ids(bodyid, conn = conn, dataset = dataset)
-  if(length(bodyid)>1) {
-    fakenl=structure(bodyid, .Names=bodyid)
+  bodyids=neuprint_ids(bodyids, conn = conn, dataset = dataset)
+  if(length(bodyids)>1) {
+    fakenl=structure(bodyids, .Names=bodyids)
     nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, heal=heal, ...)
     return(nl)
   }
-  path=file.path("api/skeletons/skeleton", dataset, bodyid)
+  path=file.path("api/skeletons/skeleton", dataset, bodyids)
   res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
   colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")
   df=as.data.frame(res$data)
   # convert radius to diameter
   df$W=df$W*2
   n=nat::as.neuron(df)
-  n$bodyid = bodyid
+  n$bodyid = bodyids
   if(heal) suppressMessages(nat::stitch_neurons_mst(x = n, threshold = heal.threshold)) else n
 }
 
 #' @rdname neuprint_read_neurons
-neuprint_read_neurons_simple <- function(bodyid, ...) {
+neuprint_read_neurons_simple <- function(bodyids, ...) {
   .Defunct("neuprint_read_skeletons")
 }
