@@ -14,7 +14,8 @@ neuprint_get_synapses(
 )
 }
 \arguments{
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by \code{\link{neuprint_ids}}.}
 
 \item{roi}{a roi (i.e. neuropil volume) you want to query. Use
 \code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',

@@ -15,7 +15,8 @@ neuprint_get_adjacency_matrix(
 )
 }
 \arguments{
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by \code{\link{neuprint_ids}}.}
 
 \item{inputids, outputids}{identifiers for input and output bodies (use as an
 alternative to \code{bodyids})}

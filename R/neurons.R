@@ -8,7 +8,8 @@
 #'
 #'   If \code{neuprint_read_skeletons} is used, just a simple skeleton is
 #'   retrieved.
-#' @param bodyids the body IDs for neurons/segments (bodies) you wish to query
+#' @param bodyids the body IDs for neurons/segments (bodies) you wish to query.
+#'   This can be in any form understood by \code{\link{neuprint_ids}}.
 #' @param bodyid a single body ID for a neuron/segment (body) you wish to query
 #' @param drvid whether or not to use \code{drvid::read.neuron.dvid} rather than
 #'   a cypher post request to \code{neuprint_fetch_custom}, in order to read a

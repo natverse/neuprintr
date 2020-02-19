@@ -18,7 +18,8 @@ neuprint_connection_table(
 )
 }
 \arguments{
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by \code{\link{neuprint_ids}}.}
 
 \item{prepost}{whether to look for partners presynaptic to postsynaptic
 to the given bodyids}

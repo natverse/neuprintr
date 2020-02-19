@@ -35,7 +35,8 @@ neuprint_read_skeletons(
 neuprint_read_neurons_simple(bodyid, ...)
 }
 \arguments{
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by \code{\link{neuprint_ids}}.}
 
 \item{meta}{whether or not to fetch a meta data for the given bodyids, using
 \code{neuprint_get_meta}}

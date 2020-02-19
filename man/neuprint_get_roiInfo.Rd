@@ -13,7 +13,8 @@ neuprint_get_roiInfo(
 )
 }
 \arguments{
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by \code{\link{neuprint_ids}}.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the

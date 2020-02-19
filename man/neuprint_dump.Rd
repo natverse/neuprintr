@@ -30,7 +30,8 @@ neuprint_dump(
 \arguments{
 \item{dir}{the directory to which to save the dump}
 
-\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query}
+\item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
+This can be in any form understood by \code{\link{neuprint_ids}}.}
 
 \item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
 
