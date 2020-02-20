@@ -7,6 +7,7 @@ test_that("test name searches ", {
   expect_is(penAbis <- neuprint_search("PEN_a(",field="type",fixed=TRUE),
             'data.frame')
   expect_equal(penAs,penAbis)
+  expect_is(mbon <-  neuprint_search("MBON16-like(a'3a)_R",field="name"), 'data.frame')
   expect_true(all(
     neuprint_search(
       penAbis$type[1],
