@@ -120,27 +120,42 @@ neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE,
                             ifelse(is.null(rois),jsonlite::toJSON(list()),jsonlite::toJSON(rois))))
     class(Payload) = "json"
     roi.conn <- neuprint_fetch(path = 'api/npexplorer/roiconnectivity', body = Payload, conn = conn, ...)
-    connData <- roi.conn$data[sapply(roi.conn$data,function(d) any(sapply(rois,function(r) grepl(paste0("\"",r,"\""), d[[2]]))))]
-    connections <-lapply(connData, function(rc) extract_connectivity_df(rois=rois,json=rc[[2]]))
-    resultsD <- dplyr::bind_rows(connections)
-    resultsD$bodyid <- as.character(sapply(connData, function(d) d[[1]]))
-    if (!full){
-      results <- matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
-      if (statistic == "count"){
-        for (inp in rois){
-          for (out in rois){
-            results[inp,out] <- length(which(resultsD[[paste0(inp,".post")]]>0 & resultsD[[paste0(out,".pre")]]>0))
+    ll <- neuprint_list2df(roi.conn)
+    # running fromJSON on many separate strings is slow, so start by
+    # selecting strings that actually contain the selected ROIs
+    hasroi=sapply(rois, function(roi)
+      stringr::str_detect(ll$roiInfo, stringr::fixed(paste0('"',roi,'"'))))
+    if(is.matrix(hasroi)) hasroi=rowSums(hasroi)>0
+
+    connections <-lapply(ll$roiInfo[hasroi],
+                         function(x) extract_connectivity_df(rois=rois,json=x))
+    resultsD <- cbind(ll[hasroi, 1, drop=FALSE], dplyr::bind_rows(connections))
+    if (!full) {
+      results <-
+        matrix(
+          nrow = length(rois),
+          ncol = length(rois),
+          dimnames = list(inputs = rois, outputs = rois)
+        )
+      if (statistic == "count") {
+        for (inp in rois) {
+          for (out in rois) {
+            results[inp, out] <-
+              length(which(resultsD[[paste0(inp, ".post")]] > 0 &
+                             resultsD[[paste0(out, ".pre")]] > 0))
           }
         }
-      }else{
+      } else{
         totalInputs <- neuprint_get_meta(resultsD$bodyid)$post
-        for (inp in rois){
-          for (out in rois){
-            results[inp,out] <- sum((resultsD[[paste0(out,".pre")]]*resultsD[[paste0(inp,".post")]]/totalInputs)[totalInputs>0])
+        for (inp in rois) {
+          for (out in rois) {
+            results[inp, out] <-
+              sum((resultsD[[paste0(out, ".pre")]] * resultsD[[paste0(inp, ".post")]] /
+                     totalInputs)[totalInputs > 0])
           }
         }
       }
-    }else{
+    } else {
       results <- resultsD
     }
   }
