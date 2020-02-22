@@ -1,3 +1,11 @@
+test_that("", {
+  json='{"SNP(R)": {"pre": 71, "post": 155}, "SLP(R)": {"pre": 67, "post": 153}, "SIP(R)": {"pre": 4, "post": 2}, "LH(R)": {"pre": 20, "post": 25}, "VLNP(R)": {"pre": 1}, "PLP(R)": {"pre": 1}, "AL(R)": {"pre": 1, "post": 162}}'
+  rois=c("AL(R)", "LH(R)")
+
+  expect_is(xdf <- extract_connectivity_df(rois = rois, json=json), 'data.frame')
+  expect_known_hash(xdf, "85ea57c5ec")
+})
+
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("neuprint_bodies_in_ROI works", {
