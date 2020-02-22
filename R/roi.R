@@ -75,26 +75,46 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
 #' @title Get the connectivity between ROIs in a neuPrint dataset
 #'
 #' @param rois regions of interest for a dataset
-#' @param cached pull cached results (TRUE) or recalculate the connectivity (FALSE)?
-#' @param full return all neurons involved (TRUE, the default) or give a ROI summary (FALSE, default behavior if `cached` is TRUE)
-#' @param statistic either "weight" or count" (default "weight"). Which number to return (see neuprint explorer for details) for summary results (either `full` is FALSE or `cached` is TRUE)
+#' @param cached pull cached results (TRUE) or recalculate the connectivity
+#'   (FALSE)?
+#' @param full return all neurons involved (TRUE, the default) or give a ROI
+#'   summary (FALSE, default behavior if `cached` is TRUE)
+#' @param statistic either "weight" or count" (default "weight"). Which number
+#'   to return (see neuprint explorer for details) for summary results (either
+#'   `full` is FALSE or `cached` is TRUE)
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
-#' @seealso \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+#' @seealso \code{\link{neuprint_simple_connectivity}},
+#'   \code{\link{neuprint_common_connectivity}}
 #' @export
-#' @rdname neuprint_ROI_connectivity
-neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic = c("weight","count"),dataset = NULL, conn = NULL, ...){
+#' @examples
+#' \donttest{
+#' aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),
+#'   cached=TRUE)
+#' heatmap(aba)
+#' }
+neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE,
+                                      statistic = c("weight","count"),
+                                      dataset = NULL, conn = NULL, ...) {
   statistic <- match.arg(statistic)
   roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
-  if (cached){
-    results <-matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
+  if (cached) {
+    results <-matrix(ifelse(statistic == 'count', 0L, 0),
+                     nrow=length(rois), ncol=length(rois),
+                     dimnames = list(inputs=rois,outputs=rois))
     roi.conn = neuprint_fetch(path = 'api/cached/roiconnectivity', conn = conn, ...)
-    for (inp in rois){
-      for (out in rois){
-         results[inp,out] <-  roi.conn$weights[[paste(inp,out,sep="=>")]][[statistic]]
+    missing=setdiff(rois, unlist(roi.conn$roi_names))
+    if(length(missing))
+      warning("Dropping missing rois:", paste(missing, collapse = " "))
+    allpairs = names(roi.conn$weights)
+    for (inp in rois) {
+      for (out in rois) {
+        edgename=paste(inp, out, sep="=>")
+        if(edgename %in% allpairs)
+          results[inp,out] <- roi.conn$weights[[edgename]][[statistic]]
       }
     }
-  }else{
+  } else {
     Payload = noquote(sprintf('{"dataset":"%s","rois":%s}',
                             dataset,
                             ifelse(is.null(rois),jsonlite::toJSON(list()),jsonlite::toJSON(rois))))
