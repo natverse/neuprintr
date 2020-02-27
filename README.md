@@ -7,6 +7,8 @@ Status](https://api.travis-ci.org/natverse/neuprintr.svg?branch=master)](https:/
 <img src="man/figures/logo.svg" align="right" height="139" /> [![Codecov
 test
 coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/neuprintr?branch=master)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
 neuprintr
