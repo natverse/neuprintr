@@ -8,3 +8,9 @@ test_that("neuprint_bodies_in_ROI works", {
     input_ROIs = "AL(R)", output_ROIs = "LH(R)"),
     'data.frame')
 })
+
+
+test_that("neuprint_ROI_mesh works", {
+  expect_is(m <- neuprint_ROI_mesh('ATL(L)'),
+    'mesh3d')
+})
