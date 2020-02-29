@@ -121,10 +121,10 @@ neuprint_read_neuron <- function(bodyid,
                                  conn = NULL, ...){
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   if(drvid){
-    n = tryCatch(drvid::read.neuron.dvid(bodyid),error = function(e) NULL)
+    n = tryCatch(drvid::read.neuron.dvid(bodyid),error = function(e) {warning(e); NULL})
     d = n$d
   }else{
-    n = tryCatch(neuprint_read_skeletons(id2char(bodyid), dataset=dataset,conn = conn, heal = heal,heal.threshold=heal.threshold,...),error = function(e) NULL)
+    n = tryCatch(neuprint_read_skeletons(id2char(bodyid), dataset=dataset,conn = conn, heal = heal,heal.threshold=heal.threshold,...),error = function(e) {warning(e); NULL})
     d = n$d
   }
   if(is.null(n)){

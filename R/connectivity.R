@@ -133,7 +133,7 @@ neuprint_connection_table <- function(bodyids,
       by.roi = by.roi,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
-      error = function(e) NULL)))
+      error = function(e) {warning(e); NULL})))
     d <-  d[order(d$weight,decreasing=TRUE),]
     rownames(d) <- NULL
     return(d)
@@ -293,8 +293,7 @@ neuprint_simple_connectivity <- function(bodyids,
             conn = conn,
             ...
           ),
-          error = function(e)
-            NULL
+          error = function(e) {warning(e); NULL}
         ))))
     # FIXME need to convert NA weights to 0
     return(m)
