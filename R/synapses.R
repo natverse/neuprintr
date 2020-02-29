@@ -28,9 +28,7 @@
 neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
   conn = neuprint_login(conn)
   bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
-  if (is.null(roi)) {
-    roi = ""
-  } else{
+  if (!is.null(roi)) {
     possible.rois = neuprint_ROIs(dataset = dataset, conn = conn, ...)
     if (sum(!roi %in% possible.rois) > 0) {
       stop(
@@ -51,9 +49,20 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
       progress = FALSE,
       dataset = dataset,
       conn = conn, ...),
-      error = function(e) NULL)))
+      error = function(e) {warning(e); NULL})))
+    # if you request multiple neurons in one go, they come back sorted by
+    # prepost and then by body id. Not sure if that is the best order, but
+    # probably best to emulate
+    if(isTRUE(nrow(d)>1)) {
+      d=d[order(d$prepost, decreasing = TRUE),]
+      rownames(d)=NULL
+    }
+
+
     return(d)
   }
+  if(is.null(roi)) roi <- ""
+
   cypher.post = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                               "MATCH (a:`%s`)-[:Contains]->(c:SynapseSet)-[:Contains]->(s:Synapse)<-[:SynapsesTo]-(:Synapse)<-[:Contains]-(:SynapseSet)<-[:Contains]-(b:`%s`)",
                               "WHERE a.bodyId=bodyId AND (s.type='post') %s",

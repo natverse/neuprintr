@@ -19,6 +19,11 @@ test_that("neuprint_bodies_in_ROI works", {
     'data.frame')
 })
 
+test_that("neuprint_ROI_mesh works", {
+  expect_is(m <- neuprint_ROI_mesh('ATL(L)'),
+    'mesh3d')
+})
+
 test_that("neuprint_ROI_connectivity works", {
   rois <- neuprint_ROIs(superLevel = TRUE)[1:2]
   expect_is(m <- neuprint_ROI_connectivity(rois, full=F), 'matrix')

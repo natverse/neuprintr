@@ -171,13 +171,14 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
   results
 }
 
-#' @title Download a region of interest as a mesh
+#' @title Download a region of interest as a 3D mesh
 #'
 #' @param roi region of interest for a dataset
 #' @inheritParams neuprint_fetch_custom
-#' @param ... methods passed to \code{neuprint_login}
+#' @param ... methods passed to \code{\link{neuprint_login}}
 #' @export
-#' @rdname neuprint_ROI_mesh
+#' @return a \code{\link[rgl]{mesh3d}} object
+#' @seealso \code{\link{neuprint_ROIs}}
 neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
