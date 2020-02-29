@@ -50,6 +50,15 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
       dataset = dataset,
       conn = conn, ...),
       error = function(e) {warning(e); NULL})))
+    # if you request multiple neurons in one go, they come back sorted by
+    # prepost and then by body id. Not sure if that is the best order, but
+    # probably best to emulate
+    if(isTRUE(nrow(d)>1)) {
+      d=d[order(d$prepost, decreasing = TRUE),]
+      rownames(d)=NULL
+    }
+
+
     return(d)
   }
   if(is.null(roi)) roi <- ""
