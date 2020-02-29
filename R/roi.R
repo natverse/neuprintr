@@ -83,10 +83,10 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
 #'   ROI summary (FALSE)
 #' @param statistic either "weight" or count" (default "weight"). Which number
 #'   to return (see neuprint explorer for details) for summary results (either
-#'   `full` is FALSE or `cached` is TRUE)
-#' @param cached pull cached results (TRUE) or ask server to recalculate the
-#'   connectivity (FALSE). Only applicable to summary results when
-#'   \code(full=FALSE) and .
+#'   (when \code{full=FALSE})
+#' @param cached pull precomputed results (TRUE) or ask server to recalculate
+#'   the connectivity (FALSE). Only applicable to summary results when
+#'   \code{full=FALSE}.
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_simple_connectivity}},

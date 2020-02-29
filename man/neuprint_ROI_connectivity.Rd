@@ -22,11 +22,11 @@ ROI summary (FALSE)}
 
 \item{statistic}{either "weight" or count" (default "weight"). Which number
 to return (see neuprint explorer for details) for summary results (either
-`full` is FALSE or `cached` is TRUE)}
+(when \code{full=FALSE})}
 
-\item{cached}{pull cached results (TRUE) or ask server to recalculate the
-connectivity (FALSE). Only applicable to summary results when
-\code(full=FALSE) and .}
+\item{cached}{pull precomputed results (TRUE) or ask server to recalculate
+the connectivity (FALSE). Only applicable to summary results when
+\code{full=FALSE}.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
