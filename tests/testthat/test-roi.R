@@ -18,3 +18,11 @@ test_that("neuprint_bodies_in_ROI works", {
     input_ROIs = "AL(R)", output_ROIs = "LH(R)"),
     'data.frame')
 })
+
+test_that("neuprint_ROI_connectivity works", {
+  rois <- neuprint_ROIs(superLevel = TRUE)[1:2]
+  expect_is(m <- neuprint_ROI_connectivity(rois, full=F), 'matrix')
+  expect_equal(dimnames(m),
+               list(inputs = rois, outputs = rois))
+  expect_error(neuprint_ROI_connectivity(rois, full = T, cached = T))
+})

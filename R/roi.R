@@ -72,16 +72,21 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
   df
 }
 
-#' @title Get the connectivity between ROIs in a neuPrint dataset
+#' Get connectivity between ROIs (summary or data frame of connecting neurons)
 #'
+#' @details When requesting summary connectivity data between ROIs, we recommend
+#'   setting \code{cached=FALSE}. We have noticed small differences in the
+#'   connections weights, but computation times can get very long for more than
+#'   a handful of ROIs.
 #' @param rois regions of interest for a dataset
-#' @param cached pull cached results (TRUE) or recalculate the connectivity
-#'   (FALSE)?
-#' @param full return all neurons involved (TRUE, the default) or give a ROI
-#'   summary (FALSE, default behavior if `cached` is TRUE)
+#' @param full return all neurons involved (TRUE, the default) or give a numeric
+#'   ROI summary (FALSE)
 #' @param statistic either "weight" or count" (default "weight"). Which number
 #'   to return (see neuprint explorer for details) for summary results (either
 #'   `full` is FALSE or `cached` is TRUE)
+#' @param cached pull cached results (TRUE) or ask server to recalculate the
+#'   connectivity (FALSE). Only applicable to summary results when
+#'   \code(full=FALSE) and .
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_simple_connectivity}},
@@ -90,13 +95,17 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
 #' @examples
 #' \donttest{
 #' aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),
-#'   cached=TRUE)
+#'   full=FALSE)
 #' heatmap(aba)
 #' }
-neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE,
+neuprint_ROI_connectivity <- function(rois, full=TRUE,
                                       statistic = c("weight","count"),
+                                      cached = !full,
                                       dataset = NULL, conn = NULL, ...) {
   statistic <- match.arg(statistic)
+  if(isTRUE(full) && isTRUE(cached))
+    stop("It is not possible to return a full list of connecting neurons when ",
+         "`cached=TRUE`!\nPlease leave `cached` with its default value (FALSE).")
   roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
   if (cached) {
     results <-matrix(ifelse(statistic == 'count', 0L, 0),
