@@ -25,4 +25,11 @@ test_that("neuprint_ROI_connectivity works", {
   expect_equal(dimnames(m),
                list(inputs = rois, outputs = rois))
   expect_error(neuprint_ROI_connectivity(rois, full = T, cached = T))
+
+  expect_is(m2 <- neuprint_ROI_connectivity(rois, full=F, cached=F), 'matrix')
+  # note low tolerance as the cached and recomputed results are not identical
+  expect_equal(m2, m, tolerance = 1e-2)
+
+  expect_is(df <- neuprint_ROI_connectivity(rois[1], full=T), 'data.frame')
+  expect_true(ncol(df)==3)
 })
