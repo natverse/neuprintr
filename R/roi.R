@@ -72,55 +72,99 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
   df
 }
 
-#' @title Get the connectivity between ROIs in a neuPrint dataset
+#' Get connectivity between ROIs (summary or data frame of connecting neurons)
 #'
+#' @details When requesting summary connectivity data between ROIs, we recommend
+#'   setting \code{cached=FALSE}. We have noticed small differences in the
+#'   connections weights, but computation times can get very long for more than
+#'   a handful of ROIs.
 #' @param rois regions of interest for a dataset
-#' @param cached pull cached results (TRUE) or recalculate the connectivity (FALSE)?
-#' @param full return all neurons involved (TRUE, the default) or give a ROI summary (FALSE, default behavior if `cached` is TRUE)
-#' @param statistic either "weight" or count" (default "weight"). Which number to return (see neuprint explorer for details) for summary results (either `full` is FALSE or `cached` is TRUE)
+#' @param full return all neurons involved (TRUE, the default) or give a numeric
+#'   ROI summary (FALSE)
+#' @param statistic either "weight" or count" (default "weight"). Which number
+#'   to return (see neuprint explorer for details) for summary results (either
+#'   (when \code{full=FALSE})
+#' @param cached pull precomputed results (TRUE) or ask server to recalculate
+#'   the connectivity (FALSE). Only applicable to summary results when
+#'   \code{full=FALSE}.
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
-#' @seealso \code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+#' @seealso \code{\link{neuprint_simple_connectivity}},
+#'   \code{\link{neuprint_common_connectivity}}
 #' @export
-#' @rdname neuprint_ROI_connectivity
-neuprint_ROI_connectivity <- function(rois, cached = FALSE, full=TRUE, statistic = c("weight","count"),dataset = NULL, conn = NULL, ...){
+#' @examples
+#' \donttest{
+#' aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),
+#'   full=FALSE)
+#' heatmap(aba)
+#' }
+neuprint_ROI_connectivity <- function(rois, full=TRUE,
+                                      statistic = c("weight","count"),
+                                      cached = !full,
+                                      dataset = NULL, conn = NULL, ...) {
   statistic <- match.arg(statistic)
+  if(isTRUE(full) && isTRUE(cached))
+    stop("It is not possible to return a full list of connecting neurons when ",
+         "`cached=TRUE`!\nPlease leave `cached` with its default value (FALSE).")
   roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
-  if (cached){
-    results <-matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
+  if (cached) {
+    results <-matrix(ifelse(statistic == 'count', 0L, 0),
+                     nrow=length(rois), ncol=length(rois),
+                     dimnames = list(inputs=rois,outputs=rois))
     roi.conn = neuprint_fetch(path = 'api/cached/roiconnectivity', conn = conn, ...)
-    for (inp in rois){
-      for (out in rois){
-         results[inp,out] <-  roi.conn$weights[[paste(inp,out,sep="=>")]][[statistic]]
+    missing=setdiff(rois, unlist(roi.conn$roi_names))
+    if(length(missing))
+      warning("Dropping missing rois:", paste(missing, collapse = " "))
+    allpairs = names(roi.conn$weights)
+    for (inp in rois) {
+      for (out in rois) {
+        edgename=paste(inp, out, sep="=>")
+        if(edgename %in% allpairs)
+          results[inp,out] <- roi.conn$weights[[edgename]][[statistic]]
       }
     }
-  }else{
+  } else {
     Payload = noquote(sprintf('{"dataset":"%s","rois":%s}',
                             dataset,
                             ifelse(is.null(rois),jsonlite::toJSON(list()),jsonlite::toJSON(rois))))
     class(Payload) = "json"
     roi.conn <- neuprint_fetch(path = 'api/npexplorer/roiconnectivity', body = Payload, conn = conn, ...)
-    connData <- roi.conn$data[sapply(roi.conn$data,function(d) any(sapply(rois,function(r) grepl(paste0("\"",r,"\""), d[[2]]))))]
-    connections <-lapply(connData, function(rc) extract_connectivity_df(rois=rois,json=rc[[2]]))
-    resultsD <- dplyr::bind_rows(connections)
-    resultsD$bodyid <- as.character(sapply(connData, function(d) d[[1]]))
-    if (!full){
-      results <- matrix(nrow=length(rois),ncol=length(rois),dimnames = list(inputs=rois,outputs=rois))
-      if (statistic == "count"){
-        for (inp in rois){
-          for (out in rois){
-            results[inp,out] <- length(which(resultsD[[paste0(inp,".post")]]>0 & resultsD[[paste0(out,".pre")]]>0))
+    ll <- neuprint_list2df(roi.conn)
+    # running fromJSON on many separate strings is slow, so start by
+    # selecting strings that actually contain the selected ROIs
+    hasroi=sapply(rois, function(roi)
+      stringr::str_detect(ll$roiInfo, stringr::fixed(paste0('"',roi,'"'))))
+    if(is.matrix(hasroi)) hasroi=rowSums(hasroi)>0
+
+    connections <-lapply(ll$roiInfo[hasroi],
+                         function(x) extract_connectivity_df(rois=rois,json=x))
+    resultsD <- cbind(ll[hasroi, 1, drop=FALSE], dplyr::bind_rows(connections))
+    if (!full) {
+      results <-
+        matrix(
+          nrow = length(rois),
+          ncol = length(rois),
+          dimnames = list(inputs = rois, outputs = rois)
+        )
+      if (statistic == "count") {
+        for (inp in rois) {
+          for (out in rois) {
+            results[inp, out] <-
+              length(which(resultsD[[paste0(inp, ".post")]] > 0 &
+                             resultsD[[paste0(out, ".pre")]] > 0))
           }
         }
-      }else{
+      } else{
         totalInputs <- neuprint_get_meta(resultsD$bodyid)$post
-        for (inp in rois){
-          for (out in rois){
-            results[inp,out] <- sum((resultsD[[paste0(out,".pre")]]*resultsD[[paste0(inp,".post")]]/totalInputs)[totalInputs>0])
+        for (inp in rois) {
+          for (out in rois) {
+            results[inp, out] <-
+              sum((resultsD[[paste0(out, ".pre")]] * resultsD[[paste0(inp, ".post")]] /
+                     totalInputs)[totalInputs > 0])
           }
         }
       }
-    }else{
+    } else {
       results <- resultsD
     }
   }

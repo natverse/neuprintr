@@ -476,23 +476,19 @@ extract_connectivity_df <- function(rois, json){
   if(is.null(json)){
     return(NULL)
   }
-  a <- unlist(jsonlite::fromJSON(json))
-  values <-  data.frame(row.names = 1)
   rois <- unique(rois) #this takes care if both the input and output ROIs are same..
+  a <- unlist(jsonlite::fromJSON(json))
+  roicols <- c(t(outer(rois, c("pre", "post"), paste, sep=".")))
+  values <- tibble::as_tibble(as.list(structure(rep(0, length(roicols)), .Names=roicols)))
   for(roi in rois){
-    d <-  data.frame(0,0)
-    colnames(d) <- paste0(roi,c(".pre",".post"))
+    thisroicols <- paste0(roi,c(".pre",".post"))
     if (!is.null(a)){
       b <-  a[startsWith(names(a),paste0(roi,"."))]
-      d[names(b)] <-  b
+      values[names(b)] <-  b
     }
-    values <- cbind(values,d)
   }
   values
 }
-
-
-
 
 ##' @title Get a matrix for connectivity between neuron/neuronlist objects
 #'

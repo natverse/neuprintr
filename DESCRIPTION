@@ -37,7 +37,8 @@ Imports:
     memoise,
     dplyr,
     bit64,
-    stringr
+    stringr,
+    tibble
 Remotes: 
     natverse/drvid,
     natverse/nat

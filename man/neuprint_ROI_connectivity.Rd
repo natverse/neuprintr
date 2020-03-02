@@ -2,13 +2,13 @@
 % Please edit documentation in R/roi.R
 \name{neuprint_ROI_connectivity}
 \alias{neuprint_ROI_connectivity}
-\title{Get the connectivity between ROIs in a neuPrint dataset}
+\title{Get connectivity between ROIs (summary or data frame of connecting neurons)}
 \usage{
 neuprint_ROI_connectivity(
   rois,
-  cached = FALSE,
   full = TRUE,
   statistic = c("weight", "count"),
+  cached = !full,
   dataset = NULL,
   conn = NULL,
   ...
@@ -17,11 +17,16 @@ neuprint_ROI_connectivity(
 \arguments{
 \item{rois}{regions of interest for a dataset}
 
-\item{cached}{pull cached results (TRUE) or recalculate the connectivity (FALSE)?}
+\item{full}{return all neurons involved (TRUE, the default) or give a numeric
+ROI summary (FALSE)}
 
-\item{full}{return all neurons involved (TRUE, the default) or give a ROI summary (FALSE, default behavior if `cached` is TRUE)}
+\item{statistic}{either "weight" or count" (default "weight"). Which number
+to return (see neuprint explorer for details) for summary results (either
+(when \code{full=FALSE})}
 
-\item{statistic}{either "weight" or count" (default "weight"). Which number to return (see neuprint explorer for details) for summary results (either `full` is FALSE or `cached` is TRUE)}
+\item{cached}{pull precomputed results (TRUE) or ask server to recalculate
+the connectivity (FALSE). Only applicable to summary results when
+\code{full=FALSE}.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
@@ -35,8 +40,22 @@ used. See \code{\link{neuprint_login}} for details.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \description{
-Get the connectivity between ROIs in a neuPrint dataset
+Get connectivity between ROIs (summary or data frame of connecting neurons)
+}
+\details{
+When requesting summary connectivity data between ROIs, we recommend
+  setting \code{cached=FALSE}. We have noticed small differences in the
+  connections weights, but computation times can get very long for more than
+  a handful of ROIs.
+}
+\examples{
+\donttest{
+aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),
+  full=FALSE)
+heatmap(aba)
+}
 }
 \seealso{
-\code{\link{neuprint_simple_connectivity}}, \code{\link{neuprint_common_connectivity}}
+\code{\link{neuprint_simple_connectivity}},
+  \code{\link{neuprint_common_connectivity}}
 }
