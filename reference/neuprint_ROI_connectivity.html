@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the connectivity between ROIs in a neuPrint dataset — neuprint_ROI_connectivity • neuprintr</title>
+<title>Get connectivity between ROIs (summary or data frame of connecting neurons) — neuprint_ROI_connectivity • neuprintr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="Get the connectivity between ROIs in a neuPrint dataset — neuprint_ROI_connectivity" />
-<meta property="og:description" content="Get the connectivity between ROIs in a neuPrint dataset" />
+<meta property="og:title" content="Get connectivity between ROIs (summary or data frame of connecting neurons) — neuprint_ROI_connectivity" />
+<meta property="og:description" content="Get connectivity between ROIs (summary or data frame of connecting neurons)" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -131,20 +131,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the connectivity between ROIs in a neuPrint dataset</h1>
+    <h1>Get connectivity between ROIs (summary or data frame of connecting neurons)</h1>
     <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/roi.R'><code>R/roi.R</code></a></small>
     <div class="hidden name"><code>neuprint_ROI_connectivity.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the connectivity between ROIs in a neuPrint dataset</p>
+    <p>Get connectivity between ROIs (summary or data frame of connecting neurons)</p>
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_ROI_connectivity</span>(
   <span class='no'>rois</span>,
-  <span class='kw'>cached</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>statistic</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"weight"</span>, <span class='st'>"count"</span>),
+  <span class='kw'>cached</span> <span class='kw'>=</span> !<span class='no'>full</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
@@ -158,16 +158,21 @@
       <td><p>regions of interest for a dataset</p></td>
     </tr>
     <tr>
-      <th>cached</th>
-      <td><p>pull cached results (TRUE) or recalculate the connectivity (FALSE)?</p></td>
-    </tr>
-    <tr>
       <th>full</th>
-      <td><p>return all neurons involved (TRUE, the default) or give a ROI summary (FALSE, default behavior if `cached` is TRUE)</p></td>
+      <td><p>return all neurons involved (TRUE, the default) or give a numeric
+ROI summary (FALSE)</p></td>
     </tr>
     <tr>
       <th>statistic</th>
-      <td><p>either "weight" or count" (default "weight"). Which number to return (see neuprint explorer for details) for summary results (either `full` is FALSE or `cached` is TRUE)</p></td>
+      <td><p>either "weight" or count" (default "weight"). Which number
+to return (see neuprint explorer for details) for summary results (either
+(when <code>full=FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>cached</th>
+      <td><p>pull precomputed results (TRUE) or ask server to recalculate
+the connectivity (FALSE). Only applicable to summary results when
+<code>full=FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
@@ -188,16 +193,31 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>When requesting summary connectivity data between ROIs, we recommend
+  setting <code>cached=FALSE</code>. We have noticed small differences in the
+  connections weights, but computation times can get very long for more than
+  a handful of ROIs.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>, <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
+  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>aba</span> <span class='kw'>&lt;-</span> <span class='fu'>neuprint_ROI_connectivity</span>(<span class='fu'><a href='neuprint_ROIs.html'>neuprint_ROIs</a></span>(<span class='kw'>superLevel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>full</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/heatmap.html'>heatmap</a></span>(<span class='no'>aba</span>)</div><div class='img'><img src='neuprint_ROI_connectivity-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
