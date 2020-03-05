@@ -8,6 +8,7 @@ neuprint_get_synapses(
   bodyids,
   roi = NULL,
   progress = FALSE,
+  remove.autapses = TRUE,
   dataset = NULL,
   conn = NULL,
   ...
@@ -23,6 +24,10 @@ which will return synapses in all ROIs.}
 
 \item{progress}{if TRUE, a progress bar will be shown. This may slow the data
 fetching process.}
+
+\item{remove.autapses}{Whether to remove autaptic connections (default TRUE)
+from the results. It appears that there is a relatively high number of
+false positive autapses.}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default
 specified by your R environ file is used. See \code{\link{neuprint_login}}

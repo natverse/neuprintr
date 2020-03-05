@@ -9,6 +9,9 @@
 #' @param roi a roi (i.e. neuropil volume) you want to query. Use
 #'   \code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',
 #'   which will return synapses in all ROIs.
+#' @param remove.autapses Whether to remove autaptic connections (default TRUE)
+#'   from the results. It appears that there is a relatively high number of
+#'   false positive autapses.
 #' @param progress if TRUE, a progress bar will be shown. This may slow the data
 #'   fetching process.
 #' @return a data frame, where each entry is a connection between the specified
@@ -25,7 +28,9 @@
 #' \donttest{
 #' neuprint_get_synapses(c(818983130, 1796818119))
 #' }
-neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
+neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE,
+                                  remove.autapses=TRUE,
+                                  dataset = NULL, conn = NULL, ...){
   conn = neuprint_login(conn)
   bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
   if (!is.null(roi)) {
@@ -92,5 +97,8 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
   m$prepost = ifelse(m$prepost=="post",1,0)
   m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
   m = subset(m, bodyid!=partner) # Automatically remove autapses, hopefully we only need to do this temporarily
+  # Automatically remove autapses, hopefully we only need to do this temporarily
+  if(remove.autapses)
+    m = subset(m, bodyid!=partner)
   m
 }
