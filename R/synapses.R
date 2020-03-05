@@ -90,13 +90,8 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE,
                         roi)
   nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, dataset = dataset, ...)
   nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, dataset = dataset, ...)
-  m = rbind(do.call(rbind,nc.post$data),do.call(rbind,nc.pre$data))
-  colnames(m) =  nc.post$columns
-  m = data.frame(do.call(rbind,apply(m, 1, function(x) nullToNA(x))))
-  m[,] = unlist(m)
+  m = rbind(neuprint_list2df(nc.post),neuprint_list2df(nc.pre))
   m$prepost = ifelse(m$prepost=="post",1,0)
-  m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
-  m = subset(m, bodyid!=partner) # Automatically remove autapses, hopefully we only need to do this temporarily
   # Automatically remove autapses, hopefully we only need to do this temporarily
   if(remove.autapses)
     m = subset(m, bodyid!=partner)
