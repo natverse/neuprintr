@@ -280,22 +280,37 @@ neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, d
   if(isTRUE(unique)) unique(x) else x
 }
 
-#' @title Get available metadata fields for Neuron nodes (excluding ROI names)
+#' @title Get available metadata fields for Neuron nodes
 #' @return a vector of available fields
+#' @param possibleFields : field names to choose from
 #' @inheritParams neuprint_ROI_hierarchy
 #' @export
 #' @examples
 #' \donttest{
 #' neuprint_get_fields()
 #' }
-neuprint_get_fields <- function(dataset = NULL,
+neuprint_get_fields <- function(possibleFields = c("bodyId","pre","post","upstream","downstream","status","statusLabel","cropped",
+                                  "instance","name","size","type","cellBodyFiber","somaLocation","somaRadius"),
+                                dataset = NULL,
                                 conn = NULL,
                                 ...){
-
   conn <- neuprint_login(conn)
   dataset <- check_dataset(dataset, conn=conn)
-  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS x RETURN DISTINCT x AS neuron_fields")
+  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT 20")
   fields <- unlist(neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)$data)
-  rois <- neuprint_ROIs(superLevel = NULL,dataset = dataset,conn=conn,...)
-  return(fields[!(fields %in% rois)])
+  return(fields[fields %in% possibleFields])
+}
+
+# Hidden. Neuprint to our fields translation
+dfFields <- function(field_name){
+  transTable <- data.frame(
+    neuprint = c("bodyId","pre","post","upstream","downstream","status","statusLabel","cropped",
+                 "instance","name","size","type","cellBodyFiber","somaLocation","somaRadius"),
+
+    rName = c("bodyid","pre","post","upstream","downstream","status","statusLabel","cropped",
+              "name","name","voxels","type","cellBodyFiber","somaLocation","somaRadius")
+  )
+
+  transTable <- transTable$rName[match(field_name,transTable$neuprint)]
+  transTable
 }
