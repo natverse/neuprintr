@@ -85,8 +85,10 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     all_segments,
     neuprint_name_field(conn)
   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
-  neuprint_list2df(nc, return_empty_df = TRUE)
+  nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
+  meta <- neuprint_list2df(nc, return_empty_df = TRUE)
+  meta <- meta[,names(meta) %in% c("bodyid","voxels","soma","name",neuprint_get_fields(conn=conn,dataset = dataset,...))]
+  meta
 }
 
 #' @title Get roiInfo associated with a body
