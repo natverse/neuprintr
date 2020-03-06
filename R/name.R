@@ -75,15 +75,21 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   conn = neuprint_login(conn)
   bodyids <- neuprint_ids(bodyids, conn=conn, dataset = dataset,unique=FALSE,mustWork = FALSE)
   all_segments = ifelse(all_segments,"Segment","Neuron")
+
+  fieldNames <- neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel","pre","post","upstream","downstream","cropped",
+                                                       "size","cellBodyFiber"),
+                                    dataset=dataset,conn=conn,...)
+  returnCypher <- paste0("n.",fieldNames," AS ",dfFields(fieldNames),collapse=" , ")
+#n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post,n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber, n.downstream as downstream"
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
       "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post,n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber, n.downstream as downstream"
+      "RETURN %s"
     ),
     id2json(bodyids),
     all_segments,
-    neuprint_name_field(conn)
+    paste(returnCypher, ", exists(n.somaLocation) AS soma")
   )
   nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)
