@@ -25,19 +25,10 @@ test_that("test name searches ", {
 
   expect_is(mt <- neuprint_get_meta(da2s$bodyid[1]), 'data.frame')
   expect_named(mt,
-               c(
-                 "bodyid",
-                 "name",
-                 "type",
-                 "status",
-                 "statusLabel",
-                 "voxels",
-                 "pre",
-                 "post",
-                 "cropped",
-                 "soma",
-                 "cellBodyFiber"
-               ))
+               dfFields(neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel",
+                                                               "pre","post","upstream","downstream","cropped",
+                                                               "size","cellBodyFiber")))
+               )
   id1=da2s$bodyid[1]
   n1=da2s$name[1]
 
