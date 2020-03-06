@@ -35,6 +35,7 @@ test_that("neuprint_ROI_connectivity works", {
   # note low tolerance as the cached and recomputed results are not identical
   expect_equal(m2, m, tolerance = 1e-2)
 
+  roiFields <- neuprint_get_fields(c("pre","post","downstream","upstream"))
   expect_is(df <- neuprint_ROI_connectivity(rois[1], full=T), 'data.frame')
-  expect_true(ncol(df)==3)
+  expect_true(ncol(df)==length(roiFields)+1)
 })
