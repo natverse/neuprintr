@@ -472,16 +472,16 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
 }
 
 # hidden, caution, does not deal with left/right neuropils
-extract_connectivity_df <- function(rois, json){
+extract_connectivity_df <- function(rois, json,postFix  = c("pre","post")){
   if(is.null(json)){
     return(NULL)
   }
   rois <- unique(rois) #this takes care if both the input and output ROIs are same..
   a <- unlist(jsonlite::fromJSON(json))
-  roicols <- c(t(outer(rois, c("pre", "post","upstream","downstream"), paste, sep=".")))
+  roicols <- c(t(outer(rois,postFix, paste, sep=".")))
   values <- tibble::as_tibble(as.list(structure(rep(0, length(roicols)), .Names=roicols)))
   for(roi in rois){
-    thisroicols <- paste0(roi,c(".pre",".post",".upstream",".downstream"))
+    thisroicols <- paste0(roi,".",postFix)
     if (!is.null(a)){
       b <-  a[startsWith(names(a),paste0(roi,"."))]
       values[names(b)] <-  b
