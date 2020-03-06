@@ -308,7 +308,8 @@ dfFields <- function(field_name){
                  "instance","name","size","type","cellBodyFiber","somaLocation","somaRadius"),
 
     rName = c("bodyid","pre","post","upstream","downstream","status","statusLabel","cropped",
-              "name","name","voxels","type","cellBodyFiber","somaLocation","somaRadius")
+              "name","name","voxels","type","cellBodyFiber","somaLocation","somaRadius"),
+    stringsAsFactors = FALSE
   )
 
   transTable <- transTable$rName[match(field_name,transTable$neuprint)]
