@@ -272,3 +272,22 @@ neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, d
   if(isTRUE(unique)) unique(x) else x
 }
 
+#' @title Get available metadata fields for Neuron nodes (excluding ROI names)
+#' @return a vector of available fields
+#' @inheritParams neuprint_ROI_hierarchy
+#' @export
+#' @examples
+#' \donttest{
+#' neuprint_get_fields()
+#' }
+neuprint_get_fields <- function(dataset = NULL,
+                                conn = NULL,
+                                ...){
+
+  conn <- neuprint_login(conn)
+  dataset <- check_dataset(dataset, conn=conn)
+  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS x RETURN DISTINCT x AS neuron_fields")
+  fields <- unlist(neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)$data)
+  rois <- neuprint_ROIs(superLevel = NULL,dataset = dataset,conn=conn,...)
+  return(fields[!(fields %in% rois)])
+}
