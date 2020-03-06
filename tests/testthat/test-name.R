@@ -25,9 +25,9 @@ test_that("test name searches ", {
 
   expect_is(mt <- neuprint_get_meta(da2s$bodyid[1]), 'data.frame')
   expect_named(mt,
-               dfFields(neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel",
+               c(dfFields(neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel",
                                                                "pre","post","upstream","downstream","cropped",
-                                                               "size","cellBodyFiber")))
+                                                               "size","cellBodyFiber"))),"soma")
                )
   id1=da2s$bodyid[1]
   n1=da2s$name[1]
@@ -42,5 +42,5 @@ test_that("test name searches ", {
 })
 
 test_that("test bad dataset specification ", {
-  expect_warning(neuprint_search(".*DA2.*", dataset = 'hemibrain'))
+  expect_warning(neuprint_search(".*DA2.*", dataset = 'hemibrain1'))
 })
