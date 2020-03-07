@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use a cypher to make a custom query to the neuPrint server specifying
-  the information you want to obtain — neuprint_fetch_custom • neuprintr</title>
+<title>Get available metadata fields for Neuron nodes — neuprint_get_fields • neuprintr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -43,10 +42,8 @@
 
 
 
-<meta property="og:title" content="Use a cypher to make a custom query to the neuPrint server specifying
-  the information you want to obtain — neuprint_fetch_custom" />
-<meta property="og:description" content="Get summary information about the datasets hosted by the
-  neuPrint server in which you are interested" />
+<meta property="og:title" content="Get available metadata fields for Neuron nodes — neuprint_get_fields" />
+<meta property="og:description" content="Get available metadata fields for Neuron nodes" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -134,22 +131,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use a cypher to make a custom query to the neuPrint server specifying
-  the information you want to obtain</h1>
-    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/cypher.R'><code>R/cypher.R</code></a></small>
-    <div class="hidden name"><code>neuprint_fetch_custom.Rd</code></div>
+    <h1>Get available metadata fields for Neuron nodes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/name.R'><code>R/name.R</code></a></small>
+    <div class="hidden name"><code>neuprint_get_fields.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get summary information about the datasets hosted by the
-  neuPrint server in which you are interested</p>
+    <p>Get available metadata fields for Neuron nodes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_fetch_custom</span>(
-  <span class='kw'>cypher</span> <span class='kw'>=</span> <span class='st'>"MATCH (n:Meta) RETURN n.dataset, n.meshHost"</span>,
+    <pre class="usage"><span class='fu'>neuprint_get_fields</span>(
+  <span class='kw'>possibleFields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bodyId"</span>, <span class='st'>"pre"</span>, <span class='st'>"post"</span>, <span class='st'>"upstream"</span>, <span class='st'>"downstream"</span>, <span class='st'>"status"</span>,
+    <span class='st'>"statusLabel"</span>, <span class='st'>"cropped"</span>, <span class='st'>"instance"</span>, <span class='st'>"name"</span>, <span class='st'>"size"</span>, <span class='st'>"type"</span>, <span class='st'>"cellBodyFiber"</span>,
+    <span class='st'>"somaLocation"</span>, <span class='st'>"somaRadius"</span>),
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -157,9 +153,8 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cypher</th>
-      <td><p>the cypher by which to make your search, the default returns
-the available datasets and the servers that host their associated mesh data</p></td>
+      <th>possibleFields</th>
+      <td><p>: field names to choose from</p></td>
     </tr>
     <tr>
       <th>dataset</th>
@@ -175,26 +170,28 @@ neuPrint server. If NULL, the defaults set in your
 used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
-      <th>cache</th>
-      <td><p>if <code>TRUE</code> will use memoisation to cache the result of the
-call for 1 hour.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>methods passed to <code>neuprint_login</code></p></td>
+      <td><p>methods passed to <code>neuprint_fetch_custom</code></p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_login.html'>neuprint_login</a></code>, <code><a href='neuprint_info.html'>neuprint_available</a></code></p></div>
+    <p>a vector of available fields</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'>neuprint_get_fields</span>()</div><div class='output co'>#&gt;  [1] "bodyId"        "pre"           "post"          "status"       
+#&gt;  [5] "statusLabel"   "cropped"       "instance"      "type"         
+#&gt;  [9] "cellBodyFiber" "somaLocation"  "somaRadius"    "size"         </div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
