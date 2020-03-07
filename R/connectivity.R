@@ -472,7 +472,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
 }
 
 # hidden, caution, does not deal with left/right neuropils
-extract_connectivity_df <- function(rois, json,postFix  = c("pre","post")){
+extract_connectivity_df <- function(rois, json, postFix  = c("pre", "post")){
   if(is.null(json)){
     return(NULL)
   }
@@ -483,7 +483,7 @@ extract_connectivity_df <- function(rois, json,postFix  = c("pre","post")){
   for(roi in rois){
     thisroicols <- paste0(roi,".",postFix)
     if (!is.null(a)){
-      b <-  a[startsWith(names(a),paste0(roi,"."))]
+      b <-  a[names(a) %in% thisroicols]
       values[names(b)] <-  b
     }
   }
