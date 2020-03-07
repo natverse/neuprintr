@@ -9,6 +9,7 @@ neuprint_fetch_custom(
   cypher = "MATCH (n:Meta) RETURN n.dataset, n.meshHost",
   dataset = NULL,
   conn = NULL,
+  cache = FALSE,
   ...
 )
 }
@@ -24,6 +25,9 @@ current connection, is used. See \code{\link{neuprint_login}} for details.}
 neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
+
+\item{cache}{if \code{TRUE} will use memoisation to cache the result of the
+call for 1 hour.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
