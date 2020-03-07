@@ -289,11 +289,13 @@ neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, d
 #' \donttest{
 #' neuprint_get_fields()
 #' }
-neuprint_get_fields <- function(possibleFields = c("bodyId","pre","post","upstream","downstream","status","statusLabel","cropped",
-                                  "instance","name","size","type","cellBodyFiber","somaLocation","somaRadius"),
-                                dataset = NULL,
-                                conn = NULL,
-                                ...){
+neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
+                                                   "upstream", "downstream",
+                                                   "status", "statusLabel",
+                                                   "cropped", "instance", "name",
+                                                   "size", "type", "cellBodyFiber",
+                                                   "somaLocation", "somaRadius"),
+                                dataset = NULL, conn = NULL, ...){
   conn <- neuprint_login(conn)
   dataset <- check_dataset(dataset, conn=conn)
   cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT 20")
@@ -302,16 +304,45 @@ neuprint_get_fields <- function(possibleFields = c("bodyId","pre","post","upstre
 }
 
 # Hidden. Neuprint to our fields translation
-dfFields <- function(field_name){
+dfFields <- function(field_name) {
   transTable <- data.frame(
-    neuprint = c("bodyId","pre","post","upstream","downstream","status","statusLabel","cropped",
-                 "instance","name","size","type","cellBodyFiber","somaLocation","somaRadius"),
-
-    rName = c("bodyid","pre","post","upstream","downstream","status","statusLabel","cropped",
-              "name","name","voxels","type","cellBodyFiber","somaLocation","somaRadius"),
+    neuprint = c(
+      "bodyId",
+      "pre",
+      "post",
+      "upstream",
+      "downstream",
+      "status",
+      "statusLabel",
+      "cropped",
+      "instance",
+      "name",
+      "size",
+      "type",
+      "cellBodyFiber",
+      "somaLocation",
+      "somaRadius"
+    ),
+    rName = c(
+      "bodyid",
+      "pre",
+      "post",
+      "upstream",
+      "downstream",
+      "status",
+      "statusLabel",
+      "cropped",
+      "name",
+      "name",
+      "voxels",
+      "type",
+      "cellBodyFiber",
+      "somaLocation",
+      "somaRadius"
+    ),
     stringsAsFactors = FALSE
   )
 
-  transTable <- transTable$rName[match(field_name,transTable$neuprint)]
-  transTable
+  res=transTable$rName[match(field_name, transTable$neuprint)]
+  res
 }
