@@ -75,18 +75,26 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   conn = neuprint_login(conn)
   bodyids <- neuprint_ids(bodyids, conn=conn, dataset = dataset,unique=FALSE,mustWork = FALSE)
   all_segments = ifelse(all_segments,"Segment","Neuron")
+
+  fieldNames <- neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel","pre","post","upstream","downstream","cropped",
+                                                       "size","cellBodyFiber"),
+                                    dataset=dataset,conn=conn,...)
+  returnCypher <- paste0("n.",fieldNames," AS ",dfFields(fieldNames),collapse=" , ")
+#n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post,n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber, n.downstream as downstream"
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
       "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post, n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber"
+      "RETURN %s"
     ),
     id2json(bodyids),
     all_segments,
-    neuprint_name_field(conn)
+    paste(returnCypher, ", exists(n.somaLocation) AS soma")
   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
-  neuprint_list2df(nc, return_empty_df = TRUE)
+  nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
+  meta <- neuprint_list2df(nc, return_empty_df = TRUE)
+  meta <- meta[,names(meta) %in% c("bodyid","voxels","soma","name",neuprint_get_fields(conn=conn,dataset = dataset,...))]
+  meta
 }
 
 #' @title Get roiInfo associated with a body
@@ -272,3 +280,67 @@ neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, d
   if(isTRUE(unique)) unique(x) else x
 }
 
+#' @title Get available metadata fields for Neuron nodes
+#' @return a vector of available fields
+#' @param possibleFields : field names to choose from
+#' @inheritParams neuprint_ROI_hierarchy
+#' @export
+#' @examples
+#' \donttest{
+#' neuprint_get_fields()
+#' }
+neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
+                                                   "upstream", "downstream",
+                                                   "status", "statusLabel",
+                                                   "cropped", "instance", "name",
+                                                   "size", "type", "cellBodyFiber",
+                                                   "somaLocation", "somaRadius"),
+                                dataset = NULL, conn = NULL, ...){
+  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT 20")
+  fields <- unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn, dataset = dataset, ...)$data)
+  return(fields[fields %in% possibleFields])
+}
+
+# Hidden. Neuprint to our fields translation
+dfFields <- function(field_name) {
+  transTable <- data.frame(
+    neuprint = c(
+      "bodyId",
+      "pre",
+      "post",
+      "upstream",
+      "downstream",
+      "status",
+      "statusLabel",
+      "cropped",
+      "instance",
+      "name",
+      "size",
+      "type",
+      "cellBodyFiber",
+      "somaLocation",
+      "somaRadius"
+    ),
+    rName = c(
+      "bodyid",
+      "pre",
+      "post",
+      "upstream",
+      "downstream",
+      "status",
+      "statusLabel",
+      "cropped",
+      "name",
+      "name",
+      "voxels",
+      "type",
+      "cellBodyFiber",
+      "somaLocation",
+      "somaRadius"
+    ),
+    stringsAsFactors = FALSE
+  )
+
+  res=transTable$rName[match(field_name, transTable$neuprint)]
+  res
+}

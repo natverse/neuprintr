@@ -42,9 +42,11 @@ neuprint_find_neurons <- function(input_ROIs,
   neurons = as.data.frame(do.call(rbind, extract))
   colnames(neurons) = columns[keep]
   rownames(neurons) = neurons$bodyid
+  roiInfoFields <- neuprint_get_fields(c("pre","post","downstream","upstream"),conn = conn,dataset=dataset,...)
   innervation = lapply(found.neurons[[2]], function(f)
     extract_connectivity_df(rois = c(input_ROIs,output_ROIs),
-                            json=unlist(f[columns=="roiInfo"])))
+                            json=unlist(f[columns=="roiInfo"]),
+                            postFix=roiInfoFields))
   innervation = do.call(rbind,innervation)
   neurons = cbind(neurons,innervation)
   as.data.frame(t(apply(neurons,1,unlist)),stringsAsFactors=FALSE)
@@ -136,8 +138,13 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
       stringr::str_detect(ll$roiInfo, stringr::fixed(paste0('"',roi,'"'))))
     if(is.matrix(hasroi)) hasroi=rowSums(hasroi)>0
 
+    roiInfoFields <- neuprint_get_fields(
+      c("pre", "post", "downstream","upstream"),
+      conn = conn, dataset=dataset, ...)
+
     connections <-lapply(ll$roiInfo[hasroi],
-                         function(x) extract_connectivity_df(rois=rois,json=x))
+                         function(x) extract_connectivity_df(
+                           rois=rois, json=x, postFix = roiInfoFields))
     resultsD <- cbind(ll[hasroi, 1, drop=FALSE], dplyr::bind_rows(connections))
     if (!full) {
       results <-

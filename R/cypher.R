@@ -5,6 +5,8 @@
 #'   neuPrint server in which you are interested
 #' @param cypher the cypher by which to make your search, the default returns
 #'   the available datasets and the servers that host their associated mesh data
+#' @param cache if \code{TRUE} will use memoisation to cache the result of the
+#'   call for 1 hour.
 #' @param conn optional, a neuprintr connection object, which also specifies the
 #'   neuPrint server. If NULL, the defaults set in your
 #'   \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
@@ -17,24 +19,21 @@
 #' @export
 #' @rdname neuprint_fetch_custom
 neuprint_fetch_custom <- function(cypher = "MATCH (n:Meta) RETURN n.dataset, n.meshHost",
-                                  dataset = NULL,
-                                  conn = NULL, ...){
+                                  dataset = NULL, conn = NULL, cache=FALSE, ...){
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
   Payload <- sprintf('{"cypher":"%s","dataset":"%s"}', cypher, dataset)
   class(Payload) <- "json"
-  custom <- neuprint_fetch(path = 'api/custom/custom',
-                           body = Payload,
-                           conn = conn, ...)
-  custom
+  if(cache) {
+    neuprint_fetch_memo(path = 'api/custom/custom',
+                        body = Payload,
+                        conn = conn,
+                        ...)
+  } else {
+    neuprint_fetch(path = 'api/custom/custom',
+                   body = Payload,
+                   conn = conn,
+                   ...)
+  }
 }
-
-
-
-
-
-
-
-
-
 

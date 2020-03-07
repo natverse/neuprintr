@@ -28,6 +28,8 @@ neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
   else req
 }
 
+neuprint_fetch_memo <- memoise::memoise(neuprint_fetch, ~memoise::timeout(3600))
+
 # hidden
 neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
   text <- httr::content(req, as = "text", encoding = "UTF-8")
