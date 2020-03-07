@@ -296,8 +296,6 @@ neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
                                                    "size", "type", "cellBodyFiber",
                                                    "somaLocation", "somaRadius"),
                                 dataset = NULL, conn = NULL, ...){
-  conn <- neuprint_login(conn)
-  dataset <- check_dataset(dataset, conn=conn)
   cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT 20")
   fields <- unlist(neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)$data)
   return(fields[fields %in% possibleFields])
