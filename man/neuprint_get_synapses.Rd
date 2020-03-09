@@ -7,7 +7,9 @@
 neuprint_get_synapses(
   bodyids,
   roi = NULL,
-  progress = FALSE,
+  remove.autapses = TRUE,
+  chunk = TRUE,
+  progress = NULL,
   dataset = NULL,
   conn = NULL,
   ...
@@ -21,8 +23,18 @@ This can be in any form understood by \code{\link{neuprint_ids}}.}
 \code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',
 which will return synapses in all ROIs.}
 
+\item{remove.autapses}{Whether to remove autaptic connections (default TRUE)
+from the results. It appears that there is a relatively high number of
+false positive autapses.}
+
+\item{chunk}{A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 20 when \code{chunk=TRUE}).}
+
 \item{progress}{if TRUE, a progress bar will be shown. This may slow the data
-fetching process.}
+fetching process for smaller queries (<100 body ids). The default of
+\code{progress=NULL} will only show a progress bar if the query will be
+split into multiple chunks based on the \code{chunk} argument.}
 
 \item{dataset}{optional, a dataset you want to query. If NULL, the default
 specified by your R environ file is used. See \code{\link{neuprint_login}}

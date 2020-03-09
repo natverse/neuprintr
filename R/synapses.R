@@ -9,8 +9,16 @@
 #' @param roi a roi (i.e. neuropil volume) you want to query. Use
 #'   \code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',
 #'   which will return synapses in all ROIs.
+#' @param remove.autapses Whether to remove autaptic connections (default TRUE)
+#'   from the results. It appears that there is a relatively high number of
+#'   false positive autapses.
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 20 when \code{chunk=TRUE}).
 #' @param progress if TRUE, a progress bar will be shown. This may slow the data
-#'   fetching process.
+#'   fetching process for smaller queries (<100 body ids). The default of
+#'   \code{progress=NULL} will only show a progress bar if the query will be
+#'   split into multiple chunks based on the \code{chunk} argument.
 #' @return a data frame, where each entry is a connection between the specified
 #'   bodyid and its partner, either presynaptic to the bodyid (prepost=0) or
 #'   postsynaptic (prepost=1). Each connection is associated with a synapse that
@@ -25,7 +33,9 @@
 #' \donttest{
 #' neuprint_get_synapses(c(818983130, 1796818119))
 #' }
-neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset = NULL, conn = NULL, ...){
+neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
+                                  chunk=TRUE, progress = NULL,
+                                  dataset = NULL, conn = NULL, ...){
   conn = neuprint_login(conn)
   bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
   if (!is.null(roi)) {
@@ -41,9 +51,25 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
     }
     roi = sprintf("AND (exists(s.`%s`))", roi)
   }
-  if(progress){
-    d  = do.call(rbind, pbapply::pblapply(bodyids,
-                                          function(bi) tryCatch(neuprint_get_synapses(
+  n <- length(bodyids)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if(isTRUE(progress))
+      chunksize=min(20L, ceiling(n/10))
+    else
+      chunksize=20L
+  }
+
+  if(n>chunksize) {
+    nchunks=ceiling(n/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(n)]
+    bodyids <- split(bodyids, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = do.call(rbind, MYPLY(bodyids, function(bi) tryCatch(neuprint_get_synapses(
       bodyids = bi,
       roi = roi,
       progress = FALSE,
@@ -57,7 +83,6 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
       d=d[order(d$prepost, decreasing = TRUE),]
       rownames(d)=NULL
     }
-
 
     return(d)
   }
@@ -85,12 +110,10 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, progress = FALSE, dataset
                         roi)
   nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, dataset = dataset, ...)
   nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, dataset = dataset, ...)
-  m = rbind(do.call(rbind,nc.post$data),do.call(rbind,nc.pre$data))
-  colnames(m) =  nc.post$columns
-  m = data.frame(do.call(rbind,apply(m, 1, function(x) nullToNA(x))))
-  m[,] = unlist(m)
+  m = rbind(neuprint_list2df(nc.post),neuprint_list2df(nc.pre))
   m$prepost = ifelse(m$prepost=="post",1,0)
-  m = m[,c("connector_id", "prepost", "x", "y", "z", "confidence", "bodyid", "partner")]
-  m = subset(m, bodyid!=partner) # Automatically remove autapses, hopefully we only need to do this temporarily
+  # Automatically remove autapses, hopefully we only need to do this temporarily
+  if(remove.autapses)
+    m = subset(m, bodyid!=partner)
   m
 }
