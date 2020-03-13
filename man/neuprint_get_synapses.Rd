@@ -2,7 +2,7 @@
 % Please edit documentation in R/synapses.R
 \name{neuprint_get_synapses}
 \alias{neuprint_get_synapses}
-\title{Get the locations of pre- and post synapses associated with a body}
+\title{Get the locations of pre- and post synapses associated with a body.}
 \usage{
 neuprint_get_synapses(
   bodyids,
@@ -56,7 +56,9 @@ a data frame, where each entry is a connection between the specified
 }
 \description{
 Get the xyz locations, IDs and confidences of pre- and post
-  synapses associated with a body
+  synapses associated with a body. The \code{connector_id}
+for each synapse is for the 'presynaptic' object. Separate IDs exist for the postsynapses in NeuPrint, and
+these are not fetched b this function. This is similar to the logic use in \code{rcatmaid}.
 }
 \examples{
 \donttest{
