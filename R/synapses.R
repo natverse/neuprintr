@@ -118,15 +118,14 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
   m
 }
 
-
 # work in progress
 neuprint_synapse_connections <- function(connector_ids){
   cypher = sprintf(paste("WITH %s AS connectorIds UNWIND connectorIds AS connectorId",
-                             "MATCH (s:Synapse)",
+                             "MATCH (a:Segment)-[:Contains]->(:SynapseSet)-[:Contains]->(p:Synapse)<-[:SynapsesTo]-(s:Synapse)<-[:Contains]-(c:SynapseSet)<-[:Contains]-(b:Segment)",
                              "WHERE s.id=connectorId",
                              "RETURN id(s) AS connector_id,",
                              "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
-                             "s.confidence AS confidence"),
+                             "s.confidence AS confidence, id(p) = p.connectorId"),
                        id2json(connector_ids))
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset)
   m = rbind(neuprint_list2df(nc))
