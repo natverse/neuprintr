@@ -2,9 +2,8 @@ test_that("", {
   json='{"SNP(R)": {"pre": 71, "post": 155}, "SLP(R)": {"pre": 67, "post": 153}, "SIP(R)": {"pre": 4, "post": 2}, "LH(R)": {"pre": 20, "post": 25}, "VLNP(R)": {"pre": 1}, "PLP(R)": {"pre": 1}, "AL(R)": {"pre": 1, "post": 162}}'
   rois=c("AL(R)", "LH(R)")
 
-  baseline <- structure(list(`AL(R).pre` = 1L, `AL(R).post` = 162L,
-                             `LH(R).pre` = 20L, `LH(R).post` = 25L),
-                        class = "data.frame", row.names = "1")
+  baseline <- tibble::as_tibble(structure(list(`AL(R).pre` = 1L, `AL(R).post` = 162L,
+                             `LH(R).pre` = 20L, `LH(R).post` = 25L)))
   expect_equal(xdf <- extract_connectivity_df(rois = rois, json=json), baseline)
 })
 
