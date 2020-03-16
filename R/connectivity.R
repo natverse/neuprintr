@@ -335,6 +335,7 @@ neuprint_simple_connectivity <- function(bodyids,
 #'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
+#' @param by.roi Return the results by ROI. Default to FALSE
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
@@ -345,7 +346,7 @@ neuprint_simple_connectivity <- function(bodyids,
 #' \donttest{
 #' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 #' }
-neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
+neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,
                                dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
   if (length(n)==1){
@@ -363,7 +364,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-    roiQ <- paste("(" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),") AND ")
+    roiQ <- paste("(" ,paste0("apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`.post >=",weightT,collapse=" OR "),") AND ")
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
@@ -382,7 +383,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
   id2json(body_post),
   ifelse(is.null(roi),"",roiQ),
   weightT,
-  ifelse(is.null(roi),"",paste0(", [x in c | x.roiInfo] AS roiInfo"))
+  ifelse(is.null(roi) & by.roi==FALSE,"",paste0(", [x in c | x.roiInfo] AS roiInfo"))
   )
 
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
