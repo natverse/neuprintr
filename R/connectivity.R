@@ -481,8 +481,12 @@ extract_connectivity_df <- function(rois, json, postFix  = c("pre", "post")){
   if(is.null(json)){
     return(NULL)
   }
-  rois <- unique(rois) #this takes care if both the input and output ROIs are same.
+
   a <- unlist(jsonlite::fromJSON(json))
+  if(rois=="All"){
+    rois <- gsub("\\..*","",names(a))
+  }
+  rois <- unique(rois) #this takes care if both the input and output ROIs are same..
   roicols <- c(t(outer(rois,postFix, paste, sep=".")))
   values <- tibble::as_tibble(as.list(structure(rep(0, length(roicols)), .Names=roicols)))
   for(roi in rois){
