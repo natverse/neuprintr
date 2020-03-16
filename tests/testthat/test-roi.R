@@ -5,7 +5,7 @@ test_that("", {
   baseline <- structure(list(`AL(R).pre` = 1L, `AL(R).post` = 162L,
                              `LH(R).pre` = 20L, `LH(R).post` = 25L),
                         class = "data.frame", row.names = "1")
-  expect_equal(xdf <- extract_connectivity_df(rois = rois, json=json), baseline)
+  expect_equal(xdf <- extract_connectivity_df(rois = rois, json=json, postFix = c("pre","post")), baseline)
 })
 
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
