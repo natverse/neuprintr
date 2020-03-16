@@ -430,6 +430,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #' @param weightT weight threshold
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
+#' @param by.roi Return the results by ROI. Default to FALSE
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param ... methods passed to \code{neuprint_login}
