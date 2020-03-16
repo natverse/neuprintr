@@ -363,16 +363,16 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-    roi <- paste("(" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),") AND ")
+    roiQ <- paste("(" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),") AND ")
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
-  cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[ConnectsTo*%s..%s]->(dest:`%s`)",
-                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND",
-                           "ALL (x in relationships(p) WHERE  %s x.weight >= %s)",
-                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
+  cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[c: ConnectsTo*%s..%s]->(dest:`%s`)",
+                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND ",
+                           "ALL(x in c WHERE %s x.weight>=%s)",
+                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in c | x.weight] AS weights %s"
   ),
   all_segments.json,
   n[1]-1,
@@ -380,8 +380,9 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
   all_segments.json,
   id2json(body_pre),
   id2json(body_post),
-  ifelse(is.null(roi),"",roi),
-  weightT
+  ifelse(is.null(roi),"",roiQ),
+  weightT,
+  ifelse(is.null(roi),"",paste0(", [x in c | x.roiInfo] AS roiInfo"))
   )
 
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
@@ -398,6 +399,15 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                stringsAsFactors = FALSE)
                   })), error= function(e) NULL)
   }))
+
+  if (!is.null(roi)){
+    roiTable <- dplyr::bind_rows(lapply(nc$data, function(d){
+      l <- d[[1]]
+      dplyr::bind_rows(lapply(d[[4]],function(dT){extract_connectivity_df(roi,dT,"post")}))
+    }))
+    connTable <- cbind(connTable,roiTable)
+  }
+
   connTable
 }
 
@@ -437,14 +447,15 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
   cypher <-  sprintf(paste("MATCH p = allShortestPaths((src : `%s`)-[ConnectsTo*]->(dest:`%s`))",
                            "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND src.bodyId <> dest.bodyId AND",
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
-                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
+                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights %s"
   ),
   all_segments.json,
   all_segments.json,
   id2json(body_pre),
   id2json(body_post),
   weightT,
-  ifelse(is.null(roi),"",roi)
+  ifelse(is.null(roi),"",roi),
+  ifelse(is.null(roi),"",paste0(", [x in relationships(p) | apoc.convert.fromJsonMap(x.roiInfo)] AS roiInfo"))
   )
 
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset=dataset, ...)
