@@ -336,6 +336,8 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
 #' @param by.roi Return the results by ROI. Default to FALSE
+#' @param exclude.loops Wether or not to exclude loops
+#' (paths containing the same node several times). Defaults to TRUE
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
@@ -346,7 +348,7 @@ neuprint_simple_connectivity <- function(bodyids,
 #' \donttest{
 #' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 #' }
-neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,
+neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,exclude.loops=TRUE,
                                dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
   if (length(n)==1){
@@ -371,7 +373,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
   cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[c: ConnectsTo*%s..%s]->(dest:`%s`)",
-                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND ",
+                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND %s",
                            "ALL(x in c WHERE %s x.weight>=%s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in c | x.weight] AS weights %s"
   ),
@@ -381,6 +383,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
   all_segments.json,
   id2json(body_pre),
   id2json(body_post),
+  ifelse(exclude.loops,"(NOT apoc.coll.containsDuplicates(nodes(p))) AND",""),
   ifelse(is.null(roi),"",roiQ),
   weightT,
   ifelse(is.null(roi) & by.roi==FALSE,"",paste0(", [x in c | x.roiInfo] AS roiInfo"))
