@@ -401,11 +401,13 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
                   })), error= function(e) NULL)
   }))
 
-  if (!is.null(roi)){
+  if (!is.null(roi) | by.roi){
     roiTable <- dplyr::bind_rows(lapply(nc$data, function(d){
       l <- d[[1]]
+      if (by.roi == TRUE){roi="All"}
       dplyr::bind_rows(lapply(d[[4]],function(dT){extract_connectivity_df(roi,dT,"post")}))
     }))
+    roiTable[is.na(roiTable)] <- 0
     connTable <- cbind(connTable,roiTable)
   }
 
