@@ -363,28 +363,25 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-    roi <- paste("AND (" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),")")
+    roi <- paste("(" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),") AND ")
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
-  cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
-                           "UNWIND bodies[0] AS bodypre",
-                           "UNWIND bodies[1] AS bodypost",
-                           "MATCH p = (src : `%s`)-[ConnectsTo*%s..%s]->(dest:`%s`)",
-                           "WHERE src.bodyId = bodypre AND dest.bodyId = bodypost AND",
-                           "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
+  cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[ConnectsTo*%s..%s]->(dest:`%s`)",
+                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND",
+                           "ALL (x in relationships(p) WHERE  %s x.weight >= %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
-  id2json(body_pre),
-  id2json(body_post),
   all_segments.json,
   n[1]-1,
   n[2],
   all_segments.json,
-  weightT,
-  ifelse(is.null(roi),"",roi)
+  id2json(body_pre),
+  id2json(body_post),
+  ifelse(is.null(roi),"",roi),
+  weightT
   )
 
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
@@ -437,19 +434,15 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
 
-  cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
-                           "UNWIND bodies[0] AS bodypre",
-                           "UNWIND bodies[1] AS bodypost",
-                           "WITH * WHERE bodypre <> bodypost",
-                           "MATCH p = allShortestPaths((src : `%s`)-[ConnectsTo*]->(dest:`%s`))",
-                           "WHERE src.bodyId = bodypre AND dest.bodyId = bodypost AND",
+  cypher <-  sprintf(paste("MATCH p = allShortestPaths((src : `%s`)-[ConnectsTo*]->(dest:`%s`))",
+                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND src.bodyId <> dest.bodyId AND",
                            "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
   ),
+  all_segments.json,
+  all_segments.json,
   id2json(body_pre),
   id2json(body_post),
-  all_segments.json,
-  all_segments.json,
   weightT,
   ifelse(is.null(roi),"",roi)
   )
