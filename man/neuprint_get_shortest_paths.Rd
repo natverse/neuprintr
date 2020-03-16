@@ -26,6 +26,8 @@ neuprint_get_shortest_paths(
 \item{roi}{Limit the search to connections happening within a certain ROI or
 set of ROIs (NULL by default)}
 
+\item{by.roi}{Return the results by ROI. Default to FALSE}
+
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
