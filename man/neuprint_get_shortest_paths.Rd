@@ -9,6 +9,7 @@ neuprint_get_shortest_paths(
   body_post,
   weightT = 5,
   roi = NULL,
+  by.roi = FALSE,
   dataset = NULL,
   conn = NULL,
   all_segments = FALSE,

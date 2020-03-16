@@ -10,6 +10,8 @@ neuprint_get_paths(
   n,
   weightT = 5,
   roi = NULL,
+  by.roi = FALSE,
+  exclude.loops = TRUE,
   dataset = NULL,
   conn = NULL,
   all_segments = FALSE,
@@ -28,6 +30,11 @@ n[1] to n[2] are considered}
 
 \item{roi}{Limit the search to connections happening within a certain ROI or
 set of ROIs (NULL by default)}
+
+\item{by.roi}{Return the results by ROI. Default to FALSE}
+
+\item{exclude.loops}{Wether or not to exclude loops
+(paths containing the same node several times). Defaults to TRUE}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
@@ -50,6 +57,10 @@ Get all of the paths in the database that connect the query
 \examples{
 \donttest{
 neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
+
+neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,by.roi=TRUE)
+
+neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 }
 }
 \seealso{
