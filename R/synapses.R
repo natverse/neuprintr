@@ -109,8 +109,8 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
                        "Segment",
                        "Segment",
                         roi)
-  nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, dataset = dataset)
-  nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, dataset = dataset)
+  nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, dataset = dataset, ...)
+  nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, dataset = dataset, ...)
   m = rbind(neuprint_list2df(nc.post),neuprint_list2df(nc.pre))
   m$prepost = ifelse(m$prepost=="post",1,0)
   if(remove.autapses)   # Automatically remove autapses, hopefully we only need to do this temporarily
@@ -118,16 +118,88 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
   m
 }
 
-# work in progress
-neuprint_synapse_connections <- function(connector_ids){
-  cypher = sprintf(paste("WITH %s AS connectorIds UNWIND connectorIds AS connectorId",
-                             "MATCH (a:Segment)-[:Contains]->(:SynapseSet)-[:Contains]->(p:Synapse)<-[:SynapsesTo]-(s:Synapse)<-[:Contains]-(c:SynapseSet)<-[:Contains]-(b:Segment)",
-                             "WHERE s.id=connectorId",
-                             "RETURN id(s) AS connector_id,",
-                             "s.type AS prepost, s.location.x AS x ,s.location.y AS y, s.location.z AS z,",
-                             "s.confidence AS confidence, id(p) AS p.connectorId"),
-                       id2json(connector_ids))
+#' @title Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object
+#'
+#' @description Get synapse IDs for a given connectorID, as well as their associated bodyIDs and their locations in 3D space.
+#'
+#' @inheritParams neuprint_read_neurons
+#' @param connector_ids a vector of IDs (pre- or postsynapse IDs) for a synaptic connection object.
+#'
+#' @return a data frame, where each entry gives the pre-post associations for a synapse. This includes which are the pre/post synaptic
+#' bodyids (neurons/fragments) and the location of these synapses in 3D space (likely raw voxel space).
+#' @seealso \code{\link{neuprint_fetch_custom}},
+#'   \code{\link{neuprint_get_synapses}}
+#' @export
+#' @inheritParams neuprint_fetch_custom
+#' @examples
+#' \donttest{
+#' syns = neuprint_get_synapses(818983130) # note
+#' # all given connectorIDs from this function are for presynapses
+#' prepost.conn = neuprint_connectors(syns$connector_id, all_segments = TRUE)
+#' head(prepost.conn) # All the synapses that connect to or from 818983130
+#' # and their other connections to other bodies too
+#' }
+neuprint_connectors <- function(connector_ids, all_segments = TRUE){
+  all_segments_json = ifelse(all_segments,"Segment","Neuron")
+  cypher = sprintf(paste("WITH %s AS connectorIds",
+                           "UNWIND connectorIds AS connectorId",
+                           "MATCH (ms:Synapse)",
+                           "WHERE id(ms) = connectorId",
+                           "MATCH (ms:Synapse)-[:SynapsesTo]-(ns),",
+                           "(mss:SynapseSet)-[:Contains]->(ms),",
+                           "(nss:SynapseSet)-[:Contains]->(ns),",
+                           "(n:%s)-[:Contains]->(nss),",
+                           "(m:%s)-[:Contains]->(mss)",
+                           "RETURN DISTINCT id(ns) as connectorId_1,",
+                           "ns.type as prepost_1, id(ms) as connectorId_2, ms.type as prepost_2, n.bodyId as bodyId_1,",
+                           "m.bodyId as bodyId_2, ns.location.x AS x_1 ,ns.location.y AS y_1, ns.location.z AS z_1,",
+                           "ns.confidence AS confidence_1, ms.location.x AS x_2 ,ms.location.y AS y_2, ms.location.z AS z_2,",
+                           "ms.confidence AS confidence_2"),
+                     id2json(connector_ids),
+                     all_segments_json,
+                     all_segments_json)
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset)
   m = rbind(neuprint_list2df(nc))
+  m1 = m[m$prepost_1=="pre",]
+  m2 = m[m$prepost_1=="post",]
+  colnames(m1) = gsub("_1","_pre",colnames(m1))
+  colnames(m1) = gsub("_2","_post",colnames(m1))
+  colnames(m2) = gsub("_1","_post",colnames(m2))
+  colnames(m2) = gsub("_2","_pre",colnames(m2))
+  m = rbind(m1, m2)
+  m = m[, !grepl("prepost",colnames(m))]
   m
 }
+
+### Downlod all synapses:
+# cypher = " MATCH (n:Neuron)-[e:ConnectsTo]->(m:Neuron),
+#        (n)-[:Contains]->(nss:SynapseSet),
+#        (m)-[:Contains]->(mss:SynapseSet),
+#        (nss)-[:ConnectsTo]->(mss),
+#        (nss)-[:Contains]->(ns:Synapse),
+#        (mss)-[:Contains]->(ms:Synapse),
+#        (ns)-[:SynapsesTo]->(ms)
+#  // Artificial break in the query flow to fool the query
+#  // planner into avoiding a Cartesian product.
+#  // This improves performance considerably in some cases.
+#  WITH n,e,m,ns,ms,true as _
+#  WITH n, m, ns, ms, e
+#  WHERE e.weight >= 1
+#  WITH n, m, ns, ms
+#  WHERE (ns.type = 'pre')
+#  WITH n, m, ns, ms
+#  WHERE (ms.type = 'post')
+#  RETURN n.bodyId as bodyId_pre,
+#         m.bodyId as bodyId_post,
+#         id(ns) as connectorid_pre,
+#         ns.location.x as ux,
+#         ns.location.y as uy,
+#         ns.location.z as uz,
+#         id(ms) as connectorid_post,
+#         ms.location.x as dx,
+#         ms.location.y as dy,
+#         ms.location.z as dz,
+#         ns.confidence as confidence_pre,
+#         ms.confidence as confidence_post
+# SKIP 100
+# LIMIT 10"
