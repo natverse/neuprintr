@@ -376,24 +376,20 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
-  cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[ConnectsTo*%s..%s]->(dest:`%s`)",
-                           "WHERE %s.bodyId IN %s AND %s",
+  cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[ConnectsTo*%s..%s]->(`%s`)",
+                           "WHERE src.bodyId IN %s AND %s last(nodes(p)).bodyId IN %s AND",
                            "ALL(x in relationships(p) WHERE %s x.weight>=%s)",
-                           "WITH *, true as _",
-                           "WHERE %s.bodyId IN %s",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights %s"
   ),
   all_segments.json,
   n[1]-1,
   n[2],
   all_segments.json,
-  ifelse(length(body_pre)<length(body_post),"src","dest"),
-  ifelse(length(body_pre)<length(body_post),id2json(body_pre),id2json(body_post)),
+  id2json(body_pre),
   ifelse(exclude.loops,"(NOT apoc.coll.containsDuplicates(nodes(p))) AND",""),
+  id2json(body_post),
   ifelse(is.null(roi),"",roiQ),
   weightT,
-  ifelse(length(body_pre)>length(body_post),"src","dest"),
-  ifelse(length(body_pre)>length(body_post),id2json(body_pre),id2json(body_post)),
   ifelse(is.null(roi) & by.roi==FALSE,"",paste0(", [x in relationships(p) | x.roiInfo] AS roiInfo"))
   )
 
