@@ -377,8 +377,10 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
   cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[ConnectsTo*%s..%s]->(dest:`%s`)",
-                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND %s",
+                           "WHERE src.bodyId IN %s AND %s",
                            "ALL(x in relationships(p) WHERE %s x.weight>=%s)",
+                           "WITH *, true as _",
+                           "WHERE dest.bodyId IN %s",
                            "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights %s"
   ),
   all_segments.json,
@@ -386,10 +388,10 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
   n[2],
   all_segments.json,
   id2json(body_pre),
-  id2json(body_post),
   ifelse(exclude.loops,"(NOT apoc.coll.containsDuplicates(nodes(p))) AND",""),
   ifelse(is.null(roi),"",roiQ),
   weightT,
+  id2json(body_post),
   ifelse(is.null(roi) & by.roi==FALSE,"",paste0(", [x in relationships(p) | x.roiInfo] AS roiInfo"))
   )
 
