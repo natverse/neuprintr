@@ -509,8 +509,8 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by
         chunksize=min(5L, ceiling(nP/10))
       else
         chunksize=5L
-      else
-        chunksize=Inf
+    else
+      chunksize=Inf
   }
 
   if(nP>chunksize) {
