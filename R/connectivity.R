@@ -78,6 +78,9 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'  (`FALSE`) or super-level ROIs (`TRUE`). A super-level ROIs can
 #'  contain multiple
 #'  lower-level ROIs. If set to `NULL`, both are returned.
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 20 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
 #' one \code{bodyid}, that \code{bodyid} is ignored
@@ -115,18 +118,36 @@ neuprint_connection_table <- function(bodyids,
                                       superLevel = FALSE,
                                       progress = FALSE,
                                       dataset = NULL,
+                                      chunk=TRUE,
                                       all_segments = FALSE,
                                       conn = NULL,
                                       ...){
   prepost <- match.arg(prepost)
   conn<-neuprint_login(conn)
-  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
-  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
-  if(!is.null(roi)){
-    roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
+
+
+  nP <- length(bodyids)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(20L, ceiling(nP/10))
+      else
+        chunksize=20L
+      else
+        chunksize=Inf
   }
-  if(progress){
-    d <- do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_connection_table(
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    bodyids <- split(bodyids, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_connection_table(
       bodyids = bi,
       prepost = prepost,
       roi = roi,
@@ -138,6 +159,14 @@ neuprint_connection_table <- function(bodyids,
     rownames(d) <- NULL
     return(d)
   }
+
+
+  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
+  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
+  if(!is.null(roi)){
+    roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
+  }
+
   cypher <-sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                          "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
                          "WHERE %s.bodyId=bodyId",
