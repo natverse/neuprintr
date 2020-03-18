@@ -338,8 +338,13 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param by.roi Return the results by ROI. Default to FALSE
 #' @param exclude.loops Wether or not to exclude loops
 #' (paths containing the same node several times). Defaults to TRUE
-#' @param chunk
-#' @param progress
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 5 when \code{chunk=TRUE}).
+#' @param progress if TRUE, a progress bar will be shown. This may slow the data
+#'   fetching process for smaller queries. The default of
+#'   \code{progress=NULL} will only show a progress bar if the query will be
+#'   split into multiple chunks based on the \code{chunk} argument.
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
@@ -473,8 +478,13 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #' @param by.roi Return the results by ROI. Default to FALSE
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
-#' @param chunk
-#' @param progress
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 5 when \code{chunk=TRUE}).
+#' @param progress if TRUE, a progress bar will be shown. This may slow the data
+#'   fetching process for smaller queries. The default of
+#'   \code{progress=NULL} will only show a progress bar if the query will be
+#'   split into multiple chunks based on the \code{chunk} argument.
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_paths}},
