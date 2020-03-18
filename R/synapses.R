@@ -58,11 +58,14 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
   if(is.numeric(chunk)) {
     chunksize=chunk
   } else {
-    # make smaller chunks when progress=T and there aren't so many bodyids
-    if(isTRUE(progress))
-      chunksize=min(20L, ceiling(n/10))
+    if (chunk ==TRUE)
+      # make smaller chunks when progress=T and there aren't so many bodyids
+      if(isTRUE(progress))
+        chunksize=min(20L, ceiling(n/10))
+      else
+        chunksize=20L
     else
-      chunksize=20L
+      chunksize=Inf
   }
 
   if(n>chunksize) {

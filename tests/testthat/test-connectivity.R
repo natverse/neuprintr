@@ -63,7 +63,24 @@ test_that("other connectivity functions work", {
 test_that("path functions work", {
   expect_is(p1 <- neuprint_get_shortest_paths(c(1128092885, 481121605), 5813041365,
                                         weightT=20), 'data.frame')
+  expect_is(p2 <- neuprint_get_shortest_paths(c(1128092885, 481121605), 5813041365,
+                                              weightT=20,by.roi=TRUE), 'data.frame')
   expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
                                   weightT=20),
                p1)
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20,progress=TRUE),
+               p1)
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20,chunk=1),
+               p1)
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20,by.roi=TRUE),
+               p2)
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20,progress=TRUE,by.roi=TRUE),
+               p2)
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20,chunk=1,by.roi=TRUE),
+               p2)
 })
