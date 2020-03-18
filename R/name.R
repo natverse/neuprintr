@@ -63,6 +63,12 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'   }
 #'
 #' @inheritParams neuprint_get_adjacency_matrix
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 2000 when \code{chunk=TRUE}).
+#' @param progress default FALSE. If TRUE, the API is called separately for
+#' each neuron and you can assess its progress, if an error is thrown by any
+#' one \code{bodyid}, that \code{bodyid} is ignored
 #' @export
 #' @examples
 #' \donttest{
@@ -71,8 +77,39 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' # or simpler
 #' neuprint_get_meta('DA2')
 #' }
-neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...){
+neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL,chunk=TRUE,progress=FALSE, ...){
   conn = neuprint_login(conn)
+
+  nP <- length(bodyids)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(2000L, ceiling(nP/10))
+      else
+        chunksize=2000L
+      else
+        chunksize=Inf
+  }
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    bodyids <- split(bodyids, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_get_meta(
+      bodyids = bi,
+      progress = FALSE,
+      dataset = dataset, conn = conn, ...),
+      error = function(e) {warning(e); NULL})))
+    rownames(d) <- NULL
+    return(d)
+  }
+
   bodyids <- neuprint_ids(bodyids, conn=conn, dataset = dataset,unique=FALSE,mustWork = FALSE)
   all_segments = ifelse(all_segments,"Segment","Neuron")
 
@@ -101,13 +138,50 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #'
 #' @description Return pre and post counts in all the ROIs given bodyids innervate.
 #' @inheritParams neuprint_get_adjacency_matrix
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 2000 when \code{chunk=TRUE}).
+#' @param progress default FALSE. If TRUE, the API is called separately for
+#' each neuron and you can assess its progress, if an error is thrown by any
+#' one \code{bodyid}, that \code{bodyid} is ignored
 #' @return a dataframe, one row for each given body id, columns ROI_pre and ROI_post for every ROI. If data is missing, NA is returned.
 #' @export
 #' @examples
 #' \donttest{
 #' neuprint_get_roiInfo(c(818983130, 1796818119))
 #' }
-neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, chunk=TRUE,progress=FALSE,conn = NULL, ...){
+  nP <- length(bodyids)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(2000L, ceiling(nP/10))
+      else
+        chunksize=2000L
+      else
+        chunksize=Inf
+  }
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    bodyids <- split(bodyids, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_get_roiInfo(
+      bodyids = bi,
+      progress = FALSE,
+      dataset = dataset, conn = conn, ...),
+      error = function(e) {warning(e); NULL})))
+    rownames(d) <- NULL
+    return(d)
+  }
+
+
   all_segments = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(
     "WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.bodyId AS bodyid, n.roiInfo AS roiInfo",
