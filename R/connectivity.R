@@ -401,7 +401,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
     # if we got here and progess is unset then set it
     if(is.null(progress) || is.na(progress)) progress=TRUE
     MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
-    d  = do.call(rbind, MYPLY(body_pre, function(pre) tryCatch(neuprint_get_paths(
+    d  = dplyr::bind_rows(MYPLY(body_pre, function(pre) tryCatch(neuprint_get_paths(
       body_pre = pre,
       body_post = body_post,
       n=n,
@@ -520,7 +520,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by
     # if we got here and progess is unset then set it
     if(is.null(progress) || is.na(progress)) progress=TRUE
     MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
-    d  = do.call(rbind, MYPLY(body_pre, function(pre) tryCatch(neuprint_get_shortest_paths(
+    d  = dplyr::bind_rows(MYPLY(body_pre, function(pre) tryCatch(neuprint_get_shortest_paths(
       body_pre = pre,
       body_post = body_post,
       weightT = weightT,
