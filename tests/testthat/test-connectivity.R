@@ -66,4 +66,10 @@ test_that("path functions work", {
   expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
                                   weightT=20),
                p1)
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20,progress=TRUE),
+               p1)
+  expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
+                                  weightT=20,chunk=1),
+               p1)
 })
