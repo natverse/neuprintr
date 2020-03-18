@@ -148,6 +148,10 @@
   <span class='no'>n</span>,
   <span class='kw'>weightT</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>by.roi</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>exclude.loops</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>chunk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -178,6 +182,28 @@ n[1] to n[2] are considered</p></td>
       <th>roi</th>
       <td><p>Limit the search to connections happening within a certain ROI or
 set of ROIs (NULL by default)</p></td>
+    </tr>
+    <tr>
+      <th>by.roi</th>
+      <td><p>Return the results by ROI. Default to FALSE</p></td>
+    </tr>
+    <tr>
+      <th>exclude.loops</th>
+      <td><p>Wether or not to exclude loops
+(paths containing the same node several times). Defaults to TRUE</p></td>
+    </tr>
+    <tr>
+      <th>chunk</th>
+      <td><p>A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 5 when <code>chunk=TRUE</code>).</p></td>
+    </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>if TRUE, a progress bar will be shown. This may slow the data
+fetching process for smaller queries. The default of
+<code>progress=NULL</code> will only show a progress bar if the query will be
+split into multiple chunks based on the <code>chunk</code> argument.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
@@ -216,7 +242,22 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 #&gt; 2 677182018 5813041365     22     2       FB02c(ADM02)_R PFL1(PB12a)_L4
 #&gt;   type.from type.to
 #&gt; 1      PFL1  FB2B_b
-#&gt; 2    FB2B_b    PFL1</div><div class='input'># }
+#&gt; 2    FB2B_b    PFL1</div><div class='input'>
+<span class='fu'>neuprint_get_paths</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1128092885</span>,<span class='fl'>481121605</span>),<span class='fl'>5813041365</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>), <span class='kw'>weightT</span><span class='kw'>=</span><span class='fl'>20</span>,<span class='kw'>by.roi</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;        from         to weight depth            name.from        name.to
+#&gt; 1 481121605  677182018     45     1 PFL1(PB12a)_L2(_C3_) FB02c(ADM02)_R
+#&gt; 2 677182018 5813041365     22     2       FB02c(ADM02)_R PFL1(PB12a)_L4
+#&gt;   type.from type.to LX(R).post LAL(R).post LAL(-GA)(R).post INP.post
+#&gt; 1      PFL1  FB2B_b         44          44               44        1
+#&gt; 2    FB2B_b    PFL1          0           0                0        0
+#&gt;   CRE(R).post CRE(-ROB,-RUB)(R).post CX.post FB.post FBl2.post FBl3.post
+#&gt; 1           1                      1       0       0         0         0
+#&gt; 2           0                      0      22      22        21         1</div><div class='input'>
+<span class='fu'>neuprint_get_paths</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1128092885</span>,<span class='fl'>481121605</span>),<span class='fl'>5813041365</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>), <span class='kw'>weightT</span><span class='kw'>=</span><span class='fl'>20</span>,<span class='kw'>roi</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"FB"</span>,<span class='st'>"LAL(-GA)(R)"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt;        from         to weight depth            name.from        name.to
+#&gt; 1 481121605  677182018     45     1 PFL1(PB12a)_L2(_C3_) FB02c(ADM02)_R
+#&gt; 2 677182018 5813041365     22     2       FB02c(ADM02)_R PFL1(PB12a)_L4
+#&gt;   type.from type.to FB.post LAL(-GA)(R).post
+#&gt; 1      PFL1  FB2B_b       0               44
+#&gt; 2    FB2B_b    PFL1      22                0</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -147,6 +147,9 @@
   <span class='no'>body_post</span>,
   <span class='kw'>weightT</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>roi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>by.roi</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>chunk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -172,6 +175,23 @@
       <th>roi</th>
       <td><p>Limit the search to connections happening within a certain ROI or
 set of ROIs (NULL by default)</p></td>
+    </tr>
+    <tr>
+      <th>by.roi</th>
+      <td><p>Return the results by ROI. Default to FALSE</p></td>
+    </tr>
+    <tr>
+      <th>chunk</th>
+      <td><p>A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 5 when <code>chunk=TRUE</code>).</p></td>
+    </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>if TRUE, a progress bar will be shown. This may slow the data
+fetching process for smaller queries. The default of
+<code>progress=NULL</code> will only show a progress bar if the query will be
+split into multiple chunks based on the <code>chunk</code> argument.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
