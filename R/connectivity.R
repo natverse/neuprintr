@@ -470,6 +470,8 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #' @param by.roi Return the results by ROI. Default to FALSE
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
+#' @param chunk
+#' @param progress
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_paths}},
@@ -480,9 +482,43 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #' \donttest{
 #' neuprint_get_shortest_paths(c(1128092885,481121605),5813041365,weightT=20)
 #' }
-neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by.roi=FALSE,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by.roi=FALSE,chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   conn <- neuprint_login(conn)
+
+  nP <- length(body_pre)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if(isTRUE(progress))
+      chunksize=min(5L, ceiling(nP/10))
+    else
+      chunksize=5L
+  }
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    body_pre <- split(body_pre, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = do.call(rbind, MYPLY(body_pre, function(pre) tryCatch(neuprint_get_shortest_paths(
+      body_pre = pre,
+      body_post = body_post,
+      weightT = weightT,
+      roi = roi,
+      by.roi = by.roi,
+      progress = FALSE,
+      dataset = dataset,
+      conn = conn,
+      all_segments=all_segments,
+      ...),
+      error = function(e) {warning(e); NULL})))
+    return(d)
+  }
+
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
 
   if(!is.null(roi)){
@@ -491,7 +527,6 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by
   }
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
-
   cypher <-  sprintf(paste("MATCH p = allShortestPaths((src: `%s`)-[c: ConnectsTo*]->(dest:`%s`))",
                            "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND src.bodyId <> dest.bodyId AND",
                            "ALL (x in relationships(p) WHERE %s x.weight >= %s)",
