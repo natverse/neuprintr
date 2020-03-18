@@ -12,6 +12,8 @@ neuprint_get_paths(
   roi = NULL,
   by.roi = FALSE,
   exclude.loops = TRUE,
+  chunk = TRUE,
+  progress = FALSE,
   dataset = NULL,
   conn = NULL,
   all_segments = FALSE,
@@ -35,6 +37,15 @@ set of ROIs (NULL by default)}
 
 \item{exclude.loops}{Wether or not to exclude loops
 (paths containing the same node several times). Defaults to TRUE}
+
+\item{chunk}{A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 5 when \code{chunk=TRUE}).}
+
+\item{progress}{if TRUE, a progress bar will be shown. This may slow the data
+fetching process for smaller queries. The default of
+\code{progress=NULL} will only show a progress bar if the query will be
+split into multiple chunks based on the \code{chunk} argument.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
