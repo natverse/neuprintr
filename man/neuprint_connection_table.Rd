@@ -12,6 +12,7 @@ neuprint_connection_table(
   superLevel = FALSE,
   progress = FALSE,
   dataset = NULL,
+  chunk = TRUE,
   all_segments = FALSE,
   conn = NULL,
   ...
@@ -41,6 +42,10 @@ one \code{bodyid}, that \code{bodyid} is ignored}
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
+
+\item{chunk}{A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 20 when \code{chunk=TRUE}).}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
