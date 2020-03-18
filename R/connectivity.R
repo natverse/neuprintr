@@ -78,6 +78,9 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'  (`FALSE`) or super-level ROIs (`TRUE`). A super-level ROIs can
 #'  contain multiple
 #'  lower-level ROIs. If set to `NULL`, both are returned.
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 20 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
 #' one \code{bodyid}, that \code{bodyid} is ignored
