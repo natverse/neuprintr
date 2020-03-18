@@ -8,6 +8,8 @@ neuprint_get_roiInfo(
   bodyids,
   dataset = NULL,
   all_segments = FALSE,
+  chunk = TRUE,
+  progress = FALSE,
   conn = NULL,
   ...
 )
@@ -22,6 +24,14 @@ current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
+
+\item{chunk}{A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 2000 when \code{chunk=TRUE}).}
+
+\item{progress}{default FALSE. If TRUE, the API is called separately for
+each neuron and you can assess its progress, if an error is thrown by any
+one \code{bodyid}, that \code{bodyid} is ignored}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
