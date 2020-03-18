@@ -156,6 +156,7 @@ neuprint_connection_table <- function(bodyids,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
     d <-  d[order(d$weight,decreasing=TRUE),]
+    rownames(d) <- NULL
     return(d)
   }
 
