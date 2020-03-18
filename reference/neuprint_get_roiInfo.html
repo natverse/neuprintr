@@ -144,6 +144,8 @@
   <span class='no'>bodyids</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>chunk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
 )</pre>
@@ -166,6 +168,18 @@ current connection, is used. See <code><a href='neuprint_login.html'>neuprint_lo
       <th>all_segments</th>
       <td><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
+    </tr>
+    <tr>
+      <th>chunk</th>
+      <td><p>A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 2000 when <code>chunk=TRUE</code>).</p></td>
+    </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>default FALSE. If TRUE, the API is called separately for
+each neuron and you can assess its progress, if an error is thrown by any
+one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
     </tr>
     <tr>
       <th>conn</th>
