@@ -380,10 +380,13 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
     chunksize=chunk
   } else {
     # make smaller chunks when progress=T and there aren't so many bodyids
-    if(isTRUE(progress))
-      chunksize=min(5L, ceiling(nP/10))
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(5L, ceiling(nP/10))
+      else
+        chunksize=5L
     else
-      chunksize=5L
+      chunksize=Inf
   }
 
   if(nP>chunksize) {
@@ -491,10 +494,13 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by
     chunksize=chunk
   } else {
     # make smaller chunks when progress=T and there aren't so many bodyids
-    if(isTRUE(progress))
-      chunksize=min(5L, ceiling(nP/10))
-    else
-      chunksize=5L
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(5L, ceiling(nP/10))
+      else
+        chunksize=5L
+      else
+        chunksize=Inf
   }
 
   if(nP>chunksize) {
