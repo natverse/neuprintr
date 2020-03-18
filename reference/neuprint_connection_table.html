@@ -148,6 +148,7 @@
   <span class='kw'>superLevel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>chunk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
@@ -193,6 +194,12 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+    </tr>
+    <tr>
+      <th>chunk</th>
+      <td><p>A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 20 when <code>chunk=TRUE</code>).</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
