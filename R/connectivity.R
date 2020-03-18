@@ -338,6 +338,8 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param by.roi Return the results by ROI. Default to FALSE
 #' @param exclude.loops Wether or not to exclude loops
 #' (paths containing the same node several times). Defaults to TRUE
+#' @param chunk
+#' @param progress
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
@@ -353,7 +355,7 @@ neuprint_simple_connectivity <- function(bodyids,
 #' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 #' }
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,exclude.loops=TRUE,
-                               dataset = NULL, conn = NULL, all_segments=FALSE, ...){
+                               chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
   if (length(n)==1){
     n <- c(n,n)
@@ -371,6 +373,41 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
     roiQ <- paste("(" ,paste0("apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`.post >=",weightT,collapse=" OR "),") AND ")
+  }
+
+  nP <- length(body_pre)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if(isTRUE(progress))
+      chunksize=min(5L, ceiling(nP/10))
+    else
+      chunksize=5L
+  }
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    body_pre <- split(body_pre, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = do.call(rbind, MYPLY(body_pre, function(pre) tryCatch(neuprint_get_paths(
+      body_pre = pre,
+      body_post = body_post,
+      n=n,
+      weightT = weightT,
+      roi = roi,
+      by.roi = by.roi,
+      exclude.loops = exclude.loops,
+      progress = FALSE,
+      dataset = dataset,
+      conn = conn,
+      all_segments=all_segments,
+      ...),
+      error = function(e) {warning(e); NULL})))
+    return(d)
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
