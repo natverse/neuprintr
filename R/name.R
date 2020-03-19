@@ -117,7 +117,6 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
                                                        "size","cellBodyFiber"),
                                     dataset=dataset,conn=conn,...)
   returnCypher <- paste0("n.",fieldNames," AS ",dfFields(fieldNames),collapse=" , ")
-#n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post,n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber, n.downstream as downstream"
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
@@ -189,7 +188,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
     all_segments
   )
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, conn = conn, ...)
-  lc <-  lapply(nc$data,function(x){cbind(bodyid=x[[1]],as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))))})
+  lc <-  lapply(nc$data,function(x){cbind(bodyid=as.character(x[[1]]),as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))),stringsAsFactors=FALSE)})
   d <- dplyr::bind_rows(lc)
   d
 }
