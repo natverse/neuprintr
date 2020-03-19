@@ -52,7 +52,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
         ". Please call neuprint_ROIs() to see the available ROIs."
       )
     }
-    roi = sprintf("AND (exists(s.`%s`))", roi)
+    roiQ = sprintf("AND (exists(s.`%s`))", roi)
   }
   n <- length(bodyids)
   if(is.numeric(chunk)) {
@@ -91,7 +91,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
     }
     return(d)
   }
-  if(is.null(roi)) roi <- ""
+  if(is.null(roi)) roiQ <- ""
   cypher.post = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                               "MATCH (a:`%s`)-[:Contains]->(:SynapseSet)-[:Contains]->(p:Synapse)<-[:SynapsesTo]-(s:Synapse)<-[:Contains]-(c:SynapseSet)<-[:Contains]-(b:`%s`)",
                               "WHERE a.bodyId=bodyId AND (s.type='pre') %s",
@@ -101,7 +101,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
                    id2json(bodyids),
                    "Segment",
                    "Segment",
-                   roi)
+                   roiQ)
   cypher.pre = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                        "MATCH (a:`%s`)-[:Contains]->(c:SynapseSet)-[:Contains]->(s:Synapse)-[:SynapsesTo]->(:Synapse)<-[:Contains]-(:SynapseSet)<-[:Contains]-(b:`%s`)",
                        "WHERE a.bodyId=bodyId AND (s.type='pre') %s",
@@ -111,7 +111,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
                         id2json(bodyids),
                        "Segment",
                        "Segment",
-                        roi)
+                        roiQ)
   nc.post = neuprint_fetch_custom(cypher=cypher.post, conn = conn, dataset = dataset, ...)
   nc.pre = neuprint_fetch_custom(cypher=cypher.pre, conn = conn, dataset = dataset, ...)
   m = rbind(neuprint_list2df(nc.post),neuprint_list2df(nc.pre))
