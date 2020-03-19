@@ -117,7 +117,6 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
                                                        "size","cellBodyFiber"),
                                     dataset=dataset,conn=conn,...)
   returnCypher <- paste0("n.",fieldNames," AS ",dfFields(fieldNames),collapse=" , ")
-#n.bodyId AS bodyid, n.%s AS name, n.type AS type, n.status AS status, n.statusLabel AS statusLabel, n.size AS voxels, n.pre AS pre, n.post AS post,n.cropped AS cropped, exists(n.somaLocation) as soma, n.cellBodyFiber as cellBodyFiber, n.downstream as downstream"
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
