@@ -4,7 +4,7 @@
 \alias{neuprint_ROI_mesh}
 \title{Download a region of interest as a 3D mesh}
 \usage{
-neuprint_ROI_mesh(roi, roi_check = TRUE, dataset = NULL, conn = NULL, ...)
+neuprint_ROI_mesh(roi, dataset = NULL, conn = NULL, ...)
 }
 \arguments{
 \item{roi}{region of interest for a dataset}

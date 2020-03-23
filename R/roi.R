@@ -186,7 +186,7 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
 #' @export
 #' @return a \code{\link[rgl]{mesh3d}} object
 #' @seealso \code{\link{neuprint_ROIs}}
-neuprint_ROI_mesh <- function(roi, roi_check=TRUE, dataset = NULL, conn = NULL, ...){
+neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
