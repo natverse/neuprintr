@@ -84,6 +84,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
 #' one \code{bodyid}, that \code{bodyid} is ignored
+#' @param roi_check default TRUE. If FALSE, and roi isn't null, ignore ROI checking step
 #' @return a data frame giving partners within a set of ROIs, the connection
 #' strength for weights to or from that partner, and the direction, for the
 #' given bodyid
@@ -121,6 +122,7 @@ neuprint_connection_table <- function(bodyids,
                                       chunk=TRUE,
                                       all_segments = FALSE,
                                       conn = NULL,
+                                      roi_check=TRUE,
                                       ...){
   prepost <- match.arg(prepost)
   conn<-neuprint_login(conn)
@@ -163,7 +165,7 @@ neuprint_connection_table <- function(bodyids,
 
   all_segments.json <- ifelse(all_segments,"Segment","Neuron")
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
-  if(!is.null(roi)){
+  if(!is.null(roi) & roi_check){
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
 
