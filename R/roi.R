@@ -5,7 +5,6 @@
 #' @param output_ROIs a vector of input ROIs. Use \code{neuprint_ROIs} to see what is available.
 #' @param roi a single ROI. Use \code{neuprint_ROIs} to see what is available.
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.
-#' @param roi_check default TRUE. If FALSE, and roi isn't null, ignore ROI checking step
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @return a n x n matrix, where the rows are input neurons and the columns are their targets
@@ -25,13 +24,11 @@ neuprint_find_neurons <- function(input_ROIs,
                                   dataset = NULL,
                                   conn = NULL,
                                   all_segments = FALSE,
-                                  roi_check=TRUE,
                                   ...){
   all_segments = ifelse(all_segments,"true","false")
   conn=neuprint_login(conn = conn)
   dataset = check_dataset(dataset, conn=conn)
-  if (roi_check){
-  roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)}
+  roicheck = neuprint_check_roi(rois=unique(c(input_ROIs,output_ROIs)), dataset = dataset, conn = conn, ...)
   Payload = noquote(sprintf('{"dataset":"%s","input_ROIs":%s,"output_ROIs":%s,"enable_contains":true,"all_segments":%s}',
                             dataset, jsonlite::toJSON(input_ROIs),
                             jsonlite::toJSON(output_ROIs),
@@ -62,9 +59,9 @@ neuprint_find_neurons <- function(input_ROIs,
 #' lhr=neuprint_bodies_in_ROI('LH(R)')
 #' head(lhr)
 #' }
-neuprint_bodies_in_ROI <- function(roi, roi_check=TRUE,dataset = NULL, all_segments = FALSE, conn = NULL, ...){
+neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, conn = NULL, ...){
   all_segments = ifelse(all_segments,"Segment","Neuron")
-  if (roi_check) roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
+  roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   cypher = sprintf("MATCH (n :`%s`) WHERE n.`%s` WITH n AS n, apoc.convert.fromJsonMap(n.roiInfo) AS roiInfo RETURN n.bodyId AS bodyid, n.size AS voxels, n.pre AS pre, n.post as post, roiInfo.`%s`.pre AS roipre, roiInfo.`%s`.post AS roipost",
                 all_segments,
                 roi,
@@ -92,7 +89,6 @@ neuprint_bodies_in_ROI <- function(roi, roi_check=TRUE,dataset = NULL, all_segme
 #' @param cached pull precomputed results (TRUE) or ask server to recalculate
 #'   the connectivity (FALSE). Only applicable to summary results when
 #'   \code{full=FALSE}.
-#' @param roi_check default TRUE. If FALSE, and roi isn't null, ignore ROI checking step
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_simple_connectivity}},
@@ -107,13 +103,12 @@ neuprint_bodies_in_ROI <- function(roi, roi_check=TRUE,dataset = NULL, all_segme
 neuprint_ROI_connectivity <- function(rois, full=TRUE,
                                       statistic = c("weight","count"),
                                       cached = !full,
-                                      roi_check=TRUE,
                                       dataset = NULL, conn = NULL, ...) {
   statistic <- match.arg(statistic)
   if(isTRUE(full) && isTRUE(cached))
     stop("It is not possible to return a full list of connecting neurons when ",
          "`cached=TRUE`!\nPlease leave `cached` with its default value (FALSE).")
-  if (roi_check) roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
+  roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
   if (cached) {
     results <-matrix(ifelse(statistic == 'count', 0L, 0),
                      nrow=length(rois), ncol=length(rois),
@@ -186,7 +181,6 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
 #' @title Download a region of interest as a 3D mesh
 #'
 #' @param roi region of interest for a dataset
-#'@param roi_check default TRUE. If FALSE, and roi isn't null, ignore ROI checking step
 #' @inheritParams neuprint_fetch_custom
 #' @param ... methods passed to \code{\link{neuprint_login}}
 #' @export
@@ -195,7 +189,7 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
 neuprint_ROI_mesh <- function(roi, roi_check=TRUE, dataset = NULL, conn = NULL, ...){
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
-  if (roi_check) roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
+  roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
   roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh", dataset, roi,
                                        sep="/"),
                             parse.json = FALSE,

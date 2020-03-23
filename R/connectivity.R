@@ -84,7 +84,6 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
 #' one \code{bodyid}, that \code{bodyid} is ignored
-#' @param roi_check default TRUE. If FALSE, and roi isn't null, ignore ROI checking step
 #' @return a data frame giving partners within a set of ROIs, the connection
 #' strength for weights to or from that partner, and the direction, for the
 #' given bodyid
@@ -122,7 +121,6 @@ neuprint_connection_table <- function(bodyids,
                                       chunk=TRUE,
                                       all_segments = FALSE,
                                       conn = NULL,
-                                      roi_check=TRUE,
                                       ...){
   prepost <- match.arg(prepost)
   conn<-neuprint_login(conn)
@@ -165,7 +163,7 @@ neuprint_connection_table <- function(bodyids,
 
   all_segments.json <- ifelse(all_segments,"Segment","Neuron")
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
-  if(!is.null(roi) & roi_check){
+  if(!is.null(roi)){
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
 
@@ -376,7 +374,6 @@ neuprint_simple_connectivity <- function(bodyids,
 #'   fetching process for smaller queries. The default of
 #'   \code{progress=NULL} will only show a progress bar if the query will be
 #'   split into multiple chunks based on the \code{chunk} argument.
-#' @param roi_check default TRUE. If FALSE, and roi isn't null, ignore ROI checking step
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
@@ -392,7 +389,7 @@ neuprint_simple_connectivity <- function(bodyids,
 #' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 #' }
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,exclude.loops=TRUE,
-                               chunk=TRUE,progress=FALSE,roi_check=TRUE,dataset = NULL, conn = NULL, all_segments=FALSE, ...){
+                               chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
   if (length(n)==1){
     n <- c(n,n)
@@ -407,7 +404,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 
   conn <- neuprint_login(conn)
 
-  if(!is.null(roi) & roi_check){
+  if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
     roiQ <- paste("(" ,paste0("apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`.post >=",weightT,collapse=" OR "),") AND ")
   }
@@ -517,7 +514,6 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #'   fetching process for smaller queries. The default of
 #'   \code{progress=NULL} will only show a progress bar if the query will be
 #'   split into multiple chunks based on the \code{chunk} argument.
-#' @param roi_check default TRUE. If FALSE, and roi isn't null, ignore ROI checking step
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_paths}},
@@ -528,7 +524,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #' \donttest{
 #' neuprint_get_shortest_paths(c(1128092885,481121605),5813041365,weightT=20)
 #' }
-neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by.roi=FALSE,chunk=TRUE,progress=FALSE,roi_check=TRUE,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by.roi=FALSE,chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   conn <- neuprint_login(conn)
 
@@ -570,7 +566,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
 
-  if(!is.null(roi) & roi_check){
+  if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
     roiQ <- paste("(" ,paste0("apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`.post >=",weightT,collapse=" OR "),") AND ")
   }
