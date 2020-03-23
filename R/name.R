@@ -356,6 +356,8 @@ neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, d
 #' @title Get available metadata fields for Neuron nodes
 #' @return a vector of available fields
 #' @param possibleFields : field names to choose from
+#' @param limit : Max length of the server's response (used to speed up the query/adapt to different scenarios)
+#' @param negateFields : Whether to include (FALSE, the default) or exclude \code{possibleFields}
 #' @inheritParams neuprint_ROI_hierarchy
 #' @export
 #' @examples

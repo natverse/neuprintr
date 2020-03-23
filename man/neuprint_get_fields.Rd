@@ -18,6 +18,10 @@ neuprint_get_fields(
 \arguments{
 \item{possibleFields}{: field names to choose from}
 
+\item{limit}{: Max length of the server's response (used to speed up the query/adapt to different scenarios)}
+
+\item{negateFields}{: Whether to include (FALSE, the default) or exclude \code{possibleFields}}
+
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
