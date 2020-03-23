@@ -54,6 +54,9 @@ neuprint_version <- function(conn = NULL, ...){
 #' @description Get the regions of interest (ROIs) used in a neuPrint project
 #' @param superLevel whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
 #' If set to NULL, both low-level and superlevel ROIs are returned.
+#' @param fromNeuronFields : Whether to use fields of :Neuron nodes to fetch the ROIs. If
+#' FALSE (the default), use the dataset metadata instead. If TRUE, the \code{superLevel} argument
+#' is ignored
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
