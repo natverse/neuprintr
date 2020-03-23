@@ -4,10 +4,12 @@
 \alias{neuprint_ROI_mesh}
 \title{Download a region of interest as a 3D mesh}
 \usage{
-neuprint_ROI_mesh(roi, dataset = NULL, conn = NULL, ...)
+neuprint_ROI_mesh(roi, roi_check = TRUE, dataset = NULL, conn = NULL, ...)
 }
 \arguments{
 \item{roi}{region of interest for a dataset}
+
+\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
@@ -19,8 +21,6 @@ neuPrint server. If NULL, the defaults set in your
 used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{\link{neuprint_login}}}
-
-\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 }
 \value{
 a \code{\link[rgl]{mesh3d}} object
