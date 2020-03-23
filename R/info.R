@@ -58,7 +58,18 @@ neuprint_version <- function(conn = NULL, ...){
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
 #' @export
-neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
+neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= FALSE,conn = NULL, ...){
+  if (fromNeuronFields){
+    rois <- neuprint_get_fields(possibleFields = c("bodyId", "pre", "post",
+                                                   "upstream", "downstream",
+                                                   "status", "statusLabel",
+                                                   "cropped", "instance", "name",
+                                                   "size", "type", "cellBodyFiber",
+                                                   "somaLocation", "somaRadius","roiInfo"),
+                                limit=200,
+                                negateFields=TRUE,
+                                dataset = NULL, conn = NULL, ...)
+  }else{
   ds = neuprint_datasets(conn=conn, ...)
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
@@ -77,7 +88,7 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, conn = NULL, ...){
     if(is.null(rois)){
       rois = ds[[1]]$ROIs
     }
-  }
+  }}
   sort(rois)
 }
 
