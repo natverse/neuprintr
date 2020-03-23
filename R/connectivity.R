@@ -78,6 +78,9 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'  (`FALSE`) or super-level ROIs (`TRUE`). A super-level ROIs can
 #'  contain multiple
 #'  lower-level ROIs. If set to `NULL`, both are returned.
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 20 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
 #' one \code{bodyid}, that \code{bodyid} is ignored
@@ -115,18 +118,36 @@ neuprint_connection_table <- function(bodyids,
                                       superLevel = FALSE,
                                       progress = FALSE,
                                       dataset = NULL,
+                                      chunk=TRUE,
                                       all_segments = FALSE,
                                       conn = NULL,
                                       ...){
   prepost <- match.arg(prepost)
   conn<-neuprint_login(conn)
-  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
-  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
-  if(!is.null(roi)){
-    roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
+
+
+  nP <- length(bodyids)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(20L, ceiling(nP/10))
+      else
+        chunksize=20L
+      else
+        chunksize=Inf
   }
-  if(progress){
-    d <- do.call(rbind, pbapply::pblapply(bodyids, function(bi) tryCatch(neuprint_connection_table(
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    bodyids <- split(bodyids, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_connection_table(
       bodyids = bi,
       prepost = prepost,
       roi = roi,
@@ -138,6 +159,14 @@ neuprint_connection_table <- function(bodyids,
     rownames(d) <- NULL
     return(d)
   }
+
+
+  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
+  bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
+  if(!is.null(roi)){
+    roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
+  }
+
   cypher <-sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
                          "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
                          "WHERE %s.bodyId=bodyId",
@@ -335,6 +364,16 @@ neuprint_simple_connectivity <- function(bodyids,
 #'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
+#' @param by.roi Return the results by ROI. Default to FALSE
+#' @param exclude.loops Wether or not to exclude loops
+#' (paths containing the same node several times). Defaults to TRUE
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 5 when \code{chunk=TRUE}).
+#' @param progress if TRUE, a progress bar will be shown. This may slow the data
+#'   fetching process for smaller queries. The default of
+#'   \code{progress=NULL} will only show a progress bar if the query will be
+#'   split into multiple chunks based on the \code{chunk} argument.
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_shortest_paths}},
@@ -344,9 +383,13 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @examples
 #' \donttest{
 #' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
+#'
+#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,by.roi=TRUE)
+#'
+#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 #' }
-neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
-                               dataset = NULL, conn = NULL, all_segments=FALSE, ...){
+neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,exclude.loops=TRUE,
+                               chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL, all_segments=FALSE, ...){
 
   if (length(n)==1){
     n <- c(n,n)
@@ -363,28 +406,65 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-    roi <- paste("AND (" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),")")
+    roiQ <- paste("(" ,paste0("apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`.post >=",weightT,collapse=" OR "),") AND ")
+  }
+
+  nP <- length(body_pre)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(5L, ceiling(nP/10))
+      else
+        chunksize=5L
+    else
+      chunksize=Inf
+  }
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    body_pre <- split(body_pre, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = dplyr::bind_rows(MYPLY(body_pre, function(pre) tryCatch(neuprint_get_paths(
+      body_pre = pre,
+      body_post = body_post,
+      n=n,
+      weightT = weightT,
+      roi = roi,
+      by.roi = by.roi,
+      exclude.loops = exclude.loops,
+      progress = FALSE,
+      dataset = dataset,
+      conn = conn,
+      all_segments=all_segments,
+      ...),
+      error = function(e) {warning(e); NULL})))
+    return(d)
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
-  cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
-                           "UNWIND bodies[0] AS bodypre",
-                           "UNWIND bodies[1] AS bodypost",
-                           "MATCH p = (src : `%s`)-[ConnectsTo*%s..%s]->(dest:`%s`)",
-                           "WHERE src.bodyId = bodypre AND dest.bodyId = bodypost AND",
-                           "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
-                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
+  cypher <-  sprintf(paste("MATCH p = (src:`%s`)-[ConnectsTo*%s..%s]->(`%s`)",
+                           "WHERE src.bodyId IN %s AND %s last(nodes(p)).bodyId IN %s AND",
+                           "ALL(x in relationships(p) WHERE %s x.weight>=%s)",
+                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights %s"
   ),
-  id2json(body_pre),
-  id2json(body_post),
   all_segments.json,
   n[1]-1,
   n[2],
   all_segments.json,
+  id2json(body_pre),
+  ifelse(exclude.loops,"(NOT apoc.coll.containsDuplicates(nodes(p))) AND",""),
+  id2json(body_post),
+  ifelse(is.null(roi),"",roiQ),
   weightT,
-  ifelse(is.null(roi),"",roi)
+  ifelse(is.null(roi) & by.roi==FALSE,"",paste0(", [x in relationships(p) | x.roiInfo] AS roiInfo"))
   )
 
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
@@ -401,6 +481,17 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
                                stringsAsFactors = FALSE)
                   })), error= function(e) NULL)
   }))
+
+  if (!is.null(roi) | by.roi){
+    roiTable <- dplyr::bind_rows(lapply(nc$data, function(d){
+      l <- d[[1]]
+      if (by.roi == TRUE){roi="All"}
+      dplyr::bind_rows(lapply(d[[4]],function(dT){extract_connectivity_df(roi,dT,"post")}))
+    }))
+    roiTable[is.na(roiTable)] <- 0
+    connTable <- cbind(connTable,roiTable)
+  }
+
   connTable
 }
 
@@ -413,8 +504,16 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #' @param weightT weight threshold
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
+#' @param by.roi Return the results by ROI. Default to FALSE
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
+#' @param chunk A logical specifying whether to split the query into multiple
+#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   to 5 when \code{chunk=TRUE}).
+#' @param progress if TRUE, a progress bar will be shown. This may slow the data
+#'   fetching process for smaller queries. The default of
+#'   \code{progress=NULL} will only show a progress bar if the query will be
+#'   split into multiple chunks based on the \code{chunk} argument.
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
 #' @seealso \code{\link{neuprint_get_paths}},
@@ -425,33 +524,66 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL,
 #' \donttest{
 #' neuprint_get_shortest_paths(c(1128092885,481121605),5813041365,weightT=20)
 #' }
-neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
+neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by.roi=FALSE,chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL,all_segments=FALSE, ...){
 
   conn <- neuprint_login(conn)
+
+  nP <- length(body_pre)
+  if(is.numeric(chunk)) {
+    chunksize=chunk
+  } else {
+    # make smaller chunks when progress=T and there aren't so many bodyids
+    if (chunk ==TRUE)
+      if(isTRUE(progress))
+        chunksize=min(5L, ceiling(nP/10))
+      else
+        chunksize=5L
+    else
+      chunksize=Inf
+  }
+
+  if(nP>chunksize) {
+    nchunks=ceiling(nP/chunksize)
+    chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
+    body_pre <- split(body_pre, chunks)
+    # if we got here and progess is unset then set it
+    if(is.null(progress) || is.na(progress)) progress=TRUE
+    MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
+    d  = dplyr::bind_rows(MYPLY(body_pre, function(pre) tryCatch(neuprint_get_shortest_paths(
+      body_pre = pre,
+      body_post = body_post,
+      weightT = weightT,
+      roi = roi,
+      by.roi = by.roi,
+      progress = FALSE,
+      dataset = dataset,
+      conn = conn,
+      all_segments=all_segments,
+      ...),
+      error = function(e) {warning(e); NULL})))
+    return(d)
+  }
+
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
 
   if(!is.null(roi)){
     roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-    roi <- paste("AND (" ,paste0("exists(apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`)",collapse=" OR "),")")
+    roiQ <- paste("(" ,paste0("apoc.convert.fromJsonMap(x.roiInfo).`",roi,"`.post >=",weightT,collapse=" OR "),") AND ")
   }
   body_pre <- neuprint_ids(body_pre, dataset = dataset, conn = conn)
   body_post <- neuprint_ids(body_post, dataset = dataset, conn = conn)
-
-  cypher <-  sprintf(paste("WITH [%s,%s] AS bodies",
-                           "UNWIND bodies[0] AS bodypre",
-                           "UNWIND bodies[1] AS bodypost",
-                           "WITH * WHERE bodypre <> bodypost",
-                           "MATCH p = allShortestPaths((src : `%s`)-[ConnectsTo*]->(dest:`%s`))",
-                           "WHERE src.bodyId = bodypre AND dest.bodyId = bodypost AND",
-                           "ALL (x in relationships(p) WHERE x.weight >= %s %s)",
-                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights"
+  cypher <-  sprintf(paste("MATCH p = allShortestPaths((src: `%s`)-[c: ConnectsTo*]->(dest:`%s`))",
+                           "WHERE src.bodyId IN %s AND dest.bodyId IN %s AND src.bodyId <> dest.bodyId AND",
+                           "ALL (x in relationships(p) WHERE %s x.weight >= %s)",
+                           "RETURN length(p) AS `length(path)`,[n in nodes(p) | [n.bodyId, n.instance, n.type]] AS path,[x in relationships(p) | x.weight] AS weights %s"
   ),
+  all_segments.json,
+  all_segments.json,
   id2json(body_pre),
   id2json(body_post),
-  all_segments.json,
-  all_segments.json,
+  ifelse(is.null(roi),"",roiQ),
   weightT,
-  ifelse(is.null(roi),"",roi)
+  ifelse(is.null(roi) & by.roi==FALSE,"",paste0(", [x in relationships(p) | x.roiInfo] AS roiInfo"))
   )
 
   nc <-  neuprint_fetch_custom(cypher=cypher, conn = conn, dataset=dataset, ...)
@@ -468,6 +600,17 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,da
                  stringsAsFactors = FALSE)
     })), error = function(e) NULL)
   }))
+
+  if (!is.null(roi) | by.roi){
+    roiTable <- dplyr::bind_rows(lapply(nc$data, function(d){
+      l <- d[[1]]
+      if (by.roi == TRUE){roi="All"}
+      dplyr::bind_rows(lapply(d[[4]],function(dT){extract_connectivity_df(roi,dT,"post")}))
+    }))
+    roiTable[is.na(roiTable)] <- 0
+    connTable <- cbind(connTable,roiTable)
+  }
+
   connTable
 }
 
@@ -476,8 +619,12 @@ extract_connectivity_df <- function(rois, json, postFix  = c("pre", "post")){
   if(is.null(json)){
     return(NULL)
   }
-  rois <- unique(rois) #this takes care if both the input and output ROIs are same.
+
   a <- unlist(jsonlite::fromJSON(json))
+  if(rois=="All"){
+    rois <- gsub("\\..*","",names(a))
+  }
+  rois <- unique(rois) #this takes care if both the input and output ROIs are same..
   roicols <- c(t(outer(rois,postFix, paste, sep=".")))
   values <- tibble::as_tibble(as.list(structure(rep(0, length(roicols)), .Names=roicols)))
   for(roi in rois){

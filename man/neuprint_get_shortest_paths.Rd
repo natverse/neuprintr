@@ -9,6 +9,9 @@ neuprint_get_shortest_paths(
   body_post,
   weightT = 5,
   roi = NULL,
+  by.roi = FALSE,
+  chunk = TRUE,
+  progress = FALSE,
   dataset = NULL,
   conn = NULL,
   all_segments = FALSE,
@@ -24,6 +27,17 @@ neuprint_get_shortest_paths(
 
 \item{roi}{Limit the search to connections happening within a certain ROI or
 set of ROIs (NULL by default)}
+
+\item{by.roi}{Return the results by ROI. Default to FALSE}
+
+\item{chunk}{A logical specifying whether to split the query into multiple
+chunks or an integer specifiying the size of those chunks (which defaults
+to 5 when \code{chunk=TRUE}).}
+
+\item{progress}{if TRUE, a progress bar will be shown. This may slow the data
+fetching process for smaller queries. The default of
+\code{progress=NULL} will only show a progress bar if the query will be
+split into multiple chunks based on the \code{chunk} argument.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
