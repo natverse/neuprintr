@@ -15,7 +15,6 @@ neuprint_connection_table(
   chunk = TRUE,
   all_segments = FALSE,
   conn = NULL,
-  roi_check = TRUE,
   ...
 )
 }
@@ -55,8 +54,6 @@ to 20 when \code{chunk=TRUE}).}
 neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
-
-\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }

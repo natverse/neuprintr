@@ -14,7 +14,6 @@ neuprint_get_paths(
   exclude.loops = TRUE,
   chunk = TRUE,
   progress = FALSE,
-  roi_check = TRUE,
   dataset = NULL,
   conn = NULL,
   all_segments = FALSE,
@@ -47,8 +46,6 @@ to 5 when \code{chunk=TRUE}).}
 fetching process for smaller queries. The default of
 \code{progress=NULL} will only show a progress bar if the query will be
 split into multiple chunks based on the \code{chunk} argument.}
-
-\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the

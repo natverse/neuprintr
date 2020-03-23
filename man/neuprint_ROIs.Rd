@@ -4,7 +4,13 @@
 \alias{neuprint_ROIs}
 \title{Get a vector of all the ROIs in a specified dataset}
 \usage{
-neuprint_ROIs(superLevel = FALSE, dataset = NULL, conn = NULL, ...)
+neuprint_ROIs(
+  superLevel = FALSE,
+  dataset = NULL,
+  fromNeuronFields = FALSE,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{superLevel}{whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.

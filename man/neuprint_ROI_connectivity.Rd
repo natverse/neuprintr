@@ -9,7 +9,6 @@ neuprint_ROI_connectivity(
   full = TRUE,
   statistic = c("weight", "count"),
   cached = !full,
-  roi_check = TRUE,
   dataset = NULL,
   conn = NULL,
   ...
@@ -28,8 +27,6 @@ to return (see neuprint explorer for details) for summary results (either
 \item{cached}{pull precomputed results (TRUE) or ask server to recalculate
 the connectivity (FALSE). Only applicable to summary results when
 \code{full=FALSE}.}
-
-\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
