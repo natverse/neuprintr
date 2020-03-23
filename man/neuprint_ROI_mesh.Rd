@@ -19,6 +19,8 @@ neuPrint server. If NULL, the defaults set in your
 used. See \code{\link{neuprint_login}} for details.}
 
 \item{...}{methods passed to \code{\link{neuprint_login}}}
+
+\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 }
 \value{
 a \code{\link[rgl]{mesh3d}} object

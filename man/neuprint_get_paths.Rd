@@ -14,6 +14,7 @@ neuprint_get_paths(
   exclude.loops = TRUE,
   chunk = TRUE,
   progress = FALSE,
+  check_roi = TRUE,
   dataset = NULL,
   conn = NULL,
   all_segments = FALSE,
@@ -60,6 +61,8 @@ used. See \code{\link{neuprint_login}} for details.}
 'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{...}{methods passed to \code{neuprint_login}}
+
+\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 }
 \description{
 Get all of the paths in the database that connect the query

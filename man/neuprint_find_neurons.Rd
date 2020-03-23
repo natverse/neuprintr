@@ -11,11 +11,13 @@ neuprint_find_neurons(
   dataset = NULL,
   conn = NULL,
   all_segments = FALSE,
+  roi_check = TRUE,
   ...
 )
 
 neuprint_bodies_in_ROI(
   roi,
+  roi_check = TRUE,
   dataset = NULL,
   all_segments = FALSE,
   conn = NULL,
@@ -37,6 +39,8 @@ neuPrint server. If NULL, the defaults set in your
 used. See \code{\link{neuprint_login}} for details.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only 'Neurons', i.e. bodies with a status roughly traced status.}
+
+\item{roi_check}{default TRUE. If FALSE, and roi isn't null, ignore ROI checking step}
 
 \item{...}{methods passed to \code{neuprint_login}}
 
