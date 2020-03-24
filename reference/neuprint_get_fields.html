@@ -144,6 +144,8 @@
   <span class='kw'>possibleFields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bodyId"</span>, <span class='st'>"pre"</span>, <span class='st'>"post"</span>, <span class='st'>"upstream"</span>, <span class='st'>"downstream"</span>, <span class='st'>"status"</span>,
     <span class='st'>"statusLabel"</span>, <span class='st'>"cropped"</span>, <span class='st'>"instance"</span>, <span class='st'>"name"</span>, <span class='st'>"size"</span>, <span class='st'>"type"</span>, <span class='st'>"cellBodyFiber"</span>,
     <span class='st'>"somaLocation"</span>, <span class='st'>"somaRadius"</span>),
+  <span class='kw'>limit</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>negateFields</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
@@ -155,6 +157,14 @@
     <tr>
       <th>possibleFields</th>
       <td><p>: field names to choose from</p></td>
+    </tr>
+    <tr>
+      <th>limit</th>
+      <td><p>: Max length of the server's response (used to speed up the query/adapt to different scenarios)</p></td>
+    </tr>
+    <tr>
+      <th>negateFields</th>
+      <td><p>: Whether to include (FALSE, the default) or exclude <code>possibleFields</code></p></td>
     </tr>
     <tr>
       <th>dataset</th>
