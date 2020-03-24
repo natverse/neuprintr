@@ -356,6 +356,8 @@ neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, d
 #' @title Get available metadata fields for Neuron nodes
 #' @return a vector of available fields
 #' @param possibleFields : field names to choose from
+#' @param limit : Max length of the server's response (used to speed up the query/adapt to different scenarios)
+#' @param negateFields : Whether to include (FALSE, the default) or exclude \code{possibleFields}
 #' @inheritParams neuprint_ROI_hierarchy
 #' @export
 #' @examples
@@ -368,9 +370,12 @@ neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
                                                    "cropped", "instance", "name",
                                                    "size", "type", "cellBodyFiber",
                                                    "somaLocation", "somaRadius"),
+                                limit=20,
+                                negateFields=FALSE,
                                 dataset = NULL, conn = NULL, ...){
-  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT 20")
+  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT %s",limit)
   fields <- unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn, dataset = dataset, ...)$data)
+  if (negateFields){return(fields[!(fields %in% possibleFields)])}
   return(fields[fields %in% possibleFields])
 }
 
