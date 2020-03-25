@@ -213,7 +213,7 @@ neuprint_read_skeletons <- function(bodyids, dataset=NULL, conn=NULL, heal=TRUE,
     return(nl)
   }
   path=file.path("api/skeletons/skeleton", dataset, bodyids)
-  res=neuprint_fetch(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
+  res=neuprint_fetch_memo(path, conn=conn, simplifyVector = TRUE, include_headers = FALSE, ...)
   colnames(res$data)=c("PointNo","X","Y","Z","W","Parent")
   df=as.data.frame(res$data)
   # convert radius to diameter
