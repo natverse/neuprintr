@@ -201,8 +201,8 @@ neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
 }
 
 # hidden
-neuprint_check_roi <- function(rois, superLevel = NULL, dataset = NULL, conn = NULL, ...){
-  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, superLevel = superLevel, ...)
+neuprint_check_roi <- function(rois, superLevel = NULL, fromNeuronFields = TRUE,dataset = NULL, conn = NULL, ...){
+  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, fromNeuronFields = fromNeuronFields, superLevel = superLevel, ...)
   if(!all(rois%in%possible.rois)){
     stop("Regions of interest provided that are not demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
          ". Please call neuprint_ROIs(superLevel = NULL) to see the available ROIs.")

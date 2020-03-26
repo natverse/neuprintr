@@ -4,7 +4,13 @@
 \alias{neuprint_ROIs}
 \title{Get a vector of all the ROIs in a specified dataset}
 \usage{
-neuprint_ROIs(superLevel = FALSE, dataset = NULL, conn = NULL, ...)
+neuprint_ROIs(
+  superLevel = FALSE,
+  dataset = NULL,
+  fromNeuronFields = FALSE,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
 \item{superLevel}{whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
@@ -13,6 +19,10 @@ If set to NULL, both low-level and superlevel ROIs are returned.}
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
+
+\item{fromNeuronFields}{: Whether to use fields of :Neuron nodes to fetch the ROIs. If
+FALSE (the default), use the dataset metadata instead. If TRUE, the \code{superLevel} argument
+is ignored}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
