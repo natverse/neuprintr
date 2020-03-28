@@ -39,7 +39,6 @@ reference:
 - title: Neuron manipulation
   desc: ~
   contents:
-  - 'heal_skeleton'
   - 'neuprint_assign_connectors'
 - title: Other queries
   desc: ~
