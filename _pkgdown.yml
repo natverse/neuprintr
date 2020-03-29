@@ -18,6 +18,7 @@ reference:
   - '`neuprint_get_meta`'
   - '`neuprint_read_neurons`'
   - '`neuprint_get_synapses`'
+  - '`neuprint_connectors`'
 - title: Connectivity between neurons
   desc: ~
   contents:
@@ -49,4 +50,5 @@ reference:
   contents:
   - '`neuprint_fetch_custom`'
   - '`neuprint_list2df`'
+  - '`neuprint_get_fields`'
 
