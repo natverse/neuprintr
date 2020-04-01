@@ -12,7 +12,7 @@ addons:
   apt:
     packages:
     - libglu1-mesa-dev
-before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+before_cache: Rscript -e 'remotes::install_github("r-lib/pkgdown")'
 deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github()'
