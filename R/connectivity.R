@@ -384,9 +384,11 @@ neuprint_simple_connectivity <- function(bodyids,
 #' \donttest{
 #' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 #'
-#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,by.roi=TRUE)
+#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2),
+#'   weightT=20,by.roi=TRUE)
 #'
-#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
+#' neuprint_get_paths(c(1128092885,481121605),5813041365,
+#'   n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 #' }
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,exclude.loops=TRUE,
                                chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL, all_segments=FALSE, ...){

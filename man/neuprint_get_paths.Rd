@@ -69,9 +69,11 @@ Get all of the paths in the database that connect the query
 \donttest{
 neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 
-neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,by.roi=TRUE)
+neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2),
+  weightT=20,by.roi=TRUE)
 
-neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
+neuprint_get_paths(c(1128092885,481121605),5813041365,
+  n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 }
 }
 \seealso{
