@@ -623,7 +623,7 @@ extract_connectivity_df <- function(rois, json, postFix  = c("pre", "post")){
   }
 
   a <- unlist(jsonlite::fromJSON(json))
-  if(rois=="All"){
+  if(isTRUE(tolower(rois)=="all")) {
     rois <- gsub("\\..*","",names(a))
   }
   rois <- unique(rois) #this takes care if both the input and output ROIs are same..
