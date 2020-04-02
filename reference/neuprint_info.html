@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,8 +49,7 @@
 <meta property="og:title" content="Find out what some information about your neuPrint server — neuprint_datasets" />
 <meta property="og:description" content="Get summary information about the datasets hosted by the
   neuPrint server in which you are interested" />
-<meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="/logo.svg" />
 
 
 
@@ -64,7 +67,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -114,7 +117,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/natverse/neuprintr">
+  <a href="https://github.com/natverse/neuprintr/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -181,57 +184,57 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 #&gt; [1] "52a13328874c4bb7b15dc4280da26576"
 #&gt; 
 #&gt; $`hemibrain:v1.0.1`$ROIs
-#&gt;   [1] "g2(R)"             "PB(R8)"            "VMNP"             
-#&gt;   [4] "BU(R)"             "bL(L)"             "GF(R)"            
-#&gt;   [7] "WED(R)"            "aL(R)"             "LH(R)"            
-#&gt;  [10] "MB(R)"             "GC"                "PB(L1)"           
-#&gt;  [13] "SAD(-AMMC)"        "PB(R2)"            "vACA(R)"          
-#&gt;  [16] "PB(L5)"            "AL(R)"             "PB(L2)"           
-#&gt;  [19] "PB"                "EBr3pw"            "FBl8"             
-#&gt;  [22] "a3(R)"             "VLNP(R)"           "b'1(R)"           
-#&gt;  [25] "FBl7"              "AB(R)"             "LX(L)"            
-#&gt;  [28] "FBl5"              "RUB(L)"            "PB(L4)"           
-#&gt;  [31] "MB(L)"             "EBr5"              "PB(L9)"           
-#&gt;  [34] "ATL(R)"            "a'L(L)"            "OL(R)"            
-#&gt;  [37] "CX"                "b'2(R)"            "g3(R)"            
-#&gt;  [40] "BU(L)"             "LO(R)"             "GA(R)"            
-#&gt;  [43] "EBr6"              "AL(L)"             "FBl6"             
-#&gt;  [46] "SPS(R)"            "SCL(R)"            "gL(L)"            
-#&gt;  [49] "NO3(R)"            "FBl2"              "PB(R5)"           
-#&gt;  [52] "hemibrain"         "g5(R)"             "b'L(L)"           
-#&gt;  [55] "mALT(R)"           "SCL(L)"            "EBr3am"           
-#&gt;  [58] "LOP(R)"            "SIP(L)"            "VES(R)"           
-#&gt;  [61] "POC"               "dACA(R)"           "FBl1"             
-#&gt;  [64] "FBl3"              "PB(R3)"            "SMP(R)"           
-#&gt;  [67] "PENP"              "a'2(R)"            "CRE(L)"           
-#&gt;  [70] "PLP(R)"            "NO(R)"             "CRE(-ROB,-RUB)(R)"
-#&gt;  [73] "lACA(R)"           "a1(R)"             "CA(L)"            
-#&gt;  [76] "PB(L6)"            "PB(R1)"            "a'1(R)"           
-#&gt;  [79] "PB(R7)"            "NO1(R)"            "NO"               
-#&gt;  [82] "g4(R)"             "SAD"               "b2(R)"            
-#&gt;  [85] "ME(R)"             "PB(L7)"            "PVLP(R)"          
-#&gt;  [88] "FBl4"              "CAN(R)"            "RUB(R)"           
-#&gt;  [91] "GOR(L)"            "PB(L8)"            "a'L(R)"           
-#&gt;  [94] "PB(R6)"            "FB"                "FLA(R)"           
-#&gt;  [97] "SNP(R)"            "SIP(R)"            "gL(R)"            
-#&gt; [100] "b1(R)"             "GNG"               "LAL(L)"           
-#&gt; [103] "EBr1"              "SPS(L)"            "SLP(R)"           
-#&gt; [106] "ATL(L)"            "NO2(L)"            "ICL(L)"           
-#&gt; [109] "bL(R)"             "INP"               "SMP(L)"           
-#&gt; [112] "NO3(L)"            "ICL(R)"            "CA(R)"            
-#&gt; [115] "PB(R4)"            "AB(L)"             "VES(L)"           
-#&gt; [118] "AOT(R)"            "a'3(R)"            "CRE(R)"           
-#&gt; [121] "EBr3d"             "LAL(R)"            "PB(L3)"           
-#&gt; [124] "mALT(L)"           "g1(R)"             "EB"               
-#&gt; [127] "NO2(R)"            "EBr2r4"            "EPA(L)"           
-#&gt; [130] "AOTU(R)"           "PRW"               "b'L(R)"           
-#&gt; [133] "LX(R)"             "EPA(R)"            "SNP(L)"           
-#&gt; [136] "IPS(R)"            "a2(R)"             "PED(R)"           
-#&gt; [139] "NO1(L)"            "AVLP(R)"           "AME(R)"           
-#&gt; [142] "aL(L)"             "MB(+ACA)(R)"       "FBl9"             
-#&gt; [145] "GOR(R)"            "NO(L)"             "IB"               
-#&gt; [148] "LAL(-GA)(R)"       "PB(R9)"            "ROB(R)"           
-#&gt; [151] "AMMC"             
+#&gt;   [1] "FBl8"              "LOP(R)"            "a'1(R)"           
+#&gt;   [4] "NO3(L)"            "LAL(-GA)(R)"       "WED(R)"           
+#&gt;   [7] "NO1(R)"            "SNP(R)"            "EB"               
+#&gt;  [10] "AME(R)"            "PB(R6)"            "lACA(R)"          
+#&gt;  [13] "a3(R)"             "MB(R)"             "SNP(L)"           
+#&gt;  [16] "b'L(L)"            "CX"                "NO3(R)"           
+#&gt;  [19] "ROB(R)"            "FBl6"              "bL(R)"            
+#&gt;  [22] "SCL(L)"            "EBr1"              "gL(L)"            
+#&gt;  [25] "FBl3"              "PRW"               "LX(R)"            
+#&gt;  [28] "SPS(L)"            "GF(R)"             "g3(R)"            
+#&gt;  [31] "CAN(R)"            "RUB(R)"            "BU(L)"            
+#&gt;  [34] "PVLP(R)"           "EBr3pw"            "AB(R)"            
+#&gt;  [37] "AOT(R)"            "PB"                "AL(L)"            
+#&gt;  [40] "PB(L7)"            "AB(L)"             "dACA(R)"          
+#&gt;  [43] "FBl1"              "ATL(R)"            "b'1(R)"           
+#&gt;  [46] "PB(L5)"            "CA(L)"             "SIP(L)"           
+#&gt;  [49] "CRE(R)"            "BU(R)"             "PB(L6)"           
+#&gt;  [52] "AVLP(R)"           "PB(L4)"            "SLP(R)"           
+#&gt;  [55] "vACA(R)"           "MB(L)"             "PB(L8)"           
+#&gt;  [58] "PB(L9)"            "ICL(L)"            "FBl7"             
+#&gt;  [61] "EPA(L)"            "EBr2r4"            "EPA(R)"           
+#&gt;  [64] "VES(R)"            "CA(R)"             "ATL(L)"           
+#&gt;  [67] "a1(R)"             "ME(R)"             "NO(R)"            
+#&gt;  [70] "NO2(L)"            "EBr3d"             "VLNP(R)"          
+#&gt;  [73] "PB(R8)"            "PB(L3)"            "b2(R)"            
+#&gt;  [76] "NO(L)"             "PB(R5)"            "g4(R)"            
+#&gt;  [79] "gL(R)"             "IPS(R)"            "EBr3am"           
+#&gt;  [82] "FBl5"              "ICL(R)"            "NO"               
+#&gt;  [85] "PB(R2)"            "INP"               "VES(L)"           
+#&gt;  [88] "PB(L2)"            "SAD"               "b'L(R)"           
+#&gt;  [91] "aL(R)"             "LX(L)"             "a'L(L)"           
+#&gt;  [94] "AOTU(R)"           "GC"                "OL(R)"            
+#&gt;  [97] "a'L(R)"            "g5(R)"             "a'2(R)"           
+#&gt; [100] "GA(R)"             "SPS(R)"            "PB(R9)"           
+#&gt; [103] "PB(R3)"            "LAL(L)"            "PB(R7)"           
+#&gt; [106] "GNG"               "POC"               "mALT(L)"          
+#&gt; [109] "AMMC"              "hemibrain"         "FB"               
+#&gt; [112] "SAD(-AMMC)"        "IB"                "bL(L)"            
+#&gt; [115] "MB(+ACA)(R)"       "PB(R4)"            "VMNP"             
+#&gt; [118] "SIP(R)"            "PB(R1)"            "CRE(L)"           
+#&gt; [121] "LAL(R)"            "PENP"              "b'2(R)"           
+#&gt; [124] "SMP(R)"            "PLP(R)"            "GOR(R)"           
+#&gt; [127] "NO2(R)"            "RUB(L)"            "FBl4"             
+#&gt; [130] "b1(R)"             "GOR(L)"            "EBr6"             
+#&gt; [133] "aL(L)"             "a2(R)"             "PED(R)"           
+#&gt; [136] "FBl9"              "LH(R)"             "AL(R)"            
+#&gt; [139] "EBr5"              "FBl2"              "PB(L1)"           
+#&gt; [142] "LO(R)"             "a'3(R)"            "mALT(R)"          
+#&gt; [145] "g1(R)"             "g2(R)"             "SCL(R)"           
+#&gt; [148] "FLA(R)"            "CRE(-ROB,-RUB)(R)" "SMP(L)"           
+#&gt; [151] "NO1(L)"           
 #&gt; 
 #&gt; $`hemibrain:v1.0.1`$superLevelROIs
 #&gt;  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" 
@@ -250,34 +253,30 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 #&gt; </div><div class='input'><span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='co'># list API endpoints</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>neuprint_available</span>())</div><div class='output co'>#&gt;      method    path                              
-#&gt; [1,] "GET"     "/api/custom/custom"              
-#&gt; [2,] "POST"    "/api/v:ver/custom/custom"        
-#&gt; [3,] "GET"     "/api/v:ver/npexplorer/neuronmeta"
-#&gt; [4,] "GET"     "/api/npexplorer/roisinneuron"    
-#&gt; [5,] "POST"    "/logout"                         
-#&gt; [6,] "OPTIONS" "/api"                            
-#&gt;      name                                                                                        
-#&gt; [1,] "github.com/connectome-neuprint/neuPrintHTTP/api/custom.cypherAPI.getCustom-fm"             
-#&gt; [2,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                        
-#&gt; [3,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                        
-#&gt; [4,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getROIsInNeuron-fm"
-#&gt; [5,] "github.com/janelia-flyem/echo-secure.EchoSecure.AuthMiddleware.func1.1"                    
-#&gt; [6,] "github.com/labstack/echo.glob..func1"                                                      </div><div class='input'><span class='co'># }</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>neuprint_available</span>())</div><div class='output co'>#&gt;      method path                                          
+#&gt; [1,] "GET"  "/api/v:ver/dbmeta/version"                   
+#&gt; [2,] "GET"  "/api/v:ver/custom/custom"                    
+#&gt; [3,] "GET"  "/api/npexplorer/findneurons"                 
+#&gt; [4,] "GET"  "/api/npexplorer/autapses"                    
+#&gt; [5,] "GET"  "/api/v:ver/npexplorer/autapses"              
+#&gt; [6,] "POST" "/api/v:ver/raw/cypher/transaction/:id/cypher"
+#&gt;      name                                                                                       
+#&gt; [1,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       
+#&gt; [2,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       
+#&gt; [3,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getFindNeurons-fm"
+#&gt; [4,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getAutapses-fm"   
+#&gt; [5,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       
+#&gt; [6,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       </div><div class='input'><span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='fu'>neuprint_version</span>()</div><div class='output co'>#&gt; $Version
 #&gt; [1] "0.1.0"
 #&gt; </div><div class='input'># }
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -288,7 +287,7 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
 </div>
 
       </footer>

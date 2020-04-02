@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,8 +47,7 @@
 
 
 <meta property="og:title" content="Function reference" />
-<meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="/logo.svg" />
 
 
 
@@ -62,7 +65,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -112,7 +115,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/natverse/neuprintr">
+  <a href="https://github.com/natverse/neuprintr/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -148,6 +151,11 @@
           <p class="section-desc"><p>Connect to a server, check what datasets are available (or set the default dataset) and get details of the available API calls.</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -169,6 +177,11 @@
           <p class="section-desc"><p>Find neurons by name/type or by their ROI innervation</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -189,6 +202,11 @@
           <p class="section-desc"><p>Read the name, summary metdata and skeleton, synapse data for neurons</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -213,6 +231,12 @@
           <p><code><a href="neuprint_get_synapses.html">neuprint_get_synapses()</a></code> </p>
         </td>
         <td><p>Get the locations of pre- and post synapses associated with a body.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_connectors.html">neuprint_connectors()</a></code> </p>
+        </td>
+        <td><p>Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -221,6 +245,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -277,6 +306,11 @@
           <p class="section-desc"><p>List, visualise or summarise synpases in regions of interest.</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -309,164 +343,17 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
-        
-        <td>
-          <p><code><a href="neuprint_ROI_connectivity.html">neuprint_ROI_connectivity()</a></code> </p>
-        </td>
-        <td><p>Get connectivity between ROIs (summary or data frame of connecting neurons)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_ROI_hierarchy.html">neuprint_ROI_hierarchy()</a></code> </p>
-        </td>
-        <td><p>Get the region of interest (ROI) hierarchy in a dataset</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_ROI_mesh.html">neuprint_ROI_mesh()</a></code> </p>
-        </td>
-        <td><p>Download a region of interest as a 3D mesh</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_ROIs.html">neuprint_ROIs()</a></code> </p>
-        </td>
-        <td><p>Get a vector of all the ROIs in a specified dataset</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="neuprint_assign_connectors.html">neuprint_assign_connectors()</a></code> <code><a href="neuprint_assign_connectors.html">neuprint_locate_soma()</a></code> </p>
         </td>
         <td><p>Assign synapses to a neuronal tree</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_common_connectivity.html">neuprint_common_connectivity()</a></code> </p>
-        </td>
-        <td><p>Get the common synaptic partners for a set of neurons</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_connection_table.html">neuprint_connection_table()</a></code> </p>
-        </td>
-        <td><p>Get the upstream and downstream connectivity of a neuron</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_connectors.html">neuprint_connectors()</a></code> </p>
-        </td>
-        <td><p>Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_dump.html">neuprint_dump()</a></code> </p>
-        </td>
-        <td><p>Download data from neuprint for specified bodyids / a specified ROI</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> </p>
-        </td>
-        <td><p>Use a cypher to make a custom query to the neuPrint server specifying
-  the information you want to obtain</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_find_neurons.html">neuprint_find_neurons()</a></code> <code><a href="neuprint_find_neurons.html">neuprint_bodies_in_ROI()</a></code> </p>
-        </td>
-        <td><p>Find bodies within a given ROI</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_adjacency_matrix.html">neuprint_get_adjacency_matrix()</a></code> </p>
-        </td>
-        <td><p>Get a matrix of connectivities between bodies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_fields.html">neuprint_get_fields()</a></code> </p>
-        </td>
-        <td><p>Get available metadata fields for Neuron nodes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_meta.html">neuprint_get_meta()</a></code> </p>
-        </td>
-        <td><p>Get key metadata for body (including name, type, status, size)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_neuron_names.html">neuprint_get_neuron_names()</a></code> </p>
-        </td>
-        <td><p>Get the name of a neuron</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_paths.html">neuprint_get_paths()</a></code> </p>
-        </td>
-        <td><p>Get a list of paths of length n between 2 neurons</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_roiInfo.html">neuprint_get_roiInfo()</a></code> </p>
-        </td>
-        <td><p>Get roiInfo associated with a body</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_shortest_paths.html">neuprint_get_shortest_paths()</a></code> </p>
-        </td>
-        <td><p>Get a list of the shortest paths between two neurons</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_get_synapses.html">neuprint_get_synapses()</a></code> </p>
-        </td>
-        <td><p>Get the locations of pre- and post synapses associated with a body.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_info.html">neuprint_datasets()</a></code> <code><a href="neuprint_info.html">neuprint_database()</a></code> <code><a href="neuprint_info.html">neuprint_available()</a></code> <code><a href="neuprint_info.html">neuprint_version()</a></code> </p>
-        </td>
-        <td><p>Find out what some information about your neuPrint server</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_list2df.html">neuprint_list2df()</a></code> </p>
-        </td>
-        <td><p>Parse neuprint return list to a data frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_login.html">neuprint_connection()</a></code> <code><a href="neuprint_login.html">neuprint_login()</a></code> </p>
-        </td>
-        <td><p>Connect to/authenticate with a neuPrint server and its Neo4j database,
-  returning a neuPrint connection object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_read_neurons.html">neuprint_read_neurons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_skeletons()</a></code> <code><a href="neuprint_read_neurons.html">neuprint_read_neurons_simple()</a></code> </p>
-        </td>
-        <td><p>Read skeleton and optional synapse information for neuPrint bodies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_search.html">neuprint_search()</a></code> <code><a href="neuprint_search.html">neuprint_ids()</a></code> </p>
-        </td>
-        <td><p>Search for body IDs based on a given name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_simple_connectivity.html">neuprint_simple_connectivity()</a></code> </p>
-        </td>
-        <td><p>Get a list of connected partners for a neuron</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neuprint_skeleton_connectivity_matrix.html">neuprint_skeleton_connectivity_matrix()</a></code> </p>
-        </td>
-        <td><p>Get a matrix for connectivity between neuron/neuronlist objects</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -475,6 +362,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -489,6 +381,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -502,23 +399,21 @@
           <p><code><a href="neuprint_list2df.html">neuprint_list2df()</a></code> </p>
         </td>
         <td><p>Parse neuprint return list to a data frame</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neuprint_get_fields.html">neuprint_get_fields()</a></code> </p>
+        </td>
+        <td><p>Get available metadata fields for Neuron nodes</p></td>
       </tr>
     </tbody>
     </table>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-basic-interaction-with-neuprint-server">Basic interaction with neuPrint server</a></li>
-      <li><a href="#section-simple-queries">Simple queries</a></li>
-      <li><a href="#section-fetch-neuron-data-and-metadata">Fetch neuron data and metadata</a></li>
-      <li><a href="#section-connectivity-between-neurons">Connectivity between neurons</a></li>
-      <li><a href="#section-roi-information">ROI information</a></li>
-      <li><a href="#section-neuron-manipulation">Neuron manipulation</a></li>
-      <li><a href="#section-other-queries">Other queries</a></li>
-      <li><a href="#section-low-level-functions-to-interact-with-neuprint-server">Low level functions to interact with neuPrint server</a></li>
-    </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -529,7 +424,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
 </div>
 
       </footer>
