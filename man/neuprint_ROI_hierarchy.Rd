@@ -4,9 +4,22 @@
 \alias{neuprint_ROI_hierarchy}
 \title{Get the region of interest (ROI) hierarchy in a dataset}
 \usage{
-neuprint_ROI_hierarchy(dataset = NULL, conn = NULL, ...)
+neuprint_ROI_hierarchy(
+  root = NULL,
+  rval = c("edgelist", "graph"),
+  dataset = NULL,
+  conn = NULL,
+  ...
+)
 }
 \arguments{
+\item{root}{Character vector specifying a root node that defines a subgraph
+of the ROI hierarcy. The default (\code{root=NULL}) will return the whole
+hierarchy.}
+
+\item{rval}{Whether to return an edge list \code{data.frame} (the default) or
+an \code{\link{igraph}} object.}
+
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
@@ -16,16 +29,29 @@ neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
 
-\item{...}{methods passed to \code{neuprint_fetch_custom}}
+\item{...}{additional arguments passed to \code{\link{neuprint_fetch_custom}}}
 }
 \description{
-Get a data frame describing how ROIs are related.
+Get the region of interest (ROI) hierarchy in a dataset
 }
 \examples{
 \donttest{
-roi.hierarchy = neuprint_ROI_hierarchy()
-g = igraph::graph_from_data_frame(roi.hierarchy, directed = TRUE)
+g = neuprint_ROI_hierarchy(rval='graph')
 igraph::plot.igraph(g, layout=igraph::layout_as_tree)
+
+# just the Mushroom Body Nodes on right hand side
+mbg=neuprint_ROI_hierarchy(root='MB(R)', rval='graph')
+igraph::plot.igraph(mbg)
+# find just the terminal nodes of the graph
+mbterms=nat::endpoints(mbg)
+mbterms
+
+\dontrun{
+# read in all the MB meshes
+mbmeshes=sapply(mbterms, neuprint_ROI_mesh, simplify = F)
+# 3D plot in different colours
+mapply(shade3d, mbmeshes, col=rainbow(length(mbmeshes)))
+}
 }
 }
 \seealso{

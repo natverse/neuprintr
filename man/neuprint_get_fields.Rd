@@ -31,7 +31,7 @@ neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
 
-\item{...}{methods passed to \code{neuprint_fetch_custom}}
+\item{...}{additional arguments passed to \code{\link{neuprint_fetch_custom}}}
 }
 \value{
 a vector of available fields
