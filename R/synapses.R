@@ -129,8 +129,10 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
 #'   associated body IDs and their locations in 3D space.
 #'
 #' @inheritParams neuprint_read_neurons
+#' @inheritParams neuprint_fetch_custom
 #' @param connector_ids a vector of IDs (pre- or postsynapse IDs) for a synaptic
 #'   connection object.
+#' @param ... Additional arguments passed to \code{\link{neuprint_fetch_custom}}
 #'
 #' @return a data frame, where each entry gives the pre-post associations for a
 #'   synapse. This includes which are the pre/post synaptic bodyids
@@ -139,7 +141,6 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_get_synapses}}
 #' @export
-#' @inheritParams neuprint_fetch_custom
 #' @examples
 #' \donttest{
 #' syns = neuprint_get_synapses(818983130) # note
@@ -148,7 +149,8 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
 #' head(prepost.conn) # All the synapses that connect to or from 818983130
 #' # and their other connections to other bodies too
 #' }
-neuprint_connectors <- function(connector_ids, all_segments = TRUE){
+neuprint_connectors <- function(connector_ids, all_segments = TRUE,
+                                conn=NULL, dataset=NULL, ...){
   all_segments_json = ifelse(all_segments,"Segment","Neuron")
   cypher = sprintf(paste("WITH %s AS connectorIds",
                            "UNWIND connectorIds AS connectorId",
@@ -167,7 +169,7 @@ neuprint_connectors <- function(connector_ids, all_segments = TRUE){
                      id2json(connector_ids),
                      all_segments_json,
                      all_segments_json)
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   m = rbind(neuprint_list2df(nc))
   m1 = m[m$prepost_1=="pre",]
   m2 = m[m$prepost_1=="post",]
