@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object — neuprint_connectors • neuprintr</title>
+<title>Get the IDs and 3D locations of the pre- and post- synapses that make
+  up a synaptic object — neuprint_connectors • neuprintr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +47,10 @@
 
 
 
-<meta property="og:title" content="Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object — neuprint_connectors" />
-<meta property="og:description" content="Get synapse IDs for a given connectorID, as well as their associated bodyIDs and their locations in 3D space." />
+<meta property="og:title" content="Get the IDs and 3D locations of the pre- and post- synapses that make
+  up a synaptic object — neuprint_connectors" />
+<meta property="og:description" content="Get synapse IDs for a given connector ID, as well as their
+  associated body IDs and their locations in 3D space." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -134,35 +137,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object</h1>
+    <h1>Get the IDs and 3D locations of the pre- and post- synapses that make
+  up a synaptic object</h1>
     <small class="dont-index">Source: <a href='https://github.com/natverse/neuprintr/blob/master/R/synapses.R'><code>R/synapses.R</code></a></small>
     <div class="hidden name"><code>neuprint_connectors.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get synapse IDs for a given connectorID, as well as their associated bodyIDs and their locations in 3D space.</p>
+    <p>Get synapse IDs for a given connector ID, as well as their
+  associated body IDs and their locations in 3D space.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_connectors</span>(<span class='no'>connector_ids</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>neuprint_connectors</span>(
+  <span class='no'>connector_ids</span>,
+  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>connector_ids</th>
-      <td><p>a vector of IDs (pre- or postsynapse IDs) for a synaptic connection object.</p></td>
+      <td><p>a vector of IDs (pre- or postsynapse IDs) for a synaptic
+connection object.</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
       <td><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
     </tr>
+    <tr>
+      <th>conn</th>
+      <td><p>optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+<code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
+used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+    </tr>
+    <tr>
+      <th>dataset</th>
+      <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code></p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame, where each entry gives the pre-post associations for a synapse. This includes which are the pre/post synaptic
-bodyids (neurons/fragments) and the location of these synapses in 3D space (likely raw voxel space).</p>
+    <p>a data frame, where each entry gives the pre-post associations for a
+  synapse. This includes which are the pre/post synaptic bodyids
+  (neurons/fragments) and the location of these synapses in 3D space (likely
+  raw voxel space).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
@@ -172,7 +203,21 @@ bodyids (neurons/fragments) and the location of these synapses in 3D space (like
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='no'>syns</span> <span class='kw'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span>(<span class='fl'>818983130</span>) <span class='co'># note</span>
 <span class='co'># all given connectorIDs from this function are for presynapses</span>
-<span class='no'>prepost.conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_connectors</span>(<span class='no'>syns</span>$<span class='no'>connector_id</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in neuprint_fetch_custom(cypher = cypher, conn = conn, dataset = dataset): object 'conn' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>prepost.conn</span>) <span class='co'># All the synapses that connect to or from 818983130</span></div><div class='output co'>#&gt; <span class='error'>Error in head(prepost.conn): object 'prepost.conn' not found</span></div><div class='input'># and their other connections to other bodies too
+<span class='no'>prepost.conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_connectors</span>(<span class='no'>syns</span>$<span class='no'>connector_id</span>, <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>prepost.conn</span>) <span class='co'># All the synapses that connect to or from 818983130</span></div><div class='output co'>#&gt;   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post
+#&gt; 1        134790431       134770109   818983130  975432645   6323  17828  14144
+#&gt; 2        134790432       134770109  1006820405  975432645   6300  17836  14145
+#&gt; 3        134770105       134770109   947453617  975432645   6335  17828  14130
+#&gt; 4        134770104       134770109  1881751117  975432645   6319  17829  14130
+#&gt; 5        133916418       133916420   818983130  974753221   5265  16547  13869
+#&gt; 6        133925138       133925140   696126258  974753207   5363  16481  13890
+#&gt;   confidence_post x_pre y_pre z_pre confidence_pre
+#&gt; 1       0.8521260  6326 17842 14138          0.953
+#&gt; 2       0.4669051  6326 17842 14138          0.953
+#&gt; 3       0.6970400  6326 17842 14138          0.953
+#&gt; 4       0.9932270  6326 17842 14138          0.953
+#&gt; 5       0.8970000  5267 16548 13857          0.785
+#&gt; 6       0.6449590  5358 16493 13900          0.964</div><div class='input'># and their other connections to other bodies too
 # }
 </div></pre>
   </div>
