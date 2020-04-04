@@ -1,32 +1,33 @@
 #' @title Get the locations of pre- and post synapses associated with a body.
 #'
 #' @description Get the xyz locations, IDs and confidences of pre- and post
-#'   synapses associated with a body. The \code{connector_id}
-#' for each synapse is for the 'presynaptic' object. Separate IDs exist for the postsynapses in NeuPrint, and
-#' these are not fetched b this function. This is similar to the logic use in \code{rcatmaid}.
+#'   synapses associated with a body. The \code{connector_id} for each synapse
+#'   is for the 'presynaptic' object. Separate IDs exist for the postsynapses in
+#'   neuPrint, and these are not fetched b this function. This is similar to the
+#'   logic use in \code{rcatmaid}.
 #'
 #' @inheritParams neuprint_read_neurons
 #' @param dataset optional, a dataset you want to query. If NULL, the default
 #'   specified by your R environ file is used. See \code{\link{neuprint_login}}
 #'   for details.
-#' @param roi a roi (i.e. neuropil volume) you want to query. Use
+#' @param roi a ROI (i.e. neuropil volume) you want to query. Use
 #'   \code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',
 #'   which will return synapses in all ROIs.
 #' @param remove.autapses Whether to remove autaptic connections (default TRUE)
 #'   from the results. It appears that there is a relatively high number of
 #'   false positive autapses.
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
-#'   to 20 when \code{chunk=TRUE}).
+#'   chunks or an integer specifying the size of those chunks (which defaults to
+#'   20 when \code{chunk=TRUE}).
 #' @param progress if TRUE, a progress bar will be shown. This may slow the data
 #'   fetching process for smaller queries (<100 body ids). The default of
 #'   \code{progress=NULL} will only show a progress bar if the query will be
 #'   split into multiple chunks based on the \code{chunk} argument.
 #' @return a data frame, where each entry is a connection between the specified
-#'   bodyid and its partner, either presynaptic to the bodyid (prepost=0) or
-#'   postsynaptic (prepost=1). Each connection is associated with a synapse that
-#'   has its own unique connector_id, XYZ coordinates and a confidence in its
-#'   existence.
+#'   bodyid and its partner, either presynaptic to the bodyid (\code{prepost=0})
+#'   or postsynaptic (\code{prepost=1}). Each connection is associated with a
+#'   synapse that has its own unique connector_id, XYZ coordinates and a
+#'   confidence in its existence.
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_simple_connectivity}},
 #'   \code{\link{neuprint_common_connectivity}}
@@ -121,15 +122,20 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
   m
 }
 
-#' @title Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object
+#' @title Get the IDs and 3D locations of the pre- and post- synapses that make
+#'   up a synaptic object
 #'
-#' @description Get synapse IDs for a given connectorID, as well as their associated bodyIDs and their locations in 3D space.
+#' @description Get synapse IDs for a given connector ID, as well as their
+#'   associated body IDs and their locations in 3D space.
 #'
 #' @inheritParams neuprint_read_neurons
-#' @param connector_ids a vector of IDs (pre- or postsynapse IDs) for a synaptic connection object.
+#' @param connector_ids a vector of IDs (pre- or postsynapse IDs) for a synaptic
+#'   connection object.
 #'
-#' @return a data frame, where each entry gives the pre-post associations for a synapse. This includes which are the pre/post synaptic
-#' bodyids (neurons/fragments) and the location of these synapses in 3D space (likely raw voxel space).
+#' @return a data frame, where each entry gives the pre-post associations for a
+#'   synapse. This includes which are the pre/post synaptic bodyids
+#'   (neurons/fragments) and the location of these synapses in 3D space (likely
+#'   raw voxel space).
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_get_synapses}}
 #' @export

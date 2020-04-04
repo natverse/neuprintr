@@ -2,22 +2,27 @@
 % Please edit documentation in R/synapses.R
 \name{neuprint_connectors}
 \alias{neuprint_connectors}
-\title{Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object}
+\title{Get the IDs and 3D locations of the pre- and post- synapses that make
+  up a synaptic object}
 \usage{
 neuprint_connectors(connector_ids, all_segments = TRUE)
 }
 \arguments{
-\item{connector_ids}{a vector of IDs (pre- or postsynapse IDs) for a synaptic connection object.}
+\item{connector_ids}{a vector of IDs (pre- or postsynapse IDs) for a synaptic
+connection object.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
 }
 \value{
-a data frame, where each entry gives the pre-post associations for a synapse. This includes which are the pre/post synaptic
-bodyids (neurons/fragments) and the location of these synapses in 3D space (likely raw voxel space).
+a data frame, where each entry gives the pre-post associations for a
+  synapse. This includes which are the pre/post synaptic bodyids
+  (neurons/fragments) and the location of these synapses in 3D space (likely
+  raw voxel space).
 }
 \description{
-Get synapse IDs for a given connectorID, as well as their associated bodyIDs and their locations in 3D space.
+Get synapse IDs for a given connector ID, as well as their
+  associated body IDs and their locations in 3D space.
 }
 \examples{
 \donttest{

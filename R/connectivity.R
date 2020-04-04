@@ -79,7 +79,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'  contain multiple
 #'  lower-level ROIs. If set to `NULL`, both are returned.
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 20 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
@@ -365,10 +365,10 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
 #' @param by.roi Return the results by ROI. Default to FALSE
-#' @param exclude.loops Wether or not to exclude loops
+#' @param exclude.loops Whether or not to exclude loops
 #' (paths containing the same node several times). Defaults to TRUE
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 5 when \code{chunk=TRUE}).
 #' @param progress if TRUE, a progress bar will be shown. This may slow the data
 #'   fetching process for smaller queries. The default of
@@ -510,7 +510,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 5 when \code{chunk=TRUE}).
 #' @param progress if TRUE, a progress bar will be shown. This may slow the data
 #'   fetching process for smaller queries. The default of

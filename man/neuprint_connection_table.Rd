@@ -44,7 +44,7 @@ default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
-chunks or an integer specifiying the size of those chunks (which defaults
+chunks or an integer specifying the size of those chunks (which defaults
 to 20 when \code{chunk=TRUE}).}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only

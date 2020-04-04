@@ -64,7 +64,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 2000 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
@@ -138,7 +138,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #' @description Return pre and post counts in all the ROIs given bodyids innervate.
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 2000 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
