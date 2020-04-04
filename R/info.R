@@ -100,8 +100,7 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
 
 #' @title Get the region of interest (ROI) hierarchy in a dataset
 #'
-#' @description Get a data frame describing how ROIs are related.
-#' @param ... methods passed to \code{neuprint_fetch_custom}
+#' @param ... additional arguments passed to \code{\link{neuprint_fetch_custom}}
 #' @inheritParams neuprint_fetch_custom
 #' @examples
 #' \donttest{
