@@ -41,9 +41,11 @@ test_that("neuprint_ROI_connectivity works", {
 })
 
 test_that("neuprint_ROI_hierarchy", {
-  expect_is(neuprint_ROI_hierarchy(cache=T), 'data.frame')
+  expect_is(el <- neuprint_ROI_hierarchy(cache=T), 'data.frame')
+  expect_known_value(el, file = 'testdata/hemibrain_neuprint_ROI_hierarchy.rds')
   expect_is(g <- neuprint_ROI_hierarchy(cache=T, rval='graph'), 'igraph')
   expect_is(mbg <- neuprint_ROI_hierarchy(root='MB(R)', cache=T, rval='graph'), 'igraph')
   # should be 17 compartments
   expect_length(nat::endpoints(mbg), 17L)
+  neuprint_ROI_hierarchy
 })
