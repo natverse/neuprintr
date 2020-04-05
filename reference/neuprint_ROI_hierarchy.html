@@ -202,7 +202,7 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 #&gt; [17] "b2(R)" </div><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># read in all the MB meshes</span>
-<span class='no'>mbmeshes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>mbterms</span>, <span class='no'>neuprint_ROI_mesh</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='no'>F</span>)
+<span class='no'>mbmeshes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>mbterms</span>, <span class='no'>neuprint_ROI_mesh</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># 3D plot in different colours</span>
 <span class='fu'><a href='https://rdrr.io/r/base/mapply.html'>mapply</a></span>(<span class='no'>shade3d</span>, <span class='no'>mbmeshes</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>rainbow</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>mbmeshes</span>)))
 }
