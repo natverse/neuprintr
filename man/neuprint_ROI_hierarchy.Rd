@@ -48,7 +48,7 @@ mbterms
 
 \dontrun{
 # read in all the MB meshes
-mbmeshes=sapply(mbterms, neuprint_ROI_mesh, simplify = F)
+mbmeshes=sapply(mbterms, neuprint_ROI_mesh, simplify = FALSE)
 # 3D plot in different colours
 mapply(shade3d, mbmeshes, col=rainbow(length(mbmeshes)))
 }
