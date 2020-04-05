@@ -1,3 +1,71 @@
+# neuprintr 1.0
+
+This release bumps neuprintr to v1.0. There have been a huge number of fixes and 
+improvements since the last release. Furthermore we would now consider it a
+mature package; we are currently using it for analysis in a number of late stage
+papers and would be happy for others to do the same. You can see the [full list
+of closed issues](https://github.com/natverse/neuprintr/issues?q=closed%3A2020-01-23..2020-04-04+)
+on GitHub.
+
+New and Improved Functionality for End Users:
+* Chunking for large `neuprint_get_roiInfo()` and `neuprint_get_meta queries()` (#100)
+* Chunk connection table (#99)
+* Better paths function #98
+* Speed up `neuprint_get_synapses()` (#94, #96)
+* Flexible fields for roiInfo (#95)
+* Add "upstream" and "downstream" fields in extract_connectivity_df (#93)
+* Use (escaped) double quotes in `neuprint_search()` string to support e.g. neuron names with prime characters (#86)
+* Add an option to make fixed searches #80
+* More flexible bodyid specification (#83)
+* Improved healing function for skeletons (thanks also to @SridharJagannathan) #76, #32
+* Add statusLabel to `neuprint_get_meta()` (#73)
+* `neuprint_get_neuron_names()` should always return as many outputs as inputs #65
+* Teach `neuprint_get_adjacency_matrix()` to accepts inputs/outputs #64, #62
+* Option for `neuprint_ROIs()` to get only superLevelROIs #55 (thanks to @mmc46 for suggestion)
+* return bodyids as characters, not factors #30, #27
+* Teach `neuprint_search()` to query type as well instance/name #28
+* Adding depth to path functions #37
+* Return link order in paths functions #36
+
+Lower Level:
+* More informative errors for `neuprint_fetch_custom()` #38, #44
+* Harmonise approach to dataset specification #29, #26, #25
+* Use `neuprint_datasets()` to define a default dataset #68
+
+Fixes:
+* Fix breaking change in tibble v3.0 (#108, #109)
+* Add an argument to bypass roi checks (#103)
+* Get synapses fix (#102)
+* Make returned bodyids in `neuprint_get_roiInfo()` characters (#101)
+* Connector IDs are only for presynapses (#97)
+* Make `neuprint_read_neurons()` show more errors (#84, #91)
+* Fix bug in `neuprint_get_synapses()` when `progress=T` (#90)
+* Fix `neuprint_ROI_connectivity()` (#87, #88)
+* Bug in `neuprint_read_neurons()` when `connectors=FALSE` (#85)
+* Character vectors specifying ids > max big int should trigger errors (#82)
+* Fix duplicate columns in output of `neuprint_find_neurons()` #81
+* Fix `neuprint_bodies_in_ROI()` #78, #79
+* Define a default dataset based on current neuPrint connection #77
+* Path queries always return the total weight #72
+* Fix fetching and plotting some bodyids fails in neuprintr #71 (thanks to @lisa-marin for report)
+* Fix `neuprint_connection_table()` does not pass on by.roi when progress=T #70
+* Fix by.roi argument in `neuprint_connection_table()` (#69) (thanks to @markuspleijzier for report)
+* Fix `neuprint_simple_connectivity()` #61, #59
+* Fix `neuprint_read_neurons()` #54 (thank to @mmc46 for report)
+* Fix `neuprint_ROI_mesh()` encoding warning #49
+* prefer character vectors over factors for result dataframes #48, #47
+* Adding basic examples for path functions #46
+* Flow centrality #45
+* add `cellBodyFiber()` and soma to `neuprint_get_meta()` #43
+* Fix handling of unique bodyids #42, #39
+* Fix `neuprint_read_neurons()` fails because of `id2bit64()` #41
+* Make `neuprint_connection_table` return same results with progress=T/F #40
+
+Docs/Build:
+* Add slideshare to readme #35
+* Add code coverage #33
+* Travis build docs #31
+
 # neuprintr 0.4
 
 This release includes a large number of changes targeted at the public release

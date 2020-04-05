@@ -101,7 +101,7 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
 #' @title Get the region of interest (ROI) hierarchy in a dataset
 #'
 #' @param root Character vector specifying a root node that defines a subgraph
-#'   of the ROI hierarcy. The default (\code{root=NULL}) will return the whole
+#'   of the ROI hierarchy. The default (\code{root=NULL}) will return the whole
 #'   hierarchy.
 #' @param rval Whether to return an edge list \code{data.frame} (the default) or
 #'   an \code{\link{igraph}} object.

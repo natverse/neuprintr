@@ -14,7 +14,7 @@ neuprint_ROI_hierarchy(
 }
 \arguments{
 \item{root}{Character vector specifying a root node that defines a subgraph
-of the ROI hierarcy. The default (\code{root=NULL}) will return the whole
+of the ROI hierarchy. The default (\code{root=NULL}) will return the whole
 hierarchy.}
 
 \item{rval}{Whether to return an edge list \code{data.frame} (the default) or
