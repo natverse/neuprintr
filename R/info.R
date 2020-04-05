@@ -126,7 +126,8 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
 #' mapply(shade3d, mbmeshes, col=rainbow(length(mbmeshes)))
 #' }
 #' }
-#' @seealso \code{\link{neuprint_ROIs}}, \code{\link{neuprint_get_roiInfo}}
+#' @seealso \code{\link{neuprint_ROIs}}, \code{\link{neuprint_get_roiInfo}},
+#'   \code{\link{neuprint_ROI_hierarchy}}
 #' @export
 neuprint_ROI_hierarchy <- function(root=NULL, rval=c("edgelist","graph"),
                                    dataset = NULL, conn = NULL,...){

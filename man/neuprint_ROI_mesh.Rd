@@ -27,5 +27,5 @@ a \code{\link[rgl]{mesh3d}} object
 Download a region of interest as a 3D mesh
 }
 \seealso{
-\code{\link{neuprint_ROIs}}
+\code{\link{neuprint_ROIs}}, \code{\link{neuprint_ROI_hierarchy}}
 }
