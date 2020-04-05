@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -137,6 +137,75 @@
       <small>Source: <a href='https://github.com/natverse/neuprintr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="neuprintr-1-0" class="section level1">
+<h1 class="page-header" data-toc-text="1.0">
+<a href="#neuprintr-1-0" class="anchor"></a>neuprintr 1.0</h1>
+<p>This release bumps neuprintr to v1.0. There have been a huge number of fixes and improvements since the last release. Furthermore we would now consider it a mature package; we are currently using it for analysis in a number of late stage papers and would be happy for others to do the same. You can see the <a href="https://github.com/natverse/neuprintr/issues?q=closed%3A2020-01-23..2020-04-04+">full list of closed issues</a> on GitHub.</p>
+<p>New and Improved Functionality for End Users:</p>
+<ul>
+<li>Chunking for large <code><a href="../reference/neuprint_get_roiInfo.html">neuprint_get_roiInfo()</a></code> and <code>neuprint_get_meta queries()</code> (<a href='https://github.com/natverse/neuprintr/issues/100'>#100</a>)</li>
+<li>Chunk connection table (<a href='https://github.com/natverse/neuprintr/issues/99'>#99</a>)</li>
+<li>Better paths function <a href='https://github.com/natverse/neuprintr/issues/98'>#98</a></li>
+<li>Speed up <code><a href="../reference/neuprint_get_synapses.html">neuprint_get_synapses()</a></code> (<a href='https://github.com/natverse/neuprintr/issues/94'>#94</a>, <a href='https://github.com/natverse/neuprintr/issues/96'>#96</a>)</li>
+<li>Flexible fields for roiInfo (<a href='https://github.com/natverse/neuprintr/issues/95'>#95</a>)</li>
+<li>Add âupstreamâ and âdownstreamâ fields in extract_connectivity_df (<a href='https://github.com/natverse/neuprintr/issues/93'>#93</a>)</li>
+<li>Use (escaped) double quotes in <code><a href="../reference/neuprint_search.html">neuprint_search()</a></code> string to support e.g.Â neuron names with prime characters (<a href='https://github.com/natverse/neuprintr/issues/86'>#86</a>)</li>
+<li>Add an option to make fixed searches <a href='https://github.com/natverse/neuprintr/issues/80'>#80</a></li>
+<li>More flexible bodyid specification (<a href='https://github.com/natverse/neuprintr/issues/83'>#83</a>)</li>
+<li>Improved healing function for skeletons (thanks also to <a href='https://github.com/SridharJagannathan'>@SridharJagannathan</a>) <a href='https://github.com/natverse/neuprintr/issues/76'>#76</a>, <a href='https://github.com/natverse/neuprintr/issues/32'>#32</a></li>
+<li>Add statusLabel to <code><a href="../reference/neuprint_get_meta.html">neuprint_get_meta()</a></code> (<a href='https://github.com/natverse/neuprintr/issues/73'>#73</a>)</li>
+<li>
+<code><a href="../reference/neuprint_get_neuron_names.html">neuprint_get_neuron_names()</a></code> should always return as many outputs as inputs <a href='https://github.com/natverse/neuprintr/issues/65'>#65</a></li>
+<li>Teach <code><a href="../reference/neuprint_get_adjacency_matrix.html">neuprint_get_adjacency_matrix()</a></code> to accepts inputs/outputs <a href='https://github.com/natverse/neuprintr/issues/64'>#64</a>, <a href='https://github.com/natverse/neuprintr/issues/62'>#62</a></li>
+<li>Option for <code><a href="../reference/neuprint_ROIs.html">neuprint_ROIs()</a></code> to get only superLevelROIs <a href='https://github.com/natverse/neuprintr/issues/55'>#55</a> (thanks to <a href='https://github.com/mmc46'>@mmc46</a> for suggestion)</li>
+<li>return bodyids as characters, not factors <a href='https://github.com/natverse/neuprintr/issues/30'>#30</a>, <a href='https://github.com/natverse/neuprintr/issues/27'>#27</a></li>
+<li>Teach <code><a href="../reference/neuprint_search.html">neuprint_search()</a></code> to query type as well instance/name <a href='https://github.com/natverse/neuprintr/issues/28'>#28</a></li>
+<li>Adding depth to path functions <a href='https://github.com/natverse/neuprintr/issues/37'>#37</a></li>
+<li>Return link order in paths functions <a href='https://github.com/natverse/neuprintr/issues/36'>#36</a></li>
+</ul>
+<p>Lower Level:</p>
+<ul>
+<li>More informative errors for <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> <a href='https://github.com/natverse/neuprintr/issues/38'>#38</a>, <a href='https://github.com/natverse/neuprintr/issues/44'>#44</a></li>
+<li>Harmonise approach to dataset specification <a href='https://github.com/natverse/neuprintr/issues/29'>#29</a>, <a href='https://github.com/natverse/neuprintr/issues/26'>#26</a>, <a href='https://github.com/natverse/neuprintr/issues/25'>#25</a></li>
+<li>Use <code><a href="../reference/neuprint_info.html">neuprint_datasets()</a></code> to define a default dataset <a href='https://github.com/natverse/neuprintr/issues/68'>#68</a></li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Fix breaking change in tibble v3.0 (<a href='https://github.com/natverse/neuprintr/issues/108'>#108</a>, <a href='https://github.com/natverse/neuprintr/issues/109'>#109</a>)</li>
+<li>Add an argument to bypass roi checks (<a href='https://github.com/natverse/neuprintr/issues/103'>#103</a>)</li>
+<li>Get synapses fix (<a href='https://github.com/natverse/neuprintr/issues/102'>#102</a>)</li>
+<li>Make returned bodyids in <code><a href="../reference/neuprint_get_roiInfo.html">neuprint_get_roiInfo()</a></code> characters (<a href='https://github.com/natverse/neuprintr/issues/101'>#101</a>)</li>
+<li>Connector IDs are only for presynapses (<a href='https://github.com/natverse/neuprintr/issues/97'>#97</a>)</li>
+<li>Make <code><a href="../reference/neuprint_read_neurons.html">neuprint_read_neurons()</a></code> show more errors (<a href='https://github.com/natverse/neuprintr/issues/84'>#84</a>, <a href='https://github.com/natverse/neuprintr/issues/91'>#91</a>)</li>
+<li>Fix bug in <code><a href="../reference/neuprint_get_synapses.html">neuprint_get_synapses()</a></code> when <code>progress=T</code> (<a href='https://github.com/natverse/neuprintr/issues/90'>#90</a>)</li>
+<li>Fix <code><a href="../reference/neuprint_ROI_connectivity.html">neuprint_ROI_connectivity()</a></code> (<a href='https://github.com/natverse/neuprintr/issues/87'>#87</a>, <a href='https://github.com/natverse/neuprintr/issues/88'>#88</a>)</li>
+<li>Bug in <code><a href="../reference/neuprint_read_neurons.html">neuprint_read_neurons()</a></code> when <code>connectors=FALSE</code> (<a href='https://github.com/natverse/neuprintr/issues/85'>#85</a>)</li>
+<li>Character vectors specifying ids &gt; max big int should trigger errors (<a href='https://github.com/natverse/neuprintr/issues/82'>#82</a>)</li>
+<li>Fix duplicate columns in output of <code><a href="../reference/neuprint_find_neurons.html">neuprint_find_neurons()</a></code> <a href='https://github.com/natverse/neuprintr/issues/81'>#81</a></li>
+<li>Fix <code><a href="../reference/neuprint_find_neurons.html">neuprint_bodies_in_ROI()</a></code> <a href='https://github.com/natverse/neuprintr/issues/78'>#78</a>, <a href='https://github.com/natverse/neuprintr/issues/79'>#79</a></li>
+<li>Define a default dataset based on current neuPrint connection <a href='https://github.com/natverse/neuprintr/issues/77'>#77</a></li>
+<li>Path queries always return the total weight <a href='https://github.com/natverse/neuprintr/issues/72'>#72</a></li>
+<li>Fix fetching and plotting some bodyids fails in neuprintr <a href='https://github.com/natverse/neuprintr/issues/71'>#71</a> (thanks to <a href='https://github.com/lisa-marin'>@lisa-marin</a> for report)</li>
+<li>Fix <code><a href="../reference/neuprint_connection_table.html">neuprint_connection_table()</a></code> does not pass on by.roi when progress=T <a href='https://github.com/natverse/neuprintr/issues/70'>#70</a></li>
+<li>Fix by.roi argument in <code><a href="../reference/neuprint_connection_table.html">neuprint_connection_table()</a></code> (<a href='https://github.com/natverse/neuprintr/issues/69'>#69</a>) (thanks to <a href='https://github.com/markuspleijzier'>@markuspleijzier</a> for report)</li>
+<li>Fix <code><a href="../reference/neuprint_simple_connectivity.html">neuprint_simple_connectivity()</a></code> <a href='https://github.com/natverse/neuprintr/issues/61'>#61</a>, <a href='https://github.com/natverse/neuprintr/issues/59'>#59</a></li>
+<li>Fix <code><a href="../reference/neuprint_read_neurons.html">neuprint_read_neurons()</a></code> <a href='https://github.com/natverse/neuprintr/issues/54'>#54</a> (thank to <a href='https://github.com/mmc46'>@mmc46</a> for report)</li>
+<li>Fix <code><a href="../reference/neuprint_ROI_mesh.html">neuprint_ROI_mesh()</a></code> encoding warning <a href='https://github.com/natverse/neuprintr/issues/49'>#49</a></li>
+<li>prefer character vectors over factors for result dataframes <a href='https://github.com/natverse/neuprintr/issues/48'>#48</a>, <a href='https://github.com/natverse/neuprintr/issues/47'>#47</a></li>
+<li>Adding basic examples for path functions <a href='https://github.com/natverse/neuprintr/issues/46'>#46</a></li>
+<li>Flow centrality <a href='https://github.com/natverse/neuprintr/issues/45'>#45</a></li>
+<li>add <code>cellBodyFiber()</code> and soma to <code><a href="../reference/neuprint_get_meta.html">neuprint_get_meta()</a></code> <a href='https://github.com/natverse/neuprintr/issues/43'>#43</a></li>
+<li>Fix handling of unique bodyids <a href='https://github.com/natverse/neuprintr/issues/42'>#42</a>, <a href='https://github.com/natverse/neuprintr/issues/39'>#39</a></li>
+<li>Fix <code><a href="../reference/neuprint_read_neurons.html">neuprint_read_neurons()</a></code> fails because of <code>id2bit64()</code> <a href='https://github.com/natverse/neuprintr/issues/41'>#41</a></li>
+<li>Make <code>neuprint_connection_table</code> return same results with progress=T/F <a href='https://github.com/natverse/neuprintr/issues/40'>#40</a></li>
+</ul>
+<p>Docs/Build:</p>
+<ul>
+<li>Add slideshare to readme <a href='https://github.com/natverse/neuprintr/issues/35'>#35</a></li>
+<li>Add code coverage <a href='https://github.com/natverse/neuprintr/issues/33'>#33</a></li>
+<li>Travis build docs <a href='https://github.com/natverse/neuprintr/issues/31'>#31</a></li>
+</ul>
+</div>
     <div id="neuprintr-0-4" class="section level1">
 <h1 class="page-header" data-toc-text="0.4">
 <a href="#neuprintr-0-4" class="anchor"></a>neuprintr 0.4</h1>
