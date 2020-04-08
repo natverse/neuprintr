@@ -55,6 +55,5 @@ mapply(shade3d, mbmeshes, col=rainbow(length(mbmeshes)))
 }
 }
 \seealso{
-\code{\link{neuprint_ROIs}}, \code{\link{neuprint_get_roiInfo}},
-  \code{\link{neuprint_ROI_hierarchy}}
+\code{\link{neuprint_ROIs}}, \code{\link{neuprint_get_roiInfo}}
 }
