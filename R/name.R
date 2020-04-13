@@ -370,13 +370,15 @@ neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
                                                    "cropped", "instance", "name",
                                                    "size", "type", "cellBodyFiber",
                                                    "somaLocation", "somaRadius"),
-                                limit=20,
+                                limit=length(possibleFields)*10,
                                 negateFields=FALSE,
                                 dataset = NULL, conn = NULL, ...){
-  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT %s",limit)
-  fields <- unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn, dataset = dataset, ...)$data)
-  if (negateFields){return(fields[!(fields %in% possibleFields)])}
-  return(fields[fields %in% possibleFields])
+
+    cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT %s",limit)
+    fields <- unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn, dataset = dataset, ...)$data)
+    if (negateFields){fields <- fields[!(fields %in% possibleFields)]} else {fields <- fields[fields %in% possibleFields]}
+
+  return(fields)
 }
 
 # Hidden. Neuprint to our fields translation
