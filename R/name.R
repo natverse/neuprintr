@@ -370,7 +370,7 @@ neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
                                                    "cropped", "instance", "name",
                                                    "size", "type", "cellBodyFiber",
                                                    "somaLocation", "somaRadius"),
-                                limit=length(possibleFields)*10,
+                                limit=50,
                                 negateFields=FALSE,
                                 dataset = NULL, conn = NULL, ...){
 
