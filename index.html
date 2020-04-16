@@ -98,11 +98,11 @@
 <div id="neuprintr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#neuprintr" class="anchor"></a>neuprintr</h1></div>
-<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python">neuprint-python</a> if thatâs your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain">hemibrain</a>, densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>. For more information, have a look <a href="https://neuprint.janelia.org/help">here</a>. Using this R package in concert with the <a href="https://github.com/natverse/natverse">natverse</a> ecosystem is highly recommended.</p>
+<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain">hemibrain</a>, densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>. For more information, have a look <a href="https://neuprint.janelia.org/help">here</a>. Using this R package in concert with the <a href="https://github.com/natverse/natverse">natverse</a> ecosystem is highly recommended.</p>
 <div id="tutorial" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tutorial" class="anchor"></a>Tutorial</h2>
-<p>To help you get to grips with <code>neuprintr</code>, we have made a tutorial in classic presentation form. This tutorial uses data from the <a href="https://www.janelia.org/project-team/flyem">Janelia Fly EM</a> teamâs <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1">hemibrain</a> project. You can also see the vignettes in this package for the same examples and more.</p>
+<p>To help you get to grips with <code>neuprintr</code>, we have made a tutorial in classic presentation form. This tutorial uses data from the <a href="https://www.janelia.org/project-team/flyem">Janelia Fly EM</a> team’s <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1">hemibrain</a> project. You can also see the vignettes in this package for the same examples and more.</p>
 <p align="center">
 <iframe src="https://www.slideshare.net/slideshow/embed_code/key/GcE2Blzz02nfhM" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
 </iframe>
@@ -122,7 +122,7 @@
 <div id="authentication" class="section level2">
 <h2 class="hasAnchor">
 <a href="#authentication" class="anchor"></a>Authentication</h2>
-<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g.Â <a href="https://neuprint.janelia.org" class="uri">https://neuprint.janelia.org</a>, and hit âloginâ. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to âAccountâ:</p>
+<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g. <a href="https://neuprint.janelia.org" class="uri">https://neuprint.janelia.org</a>, and hit ‘login’. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to ‘Account’:</p>
 <p><img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png" alt="access your bearer token"></p>
 <p>To make life easier, you can then edit your <code>.Renviron</code> file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. A convenient way to do this is to do</p>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="kw pkg">usethis</span><span class="kw ns">::</span><span class="fu">edit_r_environ</span>()</pre></div>
@@ -162,9 +162,9 @@
 <h2 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h2>
 <ul>
-<li><p>HemiBrain (hemibrain:v1.0) : from <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1">âA Connectome of the Adult Drosophila Central Brainâ</a> (Xu, et al.Â 2020)</p></li>
-<li><p>mushroombody (mb6) : from <a href="https://elifesciences.org/articles/26975">âA connectome of a learning and memory center in the adult Drosophila brainâ</a> (Takemura, et al.Â 2017)</p></li>
-<li><p>medulla7column (fib25) : from <a href="https://www.pnas.org/content/112/44/13711">âSynaptic circuits and their variations within different columns in the visual system of Drosophilaâ</a> (Takemura, et al.Â 2015)</p></li>
+<li><p>HemiBrain (hemibrain:v1.0) : from <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1">“A Connectome of the Adult Drosophila Central Brain”</a> (Xu, et al. 2020)</p></li>
+<li><p>mushroombody (mb6) : from <a href="https://elifesciences.org/articles/26975">“A connectome of a learning and memory center in the adult Drosophila brain”</a> (Takemura, et al. 2017)</p></li>
+<li><p>medulla7column (fib25) : from <a href="https://www.pnas.org/content/112/44/13711">“Synaptic circuits and their variations within different columns in the visual system of Drosophila”</a> (Takemura, et al. 2015)</p></li>
 </ul>
 </div>
 <div id="acknowledging-the-data-and-tools" class="section level2">
@@ -223,7 +223,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
