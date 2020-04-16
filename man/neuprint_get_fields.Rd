@@ -8,7 +8,6 @@ neuprint_get_fields(
   possibleFields = c("bodyId", "pre", "post", "upstream", "downstream", "status",
     "statusLabel", "cropped", "instance", "name", "size", "type", "cellBodyFiber",
     "somaLocation", "somaRadius"),
-  limit = 20,
   negateFields = FALSE,
   dataset = NULL,
   conn = NULL,
@@ -17,8 +16,6 @@ neuprint_get_fields(
 }
 \arguments{
 \item{possibleFields}{: field names to choose from}
-
-\item{limit}{: Max length of the server's response (used to speed up the query/adapt to different scenarios)}
 
 \item{negateFields}{: Whether to include (FALSE, the default) or exclude \code{possibleFields}}
 
