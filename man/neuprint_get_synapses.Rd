@@ -19,7 +19,7 @@ neuprint_get_synapses(
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
 This can be in any form understood by \code{\link{neuprint_ids}}.}
 
-\item{roi}{a roi (i.e. neuropil volume) you want to query. Use
+\item{roi}{a ROI (i.e. neuropil volume) you want to query. Use
 \code{\link{neuprint_ROIs}} to see what is available. Defaults to 'all',
 which will return synapses in all ROIs.}
 
@@ -28,8 +28,8 @@ from the results. It appears that there is a relatively high number of
 false positive autapses.}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
-chunks or an integer specifiying the size of those chunks (which defaults
-to 20 when \code{chunk=TRUE}).}
+chunks or an integer specifying the size of those chunks (which defaults to
+20 when \code{chunk=TRUE}).}
 
 \item{progress}{if TRUE, a progress bar will be shown. This may slow the data
 fetching process for smaller queries (<100 body ids). The default of
@@ -49,16 +49,17 @@ used. See \code{\link{neuprint_login}} for details.}
 }
 \value{
 a data frame, where each entry is a connection between the specified
-  bodyid and its partner, either presynaptic to the bodyid (prepost=0) or
-  postsynaptic (prepost=1). Each connection is associated with a synapse that
-  has its own unique connector_id, XYZ coordinates and a confidence in its
-  existence.
+  bodyid and its partner, either presynaptic to the bodyid (\code{prepost=0})
+  or postsynaptic (\code{prepost=1}). Each connection is associated with a
+  synapse that has its own unique connector_id, XYZ coordinates and a
+  confidence in its existence.
 }
 \description{
 Get the xyz locations, IDs and confidences of pre- and post
-  synapses associated with a body. The \code{connector_id}
-for each synapse is for the 'presynaptic' object. Separate IDs exist for the postsynapses in NeuPrint, and
-these are not fetched b this function. This is similar to the logic use in \code{rcatmaid}.
+  synapses associated with a body. The \code{connector_id} for each synapse
+  is for the 'presynaptic' object. Separate IDs exist for the postsynapses in
+  neuPrint, and these are not fetched b this function. This is similar to the
+  logic use in \code{rcatmaid}.
 }
 \examples{
 \donttest{

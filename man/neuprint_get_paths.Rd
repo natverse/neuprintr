@@ -35,11 +35,11 @@ set of ROIs (NULL by default)}
 
 \item{by.roi}{Return the results by ROI. Default to FALSE}
 
-\item{exclude.loops}{Wether or not to exclude loops
+\item{exclude.loops}{Whether or not to exclude loops
 (paths containing the same node several times). Defaults to TRUE}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
-chunks or an integer specifiying the size of those chunks (which defaults
+chunks or an integer specifying the size of those chunks (which defaults
 to 5 when \code{chunk=TRUE}).}
 
 \item{progress}{if TRUE, a progress bar will be shown. This may slow the data
@@ -69,9 +69,11 @@ Get all of the paths in the database that connect the query
 \donttest{
 neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 
-neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,by.roi=TRUE)
+neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2),
+  weightT=20,by.roi=TRUE)
 
-neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
+neuprint_get_paths(c(1128092885,481121605),5813041365,
+  n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 }
 }
 \seealso{

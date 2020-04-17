@@ -31,7 +31,7 @@ set of ROIs (NULL by default)}
 \item{by.roi}{Return the results by ROI. Default to FALSE}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
-chunks or an integer specifiying the size of those chunks (which defaults
+chunks or an integer specifying the size of those chunks (which defaults
 to 5 when \code{chunk=TRUE}).}
 
 \item{progress}{if TRUE, a progress bar will be shown. This may slow the data

@@ -64,7 +64,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 2000 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
@@ -138,7 +138,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #' @description Return pre and post counts in all the ROIs given bodyids innervate.
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 2000 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
@@ -356,7 +356,6 @@ neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, d
 #' @title Get available metadata fields for Neuron nodes
 #' @return a vector of available fields
 #' @param possibleFields : field names to choose from
-#' @param limit : Max length of the server's response (used to speed up the query/adapt to different scenarios)
 #' @param negateFields : Whether to include (FALSE, the default) or exclude \code{possibleFields}
 #' @inheritParams neuprint_ROI_hierarchy
 #' @export
@@ -370,13 +369,14 @@ neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
                                                    "cropped", "instance", "name",
                                                    "size", "type", "cellBodyFiber",
                                                    "somaLocation", "somaRadius"),
-                                limit=20,
                                 negateFields=FALSE,
                                 dataset = NULL, conn = NULL, ...){
-  cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields LIMIT %s",limit)
-  fields <- unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn, dataset = dataset, ...)$data)
-  if (negateFields){return(fields[!(fields %in% possibleFields)])}
-  return(fields[fields %in% possibleFields])
+
+    cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields")
+    fields <- unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn, dataset = dataset, ...)$data)
+    if (negateFields){fields <- fields[!(fields %in% possibleFields)]} else {fields <- fields[fields %in% possibleFields]}
+
+  return(fields)
 }
 
 # Hidden. Neuprint to our fields translation

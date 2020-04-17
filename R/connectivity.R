@@ -79,7 +79,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'  contain multiple
 #'  lower-level ROIs. If set to `NULL`, both are returned.
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 20 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for
 #' each neuron and you can assess its progress, if an error is thrown by any
@@ -365,10 +365,10 @@ neuprint_simple_connectivity <- function(bodyids,
 #' @param roi Limit the search to connections happening within a certain ROI or
 #'   set of ROIs (NULL by default)
 #' @param by.roi Return the results by ROI. Default to FALSE
-#' @param exclude.loops Wether or not to exclude loops
+#' @param exclude.loops Whether or not to exclude loops
 #' (paths containing the same node several times). Defaults to TRUE
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 5 when \code{chunk=TRUE}).
 #' @param progress if TRUE, a progress bar will be shown. This may slow the data
 #'   fetching process for smaller queries. The default of
@@ -384,9 +384,11 @@ neuprint_simple_connectivity <- function(bodyids,
 #' \donttest{
 #' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20)
 #'
-#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,by.roi=TRUE)
+#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2),
+#'   weightT=20,by.roi=TRUE)
 #'
-#' neuprint_get_paths(c(1128092885,481121605),5813041365, n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
+#' neuprint_get_paths(c(1128092885,481121605),5813041365,
+#'   n=c(1,2), weightT=20,roi=c("FB","LAL(-GA)(R)"))
 #' }
 neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.roi=FALSE,exclude.loops=TRUE,
                                chunk=TRUE,progress=FALSE,dataset = NULL, conn = NULL, all_segments=FALSE, ...){
@@ -508,7 +510,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
 #' @param all_segments if TRUE, all bodies are considered, if FALSE, only
 #'   'Neurons', i.e. bodies with a status roughly traced status.
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifiying the size of those chunks (which defaults
+#'   chunks or an integer specifying the size of those chunks (which defaults
 #'   to 5 when \code{chunk=TRUE}).
 #' @param progress if TRUE, a progress bar will be shown. This may slow the data
 #'   fetching process for smaller queries. The default of
@@ -621,12 +623,12 @@ extract_connectivity_df <- function(rois, json, postFix  = c("pre", "post")){
   }
 
   a <- unlist(jsonlite::fromJSON(json))
-  if(rois=="All"){
+  if(isTRUE(tolower(rois)=="all")) {
     rois <- gsub("\\..*","",names(a))
   }
   rois <- unique(rois) #this takes care if both the input and output ROIs are same..
   roicols <- c(t(outer(rois,postFix, paste, sep=".")))
-  values <- tibble::as_tibble(as.list(structure(rep(0, length(roicols)), .Names=roicols)))
+  values <- structure(rep(0L, length(roicols)), .Names=roicols)
   for(roi in rois){
     thisroicols <- paste0(roi,".",postFix)
     if (!is.null(a)){
@@ -634,6 +636,7 @@ extract_connectivity_df <- function(rois, json, postFix  = c("pre", "post")){
       values[names(b)] <-  b
     }
   }
+  values <- tibble::as_tibble(as.list(values))
   values
 }
 

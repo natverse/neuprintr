@@ -26,7 +26,7 @@ current connection, is used. See \code{\link{neuprint_login}} for details.}
 'Neurons', i.e. bodies with a status roughly traced status.}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
-chunks or an integer specifiying the size of those chunks (which defaults
+chunks or an integer specifying the size of those chunks (which defaults
 to 2000 when \code{chunk=TRUE}).}
 
 \item{progress}{default FALSE. If TRUE, the API is called separately for

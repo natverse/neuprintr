@@ -2,22 +2,44 @@
 % Please edit documentation in R/synapses.R
 \name{neuprint_connectors}
 \alias{neuprint_connectors}
-\title{Get the IDs and 3D locations of the pre- and post- synapses that make up a synaptic object}
+\title{Get the IDs and 3D locations of the pre- and post- synapses that make
+  up a synaptic object}
 \usage{
-neuprint_connectors(connector_ids, all_segments = TRUE)
+neuprint_connectors(
+  connector_ids,
+  all_segments = TRUE,
+  conn = NULL,
+  dataset = NULL,
+  ...
+)
 }
 \arguments{
-\item{connector_ids}{a vector of IDs (pre- or postsynapse IDs) for a synaptic connection object.}
+\item{connector_ids}{a vector of IDs (pre- or postsynapse IDs) for a synaptic
+connection object.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
+
+\item{conn}{optional, a neuprintr connection object, which also specifies the
+neuPrint server. If NULL, the defaults set in your
+\code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
+used. See \code{\link{neuprint_login}} for details.}
+
+\item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
+default specified by your R environ file is used or, failing that the
+current connection, is used. See \code{\link{neuprint_login}} for details.}
+
+\item{...}{Additional arguments passed to \code{\link{neuprint_fetch_custom}}}
 }
 \value{
-a data frame, where each entry gives the pre-post associations for a synapse. This includes which are the pre/post synaptic
-bodyids (neurons/fragments) and the location of these synapses in 3D space (likely raw voxel space).
+a data frame, where each entry gives the pre-post associations for a
+  synapse. This includes which are the pre/post synaptic bodyids
+  (neurons/fragments) and the location of these synapses in 3D space (likely
+  raw voxel space).
 }
 \description{
-Get synapse IDs for a given connectorID, as well as their associated bodyIDs and their locations in 3D space.
+Get synapse IDs for a given connector ID, as well as their
+  associated body IDs and their locations in 3D space.
 }
 \examples{
 \donttest{

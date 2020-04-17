@@ -52,14 +52,16 @@ neuprint_version <- function(conn = NULL, ...){
 #' @title Get a vector of all the ROIs in a specified dataset
 #'
 #' @description Get the regions of interest (ROIs) used in a neuPrint project
-#' @param superLevel whether not to show 'superlevel' ROIs - ROIs composed of other ROIs.
-#' If set to NULL, both low-level and superlevel ROIs are returned.
-#' @param fromNeuronFields : Whether to use fields of :Neuron nodes to fetch the ROIs. If
-#' FALSE (the default), use the dataset metadata instead. If TRUE, the \code{superLevel} argument
-#' is ignored
+#' @param superLevel whether not to show 'superlevel' ROIs - ROIs composed of
+#'   other ROIs. If set to NULL, both low-level and superlevel ROIs are
+#'   returned.
+#' @param fromNeuronFields : Whether to use fields of :Neuron nodes to fetch the
+#'   ROIs. If FALSE (the default), use the dataset metadata instead. If TRUE,
+#'   the \code{superLevel} argument is ignored
 #' @param ... methods passed to \code{neuprint_login}
 #' @inheritParams neuprint_fetch_custom
-#' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}}
+#' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}},
+#'   \code{\link{neuprint_ROI_hierarchy}}
 #' @export
 neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= FALSE,conn = NULL, ...){
   if (fromNeuronFields){
@@ -69,7 +71,6 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
                                                    "cropped", "instance", "name",
                                                    "size", "type", "cellBodyFiber",
                                                    "somaLocation", "somaRadius","roiInfo"),
-                                limit=200,
                                 negateFields=TRUE,
                                 dataset = NULL, conn = NULL, ...)
   }else{
@@ -98,22 +99,40 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
 
 #' @title Get the region of interest (ROI) hierarchy in a dataset
 #'
-#' @description Get a data frame describing how ROIs are related.
-#' @param ... methods passed to \code{neuprint_fetch_custom}
+#' @param root Character vector specifying a root node that defines a subgraph
+#'   of the ROI hierarchy. The default (\code{root=NULL}) will return the whole
+#'   hierarchy.
+#' @param rval Whether to return an edge list \code{data.frame} (the default) or
+#'   an \code{\link{igraph}} object.
+#' @param ... additional arguments passed to \code{\link{neuprint_fetch_custom}}
 #' @inheritParams neuprint_fetch_custom
 #' @examples
 #' \donttest{
-#' roi.hierarchy = neuprint_ROI_hierarchy()
-#' g = igraph::graph_from_data_frame(roi.hierarchy, directed = TRUE)
+#' g = neuprint_ROI_hierarchy(rval='graph')
 #' igraph::plot.igraph(g, layout=igraph::layout_as_tree)
+#'
+#' # just the Mushroom Body Nodes on right hand side
+#' mbg=neuprint_ROI_hierarchy(root='MB(R)', rval='graph')
+#' igraph::plot.igraph(mbg)
+#' # find just the terminal nodes of the graph
+#' mbterms=nat::endpoints(mbg)
+#' mbterms
+#'
+#' \dontrun{
+#' # read in all the MB meshes
+#' mbmeshes=sapply(mbterms, neuprint_ROI_mesh, simplify = FALSE)
+#' # 3D plot in different colours
+#' mapply(shade3d, mbmeshes, col=rainbow(length(mbmeshes)))
 #' }
-#' @seealso \code{\link{neuprint_ROIs}}, \code{\link{neuprint_get_roiInfo}}
+#' }
+#' @seealso \code{\link{neuprint_ROIs}}, \code{\link{neuprint_get_roiInfo}},
+#'   \code{\link{neuprint_ROI_hierarchy}}
 #' @export
-neuprint_ROI_hierarchy <- function(dataset = NULL,
-                                   conn = NULL,
-                                   ...){
+neuprint_ROI_hierarchy <- function(root=NULL, rval=c("edgelist","graph"),
+                                   dataset = NULL, conn = NULL,...){
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
+  rval=match.arg(rval)
   cypher = sprintf("MATCH (m:Meta) WITH m as m, apoc.convert.fromJsonMap(m.roiHierarchy) as roiHierarchy RETURN roiHierarchy")
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, conn=conn, ...)
   roi.edgelist = data.frame()
@@ -140,8 +159,19 @@ neuprint_ROI_hierarchy <- function(dataset = NULL,
     }
   }
   addin(nc$data, parent = dataset)
-  rownames(roi.edgelist) = 1:nrow(roi.edgelist)
-  roi.edgelist
+  rownames(roi.edgelist) = NULL
+  el=roi.edgelist
+  g=igraph::graph_from_data_frame(el, directed = TRUE)
+  if(!is.null(root)) {
+    if(isFALSE(root%in%names(igraph::V(g))))
+      stop("Requested root does not seem to be a valid node of ROI hierarchy!")
+    selnodes=na.omit(igraph::dfs(g, root, unreachable = F)$order)
+    g <- igraph::induced_subgraph(g, selnodes)
+    el <- as.data.frame(igraph::as_edgelist(g))
+    colnames(el)=colnames(roi.edgelist)
+  }
+
+  if(rval=='graph') g else el
 }
 
 
