@@ -418,7 +418,6 @@ dfFields <- function(field_name) {
     ),
     stringsAsFactors = FALSE
   )
-
   res=transTable$rName[match(field_name, transTable$neuprint)]
   res
 }
