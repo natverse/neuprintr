@@ -33,6 +33,12 @@ neuprint_find_neurons <- function(input_ROIs,
                             dataset, jsonlite::toJSON(input_ROIs),
                             jsonlite::toJSON(output_ROIs),
                             all_segments))
+  if(is.null(input_ROIs)){
+    Payload = gsub('"input_ROIs":\\{\\},',"",Payload)
+  }
+  if(is.null(output_ROIs)){
+    Payload = gsub('"output_ROIs":\\{\\},',"",Payload)
+  }
   class(Payload) = "json"
   found.neurons = neuprint_fetch(path = 'api/npexplorer/findneurons', body = Payload, conn = conn, ...)
   columns = unlist(found.neurons[[1]])
@@ -42,14 +48,23 @@ neuprint_find_neurons <- function(input_ROIs,
   neurons = as.data.frame(do.call(rbind, extract))
   colnames(neurons) = columns[keep]
   rownames(neurons) = neurons$bodyid
-  roiInfoFields <- neuprint_get_fields(c("pre","post","downstream","upstream"),conn = conn,dataset=dataset,...)
+  roiInfoFields <- neuprint_get_fields(c("pre","post","downstream","upstream"),conn = conn, dataset=dataset,...)
   innervation = lapply(found.neurons[[2]], function(f)
     extract_connectivity_df(rois = c(input_ROIs,output_ROIs),
                             json=unlist(f[columns=="roiInfo"]),
                             postFix=roiInfoFields))
   innervation = do.call(rbind,innervation)
   neurons = cbind(neurons,innervation)
-  as.data.frame(t(apply(neurons,1,unlist)),stringsAsFactors=FALSE)
+  foundneurons = as.data.frame(t(apply(neurons,1,unlist)),stringsAsFactors=FALSE)
+  outs = which(gsub("\\.pre.*","",colnames(FB_inputs.info))%in%output_ROIs)
+  ins = which(gsub("\\.post.*","",colnames(FB_inputs.info))%in%input_ROIs)
+  if(length(outs)){
+    foundneurons = foundneurons[apply(foundneurons,1, function(row) sum(as.numeric(row[outs]))>0),]
+  }
+  if(length(ins)){
+    foundneurons = foundneurons[apply(foundneurons,1, function(row) sum(as.numeric(row[ins]))>0),]
+  }
+  foundneurons
 }
 
 #' @export

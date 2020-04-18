@@ -38,6 +38,7 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
   jsonlite::fromJSON(text, simplifyVector = simplifyVector, ...)
 }
 
+# hidden
 neuprint_error_check <- function(req) {
   if(isTRUE(httr::status_code(req) %in% c(400L, 500L))) {
     parsed=neuprint_parse_json(req)

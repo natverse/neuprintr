@@ -71,7 +71,6 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
                                                    "cropped", "instance", "name",
                                                    "size", "type", "cellBodyFiber",
                                                    "somaLocation", "somaRadius","roiInfo"),
-                                limit=200,
                                 negateFields=TRUE,
                                 dataset = NULL, conn = NULL, ...)
   }else{
