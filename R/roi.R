@@ -56,8 +56,8 @@ neuprint_find_neurons <- function(input_ROIs,
   innervation = do.call(rbind,innervation)
   neurons = cbind(neurons,innervation)
   foundneurons = as.data.frame(t(apply(neurons,1,unlist)),stringsAsFactors=FALSE)
-  outs = which(gsub("\\.pre.*","",colnames(FB_inputs.info))%in%output_ROIs)
-  ins = which(gsub("\\.post.*","",colnames(FB_inputs.info))%in%input_ROIs)
+  outs = which(gsub("\\.pre.*","",colnames(foundneurons))%in%output_ROIs)
+  ins = which(gsub("\\.post.*","",colnames(foundneurons))%in%input_ROIs)
   if(length(outs)){
     foundneurons = foundneurons[apply(foundneurons,1, function(row) sum(as.numeric(row[outs]))>0),]
   }
