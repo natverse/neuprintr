@@ -74,7 +74,7 @@ neuprint_read_neurons <- function(bodyids,
                                   OmitFailures = TRUE,
                                   ...) {
   bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
-  neurons = suppressWarnings(nat::nlapply(bodyids,function(bodyid)
+  neurons = nat::nlapply(bodyids,function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
@@ -87,11 +87,11 @@ neuprint_read_neurons <- function(bodyids,
                          resample = resample,
                          conn= conn,
                          ...),
-    OmitFailures = OmitFailures))
+    OmitFailures = OmitFailures)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(length(neurons)==0){
-    stop("Error: none of the given bodyids have skeletons that could be fetched")
+    stop("Error reading bodyids")
   }else if(!all(bodyids%in%names(neurons))){
     missed = setdiff(bodyids,names(neurons))
     warning("Dropping given bodyids that could not be read from ", neuprint_login(conn=conn)$server," : ", paste(missed, collapse = ", "))
@@ -145,10 +145,14 @@ neuprint_read_neuron <- function(bodyid,
       near.soma = nabor::knn(query=somapoint,data=nat::xyzmatrix(n$d),k=1)$nn.idx
       n = nat::as.neuron(nat::as.ngraph(n$d), origin = c(near.soma))
       n$d$Label[near.soma] = 1
-      n$soma = "tagged"
-      n$tags$soma = near.soma
+      n$soma = n$d$PointNo[near.soma]
+      n$tags$soma = n$soma
       d = n$d
+    }else{
+      n$soma = n$tags$soma = NA
     }
+  }else{
+    n$soma = n$tags$soma = NA
   }
   if(isTRUE(!is.null(synapses) && nrow(synapses))){
     near = nabor::knn(query= nat::xyzmatrix(synapses),data=nat::xyzmatrix(n$d),k=1)
