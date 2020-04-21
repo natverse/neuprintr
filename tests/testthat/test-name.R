@@ -29,11 +29,19 @@ test_that("test name searches ", {
                                                                "pre","post","upstream","downstream","cropped",
                                                                "size","cellBodyFiber"))),"soma")
                )
+
+
   id1=da2s$bodyid[1]
   n1=da2s$name[1]
 
+  expect_is(rit <- neuprint_get_roiInfo(id1),'data.frame')
+
   iddup=rep(da2s$bodyid[1], 2)
   ndup=rep(n1, 2)
+
+  expect_is(rit <- neuprint_get_roiInfo(iddup),'data.frame')
+  expect_equal(rit[1,],rit[2,])
+
   # check we can handle missing values
   expect_equivalent(neuprint_get_neuron_names(1), NA_character_)
   # duplicates and missing values
