@@ -188,7 +188,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
     all_segments
   )
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, conn = conn, ...)
-  lc <-  lapply(nc$data,function(x){cbind(bodyid=x[[1]],as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))))})
+  lc <-  lapply(nc$data,function(x){c(list(bodyid=x[[1]]),unlist(jsonlite::parse_json(x[[2]])))})
   d <- dplyr::bind_rows(lc)
   d
 }
