@@ -80,6 +80,15 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL,chunk=TRUE,progress=FALSE, ...){
   conn = neuprint_login(conn)
 
+  if(any(duplicated(bodyids))) {
+    ubodyids=unique(bodyids)
+    unames=neuprint_get_meta(bodyids=ubodyids, dataset=dataset,
+                                     conn=conn, all_segments=all_segments,chunk=chunk,progress=progress,...)
+    res=unames[match(bodyids, ubodyids),]
+    return(res)
+  }
+
+
   nP <- length(bodyids)
   if(is.numeric(chunk)) {
     chunksize=chunk
@@ -150,6 +159,14 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 #' neuprint_get_roiInfo(c(818983130, 1796818119))
 #' }
 neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, chunk=TRUE,progress=FALSE,conn = NULL, ...){
+  if(any(duplicated(bodyids))) {
+    ubodyids=unique(bodyids)
+    unames=neuprint_get_roiInfo(bodyids=ubodyids, dataset=dataset,
+                             conn=conn, all_segments=all_segments,chunk=chunk,progress=progress,...)
+    res=unames[match(bodyids, ubodyids),]
+    return(res)
+  }
+
   nP <- length(bodyids)
   if(is.numeric(chunk)) {
     chunksize=chunk
@@ -188,7 +205,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
     all_segments
   )
   nc = neuprint_fetch_custom(cypher=cypher, dataset = dataset, conn = conn, ...)
-  lc <-  lapply(nc$data,function(x){cbind(bodyid=x[[1]],as.data.frame(t(unlist(jsonlite::fromJSON(x[[2]])))))})
+  lc <-  lapply(nc$data,function(x){c(list(bodyid=x[[1]]),unlist(jsonlite::parse_json(x[[2]])))})
   d <- dplyr::bind_rows(lc)
   d
 }
