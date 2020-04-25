@@ -80,6 +80,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
       bodyids = bi,
       roi = roi,
       progress = FALSE,
+      chunk = FALSE,
       dataset = dataset,
       conn = conn, ...),
       error = function(e) {warning(e); NULL})))

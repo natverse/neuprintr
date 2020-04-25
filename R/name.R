@@ -108,12 +108,13 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     nchunks=ceiling(nP/chunksize)
     chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
     bodyids <- split(bodyids, chunks)
-    # if we got here and progess is unset then set it
+    # if we got here and progress is unset then set it
     if(is.null(progress) || is.na(progress)) progress=TRUE
     MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
     d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_get_meta(
       bodyids = bi,
       progress = FALSE,
+      chunk=FALSE, # nb don't want to further chunk
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
     rownames(d) <- NULL
@@ -192,6 +193,7 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
     d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_get_roiInfo(
       bodyids = bi,
       progress = FALSE,
+      chunk = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
     rownames(d) <- NULL
