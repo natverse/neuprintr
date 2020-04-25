@@ -81,10 +81,12 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   conn = neuprint_login(conn)
   dataset = check_dataset(dataset=dataset, conn=conn)
 
+  bodyids <- neuprint_ids(bodyids, conn=conn, dataset = dataset, unique=FALSE, mustWork = FALSE)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
     unames=neuprint_get_meta(bodyids=ubodyids, dataset=dataset,
-                                     conn=conn, all_segments=all_segments,chunk=chunk,progress=progress,...)
+                             conn=conn, all_segments=all_segments,
+                             chunk=chunk, progress=progress, ...)
     res=unames[match(bodyids, ubodyids),]
     return(res)
   }
@@ -121,7 +123,6 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     return(d)
   }
 
-  bodyids <- neuprint_ids(bodyids, conn=conn, dataset = dataset,unique=FALSE,mustWork = FALSE)
   all_segments = ifelse(all_segments,"Segment","Neuron")
 
   fieldNames <- neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel","pre","post","upstream","downstream","cropped",
