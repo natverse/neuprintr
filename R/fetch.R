@@ -139,6 +139,9 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
 #' @importFrom httr parse_url
 check_dataset <-
   function(dataset = NULL, conn = NULL) {
+    # login if NULL
+    conn=neuprint_login(conn)
+
     # use the default in the connection object if no argument specified
     if(is.null(dataset)) dataset=conn$dataset
 
