@@ -64,7 +64,8 @@ test_that("path functions work", {
   expect_is(p1 <- neuprint_get_shortest_paths(c(1128092885, 481121605), 5813041365,
                                         weightT=20), 'data.frame')
   expect_is(p2 <- neuprint_get_shortest_paths(c(1128092885, 481121605), 5813041365,
-                                              weightT=20,by.roi=TRUE), 'data.frame')
+                                              weightT=20,by.roi=TRUE, chunk=1),
+            'data.frame')
   expect_equal(neuprint_get_paths(c(1128092885, 481121605), 5813041365, n=c(1, 2),
                                   weightT=20),
                p1)
