@@ -79,6 +79,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' }
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL,chunk=TRUE,progress=FALSE, ...){
   conn = neuprint_login(conn)
+  dataset = check_dataset(dataset=dataset, conn=conn)
 
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
