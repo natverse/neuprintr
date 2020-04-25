@@ -9,6 +9,7 @@
 neuprint_connection(
   server = NULL,
   token = NULL,
+  dataset = NULL,
   conn = NULL,
   config = httr::config()
 )

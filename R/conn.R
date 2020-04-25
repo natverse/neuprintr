@@ -143,9 +143,11 @@
 #' }
 #' @export
 #' @rdname neuprint_login
-neuprint_connection <- function(server=NULL, token=NULL, conn=NULL, config=httr::config()) {
+neuprint_connection <- function(server=NULL, token=NULL, dataset=NULL,
+                                conn=NULL, config=httr::config()) {
   if (!is.null(conn))
     return(conn)
+
   # Set a default server if none specified
   neuprint_server <-
     if(is.null(server)) unlist(getenvoroption("server")) else server
@@ -153,7 +155,8 @@ neuprint_connection <- function(server=NULL, token=NULL, conn=NULL, config=httr:
   neuprint_token <- if(is.null(token)) unlist(getenvoroption("token")) else token
   # collect any curl options defined as environment variables
   config=neuprint_curl_options(config)
-  conn=list(server = neuprint_server, token = neuprint_token, config=config)
+  conn=list(server = neuprint_server, token = neuprint_token, config=config,
+            dataset=dataset)
   class(conn)='neuprint_connection'
   conn
 }
@@ -162,6 +165,8 @@ neuprint_connection <- function(server=NULL, token=NULL, conn=NULL, config=httr:
 print.neuprint_connection <- function(x, ...) {
   cat("Connection to neuPrint server:\n  ",
       x$server, sep="", "\n")
+  if(!is.null(x$dataset))
+    cat("with default dataset:\n  ", x$dataset, "\n")
   if(!is.null(x$authresponse)) {
     cat("Login active since:", httr::headers(x$authresponse)$date)
   } else {
@@ -250,7 +255,7 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
                                       referer = conn$server)
     }
     else warning("I can't seem to find a GAPS token.", "You will not be able to POST to this site!")
-  }else {
+  } else {
     if(is.null(conn$config)) conn$config=httr::config()
     conn$config = c(
       conn$config,
@@ -265,6 +270,8 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
   }
   conn$cookies = unlist(httr::cookies(conn$authresponse))
   conn$config = c(conn$config, httr::set_cookies(conn$cookies))
+  # set a default dataset if none exists / check one specified in connection
+  conn$dataset=check_dataset(conn = conn)
   if (Cache)
     neuprint_cache_connection(conn)
   invisible(conn)
