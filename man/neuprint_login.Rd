@@ -21,6 +21,10 @@ neuprint_login(conn = NULL, Cache = TRUE, Force = FALSE, ...)
 
 \item{token}{your personal Bearer token}
 
+\item{dataset}{A default dataset to use with this connection (you can still
+override this using the \code{dataset} argument of other \code{neuprintr}
+functions.)}
+
 \item{conn}{a neuprintr connection object}
 
 \item{config}{an \code{httr::\link[httr]{config}} object that can be used to
@@ -33,7 +37,7 @@ reused automatically.}
 \item{Force}{Whether to force a new login to the CATMAID server (default
 \code{FALSE})}
 
-\item{...}{methods passed to neuprint_connection}
+\item{...}{methods passed to \code{neuprint_connection}}
 }
 \value{
 a \code{neuprint_connection} object that can be used to make
@@ -45,9 +49,13 @@ a \code{neuprint_connection} object that can be used to make
   specified by a \code{neuprint_connection} object. If such an object is not
   specified, then the last successful connection in this R session is reused
   if possible otherwise a new connection object is created using
-  \code{options} of the form "neuprint_*" (see details). It is also very
-  useful to set the default neuPrint dataset you want to work with, if the
-  server hosts multiple datasets, see details.
+  \code{environment variables} of the form "neuprint_*" (see details).
+
+  If your server has more than one dataset available, it is also a good idea
+  to set the default neuPrint dataset you want to work with, either by
+  passing an explicit \code{dataset} argument (to \code{neuprint_login} or
+  \code{neuprint_connection}) when first making the connection or by setting
+  a \code{neuprint_dataset} environment variable.
 
   The connection object returned by \code{neuprint_login} (or cached when
   \code{Cache=TRUE}, the default) can then be used for future requests to the
@@ -107,14 +115,15 @@ After successful login, the \code{neuprint_connection} object will
   neuprint_token =
   "asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"}
 
-
   and \bold{must} finish with a return at the end of the last line. Your
   \code{neuprint_token} is unique to you and must be obtained from a neuPrint
   web page once you have logged in with an approved Google account.
 
   The use of the \code{neuprint_dataset} environment variable is optional and
   only recommended when your default neuprint server has more than one
-  dataset.
+  dataset. This default will \emph{not} apply to connections that refer to a
+  server other than the one specified by the \code{neuprint_server}
+  environment variable.
 
   \preformatted{neuprint_dataset = "hemibrain:v1.0"}
 }
@@ -174,16 +183,14 @@ available.datasets = neuprint_datasets(conn=conn)
 
 ## which, if you have edited your R.profile / R.environ, should produce the same results as
 available.datasets = neuprint_datasets(conn=NULL)
-}
-\dontrun{
-  conn=neuprint_login()
-  conn
 
-  # make connection to second server
-  #
-  conn2=neuprint_login(server="https://server2.org",
-    token=Sys.getenv('NPSERVER2'))
+# make connection to second server
+conn2=neuprint_login(server="https://server2.org",
+  token=Sys.getenv('NPSERVER2'))
 
+# specify a default dataset (only required when >1 dataset available)
+conn2=neuprint_login(server="https://server2.org",
+  token=Sys.getenv('NPSERVER2'), dataset="hemibrain")
 }
 }
 \seealso{
