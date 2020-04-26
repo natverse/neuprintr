@@ -53,9 +53,12 @@
   specified by a neuprint_connection object. If such an object is not
   specified, then the last successful connection in this R session is reused
   if possible otherwise a new connection object is created using
-  options of the form &quot;neuprint_*&quot; (see details). It is also very
-  useful to set the default neuPrint dataset you want to work with, if the
-  server hosts multiple datasets, see details.
+  environment variables of the form &quot;neuprint_*&quot; (see details).
+If your server has more than one dataset available, it is also a good idea
+  to set the default neuPrint dataset you want to work with, either by
+  passing an explicit dataset argument (to neuprint_login or
+  neuprint_connection) when first making the connection or by setting
+  a neuprint_dataset environment variable.
 The connection object returned by neuprint_login (or cached when
   Cache=TRUE, the default) can then be used for future requests to the
   neuPrint server by get/query/fetch functions." />
@@ -156,9 +159,12 @@ The connection object returned by neuprint_login (or cached when
   specified by a <code>neuprint_connection</code> object. If such an object is not
   specified, then the last successful connection in this R session is reused
   if possible otherwise a new connection object is created using
-  <code>options</code> of the form "neuprint_*" (see details). It is also very
-  useful to set the default neuPrint dataset you want to work with, if the
-  server hosts multiple datasets, see details.</p>
+  <code>environment variables</code> of the form "neuprint_*" (see details).</p>
+<p>If your server has more than one dataset available, it is also a good idea
+  to set the default neuPrint dataset you want to work with, either by
+  passing an explicit <code>dataset</code> argument (to <code>neuprint_login</code> or
+  <code>neuprint_connection</code>) when first making the connection or by setting
+  a <code>neuprint_dataset</code> environment variable.</p>
 <p>The connection object returned by <code>neuprint_login</code> (or cached when
   <code>Cache=TRUE</code>, the default) can then be used for future requests to the
   neuPrint server by get/query/fetch functions.</p>
@@ -167,6 +173,7 @@ The connection object returned by neuprint_login (or cached when
     <pre class="usage"><span class='fu'>neuprint_connection</span>(
   <span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>config</span> <span class='kw'>=</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>()
 )
@@ -183,6 +190,12 @@ The connection object returned by neuprint_login (or cached when
     <tr>
       <th>token</th>
       <td><p>your personal Bearer token</p></td>
+    </tr>
+    <tr>
+      <th>dataset</th>
+      <td><p>A default dataset to use with this connection (you can still
+override this using the <code>dataset</code> argument of other <code>neuprintr</code>
+functions.)</p></td>
     </tr>
     <tr>
       <th>conn</th>
@@ -206,7 +219,7 @@ reused automatically.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>methods passed to neuprint_connection</p></td>
+      <td><p>methods passed to <code>neuprint_connection</code></p></td>
     </tr>
     </table>
 
@@ -263,13 +276,14 @@ reused automatically.</p></td>
   <span class='no'>neuprint_token</span> <span class='kw'>=</span>
   <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span></pre>
 
-
 <p>and <b>must</b> finish with a return at the end of the last line. Your
   <code>neuprint_token</code> is unique to you and must be obtained from a neuPrint
   web page once you have logged in with an approved Google account.</p>
 <p>The use of the <code>neuprint_dataset</code> environment variable is optional and
   only recommended when your default neuprint server has more than one
-  dataset.</p>
+  dataset. This default will <em>not</em> apply to connections that refer to a
+  server other than the one specified by the <code>neuprint_server</code>
+  environment variable.</p>
 <p></p><pre><span class='no'>neuprint_dataset</span> <span class='kw'>=</span> <span class='st'>"hemibrain:v1.0"</span></pre>
 
     <h2 class="hasAnchor" id="options"><a class="anchor" href="#options"></a>Options</h2>
@@ -326,16 +340,14 @@ reused automatically.</p></td>
 
 <span class='co'>## which, if you have edited your R.profile / R.environ, should produce the same results as</span>
 <span class='no'>available.datasets</span> <span class='kw'>=</span> <span class='fu'><a href='neuprint_info.html'>neuprint_datasets</a></span>(<span class='kw'>conn</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-}
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='no'>conn</span><span class='kw'>=</span><span class='fu'>neuprint_login</span>()
-  <span class='no'>conn</span>
 
-  <span class='co'># make connection to second server</span>
-  <span class='co'>#</span>
-  <span class='no'>conn2</span><span class='kw'>=</span><span class='fu'>neuprint_login</span>(<span class='kw'>server</span><span class='kw'>=</span><span class='st'>"https://server2.org"</span>,
-    <span class='kw'>token</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>))
+<span class='co'># make connection to second server</span>
+<span class='no'>conn2</span><span class='kw'>=</span><span class='fu'>neuprint_login</span>(<span class='kw'>server</span><span class='kw'>=</span><span class='st'>"https://server2.org"</span>,
+  <span class='kw'>token</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>))
 
+<span class='co'># specify a default dataset (only required when &gt;1 dataset available)</span>
+<span class='no'>conn2</span><span class='kw'>=</span><span class='fu'>neuprint_login</span>(<span class='kw'>server</span><span class='kw'>=</span><span class='st'>"https://server2.org"</span>,
+  <span class='kw'>token</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>), <span class='kw'>dataset</span><span class='kw'>=</span><span class='st'>"hemibrain"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
