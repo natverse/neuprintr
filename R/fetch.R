@@ -136,34 +136,47 @@ neuprint_dataset_prefix <- memoise(function(dataset, conn=NULL) {
 })
 
 # hidden
+#' @importFrom httr parse_url
 check_dataset <-
   function(dataset = NULL, conn = NULL) {
-    # Get a default dataset if none specified
-    defaults4conn <- default_dataset(conn)
+    # login if NULL
+    conn=neuprint_login(conn)
+
+    # use the default in the connection object if no argument specified
+    if(is.null(dataset)) dataset=conn$dataset
+
+    # see what datasets are available for this connection
+    datasets4conn <- default_dataset(conn)
 
     if (is.null(dataset)) {
-      dataset = unlist(getenvoroption("dataset"))
+      # check if there is a default dataset from environment variable
+      # but don't use if there is a default server set that is different from the one
+      # specified in the connection object
+      defaultServer=unlist(getenvoroption("server"))
+      if(is.null(defaultServer) ||
+          isTRUE(all.equal(parse_url(conn$server), parse_url(defaultServer))))
+        dataset = unlist(getenvoroption("dataset"))
       if (is.null(dataset) || nchar(dataset)<1) {
-        if (length(defaults4conn) == 0)
+        if (length(datasets4conn) == 0)
           stop(
             "I'm sorry I can't find a default dataset for your current neuPrint connection.\n",
-            "Please supply a dataset argument or set a default one using the ",
+            "Please supply a `dataset` argument or set a default one using the ",
             "neuprint_dataset environment variable!\nSee ?neuprint_login for details."
           )
-        dataset = defaults4conn[1]
-        if (length(defaults4conn) > 1) {
-          warning(
-            "Please supply a dataset or set a default one using the ",
+        dataset = datasets4conn[1]
+        if (length(datasets4conn) > 1) {
+          warning(call.=F,
+            "Please supply a `dataset` argument or set a default one at login or using the ",
             "neuprint_dataset environment variable! See ?neuprint_login for details.",
-            " For now we will use ",
-            dataset
+            " For now we will use '",
+            dataset,"'."
           )
         }
       }
     }
-    if(length(defaults4conn) && !dataset %in% defaults4conn){
-      warning("Specified dataset: `", dataset, "` does not match those provided by your ",
-      "neuPrint connection:\n  ", paste(defaults4conn, collapse=", "),
+    if(length(datasets4conn) && !dataset %in% datasets4conn){
+      stop("Specified dataset: `", dataset, "` does not match those provided by your ",
+      "neuPrint connection:\n  ", paste(datasets4conn, collapse=", "),
       "\nSee ?neuprint_login for details.")
     }
     dataset

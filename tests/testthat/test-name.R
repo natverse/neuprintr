@@ -50,5 +50,5 @@ test_that("test name searches ", {
 })
 
 test_that("test bad dataset specification ", {
-  expect_warning(neuprint_search(".*DA2.*", dataset = 'hemibrain1'))
+  expect_error(neuprint_search(".*DA2.*", dataset = 'hemibrain1'))
 })
