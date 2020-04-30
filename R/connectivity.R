@@ -41,7 +41,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   }
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   conn=neuprint_login(conn)
-  namefield=neuprint_name_field(conn)
+  namefield=neuprint_name_field(conn=conn, dataset=dataset)
   cypher = sprintf(
     paste(
       "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
