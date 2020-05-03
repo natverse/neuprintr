@@ -167,7 +167,19 @@ neuprint_connection <- function(server=NULL, token=NULL, dataset=NULL,
   # Set a default server if none specified
   neuprint_server <-
     if(is.null(server)) unlist(getenvoroption("server")) else server
-  # Set a default server if none specified
+  pu=httr::parse_url(neuprint_server)
+  if(is.null(pu$scheme)) {
+    pu$scheme="https"
+    if(is.null(pu$hostname)) {
+      pu$hostname=pu$path
+      pu$path=NULL
+    }
+    neuprint_server=httr::build_url(pu)
+    warning("No URL scheme specified for your server! Assuming it should be:x\n",
+            neuprint_server,
+            "\nPlease specify the URL in full next time!")
+  }
+  # Set a default token if none specified
   neuprint_token <- if(is.null(token)) unlist(getenvoroption("token")) else token
   # collect any curl options defined as environment variables
   config=neuprint_curl_options(config)
