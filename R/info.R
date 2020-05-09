@@ -165,7 +165,7 @@ neuprint_ROI_hierarchy <- function(root=NULL, rval=c("edgelist","graph"),
       as.character(x)
     else
       x
-  }, simplify = FALSE))
+  }, simplify = FALSE), stringsAsFactors=FALSE)
   g=igraph::graph_from_data_frame(el, directed = TRUE)
   if(!is.null(root)) {
     if(isFALSE(root%in%names(igraph::V(g))))
