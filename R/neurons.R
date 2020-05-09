@@ -213,7 +213,7 @@ neuprint_read_skeletons <- function(bodyids, dataset=NULL, conn=NULL, heal=TRUE,
   bodyids=neuprint_ids(bodyids, conn = conn, dataset = dataset)
   if(length(bodyids)>1) {
     fakenl=structure(bodyids, .Names=bodyids)
-    nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, heal=heal, ...)
+    nl=nat::nlapply(fakenl, neuprint_read_skeletons, dataset=dataset, conn=conn, heal=heal, heal.threshold=heal.threshold, ...)
     return(nl)
   }
   path=file.path("api/skeletons/skeleton", dataset, bodyids)
