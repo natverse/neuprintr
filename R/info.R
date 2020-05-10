@@ -159,14 +159,20 @@ neuprint_ROI_hierarchy <- function(root=NULL, rval=c("edgelist","graph"),
   }
   addin(nc$data, parent = dataset)
   rownames(roi.edgelist) = NULL
-  el=roi.edgelist
+  # Hackish: set all factor columns to character
+  el = as.data.frame(sapply(roi.edgelist, function(x) {
+    if (is.factor(x))
+      as.character(x)
+    else
+      x
+  }, simplify = FALSE), stringsAsFactors=FALSE)
   g=igraph::graph_from_data_frame(el, directed = TRUE)
   if(!is.null(root)) {
     if(isFALSE(root%in%names(igraph::V(g))))
       stop("Requested root does not seem to be a valid node of ROI hierarchy!")
     selnodes=na.omit(igraph::dfs(g, root, unreachable = F)$order)
     g <- igraph::induced_subgraph(g, selnodes)
-    el <- as.data.frame(igraph::as_edgelist(g))
+    el <- as.data.frame(igraph::as_edgelist(g), stringsAsFactors=FALSE)
     colnames(el)=colnames(roi.edgelist)
   }
 
