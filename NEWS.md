@@ -1,3 +1,16 @@
+# neuprintr 1.1
+
+* Can now specify default dataset for a connection (#115, #116)
+* Optimise `neuprint_get_roiInfo()` and `neuprint_get_meta()` (#113)
+* More features for `neuprint_ROI_hierarchy()` (#110)
+* break down queries that are too large (#89)
+* `neuprint_get_meta()` has more efficient handling of duplicates (#92)
+* Fix `neuprint_read_skeletons()` fails to pass on heal.threshold for >1 skeleton bug (#121)
+* Fix and test for incomplete server url (#119)
+* Make `neuprint_login()` more robust to variations in server specification (#118)
+* Safe field catch (#111)
+* Update test baselines for R 4.0 (#120)
+
 # neuprintr 1.0
 
 This release bumps neuprintr to v1.0. There have been a huge number of fixes and 
