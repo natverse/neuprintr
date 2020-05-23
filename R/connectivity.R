@@ -4,13 +4,16 @@
 #'   set of specified bodies
 #' @param inputids,outputids identifiers for input and output bodies (use as an
 #'   alternative to \code{bodyids})
+#' @param sparse Whether to return a sparse adjacency matrix (of class
+#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.
 #' @inheritParams neuprint_read_neurons
 #' @return a n x n matrix, where the rows are input neurons and the columns are
 #'   their targets. Only neurons supplied as the argument `bodyids` are
 #'   considered.
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_simple_connectivity}},
-#'   \code{\link{neuprint_common_connectivity}}
+#'   \code{\link{neuprint_common_connectivity}},
+#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}})
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
 #' @examples
@@ -30,7 +33,7 @@
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
                                           outputids=NULL, dataset = NULL,
                                           all_segments = FALSE, conn = NULL,
-                                          method=c("fast", "slow"), ...){
+                                          sparse=FALSE, ...){
   if(is.null(bodyids)) {
     if(is.null(inputids) || is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
@@ -66,7 +69,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     dims = c(length(inputids), length(outputids)),
     dimnames = list(inputids, outputids)
   )
-  as.matrix(sm)
+  if(isTRUE(sparse)) sm else as.matrix(sm)
 }
 
 #' @title Get the upstream and downstream connectivity of a neuron

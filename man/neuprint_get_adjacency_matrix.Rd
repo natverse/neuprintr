@@ -11,6 +11,7 @@ neuprint_get_adjacency_matrix(
   dataset = NULL,
   all_segments = FALSE,
   conn = NULL,
+  sparse = FALSE,
   ...
 )
 }
@@ -32,6 +33,9 @@ current connection, is used. See \code{\link{neuprint_login}} for details.}
 neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
+
+\item{sparse}{Whether to return a sparse adjacency matrix (of class
+\code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
@@ -61,5 +65,6 @@ sum(rowSums(pnkc)>0)
 \seealso{
 \code{\link{neuprint_fetch_custom}},
   \code{\link{neuprint_simple_connectivity}},
-  \code{\link{neuprint_common_connectivity}}
+  \code{\link{neuprint_common_connectivity}},
+  \code{\link[=CsparseMatrix-class]{CsparseMatrix}})
 }
