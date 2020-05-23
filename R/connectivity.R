@@ -59,7 +59,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   method=match.arg(method)
   if (method == 'fast') {
-    df = neuprint_list2df(nc)
+    df = neuprint_list2df(nc, return_empty_df = TRUE)
+    df$weight=as.integer(df$weight)
     sm = sparseMatrix(
       i = match(df$upstream, inputids),
       j = match(df$downstream, outputids),
@@ -72,9 +73,9 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     m = matrix(0, nrow = length(inputids), ncol = length(outputids))
     rownames(m) = inputids
     colnames(m) = outputids
-    for (i in 1:length(nc$data)) {
+    for (i in seq_along(nc$data)) {
       s = unlist(nc$data[[i]])
-      m[as.character(s[1]), as.character(s[2])] = as.numeric(s[3])
+      m[as.character(s[1]), as.character(s[2])] = as.integer(s[3])
     }
   }
   m

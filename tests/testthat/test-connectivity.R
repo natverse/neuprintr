@@ -38,6 +38,14 @@ test_that("other connectivity functions work", {
     neuprint_get_adjacency_matrix(da2s$bodyid, method = 'fast', cache=T),
     neuprint_get_adjacency_matrix(da2s$bodyid, method = 'slow', cache=T))
 
+  # trickier test
+  expect_equal(
+    neuprint_get_adjacency_matrix(inputids = 'DA2', outputids = 'name:KCab-p',
+                                  method = 'fast', cache=T),
+    neuprint_get_adjacency_matrix(inputids = 'DA2', outputids = 'name:KCab-p',
+                                  method = 'slow', cache=T))
+
+  # check errors when inappropriate arguments are provided
   expect_error(neuprint_get_adjacency_matrix(bodyids = da2s$bodyid, outputids = da2s$bodyid))
   expect_error(neuprint_get_adjacency_matrix(outputids = da2s$bodyid))
 
