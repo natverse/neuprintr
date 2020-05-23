@@ -51,7 +51,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     paste(
       "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
       "WHERE n.bodyId IN input AND m.bodyId IN output",
-      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.%s AS upName, m.%s AS downName"
+      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight"
     ),
     id2json(inputids),
     id2json(outputids),
