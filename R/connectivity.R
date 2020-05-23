@@ -26,9 +26,11 @@
 #' hist(colSums(pnkc), xlab = 'PN inputs / KC', br=100)
 #' sum(rowSums(pnkc)>0)
 #' }
+#' @importFrom Matrix sparseMatrix
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
                                           outputids=NULL, dataset = NULL,
-                                          all_segments = FALSE, conn = NULL, ...){
+                                          all_segments = FALSE, conn = NULL,
+                                          method=c("fast", "slow"), ...){
   if(is.null(bodyids)) {
     if(is.null(inputids) || is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
@@ -55,12 +57,25 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     namefield
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
-  m = matrix(0,nrow = length(inputids),ncol = length(outputids))
-  rownames(m) = inputids
-  colnames(m) = outputids
-  for(i in 1:length(nc$data)){
-    s = unlist(nc$data[[i]])
-    m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
+  method=match.arg(method)
+  if (method == 'fast') {
+    df = neuprint_list2df(nc)
+    sm = sparseMatrix(
+      i = match(df$upstream, inputids),
+      j = match(df$downstream, outputids),
+      x = df$weight,
+      dims = c(length(inputids), length(outputids)),
+      dimnames = list(inputids, outputids)
+    )
+    m = as.matrix(sm)
+  } else {
+    m = matrix(0, nrow = length(inputids), ncol = length(outputids))
+    rownames(m) = inputids
+    colnames(m) = outputids
+    for (i in 1:length(nc$data)) {
+      s = unlist(nc$data[[i]])
+      m[as.character(s[1]), as.character(s[2])] = as.numeric(s[3])
+    }
   }
   m
 }
