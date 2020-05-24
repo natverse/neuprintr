@@ -152,6 +152,8 @@
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sparse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -187,6 +189,18 @@ neuPrint server. If NULL, the defaults set in your
 used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
+      <th>sparse</th>
+      <td><p>Whether to return a sparse adjacency matrix (of class
+<code>CsparseMatrix</code>). Default <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>the query to neuPrint server, so that it does not need to be
+repeated. Of course you can save the results, but this may be helpful e.g.
+inside a wrapper function that postprocesses the results like
+<code>hemibrainr::grouped_adjacency_matrix</code>.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>methods passed to <code>neuprint_login</code></p></td>
     </tr>
@@ -201,7 +215,8 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
     <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
   <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
-  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
+  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
+  <code><a href='https://rdrr.io/pkg/Matrix/man/CsparseMatrix-class.html'>CsparseMatrix</a></code>)</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -219,10 +234,21 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 #&gt; 818983130           0
 #&gt; 1797505019          4
 #&gt; 1796818119          9</div><div class='input'><span class='co'># }</span>
+<span class='co'># \donttest{</span>
+<span class='co'># Note the use of cache=T, which will avoid a subsequent query to the</span>
+<span class='co'># neuPrint server if the same information is requested</span>
+<span class='no'>pnkc</span><span class='kw'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='kw'>inputids</span><span class='kw'>=</span><span class='st'>'name:mPN'</span>, <span class='kw'>outputids</span><span class='kw'>=</span><span class='st'>'/KC.*'</span>,
+  <span class='kw'>cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='no'>pnkc</span>), <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'PN inputs / KC'</span>, <span class='kw'>br</span><span class='kw'>=</span><span class='fl'>100</span>)</div><div class='img'><img src='neuprint_get_adjacency_matrix-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='no'>pnkc</span>)<span class='kw'>&gt;</span><span class='fl'>0</span>)</div><div class='output co'>#&gt; [1] 146</div><div class='input'><span class='co'># }</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>pnkc</span><span class='kw'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='kw'>inputids</span><span class='kw'>=</span><span class='st'>'name:mPN'</span>, <span class='kw'>outputids</span><span class='kw'>=</span><span class='st'>'/KC.*'</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='no'>pnkc</span>), <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'PN inputs / KC'</span>, <span class='kw'>br</span><span class='kw'>=</span><span class='fl'>100</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='no'>pnkc</span>)<span class='kw'>&gt;</span><span class='fl'>0</span>)
+<span class='co'># sparse adjacency matrix</span>
+<span class='no'>pnkcs</span><span class='kw'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='kw'>inputids</span><span class='kw'>=</span><span class='st'>'name:mPN'</span>,
+  <span class='kw'>outputids</span><span class='kw'>=</span><span class='st'>'/KC.*'</span>, <span class='kw'>sparse</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>Matrix</span>)
+<span class='co'># PN-KC connectivity is itself sparse, so &lt; 2% of entries are non zero</span>
+<span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/nnzero.html'>nnzero</a></span>(<span class='no'>pnkcs</span>)/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>pnkcs</span>)
+<span class='co'># while memory requirements are ~ 5%</span>
+<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span>(<span class='no'>pnkcs</span>)/<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span>(<span class='no'>pnkc</span>))
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
