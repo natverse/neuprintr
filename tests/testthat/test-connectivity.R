@@ -27,13 +27,26 @@ test_that("neuprint_connection_table works", {
 
 test_that("other connectivity functions work", {
   da2s=neuprint_search(".*DA2.*")
-  expect_is(t1 <- neuprint_get_adjacency_matrix(da2s$bodyid), 'matrix')
-  expect_equal(neuprint_get_adjacency_matrix(inputids = da2s$bodyid, outputids = da2s$bodyid),
-               t1)
-  expect_equal(neuprint_get_adjacency_matrix(inputids = da2s$bodyid[1:2],
-                                             outputids = da2s$bodyid[3:5]),
-               t1[1:2,3:5])
+  expect_is(t1 <- neuprint_get_adjacency_matrix(da2s$bodyid, cache=T), 'matrix')
+  expect_equal(
+    neuprint_get_adjacency_matrix(
+      inputids = da2s$bodyid,
+      outputids = da2s$bodyid,
+      cache = T
+    ),
+    t1
+  )
+  expect_equal(
+    neuprint_get_adjacency_matrix(inputids = da2s$bodyid[1:2],
+                                  outputids = da2s$bodyid[3:5]),
+    t1[1:2, 3:5]
+  )
+  # trickier test
+  expect_is(
+    neuprint_get_adjacency_matrix(inputids = 'DA2', outputids = 'name:KCab-p'),
+    'matrix')
 
+  # check errors when inappropriate arguments are provided
   expect_error(neuprint_get_adjacency_matrix(bodyids = da2s$bodyid, outputids = da2s$bodyid))
   expect_error(neuprint_get_adjacency_matrix(outputids = da2s$bodyid))
 

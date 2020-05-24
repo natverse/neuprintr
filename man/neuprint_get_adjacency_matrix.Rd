@@ -11,6 +11,8 @@ neuprint_get_adjacency_matrix(
   dataset = NULL,
   all_segments = FALSE,
   conn = NULL,
+  sparse = FALSE,
+  cache = FALSE,
   ...
 )
 }
@@ -33,6 +35,14 @@ neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
 
+\item{sparse}{Whether to return a sparse adjacency matrix (of class
+\code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.}
+
+\item{cache}{the query to neuPrint server, so that it does not need to be
+repeated. Of course you can save the results, but this may be helpful e.g.
+inside a wrapper function that postprocesses the results like
+\code{hemibrainr::grouped_adjacency_matrix}.}
+
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
@@ -52,14 +62,28 @@ neuprint_get_adjacency_matrix('DA2 lPN')
 # rectangular matrix with different in/out neurons
 neuprint_get_adjacency_matrix(inputids='DA2 lPN', outputids='DL4 adPN')
 }
-\dontrun{
-pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*')
+\donttest{
+# Note the use of cache=T, which will avoid a subsequent query to the
+# neuPrint server if the same information is requested
+pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*',
+  cache=TRUE)
 hist(colSums(pnkc), xlab = 'PN inputs / KC', br=100)
 sum(rowSums(pnkc)>0)
+}
+\dontrun{
+# sparse adjacency matrix
+pnkcs=neuprint_get_adjacency_matrix(inputids='name:mPN',
+  outputids='/KC.*', sparse=TRUE, cache=TRUE)
+library(Matrix)
+# PN-KC connectivity is itself sparse, so < 2\% of entries are non zero
+nnzero(pnkcs)/length(pnkcs)
+# while memory requirements are ~ 5\%
+as.numeric(object.size(pnkcs)/object.size(pnkc))
 }
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}},
   \code{\link{neuprint_simple_connectivity}},
-  \code{\link{neuprint_common_connectivity}}
+  \code{\link{neuprint_common_connectivity}},
+  \code{\link[=CsparseMatrix-class]{CsparseMatrix}})
 }

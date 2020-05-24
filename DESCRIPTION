@@ -38,7 +38,8 @@ Imports:
     dplyr,
     bit64,
     stringr,
-    tibble
+    tibble,
+    Matrix
 Remotes: 
     natverse/drvid,
     natverse/nat

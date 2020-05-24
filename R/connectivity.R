@@ -4,13 +4,20 @@
 #'   set of specified bodies
 #' @param inputids,outputids identifiers for input and output bodies (use as an
 #'   alternative to \code{bodyids})
+#' @param sparse Whether to return a sparse adjacency matrix (of class
+#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.
+#' @param cache the query to neuPrint server, so that it does not need to be
+#'   repeated. Of course you can save the results, but this may be helpful e.g.
+#'   inside a wrapper function that postprocesses the results like
+#'   \code{hemibrainr::grouped_adjacency_matrix}.
 #' @inheritParams neuprint_read_neurons
 #' @return a n x n matrix, where the rows are input neurons and the columns are
 #'   their targets. Only neurons supplied as the argument `bodyids` are
 #'   considered.
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_simple_connectivity}},
-#'   \code{\link{neuprint_common_connectivity}}
+#'   \code{\link{neuprint_common_connectivity}},
+#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}})
 #' @export
 #' @rdname neuprint_get_adjacency_matrix
 #' @examples
@@ -21,32 +28,48 @@
 #' # rectangular matrix with different in/out neurons
 #' neuprint_get_adjacency_matrix(inputids='DA2 lPN', outputids='DL4 adPN')
 #' }
-#' \dontrun{
-#' pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*')
+#' \donttest{
+#' # Note the use of cache=T, which will avoid a subsequent query to the
+#' # neuPrint server if the same information is requested
+#' pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*',
+#'   cache=TRUE)
 #' hist(colSums(pnkc), xlab = 'PN inputs / KC', br=100)
 #' sum(rowSums(pnkc)>0)
 #' }
+#' \dontrun{
+#' # sparse adjacency matrix
+#' pnkcs=neuprint_get_adjacency_matrix(inputids='name:mPN',
+#'   outputids='/KC.*', sparse=TRUE, cache=TRUE)
+#' library(Matrix)
+#' # PN-KC connectivity is itself sparse, so < 2% of entries are non zero
+#' nnzero(pnkcs)/length(pnkcs)
+#' # while memory requirements are ~ 5%
+#' as.numeric(object.size(pnkcs)/object.size(pnkc))
+#' }
+#' @importFrom Matrix sparseMatrix
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
                                           outputids=NULL, dataset = NULL,
-                                          all_segments = FALSE, conn = NULL, ...){
+                                          all_segments = FALSE, conn = NULL,
+                                          sparse=FALSE, cache=FALSE, ...){
+  conn=neuprint_login(conn)
   if(is.null(bodyids)) {
     if(is.null(inputids) || is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
-    inputids=neuprint_ids(inputids, conn=conn, dataset = dataset)
-    outputids=neuprint_ids(outputids, conn=conn, dataset = dataset)
+    inputids=neuprint_ids(inputids, conn=conn, dataset = dataset, cache=cache)
+    outputids=neuprint_ids(outputids, conn=conn, dataset = dataset, cache=cache)
   } else {
     if(!is.null(inputids) || !is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
-    inputids <- outputids <- neuprint_ids(bodyids, conn=conn, dataset = dataset)
+    inputids <- neuprint_ids(bodyids, conn=conn, dataset = dataset, cache=cache)
+    outputids <- inputids
   }
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  conn=neuprint_login(conn)
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
   cypher = sprintf(
     paste(
       "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
       "WHERE n.bodyId IN input AND m.bodyId IN output",
-      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight, n.%s AS upName, m.%s AS downName"
+      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight"
     ),
     id2json(inputids),
     id2json(outputids),
@@ -54,15 +77,18 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     namefield,
     namefield
   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
-  m = matrix(0,nrow = length(inputids),ncol = length(outputids))
-  rownames(m) = inputids
-  colnames(m) = outputids
-  for(i in 1:length(nc$data)){
-    s = unlist(nc$data[[i]])
-    m[as.character(s[1]),as.character(s[2])] = as.numeric(s[3])
-  }
-  m
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset,
+                             cache=cache, ...)
+  df = neuprint_list2df(nc, return_empty_df = TRUE)
+  df$weight=as.integer(df$weight)
+  sm = sparseMatrix(
+    i = match(df$upstream, inputids),
+    j = match(df$downstream, outputids),
+    x = df$weight,
+    dims = c(length(inputids), length(outputids)),
+    dimnames = list(inputids, outputids)
+  )
+  if(isTRUE(sparse)) sm else as.matrix(sm)
 }
 
 #' @title Get the upstream and downstream connectivity of a neuron
