@@ -6,6 +6,10 @@
 #'   alternative to \code{bodyids})
 #' @param sparse Whether to return a sparse adjacency matrix (of class
 #'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.
+#' @param cache the query to neuPrint server, so that it does not need to be
+#'   repeated. Of course you can save the results, but this may be helpful e.g.
+#'   inside a wrapper function that postprocesses the results like
+#'   \code{hemibrainr::grouped_adjacency_matrix}.
 #' @inheritParams neuprint_read_neurons
 #' @return a n x n matrix, where the rows are input neurons and the columns are
 #'   their targets. Only neurons supplied as the argument `bodyids` are
@@ -46,19 +50,20 @@
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
                                           outputids=NULL, dataset = NULL,
                                           all_segments = FALSE, conn = NULL,
-                                          sparse=FALSE, ...){
+                                          sparse=FALSE, cache=FALSE, ...){
+  conn=neuprint_login(conn)
   if(is.null(bodyids)) {
     if(is.null(inputids) || is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
-    inputids=neuprint_ids(inputids, conn=conn, dataset = dataset)
-    outputids=neuprint_ids(outputids, conn=conn, dataset = dataset)
+    inputids=neuprint_ids(inputids, conn=conn, dataset = dataset, cache=cache)
+    outputids=neuprint_ids(outputids, conn=conn, dataset = dataset, cache=cache)
   } else {
     if(!is.null(inputids) || !is.null(outputids))
       stop("You must either specify bodyids OR (inputids AND outputids)!")
-    inputids <- outputids <- neuprint_ids(bodyids, conn=conn, dataset = dataset)
+    inputids <- neuprint_ids(bodyids, conn=conn, dataset = dataset, cache=cache)
+    outputids <- inputids
   }
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
-  conn=neuprint_login(conn)
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
   cypher = sprintf(
     paste(
@@ -72,7 +77,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     namefield,
     namefield
   )
-  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset,
+                             cache=cache, ...)
   df = neuprint_list2df(nc, return_empty_df = TRUE)
   df$weight=as.integer(df$weight)
   sm = sparseMatrix(

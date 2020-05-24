@@ -12,6 +12,7 @@ neuprint_get_adjacency_matrix(
   all_segments = FALSE,
   conn = NULL,
   sparse = FALSE,
+  cache = FALSE,
   ...
 )
 }
@@ -36,6 +37,11 @@ used. See \code{\link{neuprint_login}} for details.}
 
 \item{sparse}{Whether to return a sparse adjacency matrix (of class
 \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.}
+
+\item{cache}{the query to neuPrint server, so that it does not need to be
+repeated. Of course you can save the results, but this may be helpful e.g.
+inside a wrapper function that postprocesses the results like
+\code{hemibrainr::grouped_adjacency_matrix}.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
