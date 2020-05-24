@@ -24,10 +24,23 @@
 #' # rectangular matrix with different in/out neurons
 #' neuprint_get_adjacency_matrix(inputids='DA2 lPN', outputids='DL4 adPN')
 #' }
-#' \dontrun{
-#' pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*')
+#' \donttest{
+#' # Note the use of cache=T, which will avoid a subsequent query to the
+#' # neuPrint server if the same information is requested
+#' pnkc=neuprint_get_adjacency_matrix(inputids='name:mPN', outputids='/KC.*',
+#'   cache=TRUE)
 #' hist(colSums(pnkc), xlab = 'PN inputs / KC', br=100)
 #' sum(rowSums(pnkc)>0)
+#' }
+#' \dontrun{
+#' # sparse adjacency matrix
+#' pnkcs=neuprint_get_adjacency_matrix(inputids='name:mPN',
+#'   outputids='/KC.*', sparse=TRUE, cache=TRUE)
+#' library(Matrix)
+#' # PN-KC connectivity is itself sparse, so < 2% of entries are non zero
+#' nnzero(pnkcs)/length(pnkcs)
+#' # while memory requirements are ~ 5%
+#' as.numeric(object.size(pnkcs)/object.size(pnkc))
 #' }
 #' @importFrom Matrix sparseMatrix
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
