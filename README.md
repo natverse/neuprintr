@@ -8,7 +8,7 @@ Status](https://api.travis-ci.org/natverse/neuprintr.svg?branch=master)](https:/
 test
 coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/neuprintr?branch=master)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3843544.svg)](https://doi.org/10.5281/zenodo.3843544)
 <!-- badges: end -->
 
