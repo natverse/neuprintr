@@ -42,7 +42,8 @@
 #' @inheritParams neuprint_fetch_custom
 #' @examples
 #' \donttest{
-#' neuprint_get_synapses(c(818983130, 1796818119))
+#' syns=neuprint_get_synapses(c(818983130, 1796818119))
+#' head(syns)
 #' }
 neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
                                   chunk=TRUE, progress = NULL,

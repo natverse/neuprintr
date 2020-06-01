@@ -70,7 +70,8 @@ Get the xyz locations, IDs and confidences of pre- and post
 }
 \examples{
 \donttest{
-neuprint_get_synapses(c(818983130, 1796818119))
+syns=neuprint_get_synapses(c(818983130, 1796818119))
+head(syns)
 }
 }
 \seealso{
