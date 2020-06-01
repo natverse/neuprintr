@@ -48,11 +48,18 @@ used. See \code{\link{neuprint_login}} for details.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a data frame, where each entry is a connection between the specified
-  bodyid and its partner, either presynaptic to the bodyid (\code{prepost=0})
-  or postsynaptic (\code{prepost=1}). Each connection is associated with a
-  synapse that has its own unique connector_id, XYZ coordinates and a
-  confidence in its existence.
+a data frame, where each row is a connection between one query
+  \code{bodyid} and a single \code{partner} neuron. The \code{prepost} column
+  should be interpreted as follows: \itemize{
+
+  \item{\code{prepost=0}}{ a downstream or \emph{output} partner,
+  postsynaptic to the query neuron}
+
+  \item{\code{prepost=1}}{ an upstream or \emph{input} partner, presynaptic
+  to the query neuron}
+
+  } Each connection is associated with a synapse that has its own unique
+  \code{connector_id}, XYZ coordinates and a confidence in its existence.
 }
 \description{
 Get the xyz locations, IDs and confidences of pre- and post

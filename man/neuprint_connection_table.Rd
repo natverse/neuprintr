@@ -22,30 +22,31 @@ neuprint_connection_table(
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
 This can be in any form understood by \code{\link{neuprint_ids}}.}
 
-\item{prepost}{whether to look for partners presynaptic to postsynaptic
-to the given bodyids}
+\item{prepost}{\code{PRE}: look for partners presynaptic (i.e upstream
+inputs) or \code{POST}: postsynaptic (downstream outputs) to the given
+\code{bodyids}}
 
 \item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
 
 \item{by.roi}{logical, whether or not to break neurons' connectivity down by
 region of interest (ROI)}
 
-\item{superLevel}{When `by.roi` is `TRUE`, should we look at low-level ROIs
-(`FALSE`) or super-level ROIs (`TRUE`). A super-level ROIs can
-contain multiple
+\item{superLevel}{When \code{by.roi=TRUE}, should we look at low-level ROIs
+(\code{superLevel=FALSE}) or only super-level ROIs
+(\code{superLevel=TRUE}). A super-level ROIs can contain multiple
 lower-level ROIs. If set to `NULL`, both are returned.}
 
-\item{progress}{default FALSE. If TRUE, the API is called separately for
-each neuron and you can assess its progress, if an error is thrown by any
-one \code{bodyid}, that \code{bodyid} is ignored}
+\item{progress}{default FALSE. If TRUE, the API is called separately for each
+neuron and you can assess its progress, if an error is thrown by any one
+\code{bodyid}, that \code{bodyid} is ignored}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
-chunks or an integer specifying the size of those chunks (which defaults
-to 20 when \code{chunk=TRUE}).}
+chunks or an integer specifying the size of those chunks (which defaults to
+20 when \code{chunk=TRUE}).}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
@@ -58,28 +59,59 @@ used. See \code{\link{neuprint_login}} for details.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a data frame giving partners within a set of ROIs, the connection
-strength for weights to or from that partner, and the direction, for the
-given bodyid
+a data frame with one row for each unique combination of query
+  neuron, partner neuron and (where specified) ROI. \itemize{
+
+  \item bodyid query neuron identifier
+
+  \item partner neuron identifier
+
+  \item prepost 0 for downstream/output partners; 1 for upstream/input
+  partners
+
+  \item weight total number of connections between the query and partner
+  neuron.
+
+  }. When \code{by.roi=TRUE}
+
+  \itemize{
+
+  \item roi the name of the ROI
+
+  \item ROIweight the number of connections within that ROI
+
+  }
+
+  Note that when \code{by.roi=TRUE} there may be multiple rows for each
+  unique pair of neurons \bold{and} connections may appear in more than one
+  row when some ROIs are contained within larger ROIs. For example the
+  \code{CA(R)} is contained within the \code{MB(R)} ROI. Therefore you cannot
+  sum the \code{ROIweight} to match the total connection strength (which is
+  available as the \code{weight} column).
 }
 \description{
-Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified
+Get the upstream and downstream connectivity of a body,
+  restricted to within an ROI if specified
 }
 \examples{
 \donttest{
 ## Unitary connection strengths between two chosen neurons,
 ## and their downstream targets
 c1 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST")
+head(c1)
 
-## The same connection strength broken down by ROI
+## The same connections broken down by ROI
 c2 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
                                by.roi = TRUE)
+head(c2)
 
-## The same connection strength broken down by super-level ROI
+## The same connections broken down by super-level ROIs only
 c3 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
                                by.roi = TRUE, superLevel = TRUE)
+nrow(c3)
+nrow(c2)
 
-## Find connections in a specific ROI
+## Find only the connections within a specific ROI
 c4 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
                                by.roi = TRUE, roi = "LH(R)")
 
@@ -87,6 +119,6 @@ c4 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
 }
 \seealso{
 \code{\link{neuprint_fetch_custom}},
-\code{\link{neuprint_simple_connectivity}},
-\code{\link{neuprint_common_connectivity}}, \code{\link{neuprint_ROIs}}
+  \code{\link{neuprint_simple_connectivity}},
+  \code{\link{neuprint_common_connectivity}}, \code{\link{neuprint_ROIs}}
 }

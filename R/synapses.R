@@ -23,11 +23,18 @@
 #'   fetching process for smaller queries (<100 body ids). The default of
 #'   \code{progress=NULL} will only show a progress bar if the query will be
 #'   split into multiple chunks based on the \code{chunk} argument.
-#' @return a data frame, where each entry is a connection between the specified
-#'   bodyid and its partner, either presynaptic to the bodyid (\code{prepost=0})
-#'   or postsynaptic (\code{prepost=1}). Each connection is associated with a
-#'   synapse that has its own unique connector_id, XYZ coordinates and a
-#'   confidence in its existence.
+#' @return a data frame, where each row is a connection between one query
+#'   \code{bodyid} and a single \code{partner} neuron. The \code{prepost} column
+#'   should be interpreted as follows: \itemize{
+#'
+#'   \item{\code{prepost=0}}{ a downstream or \emph{output} partner,
+#'   postsynaptic to the query neuron}
+#'
+#'   \item{\code{prepost=1}}{ an upstream or \emph{input} partner, presynaptic
+#'   to the query neuron}
+#'
+#'   } Each connection is associated with a synapse that has its own unique
+#'   \code{connector_id}, XYZ coordinates and a confidence in its existence.
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_simple_connectivity}},
 #'   \code{\link{neuprint_common_connectivity}}
