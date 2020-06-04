@@ -27,7 +27,7 @@ test_that("test name searches ", {
   expect_named(mt,
                c(dfFields(neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel",
                                                                "pre","post","upstream","downstream","cropped",
-                                                               "size","cellBodyFiber"))),"soma")
+                                                               "size","cellBodyFiber","synonyms"))),"soma")
                )
 
 
