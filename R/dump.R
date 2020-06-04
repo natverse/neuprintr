@@ -52,7 +52,7 @@ neuprint_dump <- function(dir, bodyids = NULL, roi = NULL, preprocess = NULL, co
   # save SWC files
   message("saving SWC files")
   dir.create(file.path(dir, "swc"), showWarnings = FALSE)
-  write.neurons(neurons,dir = file.path(dir, "swc"), format = "swc", files = paste0(bodyid,".swc"), Force = TRUE)
+  write.neurons(neurons,dir = file.path(dir, "swc"), format = "swc", files = paste0(bodyids,".swc"), Force = TRUE)
   # save synapse locations
   if(connectors){
     message("saving synapse locations")
