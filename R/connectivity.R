@@ -23,10 +23,10 @@
 #' @examples
 #' \donttest{
 #' # these will mostly be axo-axonic connections between DA2 PNs
-#' neuprint_get_adjacency_matrix('DA2_lPN')
+#' neuprint_get_adjacency_matrix('DA2 lPN')
 #'
 #' # rectangular matrix with different in/out neurons
-#' neuprint_get_adjacency_matrix(inputids='DA2_lPN', outputids='DL4_adPN')
+#' neuprint_get_adjacency_matrix(inputids='DA2 lPN', outputids='DL4 adPN')
 #' }
 #' \donttest{
 #' # Note the use of cache=T, which will avoid a subsequent query to the
