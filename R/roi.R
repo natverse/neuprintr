@@ -111,8 +111,7 @@ neuprint_bodies_in_ROI <- function(roi, dataset = NULL, all_segments = FALSE, co
 #' @export
 #' @examples
 #' \donttest{
-#' aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),
-#'   full=FALSE)
+#' aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),full=FALSE)
 #' heatmap(aba)
 #' }
 neuprint_ROI_connectivity <- function(rois, full=TRUE,
