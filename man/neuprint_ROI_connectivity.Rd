@@ -50,8 +50,7 @@ When requesting summary connectivity data between ROIs, we recommend
 }
 \examples{
 \donttest{
-aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),
-  full=FALSE)
+aba <- neuprint_ROI_connectivity(neuprint_ROIs(superLevel = TRUE),full=FALSE)
 heatmap(aba)
 }
 }

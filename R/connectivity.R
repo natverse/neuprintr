@@ -552,7 +552,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
       dplyr::bind_rows(lapply(d[[4]],function(dT){extract_connectivity_df(roi,dT,"post")}))
     }))
     roiTable[is.na(roiTable)] <- 0
-    connTable <- cbind(connTable,roiTable)
+    connTable <- dplyr::bind_cols(connTable,roiTable)
   }
 
   connTable
@@ -673,7 +673,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by
       dplyr::bind_rows(lapply(d[[4]],function(dT){extract_connectivity_df(roi,dT,"post")}))
     }))
     roiTable[is.na(roiTable)] <- 0
-    connTable <- cbind(connTable,roiTable)
+    connTable <- dplyr::bind_cols(connTable,roiTable)
   }
 
   connTable
