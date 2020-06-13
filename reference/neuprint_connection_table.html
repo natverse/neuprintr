@@ -47,7 +47,8 @@
 
 
 <meta property="og:title" content="Get the upstream and downstream connectivity of a neuron — neuprint_connection_table" />
-<meta property="og:description" content="Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified" />
+<meta property="og:description" content="Get the upstream and downstream connectivity of a body,
+  restricted to within an ROI if specified" />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -140,7 +141,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Get the upstream and downstream connectivity of a body, restricted to within an ROI if specified</p>
+    <p>Get the upstream and downstream connectivity of a body,
+  restricted to within an ROI if specified</p>
     </div>
 
     <pre class="usage"><span class='fu'>neuprint_connection_table</span>(
@@ -167,8 +169,9 @@ This can be in any form understood by <code><a href='neuprint_search.html'>neupr
     </tr>
     <tr>
       <th>prepost</th>
-      <td><p>whether to look for partners presynaptic to postsynaptic
-to the given bodyids</p></td>
+      <td><p><code>PRE</code>: look for partners presynaptic (i.e upstream
+inputs) or <code>POST</code>: postsynaptic (downstream outputs) to the given
+<code>bodyids</code></p></td>
     </tr>
     <tr>
       <th>roi</th>
@@ -181,16 +184,16 @@ region of interest (ROI)</p></td>
     </tr>
     <tr>
       <th>superLevel</th>
-      <td><p>When `by.roi` is `TRUE`, should we look at low-level ROIs
-(`FALSE`) or super-level ROIs (`TRUE`). A super-level ROIs can
-contain multiple
+      <td><p>When <code>by.roi=TRUE</code>, should we look at low-level ROIs
+(<code>superLevel=FALSE</code>) or only super-level ROIs
+(<code>superLevel=TRUE</code>). A super-level ROIs can contain multiple
 lower-level ROIs. If set to `NULL`, both are returned.</p></td>
     </tr>
     <tr>
       <th>progress</th>
-      <td><p>default FALSE. If TRUE, the API is called separately for
-each neuron and you can assess its progress, if an error is thrown by any
-one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
+      <td><p>default FALSE. If TRUE, the API is called separately for each
+neuron and you can assess its progress, if an error is thrown by any one
+<code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
     </tr>
     <tr>
       <th>dataset</th>
@@ -201,8 +204,8 @@ current connection, is used. See <code><a href='neuprint_login.html'>neuprint_lo
     <tr>
       <th>chunk</th>
       <td><p>A logical specifying whether to split the query into multiple
-chunks or an integer specifying the size of those chunks (which defaults
-to 20 when <code>chunk=TRUE</code>).</p></td>
+chunks or an integer specifying the size of those chunks (which defaults to
+20 when <code>chunk=TRUE</code>).</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
@@ -224,30 +227,59 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame giving partners within a set of ROIs, the connection
-strength for weights to or from that partner, and the direction, for the
-given bodyid</p>
+    <p>a data frame with one row for each unique combination of query
+  neuron, partner neuron and (where specified) ROI.</p><ul>
+<li><p>bodyid query neuron identifier</p></li>
+<li><p>partner neuron identifier</p></li>
+<li><p>prepost 0 for downstream/output partners; 1 for upstream/input
+  partners</p></li>
+<li><p>weight total number of connections between the query and partner
+  neuron.</p></li>
+</ul><p>. When <code>by.roi=TRUE</code></p>
+<p></p><ul>
+<li><p>roi the name of the ROI</p></li>
+<li><p>ROIweight the number of connections within that ROI</p></li>
+</ul>
+
+<p>Note that when <code>by.roi=TRUE</code> there may be multiple rows for each
+  unique pair of neurons <b>and</b> connections may appear in more than one
+  row when some ROIs are contained within larger ROIs. For example the
+  <code>CA(R)</code> is contained within the <code>MB(R)</code> ROI. Therefore you cannot
+  sum the <code>ROIweight</code> to match the total connection strength (which is
+  available as the <code>weight</code> column).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
-<code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
-<code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>, <code><a href='neuprint_ROIs.html'>neuprint_ROIs</a></code></p></div>
+  <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
+  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>, <code><a href='neuprint_ROIs.html'>neuprint_ROIs</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'>## Unitary connection strengths between two chosen neurons,</span>
 <span class='co'>## and their downstream targets</span>
 <span class='no'>c1</span> <span class='kw'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), <span class='kw'>prepost</span> <span class='kw'>=</span> <span class='st'>"POST"</span>)
-
-<span class='co'>## The same connection strength broken down by ROI</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>c1</span>)</div><div class='output co'>#&gt;       bodyid    partner prepost weight
+#&gt; 1 1796818119  632402333       1     26
+#&gt; 2  818983130  785914742       1     24
+#&gt; 3 1796818119 5813080766       1     24
+#&gt; 4  818983130 1143677310       1     23
+#&gt; 5  818983130 5813055865       1     23
+#&gt; 6  818983130  798869986       1     23</div><div class='input'>
+<span class='co'>## The same connections broken down by ROI</span>
 <span class='no'>c2</span> <span class='kw'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), <span class='kw'>prepost</span> <span class='kw'>=</span> <span class='st'>"POST"</span>,
                                <span class='kw'>by.roi</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'>## The same connection strength broken down by super-level ROI</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>c2</span>)</div><div class='output co'>#&gt;       bodyid   partner prepost         roi ROIweight weight
+#&gt; 1 1796818119 632402333       1 MB(+ACA)(R)        26     26
+#&gt; 2 1796818119 632402333       1       MB(R)        26     26
+#&gt; 3 1796818119 632402333       1       CA(R)        26     26
+#&gt; 4  818983130 785914742       1 MB(+ACA)(R)        23     24
+#&gt; 5  818983130 785914742       1       MB(R)        23     24
+#&gt; 6  818983130 785914742       1     mALT(R)         1     24</div><div class='input'>
+<span class='co'>## The same connections broken down by super-level ROIs only</span>
 <span class='no'>c3</span> <span class='kw'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), <span class='kw'>prepost</span> <span class='kw'>=</span> <span class='st'>"POST"</span>,
                                <span class='kw'>by.roi</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>superLevel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'>## Find connections in a specific ROI</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>c3</span>)</div><div class='output co'>#&gt; [1] 641</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>c2</span>)</div><div class='output co'>#&gt; [1] 854</div><div class='input'>
+<span class='co'>## Find only the connections within a specific ROI</span>
 <span class='no'>c4</span> <span class='kw'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), <span class='kw'>prepost</span> <span class='kw'>=</span> <span class='st'>"POST"</span>,
                                <span class='kw'>by.roi</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>roi</span> <span class='kw'>=</span> <span class='st'>"LH(R)"</span>)
 
