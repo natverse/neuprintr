@@ -146,7 +146,7 @@ check_dataset <-
     if(is.null(dataset)) dataset=conn$dataset
 
     # see what datasets are available for this connection
-    datasets4conn <- default_dataset(conn)
+    datasets4conn <- available_datasets(conn)
 
     if (is.null(dataset)) {
       # check if there is a default dataset from environment variable
@@ -182,7 +182,7 @@ check_dataset <-
     dataset
   }
 
-default_dataset <- function(conn=NULL, ...) {
+available_datasets <- function(conn=NULL, ...) {
   conn=neuprint_login(conn)
   ds=neuprint_datasets_memo(conn=conn, ...)
   datasets <- names(ds)
