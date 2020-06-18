@@ -67,7 +67,7 @@ test_that("other connectivity functions work", {
   # check that results for one neuron are consistent with the same
   # neuron as part of a larger query
   c11.sel=c11[names(c1)]
-  c11.sel=c11.sel[!is.na(c11.sel$`2002436731_weight`),,drop=FALSE]
+  c11.sel=c11.sel[!is.na(c11.sel[[4]]),,drop=FALSE]
   c11.sel=c11.sel[order(c11.sel$input),,drop=FALSE]
   c1=c1[order(c1$input),,drop=FALSE]
   expect_equal(c1, c11.sel)
