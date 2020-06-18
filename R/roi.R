@@ -118,6 +118,7 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
                                       statistic = c("weight","count"),
                                       cached = !full,
                                       dataset = NULL, conn = NULL, ...) {
+  dataset <-  check_dataset(dataset, conn=conn)
   statistic <- match.arg(statistic)
   if(isTRUE(full) && isTRUE(cached))
     stop("It is not possible to return a full list of connecting neurons when ",
