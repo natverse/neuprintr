@@ -145,14 +145,14 @@
   given bodyids, either upstream or downstream.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_common_connectivity</span>(
-  <span class='no'>bodyids</span>,
-  <span class='kw'>statuses</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prepost</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRE"</span>, <span class='st'>"POST"</span>),
-  <span class='kw'>all_segments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>conn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_common_connectivity.html'>neuprint_common_connectivity</a></span>(
+  <span class='kw'>bodyids</span>,
+  statuses = <span class='kw'>NULL</span>,
+  prepost = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRE"</span>, <span class='st'>"POST"</span>),
+  all_segments = <span class='fl'>FALSE</span>,
+  dataset = <span class='kw'>NULL</span>,
+  conn = <span class='kw'>NULL</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -183,14 +183,14 @@ the given bodyids. So when <code>prepost="PRE"</code> you will return inputs
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -204,14 +204,14 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
   m bodyids</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
-  <code><a href='neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
+  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>da2s</span><span class='kw'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*DA2.*'</span>)
-<span class='no'>da2conn</span> <span class='kw'>=</span> <span class='fu'>neuprint_common_connectivity</span>(<span class='no'>da2s</span>$<span class='no'>bodyid</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>prepost</span><span class='kw'>=</span><span class='st'>'PRE'</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>da2conn</span>))</div><div class='img'><img src='neuprint_common_connectivity-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>da2conn</span>), <span class='kw'>sum</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='no'>da2conn</span>)))</div><div class='output co'>#&gt;           1796817841 1827516355 sum
+<span class='kw'>da2s</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*DA2.*'</span>)
+<span class='kw'>da2conn</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_common_connectivity.html'>neuprint_common_connectivity</a></span>(<span class='kw'>da2s</span><span class='op'>$</span><span class='kw'>bodyid</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>], prepost=<span class='st'>'PRE'</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='kw'>da2conn</span>))</div><div class='img'><img src='neuprint_common_connectivity-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='kw'>da2conn</span>), sum=<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='kw'>da2conn</span>)))</div><div class='output co'>#&gt;           1796817841 1827516355 sum
 #&gt; 425790257          2          2   4
 #&gt; 478613576          5          3   8
 #&gt; 480590566          6          4  10

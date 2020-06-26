@@ -121,19 +121,21 @@
 <h3 class="hasAnchor">
 <a href="#basic-example" class="anchor"></a>Basic example</h3>
 <p>This function takes one or more bodyids as input and returns the name of the neurons.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">neuprint_get_neuron_names</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">bodyids</span>, <span class="no">dataset</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="no">all_segments</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-                                      <span class="no">conn</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="no">...</span>) {
-  <span class="no">bodyids</span> <span class="kw">=</span> <span class="fu"><a href="../reference/neuprint_search.html">neuprint_ids</a></span>(<span class="no">bodyids</span>, <span class="kw">conn</span> <span class="kw">=</span> <span class="no">conn</span>, <span class="kw">dataset</span> <span class="kw">=</span> <span class="no">dataset</span>)
-  <span class="no">all_segments.json</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">all_segments</span>,<span class="st">"Segment"</span>, <span class="st">"Neuron"</span>)
-  <span class="no">cypher</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name"</span>,
-                   <span class="fu">id2json</span>(<span class="no">bodyids</span>),
-                   <span class="no">all_segments.json</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">neuprint_get_neuron_names</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">bodyids</span>, <span class="kw">dataset</span> = <span class="kw">NULL</span>, <span class="kw">all_segments</span> = <span class="fl">FALSE</span>,
+                                      <span class="kw">conn</span> = <span class="kw">NULL</span>, <span class="kw">...</span>) {
+  <span class="kw">bodyids</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_search.html">neuprint_ids</a></span>(<span class="kw">bodyids</span>, conn = <span class="kw">conn</span>, dataset = <span class="kw">dataset</span>)
+  <span class="kw">all_segments.json</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="kw">all_segments</span>,<span class="st">"Segment"</span>, <span class="st">"Neuron"</span>)
+  <span class="kw">cypher</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name"</span>,
+                   <span class="fu">id2json</span>(<span class="kw">bodyids</span>),
+                   <span class="kw">all_segments.json</span>)
 
-  <span class="no">nc</span> <span class="kw">=</span> <span class="fu"><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom</a></span>(<span class="kw">cypher</span><span class="kw">=</span><span class="no">cypher</span>, <span class="kw">conn</span> <span class="kw">=</span> <span class="no">conn</span>, <span class="kw">dataset</span> <span class="kw">=</span> <span class="no">dataset</span>, <span class="no">...</span>)
-  <span class="no">d</span> <span class="kw">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">nc</span>$<span class="no">data</span>,<span class="no">nullToNA</span>))
-  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">d</span>) <span class="kw">=</span> <span class="no">bodyids</span>
-  <span class="no">d</span>
-}</pre></body></html></div>
+  <span class="kw">nc</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom</a></span>(cypher=<span class="kw">cypher</span>, conn = <span class="kw">conn</span>, dataset = <span class="kw">dataset</span>, <span class="kw">...</span>)
+  <span class="kw">d</span> <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw">nc</span><span class="op">$</span><span class="kw">data</span>,<span class="kw">nullToNA</span>))
+  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">d</span>) <span class="op">=</span> <span class="kw">bodyids</span>
+  <span class="kw">d</span>
+}
+</pre></div>
 <p><code>bodyids</code> is the main input argument. These typically come in as either character vector or numeric format. By passing the argument to the <code><a href="../reference/neuprint_search.html">neuprint_ids()</a></code> function you can also enable a range of queries to define the bodyids. The internal function <code>id2json()</code> is eventually used to look after formatting them appropriately for the Neo4j cypher query.</p>
 <p>In this function, <code>cypher</code> is the actual query written in the <a href="https://neo4j.com/developer/cypher-query-language/">Cypher query language</a>. One helpful tip. <em>You can press the i key in neuPrint explorer to reveal the cypher query</em>!</p>
 <p>Many functions that operate on neurons will have an argument controlling whether they operate only for larger objects (aka <em>Neuron</em>) or also on fragments (aka <em>Segment</em>). Restricting queries to <em>Neuron</em> can result in big speed-ups in some cases. You can provide an <code>all_segments</code> argument to handle this option.</p>
@@ -166,14 +168,16 @@
 <div id="connecting-to-neuprint" class="section level3">
 <h3 class="hasAnchor">
 <a href="#connecting-to-neuprint" class="anchor"></a>Connecting to neuPrint</h3>
-<p>In order to make a query, you need to specify which neuPrint <em>server</em> you want to talk to as well as the <em>dataset</em> you would like to use. The server is specified by a <code><a href="../reference/neuprint_login.html">neuprint_connection()</a></code> object. 99% of the time you will not need to do anything as this will be handled transparently by a one time user setting to specify their preferred server and authentication token.</p>
+<p>In order to make a query, you need to specify which neuPrint <em>server</em> you want to talk to as well as the <em>dataset</em> you would like to use. The server is specified by a <code><a href="../reference/neuprint_connection.html">neuprint_connection()</a></code> object. 99% of the time you will not need to do anything as this will be handled transparently by a one time user setting to specify their preferred server and authentication token.</p>
 <p>The same is true of the dataset parameter, with the additional feature that that <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> will internally check for a default dataset for the current server (as defined by the <code>conn</code> connection object).</p>
 <p>However your function must allow people to specify both of these things if they wish. Therefore your function should look something like this in outline:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r">
-<span class="no">myquery</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">query</span>, <span class="no">conn</span><span class="kw">=</span><span class="kw">NULL</span>, <span class="no">dataset</span><span class="kw">=</span><span class="kw">NULL</span>, <span class="no">...</span>) {
-  <span class="fu"><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom</a></span>(<span class="no">query</span>, <span class="kw">conn</span><span class="kw">=</span><span class="no">conn</span>, <span class="kw">dataset</span><span class="kw">=</span><span class="no">dataset</span>, <span class="no">...</span>)
-}</pre></body></html></div>
-<p>Internally <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code>, which will look after the <code>dataset</code> argument, and then go on to call the low level <code>neuprint_fetch()</code>, which will ensure that the connection object is valid (or use <code><a href="../reference/neuprint_login.html">neuprint_login()</a></code> to make one).</p>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+
+<span class="kw">myquery</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">query</span>, <span class="kw">conn</span>=<span class="kw">NULL</span>, <span class="kw">dataset</span>=<span class="kw">NULL</span>, <span class="kw">...</span>) {
+  <span class="fu"><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom</a></span>(<span class="kw">query</span>, conn=<span class="kw">conn</span>, dataset=<span class="kw">dataset</span>, <span class="kw">...</span>)
+}
+</pre></div>
+<p>Internally <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code>, which will look after the <code>dataset</code> argument, and then go on to call the low level <code>neuprint_fetch()</code>, which will ensure that the connection object is valid (or use <code><a href="../reference/neuprint_connection.html">neuprint_login()</a></code> to make one).</p>
 </div>
 <div id="processing-the-results" class="section level3">
 <h3 class="hasAnchor">
