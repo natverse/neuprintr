@@ -146,7 +146,7 @@ check_dataset <-
     if(is.null(dataset)) dataset=conn$dataset
 
     # see what datasets are available for this connection
-    datasets4conn <- default_dataset(conn)
+    datasets4conn <- available_datasets(conn)
 
     if (is.null(dataset)) {
       # check if there is a default dataset from environment variable
@@ -182,10 +182,19 @@ check_dataset <-
     dataset
   }
 
-default_dataset <- function(conn=NULL, ...) {
+# return available datasets sorted my descending modification time
+# i.e. newest first
+available_datasets <- function(conn=NULL, ...) {
   conn=neuprint_login(conn)
   ds=neuprint_datasets_memo(conn=conn, ...)
-  datasets <- names(ds)
-  if(length(datasets)==0) return(NULL) else datasets
+  if(length(ds)==0) return(NULL)
+  # find last modification times, filling missing values with na
+  lastmod = sapply(ds, function(x) {
+    lm = x[["last-mod"]]
+    if (nzchar(lm)) lm else NA_character_
+  })
+  # sort to return newest first
+  lastmod=sort(lastmod, na.last = TRUE, decreasing = TRUE)
+  datasets=names(lastmod)
+  datasets
 }
-
