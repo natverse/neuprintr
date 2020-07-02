@@ -7,7 +7,7 @@
 neuprint_get_fields(
   possibleFields = c("bodyId", "pre", "post", "upstream", "downstream", "status",
     "statusLabel", "cropped", "instance", "name", "size", "type", "cellBodyFiber",
-    "somaLocation", "somaRadius", "synonyms"),
+    "somaLocation", "somaRadius", "notes"),
   negateFields = FALSE,
   dataset = NULL,
   conn = NULL,

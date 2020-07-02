@@ -126,7 +126,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   all_segments = ifelse(all_segments,"Segment","Neuron")
 
   fieldNames <- neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel","pre","post","upstream","downstream","cropped",
-                                                       "size","cellBodyFiber","synonyms"),
+                                                       "size","cellBodyFiber","notes"),
                                     dataset=dataset,conn=conn,...)
   returnCypher <- paste0("n.",fieldNames," AS ",dfFields(fieldNames),collapse=" , ")
   cypher = sprintf(
@@ -389,7 +389,7 @@ neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
                                                    "status", "statusLabel",
                                                    "cropped", "instance", "name",
                                                    "size", "type", "cellBodyFiber",
-                                                   "somaLocation", "somaRadius","synonyms"),
+                                                   "somaLocation", "somaRadius","notes"),
                                 negateFields=FALSE,
                                 dataset = NULL, conn = NULL, ...){
 
@@ -419,7 +419,7 @@ dfFields <- function(field_name) {
       "cellBodyFiber",
       "somaLocation",
       "somaRadius",
-      "synonyms"
+      "notes"
     ),
     rName = c(
       "bodyid",
@@ -437,7 +437,7 @@ dfFields <- function(field_name) {
       "cellBodyFiber",
       "somaLocation",
       "somaRadius",
-      "synonyms"
+      "notes"
     ),
     stringsAsFactors = FALSE
   )
