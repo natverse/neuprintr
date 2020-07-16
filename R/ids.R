@@ -50,7 +50,7 @@ id2bit64 <- function(x) {
     stop("Unexpected data type for id. Use character, bit64, or numeric!")
   }
   bx <- bit64::as.integer64(x)
-  if(any(bx < 0 | is.na(bx)))
+  if(any(bx < 0))
     stop("Invalid id!")
   # unfortunately if we pass a number >9223372036854775807 then we will get
   # 9223372036854775807. So we must reject ids >= than this.
