@@ -263,19 +263,19 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt; 1797505019          3          2          3          1          5         11
 #&gt; 1796818119          3          1          5          3          4         28</div><div class='input'><span class='co'># }</span>
 <span class='kw'>inputs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'PRE'</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>inputs</span>)</div><div class='output co'>#&gt;        input          name                      type 5901222731_weight
+<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='kw'>inputs</span>)</div><div class='output co'>#&gt;        input          name                      type 5901222731_weight
 #&gt; 1 5901218894   LN(AVM02)_R              olfactory LN                34
 #&gt; 2 5901208281          &lt;NA&gt;                      &lt;NA&gt;                 1
 #&gt; 3 5901204007          &lt;NA&gt;                      &lt;NA&gt;                 4
 #&gt; 4 5813132949   LN(AVM02)_R              olfactory LN                11
 #&gt; 5 5901206553        LN(AL)              olfactory LN                 2
 #&gt; 6 5901194556 mPNX(AVM06)_R olfactory multi lvPN mALT                 5</div><div class='input'><span class='co'># top inputs</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>inputs</span><span class='op'>$</span><span class='kw'>type</span>), decreasing = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>inputs</span><span class='op'>$</span><span class='kw'>type</span>), decreasing = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; 
 #&gt;              olfactory LN                       ORN olfactory multi vPN mlALT 
 #&gt;                        96                        19                         9 
 #&gt;  olfactory multi lPN mALT olfactory multi lvPN mALT                AVL07k_pct 
 #&gt;                         8                         7                         5 </div><div class='input'><span class='kw'>outputs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'POST'</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>outputs</span>)</div><div class='output co'>#&gt;   name     output type 5901222731_weight
+<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='kw'>outputs</span>)</div><div class='output co'>#&gt;   name     output type 5901222731_weight
 #&gt; 1 &lt;NA&gt; 1164373123 &lt;NA&gt;                 1
 #&gt; 2 &lt;NA&gt; 1164373194 &lt;NA&gt;                 1
 #&gt; 3 &lt;NA&gt; 1226785176 &lt;NA&gt;                 1
