@@ -33,6 +33,8 @@ test_that("id conversion works", {
 
   toobigid="9223372036854775807"
   expect_error(id2bit64(toobigid))
+  expect_error(id2bit64(-1))
+  expect_equal(id2bit64(c(1,NA)), bit64::as.integer64(c("1", NA)))
 
   expect_equal(id2char(NULL), character(0))
   expect_equal(id2char(character(0)), character(0))
@@ -40,6 +42,8 @@ test_that("id conversion works", {
   expect_equal(id2char(numeric(0)), character(0))
   expect_equal(id2char(factor()), character(0))
   expect_error(id2char(""))
+
+  expect_equal(id2char(NA), NA_character_)
 
   expect_equal(neuprint_ids(bigid), bigid)
   expect_equal(neuprint_ids(1:4), as.character(1:4))
