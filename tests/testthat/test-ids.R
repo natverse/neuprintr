@@ -54,6 +54,15 @@ test_that("id conversion works", {
   expect_equal(neuprint_ids(numeric(), mustWork = FALSE), character())
 })
 
+test_that("valid_id works", {
+  expect_true(valid_id(1))
+  expect_false(valid_id(NA))
+  expect_false(valid_id(-1))
+  toobigid="9223372036854775807"
+  expect_false(valid_id(toobigid))
+})
+
+
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("neuprint_ids works", {
