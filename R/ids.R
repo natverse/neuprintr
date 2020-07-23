@@ -5,7 +5,8 @@ looks_like_bodyid <- function(x) {
 
 # this is more stringent
 valid_id <- function(x) {
-  !isFALSE(tryCatch(id2bit64(x), error=function(e) FALSE))
+  converted=tryCatch(id2bit64(x), error=function(e) NA)
+  length(converted)>0 && !any(is.na(converted))
 }
 
 

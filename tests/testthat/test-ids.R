@@ -57,6 +57,8 @@ test_that("id conversion works", {
 test_that("valid_id works", {
   expect_true(valid_id(1))
   expect_false(valid_id(NA))
+  expect_false(valid_id(NULL))
+  expect_false(valid_id(logical()))
   expect_false(valid_id(-1))
   toobigid="9223372036854775807"
   expect_false(valid_id(toobigid))
