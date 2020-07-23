@@ -46,6 +46,9 @@ id2bit64 <- function(x) {
     if(any(x>BIGGESTFLOAT, na.rm = TRUE))
       stop("Some 64 bit ids cannot be exactly represented as floating point ",
            "(double) numbers!\nPlease use character or bit64!")
+  } else if(is.logical(x) && all(is.na(x))){
+    # as a special case let these through because NA, a logical value,
+    # is often used instead of NA_real_, NA_character_ etc
   } else {
     stop("Unexpected data type for id. Use character, bit64, or numeric!")
   }
