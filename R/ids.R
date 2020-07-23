@@ -32,7 +32,7 @@ id2bit64 <- function(x) {
   }
   if(isTRUE(is.character(x))) {
     # bit64::as.integer64("") returns 0 so we need to flag these as NA
-    x[nchar(x)==0]=NA_character_
+    x[nchar(x)==0 | is.na(x)]=NA_character_
   } else if(bit64::is.integer64(x)) {
     # do nothing
   } else if(is.integer(x)){
