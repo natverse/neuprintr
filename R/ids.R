@@ -43,18 +43,18 @@ id2bit64 <- function(x) {
   } else if(is.double(x)) {
     # biggest int that can be represented as double 2^(mantissa bits + 1)
     BIGGESTFLOAT=2^53+1
-    if(any(x>BIGGESTFLOAT))
+    if(any(x>BIGGESTFLOAT, na.rm = TRUE))
       stop("Some 64 bit ids cannot be exactly represented as floating point ",
            "(double) numbers!\nPlease use character or bit64!")
   } else {
     stop("Unexpected data type for id. Use character, bit64, or numeric!")
   }
   bx <- bit64::as.integer64(x)
-  if(any(bx < 0))
+  if(any(bx < 0, na.rm = TRUE))
     stop("Invalid id!")
   # unfortunately if we pass a number >9223372036854775807 then we will get
   # 9223372036854775807. So we must reject ids >= than this.
-  if(any(bx>=bit64::as.integer64('9223372036854775807')))
+  if(any(bx>=bit64::as.integer64('9223372036854775807'), na.rm = TRUE))
     stop('I can only cope with ids < 9223372036854775807')
   bx
 }
