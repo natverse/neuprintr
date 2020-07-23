@@ -52,6 +52,8 @@ test_that("id conversion works", {
   expect_error(neuprint_ids(-1))
   expect_error(neuprint_ids(numeric()))
   expect_equal(neuprint_ids(numeric(), mustWork = FALSE), character())
+  expect_error(neuprint_ids(NA))
+  expect_equal(neuprint_ids(NA, mustWork = F), NA_character_)
 })
 
 test_that("valid_id works", {

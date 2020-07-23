@@ -364,7 +364,7 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' @rdname neuprint_search
 #' @importFrom stats na.omit
 neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, dataset=NULL, ...) {
-  if(is.character(x) && length(x)==1 && !looks_like_bodyid(x)) {
+  if(is.character(x) && length(x)==1 && !looks_like_bodyid(x) && !is.na(x)) {
     x <- neuprint_search(x, meta = F, field = 'type', fixed=fixed,
                          conn=conn, dataset=dataset, ...)
   }
