@@ -67,6 +67,7 @@ test_that("valid_id works", {
 })
 
 
+skip_if_offline()
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("neuprint_ids works", {
