@@ -102,6 +102,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'   \code{bodyids}
 #' @param by.roi logical, whether or not to break neurons' connectivity down by
 #'   region of interest (ROI)
+#' @param threshold Only return partners >= to an integer value. Default of 1
+#'   returns all partners.
 #' @param superLevel When \code{by.roi=TRUE}, should we look at low-level ROIs
 #'   (\code{superLevel=FALSE}) or only super-level ROIs
 #'   (\code{superLevel=TRUE}). A super-level ROIs can contain multiple
@@ -170,10 +172,12 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'                                by.roi = TRUE, roi = "LH(R)")
 #'
 #' }
+#' @importFrom checkmate assert_integer
 neuprint_connection_table <- function(bodyids,
                                       prepost = c("PRE","POST"),
                                       roi = NULL,
                                       by.roi = FALSE,
+                                      threshold=1L,
                                       superLevel = FALSE,
                                       progress = FALSE,
                                       dataset = NULL,
@@ -184,6 +188,8 @@ neuprint_connection_table <- function(bodyids,
   prepost <- match.arg(prepost)
   conn<-neuprint_login(conn)
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
+
+  threshold=assert_integer(as.integer(round(threshold)), lower = 1, len = 1)
 
   nP <- length(bodyids)
   if(is.numeric(chunk)) {
@@ -211,6 +217,7 @@ neuprint_connection_table <- function(bodyids,
       prepost = prepost,
       roi = roi,
       by.roi = by.roi,
+      threshold = threshold,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
@@ -230,12 +237,14 @@ neuprint_connection_table <- function(bodyids,
                          "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
                          "WHERE %s.bodyId=bodyId",
                          "%s",
+                         "%s",
                          "RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight",
                          "%s"),
                    id2json(bodyids),
                    all_segments.json,
                    all_segments.json,
                    ifelse(prepost=="POST","a","b"),
+                   ifelse(threshold>1, paste("AND c.weight >= ", threshold), ""),
                    ifelse(!is.null(roi)|by.roi,"UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""),
                    ifelse(prepost=="POST","bodyid","partner"),
                    ifelse(prepost=="POST","partner","bodyid"),

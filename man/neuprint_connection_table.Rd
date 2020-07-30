@@ -9,6 +9,7 @@ neuprint_connection_table(
   prepost = c("PRE", "POST"),
   roi = NULL,
   by.roi = FALSE,
+  threshold = 1L,
   superLevel = FALSE,
   progress = FALSE,
   dataset = NULL,
@@ -30,6 +31,9 @@ inputs) or \code{POST}: postsynaptic (downstream outputs) to the given
 
 \item{by.roi}{logical, whether or not to break neurons' connectivity down by
 region of interest (ROI)}
+
+\item{threshold}{Only return partners >= to an integer value. Default of 1
+returns all partners.}
 
 \item{superLevel}{When \code{by.roi=TRUE}, should we look at low-level ROIs
 (\code{superLevel=FALSE}) or only super-level ROIs
