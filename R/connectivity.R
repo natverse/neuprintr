@@ -103,7 +103,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #' @param by.roi logical, whether or not to break neurons' connectivity down by
 #'   region of interest (ROI)
 #' @param threshold Only return partners >= to an integer value. Default of 1
-#'   returns all partners.
+#'   returns all partners. This threshold will be applied to the ROI weight when
+#'   the \code{roi} argument is specified, otherwise to the whole neuron.
 #' @param superLevel When \code{by.roi=TRUE}, should we look at low-level ROIs
 #'   (\code{superLevel=FALSE}) or only super-level ROIs
 #'   (\code{superLevel=TRUE}). A super-level ROIs can contain multiple
@@ -261,13 +262,18 @@ neuprint_connection_table <- function(bodyids,
   if(!is.null(roi)){
     d <- d[d$roi%in%roi,]
   }
-  if(by.roi&is.null(roi)){
+  if(by.roi && is.null(roi)){
     rois <- neuprint_ROIs(superLevel = superLevel)
     d <- d[d$roi%in%rois,]
   }
   d <-  d[order(d$weight,decreasing=TRUE),]
   rownames(d) <- NULL
-  d[,sort(colnames(d))]
+  d=d[,sort(colnames(d))]
+
+  if(!is.null(roi) && threshold>1)
+    d=d[d$ROIweight>=threshold,]
+
+  d
 }
 
 #' @title Get the common synaptic partners for a set of neurons

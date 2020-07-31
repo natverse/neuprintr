@@ -33,7 +33,8 @@ inputs) or \code{POST}: postsynaptic (downstream outputs) to the given
 region of interest (ROI)}
 
 \item{threshold}{Only return partners >= to an integer value. Default of 1
-returns all partners.}
+returns all partners. This threshold will be applied to the ROI weight when
+the \code{roi} argument is specified, otherwise to the whole neuron.}
 
 \item{superLevel}{When \code{by.roi=TRUE}, should we look at low-level ROIs
 (\code{superLevel=FALSE}) or only super-level ROIs
