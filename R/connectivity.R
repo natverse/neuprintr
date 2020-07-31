@@ -570,7 +570,7 @@ neuprint_get_paths <- function(body_pre, body_post, n, weightT=5, roi=NULL, by.r
     connTable <- dplyr::bind_cols(connTable,roiTable)
   }
 
-  connTable
+  as.data.frame(connTable)
 }
 
 #' @title Get a list of the shortest paths between two neurons
@@ -643,7 +643,7 @@ neuprint_get_shortest_paths <- function(body_pre,body_post,weightT=5,roi=NULL,by
       all_segments=all_segments,
       ...),
       error = function(e) {warning(e); NULL})))
-    return(d)
+    return(as.data.frame(d))
   }
 
   all_segments.json <-  ifelse(all_segments,"Segment","Neuron")
