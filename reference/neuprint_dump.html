@@ -143,7 +143,7 @@
     <p>Download neuron morphology and connectivity data to a specified directory as .csv and .rda files</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_dump.html'>neuprint_dump</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_dump</span>(
   <span class='kw'>dir</span>,
   bodyids = <span class='kw'>NULL</span>,
   roi = <span class='kw'>NULL</span>,
@@ -176,7 +176,7 @@
     <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query.
-This can be in any form understood by <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></code>.</p></td>
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>roi</th>
@@ -256,14 +256,14 @@ volume in block coordinates.</p></td>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>OmitFailures</th>
@@ -280,7 +280,7 @@ details.</p></td>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_neurons</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='neuprint_read_neurons.html'>neuprint_read_neurons</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

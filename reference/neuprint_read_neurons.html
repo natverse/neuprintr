@@ -155,7 +155,7 @@ If neuprint_read_skeletons is used, just a simple skeleton is
   retrieved.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_neurons</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_read_neurons</span>(
   <span class='kw'>bodyids</span>,
   meta = <span class='fl'>TRUE</span>,
   nat = <span class='fl'>TRUE</span>,
@@ -172,7 +172,7 @@ If neuprint_read_skeletons is used, just a simple skeleton is
   <span class='kw'>...</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_skeletons</a></span>(
+<span class='fu'>neuprint_read_skeletons</span>(
   <span class='kw'>bodyids</span>,
   dataset = <span class='kw'>NULL</span>,
   conn = <span class='kw'>NULL</span>,
@@ -181,7 +181,7 @@ If neuprint_read_skeletons is used, just a simple skeleton is
   <span class='kw'>...</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_neurons_simple</a></span>(<span class='kw'>bodyids</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>neuprint_read_neurons_simple</span>(<span class='kw'>bodyids</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,7 +189,7 @@ If neuprint_read_skeletons is used, just a simple skeleton is
     <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query.
-This can be in any form understood by <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></code>.</p></td>
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>meta</th>
@@ -242,7 +242,7 @@ synapse-less skeletons using <code>neuprint_assign_connectors</code></p></td>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>resample</th>
@@ -255,7 +255,7 @@ resampling occurs.</p></td>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>OmitFailures</th>
@@ -277,13 +277,13 @@ details.</p></td>
   the <code>nat</code> and <code>catmaid</code> packages</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_synapses.html'>neuprint_get_synapses</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_assign_connectors.html'>neuprint_assign_connectors</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
+  <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>,
+  <code><a href='neuprint_assign_connectors.html'>neuprint_assign_connectors</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>neurons</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_neurons</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))
+<span class='kw'>neurons</span> <span class='op'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/natverse/nat'>nat</a></span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: rgl</span></div><div class='output co'>#&gt; <span class='message'>Some nat functions depend on a CMTK installation. See ?cmtk and README.md for details.</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘nat’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:rgl’:</span>
 #&gt; <span class='message'></span>
@@ -293,12 +293,12 @@ details.</p></td>
 
 <span class='co'>## In this example, in hemibrain:v1.0, an erroneously connected bit</span>
 <span class='co'>## of neuron skeleton is removed.</span>
-<span class='kw'>n1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_neurons</a></span>(<span class='fl'>5812980863</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Could not connect two vertices as edge length18730.12 is above threshold</span></div><div class='input'><span class='co'>## compare with</span>
-<span class='kw'>n2</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_neurons</a></span>(<span class='fl'>5812980863</span>, heal = <span class='fl'>FALSE</span>)
+<span class='kw'>n1</span> <span class='op'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fl'>5812980863</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Could not connect two vertices as edge length18730.12 is above threshold</span></div><div class='input'><span class='co'>## compare with</span>
+<span class='kw'>n2</span> <span class='op'>=</span> <span class='fu'>neuprint_read_neurons</span>(<span class='fl'>5812980863</span>, heal = <span class='fl'>FALSE</span>)
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
-<span class='kw'>dl1s</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_read_neurons.html'>neuprint_read_skeletons</a></span>(<span class='st'>'DL1 adPN'</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>dl1s</span>, WithNode=<span class='kw'>F</span>)</div><div class='img'><img src='neuprint_read_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span></div></pre>
+<span class='kw'>dl1s</span><span class='op'>=</span><span class='fu'>neuprint_read_skeletons</span>(<span class='st'>'DL1 adPN'</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>dl1s</span>, WithNode=<span class='kw'>F</span>)</div><div class='img'><img src='neuprint_read_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

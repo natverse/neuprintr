@@ -148,7 +148,7 @@
   neuPrint server in which you are interested</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_fetch_custom</span>(
   cypher = <span class='st'>"MATCH (n:Meta) RETURN n.dataset, n.meshHost"</span>,
   dataset = <span class='kw'>NULL</span>,
   conn = <span class='kw'>NULL</span>,
@@ -168,14 +168,14 @@ the available datasets and the servers that host their associated mesh data</p><
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>cache</th>
@@ -190,7 +190,7 @@ call for 1 hour.</p></td>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code>, <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_info.html'>neuprint_available</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_connection.html'>neuprint_login</a></code>, <code><a href='neuprint_datasets.html'>neuprint_available</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

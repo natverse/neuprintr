@@ -143,7 +143,7 @@
     <p>If a bodyid has a name associated with it, fetch that name, otherwise, return <code>NA</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_neuron_names.html'>neuprint_get_neuron_names</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_get_neuron_names</span>(
   <span class='kw'>bodyids</span>,
   dataset = <span class='kw'>NULL</span>,
   all_segments = <span class='fl'>TRUE</span>,
@@ -157,13 +157,13 @@
     <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query.
-This can be in any form understood by <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></code>.</p></td>
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
@@ -175,7 +175,7 @@ current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/ma
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -189,7 +189,7 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_neuron_names.html'>neuprint_get_neuron_names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt;           818983130          1796818119 
+<span class='fu'>neuprint_get_neuron_names</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt;           818983130          1796818119 
 #&gt; "mPN1_DA2(AVM02)_R" "mPN1_DA2(AVM02)_R" </div><div class='input'><span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -145,7 +145,7 @@
   query neurons, either upstream or downstream of them</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_simple_connectivity</span>(
   <span class='kw'>bodyids</span>,
   prepost = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRE"</span>, <span class='st'>"POST"</span>),
   dataset = <span class='kw'>NULL</span>,
@@ -169,14 +169,14 @@ the given bodyids</p></td>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -190,13 +190,13 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
   bodyids</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
+  <code><a href='neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>da2s</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_common_connectivity.html'>neuprint_common_connectivity</a></span>(<span class='kw'>da2s</span><span class='op'>$</span><span class='kw'>bodyid</span>)</div><div class='output co'>#&gt;            425790257 478613576 480590566 513323340 573695941 698194389
+<span class='kw'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>)
+<span class='fu'><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></span>(<span class='kw'>da2s</span><span class='op'>$</span><span class='kw'>bodyid</span>)</div><div class='output co'>#&gt;            425790257 478613576 480590566 513323340 573695941 698194389
 #&gt; 1796817841         2         5         6         1         7         5
 #&gt; 1827516355         2         3         4         5         9         3
 #&gt; 818983130          5         1         2         5        10         3
@@ -262,7 +262,7 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt; 818983130           1          1          1          2         12         28
 #&gt; 1797505019          3          2          3          1          5         11
 #&gt; 1796818119          3          1          5          3          4         28</div><div class='input'><span class='co'># }</span>
-<span class='kw'>inputs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'PRE'</span>)
+<span class='kw'>inputs</span> <span class='op'>&lt;-</span> <span class='fu'>neuprint_simple_connectivity</span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'PRE'</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='kw'>inputs</span>)</div><div class='output co'>#&gt;        input          name                      type 5901222731_weight
 #&gt; 1 5901218894   LN(AVM02)_R              olfactory LN                34
 #&gt; 2 5901208281          &lt;NA&gt;                      &lt;NA&gt;                 1
@@ -274,7 +274,7 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt;              olfactory LN                       ORN olfactory multi vPN mlALT 
 #&gt;                        96                        19                         9 
 #&gt;  olfactory multi lPN mALT olfactory multi lvPN mALT                AVL07k_pct 
-#&gt;                         8                         7                         5 </div><div class='input'><span class='kw'>outputs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'POST'</span>)
+#&gt;                         8                         7                         5 </div><div class='input'><span class='kw'>outputs</span> <span class='op'>&lt;-</span> <span class='fu'>neuprint_simple_connectivity</span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'POST'</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='kw'>outputs</span>)</div><div class='output co'>#&gt;   name     output type 5901222731_weight
 #&gt; 1 &lt;NA&gt; 1164373123 &lt;NA&gt;                 1
 #&gt; 2 &lt;NA&gt; 1164373194 &lt;NA&gt;                 1

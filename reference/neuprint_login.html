@@ -170,7 +170,7 @@ The connection object returned by neuprint_login (or cached when
   neuPrint server by get/query/fetch functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_connection</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_connection</span>(
   server = <span class='kw'>NULL</span>,
   token = <span class='kw'>NULL</span>,
   dataset = <span class='kw'>NULL</span>,
@@ -178,7 +178,7 @@ The connection object returned by neuprint_login (or cached when
   config = <span class='kw'>httr</span>::<span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>()
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></span>(conn = <span class='kw'>NULL</span>, Cache = <span class='fl'>TRUE</span>, Force = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>neuprint_login</span>(conn = <span class='kw'>NULL</span>, Cache = <span class='fl'>TRUE</span>, Force = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -315,12 +315,12 @@ reused automatically.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/options.html'>options</a></code>, <code><a href='https://rdrr.io/r/base/Startup.html'>Startup</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_info.html'>neuprint_datasets</a></code></p></div>
+  <code><a href='neuprint_datasets.html'>neuprint_datasets</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## example explicitly specifying connection options</span>
-<span class='kw'>conn</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></span>(server= <span class='st'>"neuprint.janelia.org"</span>,
+<span class='kw'>conn</span> <span class='op'>=</span> <span class='fu'>neuprint_login</span>(server= <span class='st'>"neuprint.janelia.org"</span>,
   token= <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5za
   GFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIj
   oiaHR0cHM7Ly9saDQuZ35vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUF
@@ -335,23 +335,23 @@ reused automatically.</p></td>
 
 
 <span class='co'>## examples assuming that neuprint_* environment variables/options are set</span>
-<span class='kw'>conn</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></span>()
+<span class='kw'>conn</span> <span class='op'>=</span> <span class='fu'>neuprint_login</span>()
 
 <span class='co'>## using env vars + config to set advanced curl options</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></span>(config=<span class='kw'>httr</span>::<span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>(ssl_verifyhost=<span class='fl'>0</span>))
+<span class='fu'>neuprint_login</span>(config=<span class='kw'>httr</span>::<span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>(ssl_verifyhost=<span class='fl'>0</span>))
 
 <span class='co'>## now do stuff with the connection like</span>
-<span class='kw'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_info.html'>neuprint_datasets</a></span>(conn=<span class='kw'>conn</span>)
+<span class='kw'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_datasets.html'>neuprint_datasets</a></span>(conn=<span class='kw'>conn</span>)
 
 <span class='co'>## which, if you have edited your R.profile / R.environ, should produce the same results as</span>
-<span class='kw'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_info.html'>neuprint_datasets</a></span>(conn=<span class='kw'>NULL</span>)
+<span class='kw'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_datasets.html'>neuprint_datasets</a></span>(conn=<span class='kw'>NULL</span>)
 
 <span class='co'># make connection to second server</span>
-<span class='kw'>conn2</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></span>(server=<span class='st'>"https://server2.org"</span>,
+<span class='kw'>conn2</span><span class='op'>=</span><span class='fu'>neuprint_login</span>(server=<span class='st'>"https://server2.org"</span>,
   token=<span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>))
 
 <span class='co'># specify a default dataset (only required when &gt;1 dataset available)</span>
-<span class='kw'>conn2</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></span>(server=<span class='st'>"https://server2.org"</span>,
+<span class='kw'>conn2</span><span class='op'>=</span><span class='fu'>neuprint_login</span>(server=<span class='st'>"https://server2.org"</span>,
   token=<span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>), dataset=<span class='st'>"hemibrain"</span>)
 }</div></pre>
   </div>

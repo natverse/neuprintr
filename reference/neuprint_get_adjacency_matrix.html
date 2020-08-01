@@ -145,7 +145,7 @@
   set of specified bodies</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_get_adjacency_matrix</span>(
   bodyids = <span class='kw'>NULL</span>,
   inputids = <span class='kw'>NULL</span>,
   outputids = <span class='kw'>NULL</span>,
@@ -163,7 +163,7 @@
     <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query.
-This can be in any form understood by <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></code>.</p></td>
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>inputids, outputids</th>
@@ -174,7 +174,7 @@ alternative to <code>bodyids</code>)</p></td>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
@@ -186,7 +186,7 @@ current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/ma
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>sparse</th>
@@ -213,22 +213,22 @@ inside a wrapper function that postprocesses the results like
   considered.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
+    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
+  <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
+  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
   <code><a href='https://rdrr.io/pkg/Matrix/man/CsparseMatrix-class.html'>CsparseMatrix</a></code>)</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># these will mostly be axo-axonic connections between DA2 PNs</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></span>(<span class='st'>'DA2 lPN'</span>)</div><div class='output co'>#&gt;            1796817841 1827516355 818983130 1797505019 1796818119
+<span class='fu'>neuprint_get_adjacency_matrix</span>(<span class='st'>'DA2 lPN'</span>)</div><div class='output co'>#&gt;            1796817841 1827516355 818983130 1797505019 1796818119
 #&gt; 1796817841          0          6         7          7          1
 #&gt; 1827516355          3          0         3          1          5
 #&gt; 818983130           3          7         0          6          5
 #&gt; 1797505019          6          4         6          0         11
 #&gt; 1796818119          3          6         7         10          0</div><div class='input'>
 <span class='co'># rectangular matrix with different in/out neurons</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></span>(inputids=<span class='st'>'DA2 lPN'</span>, outputids=<span class='st'>'DL4 adPN'</span>)</div><div class='output co'>#&gt;            1670934213
+<span class='fu'>neuprint_get_adjacency_matrix</span>(inputids=<span class='st'>'DA2 lPN'</span>, outputids=<span class='st'>'DL4 adPN'</span>)</div><div class='output co'>#&gt;            1670934213
 #&gt; 1796817841          9
 #&gt; 1827516355          9
 #&gt; 818983130           0
@@ -237,12 +237,12 @@ inside a wrapper function that postprocesses the results like
 <span class='co'># \donttest{</span>
 <span class='co'># Note the use of cache=T, which will avoid a subsequent query to the</span>
 <span class='co'># neuPrint server if the same information is requested</span>
-<span class='kw'>pnkc</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></span>(inputids=<span class='st'>'name:mPN'</span>, outputids=<span class='st'>'/KC.*'</span>,
+<span class='kw'>pnkc</span><span class='op'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span>(inputids=<span class='st'>'name:mPN'</span>, outputids=<span class='st'>'/KC.*'</span>,
   cache=<span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='kw'>pnkc</span>), xlab = <span class='st'>'PN inputs / KC'</span>, br=<span class='fl'>100</span>)</div><div class='img'><img src='neuprint_get_adjacency_matrix-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='kw'>pnkc</span>)<span class='op'>&gt;</span><span class='fl'>0</span>)</div><div class='output co'>#&gt; [1] 146</div><div class='input'><span class='co'># }</span>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># sparse adjacency matrix</span>
-<span class='kw'>pnkcs</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></span>(inputids=<span class='st'>'name:mPN'</span>,
+<span class='kw'>pnkcs</span><span class='op'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span>(inputids=<span class='st'>'name:mPN'</span>,
   outputids=<span class='st'>'/KC.*'</span>, sparse=<span class='fl'>TRUE</span>, cache=<span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://Matrix.R-forge.R-project.org'>Matrix</a></span>)
 <span class='co'># PN-KC connectivity is itself sparse, so &lt; 2% of entries are non zero</span>

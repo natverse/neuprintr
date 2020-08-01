@@ -145,7 +145,7 @@
   query neurons with at least weightT synapses at each step</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_shortest_paths.html'>neuprint_get_shortest_paths</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_get_shortest_paths</span>(
   <span class='kw'>body_pre</span>,
   <span class='kw'>body_post</span>,
   weightT = <span class='fl'>5</span>,
@@ -200,14 +200,14 @@ split into multiple chunks based on the <code>chunk</code> argument.</p></td>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
@@ -222,13 +222,13 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_paths.html'>neuprint_get_paths</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_get_paths.html'>neuprint_get_paths</a></code>,
+  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code>,
+  <code><a href='neuprint_get_adjacency_matrix.html'>neuprint_get_adjacency_matrix</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_shortest_paths.html'>neuprint_get_shortest_paths</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1128092885</span>,<span class='fl'>481121605</span>),<span class='fl'>5813041365</span>,weightT=<span class='fl'>20</span>)</div><div class='output co'>#&gt;        from         to weight depth            name.from        name.to
+<span class='fu'>neuprint_get_shortest_paths</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1128092885</span>,<span class='fl'>481121605</span>),<span class='fl'>5813041365</span>,weightT=<span class='fl'>20</span>)</div><div class='output co'>#&gt;        from         to weight depth            name.from        name.to
 #&gt; 1 481121605  677182018     45     1 PFL1(PB12a)_L2(_C3_) FB02c(ADM02)_R
 #&gt; 2 677182018 5813041365     22     2       FB02c(ADM02)_R PFL1(PB12a)_L4
 #&gt;   type.from type.to

@@ -143,7 +143,7 @@
     <p>Return pre and post counts in all the ROIs given bodyids innervate.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_roiInfo.html'>neuprint_get_roiInfo</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_get_roiInfo</span>(
   <span class='kw'>bodyids</span>,
   dataset = <span class='kw'>NULL</span>,
   all_segments = <span class='fl'>FALSE</span>,
@@ -159,13 +159,13 @@
     <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query.
-This can be in any form understood by <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></code>.</p></td>
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
@@ -189,7 +189,7 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -203,7 +203,7 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_roiInfo.html'>neuprint_get_roiInfo</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 17
+<span class='fu'>neuprint_get_roiInfo</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 17
 #&gt;   bodyid `LH(R).pre` `LH(R).post` `MB(R).pre` `MB(R).post` `CA(R).pre`
 #&gt;    &lt;int&gt;       &lt;int&gt;        &lt;int&gt;       &lt;int&gt;        &lt;int&gt;       &lt;int&gt;
 #&gt; 1 8.19e8         210           97          75           14          75

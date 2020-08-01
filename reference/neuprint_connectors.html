@@ -148,7 +148,7 @@
   associated body IDs and their locations in 3D space.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_connectors.html'>neuprint_connectors</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_connectors</span>(
   <span class='kw'>connector_ids</span>,
   all_segments = <span class='fl'>TRUE</span>,
   conn = <span class='kw'>NULL</span>,
@@ -174,17 +174,17 @@ connection object.</p></td>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed to <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code></p></td>
+      <td><p>Additional arguments passed to <code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code></p></td>
     </tr>
     </table>
 
@@ -196,14 +196,14 @@ current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/ma
   raw voxel space).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_synapses.html'>neuprint_get_synapses</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
+  <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>syns</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_synapses.html'>neuprint_get_synapses</a></span>(<span class='fl'>818983130</span>) <span class='co'># note</span>
+<span class='kw'>syns</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span>(<span class='fl'>818983130</span>) <span class='co'># note</span>
 <span class='co'># all given connectorIDs from this function are for presynapses</span>
-<span class='kw'>prepost.conn</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_connectors.html'>neuprint_connectors</a></span>(<span class='kw'>syns</span><span class='op'>$</span><span class='kw'>connector_id</span>, all_segments = <span class='fl'>TRUE</span>)
+<span class='kw'>prepost.conn</span> <span class='op'>=</span> <span class='fu'>neuprint_connectors</span>(<span class='kw'>syns</span><span class='op'>$</span><span class='kw'>connector_id</span>, all_segments = <span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>prepost.conn</span>) <span class='co'># All the synapses that connect to or from 818983130</span></div><div class='output co'>#&gt;   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post
 #&gt; 1        134790431       134770109   818983130  975432645   6323  17828  14144
 #&gt; 2        134790432       134770109  1006820405  975432645   6300  17836  14145

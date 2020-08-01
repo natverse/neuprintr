@@ -151,7 +151,7 @@
   logic use in <code>rcatmaid</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_synapses.html'>neuprint_get_synapses</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_get_synapses</span>(
   <span class='kw'>bodyids</span>,
   roi = <span class='kw'>NULL</span>,
   remove.autapses = <span class='fl'>TRUE</span>,
@@ -168,12 +168,12 @@
     <tr>
       <th>bodyids</th>
       <td><p>the body IDs for neurons/segments (bodies) you wish to query.
-This can be in any form understood by <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></code>.</p></td>
+This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
       <th>roi</th>
       <td><p>a ROI (i.e. neuropil volume) you want to query. Use
-<code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_ROIs.html'>neuprint_ROIs</a></code> to see what is available. Defaults to 'all',
+<code><a href='neuprint_ROIs.html'>neuprint_ROIs</a></code> to see what is available. Defaults to 'all',
 which will return synapses in all ROIs.</p></td>
     </tr>
     <tr>
@@ -198,7 +198,7 @@ split into multiple chunks based on the <code>chunk</code> argument.</p></td>
     <tr>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If NULL, the default
-specified by your R environ file is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code>
+specified by your R environ file is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code>
 for details.</p></td>
     </tr>
     <tr>
@@ -206,7 +206,7 @@ for details.</p></td>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -227,13 +227,13 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
   <code>connector_id</code>, XYZ coordinates and a confidence in its existence.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>,
+  <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>,
+  <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>syns</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_synapses.html'>neuprint_get_synapses</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))
+<span class='kw'>syns</span><span class='op'>=</span><span class='fu'>neuprint_get_synapses</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>syns</span>)</div><div class='output co'>#&gt;   connector_id prepost    x     y     z confidence    bodyid   partner
 #&gt; 1    134770109       1 6323 17828 14144   0.852126 818983130 975432645
 #&gt; 2    133916420       1 5265 16547 13869   0.897000 818983130 974753221

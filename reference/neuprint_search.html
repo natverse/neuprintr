@@ -155,7 +155,7 @@ neuprint_ids provides for flexible search / specification
   type. Returns a character vector of bodyids.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_search</span>(
   <span class='kw'>search</span>,
   field = <span class='st'>"name"</span>,
   fixed = <span class='fl'>FALSE</span>,
@@ -167,7 +167,7 @@ neuprint_ids provides for flexible search / specification
   <span class='kw'>...</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></span>(
+<span class='fu'>neuprint_ids</span>(
   <span class='kw'>x</span>,
   mustWork = <span class='fl'>TRUE</span>,
   unique = <span class='fl'>TRUE</span>,
@@ -220,18 +220,18 @@ false for <code>fixed</code> queries.</p></td>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed to <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></code></p></td>
+      <td><p>Additional arguments passed to <code>neuprint_search</code></p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -268,13 +268,13 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
   query.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_meta.html'>neuprint_get_meta</a></code>,
-  <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_get_neuron_names.html'>neuprint_get_neuron_names</a></code></p>
-<p><code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_get_meta.html'>neuprint_get_meta</a></code>,
+  <code><a href='neuprint_get_neuron_names.html'>neuprint_get_neuron_names</a></code></p>
+<p><code>neuprint_search</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>)</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped              name    type
+<span class='fu'>neuprint_search</span>(<span class='st'>".*DA2.*"</span>)</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped              name    type
 #&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
 #&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
 #&gt; 3  818983130 408  562 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
@@ -285,9 +285,9 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt; 2           A12 737014743  TRUE
 #&gt; 3           A12 606338969 FALSE
 #&gt; 4           A12 445320106 FALSE
-#&gt; 5           A12 907369420  TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1796817841 1827516355  818983130 1797505019 1796818119</div><div class='input'>
+#&gt; 5           A12 907369420  TRUE</div><div class='input'><span class='fu'>neuprint_search</span>(<span class='st'>".*DA2.*"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1796817841 1827516355  818983130 1797505019 1796818119</div><div class='input'>
 <span class='co'># Search the type field</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"MBON.*"</span>, field = <span class='st'>"type"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>, field = <span class='st'>"type"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
 #&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
 #&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
 #&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
@@ -298,7 +298,7 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt; [49] 5813042659  423382015  487143497  550081497  612742248  612422902
 #&gt; [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020
 #&gt; [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835
-#&gt; [67]  643847447  547552266 5813033000 1173814525</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"MBON[0-9]+"</span>, field = <span class='st'>"type"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+#&gt; [67]  643847447  547552266 5813033000 1173814525</div><div class='input'><span class='fu'>neuprint_search</span>(<span class='st'>"MBON[0-9]+"</span>, field = <span class='st'>"type"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
 #&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
 #&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
 #&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
@@ -311,7 +311,7 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt; [61] 5813022234  894020730  706948318  642732835  643847447  547552266
 #&gt; [67] 5813033000 1173814525</div><div class='input'>
 <span class='co'># compact specification of field</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"type:MBON[0-9]+"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+<span class='fu'>neuprint_search</span>(<span class='st'>"type:MBON[0-9]+"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
 #&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
 #&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
 #&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
@@ -324,7 +324,7 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt; [61] 5813022234  894020730  706948318  642732835  643847447  547552266
 #&gt; [67] 5813033000 1173814525</div><div class='input'>
 <span class='co'># starts with MBON</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"type:MBON.*"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
+<span class='fu'>neuprint_search</span>(<span class='st'>"type:MBON.*"</span>, meta=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
 #&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
 #&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
 #&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
@@ -338,30 +338,30 @@ used. See <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_login.html'>
 #&gt; [67]  643847447  547552266 5813033000 1173814525</div><div class='input'><span class='co'># }</span>
 
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"MBON.*"</span>, field = <span class='st'>"type"</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON.*"</span>, field = <span class='st'>"type"</span>)
 
 <span class='co'># fixed=TRUE can be useful when you don't want to worry about special</span>
 <span class='co'># characters like brackets</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"PEN_a(PEN1)"</span>, field=<span class='st'>"type"</span>, fixed=<span class='fl'>TRUE</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"PEN_a(PEN1)"</span>, field=<span class='st'>"type"</span>, fixed=<span class='fl'>TRUE</span>)
 <span class='co'># by default fixed=TRUE returns partial matches</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"MBON16"</span>, field = <span class='st'>"type"</span>, fixed=<span class='fl'>TRUE</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON16"</span>, field = <span class='st'>"type"</span>, fixed=<span class='fl'>TRUE</span>)
 <span class='co'># here the type must exactly match the query i.e. complete match</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"MBON16"</span>, field = <span class='st'>"type"</span>, fixed=<span class='fl'>TRUE</span>, exact = <span class='fl'>TRUE</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"MBON16"</span>, field = <span class='st'>"type"</span>, fixed=<span class='fl'>TRUE</span>, exact = <span class='fl'>TRUE</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"AVF1"</span>, field = <span class='st'>"cellBodyFiber"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_search</a></span>(<span class='st'>"cellBodyFiber:AVF1"</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"AVF1"</span>, field = <span class='st'>"cellBodyFiber"</span>)
+<span class='fu'>neuprint_search</span>(<span class='st'>"cellBodyFiber:AVF1"</span>)
 }
 <span class='co'># \donttest{</span>
 <span class='co'># exact match against whole type</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></span>(<span class='st'>"!MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></span>(<span class='st'>"MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match against name field rather than type</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></span>(<span class='st'>"name:MBON01"</span>)</div><div class='output co'>#&gt; [1] "673509195" "612371421"</div><div class='input'>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"!MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match against name field rather than type</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"name:MBON01"</span>)</div><div class='output co'>#&gt; [1] "673509195" "612371421"</div><div class='input'>
 <span class='co'># initial / indicates to use regex search (which must be exact)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></span>(<span class='st'>"/MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># more interesting regex search</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></span>(<span class='st'>"/MBON0[1-4]"</span>)</div><div class='output co'>#&gt; [1] "612371421"  "673509195"  "424789697"  "5813022341" "612738462" 
+<span class='fu'>neuprint_ids</span>(<span class='st'>"/MBON01"</span>)</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># more interesting regex search</span>
+<span class='fu'>neuprint_ids</span>(<span class='st'>"/MBON0[1-4]"</span>)</div><div class='output co'>#&gt; [1] "612371421"  "673509195"  "424789697"  "5813022341" "612738462" 
 #&gt; [6] "487925037"  "487925063"  "613079053" </div><div class='input'>
 <span class='co'># partial regex search against the name field (note leading/trailing .*)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_search.html'>neuprint_ids</a></span>(<span class='st'>"/name:.*MBON0[1-4].*"</span>)</div><div class='output co'>#&gt; [1] "673509195"  "612371421"  "5813022341" "424789697"  "612738462" 
+<span class='fu'>neuprint_ids</span>(<span class='st'>"/name:.*MBON0[1-4].*"</span>)</div><div class='output co'>#&gt; [1] "673509195"  "612371421"  "5813022341" "424789697"  "612738462" 
 #&gt; [6] "487925037"  "613079053"  "487925063" </div><div class='input'><span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

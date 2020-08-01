@@ -143,7 +143,7 @@
     <p>Parse neuprint return list to a data frame</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_list2df.html'>neuprint_list2df</a></span>(
+    <pre class="usage"><span class='fu'>neuprint_list2df</span>(
   <span class='kw'>x</span>,
   cols = <span class='kw'>NULL</span>,
   return_empty_df = <span class='fl'>FALSE</span>,
@@ -156,7 +156,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A list returned by <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code></p></td>
+      <td><p>A list returned by <code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code></p></td>
     </tr>
     <tr>
       <th>cols</th>
@@ -183,7 +183,7 @@ factors. Note that the default of <code>FALSE</code> differs from
 
     <p>A low level function tailored to the standard neuprint list return
   format. Should handle those times when jsonlite's simplification doesn't
-  work. The normal return value of <code><a href='https://rdrr.io/pkg/neuprintr/man/neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code> is a
+  work. The normal return value of <code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code> is a
   list formatted as follows:</p><ul>
 <li><p>columns List of column names</p></li>
 <li><p>data Nested list of data, with each row formatted as a single
