@@ -8,6 +8,11 @@ test_that("neuprint_connection_table works", {
                                          progress = TRUE),
                t1)
 
+  # test that threshold works ok
+  expect_equal(
+    neuprint_connection_table(c(818983130, 1796818119),threshold = 2),
+    subset(t1, weight >= 2))
+
   expect_is(t2 <- neuprint_connection_table(c(818983130, 1796818119),
                                             prepost = "POST",
                                             by.roi = TRUE),
@@ -23,6 +28,15 @@ test_that("neuprint_connection_table works", {
             'data.frame')
   # equivalent so we don't worry about rownames
   expect_equivalent(subset(t2, roi=='LH(R)'), t3)
+  expect_equivalent(
+    neuprint_connection_table(
+      c(818983130, 1796818119),
+      prepost = "POST",
+      roi = "LH(R)",
+      threshold = 3
+    ),
+    subset(t3, ROIweight >= 3)
+  )
 })
 
 test_that("other connectivity functions work", {
