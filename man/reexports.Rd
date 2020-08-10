@@ -11,6 +11,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{nat}{\code{\link[nat]{progress_natprogress}}}
+  \item{nat}{\code{\link[nat:nlapply]{progress_natprogress}}}
 }}
 

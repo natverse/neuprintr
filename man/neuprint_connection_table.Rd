@@ -10,6 +10,7 @@ neuprint_connection_table(
   roi = NULL,
   by.roi = FALSE,
   threshold = 1L,
+  details = FALSE,
   superLevel = FALSE,
   progress = FALSE,
   dataset = NULL,
@@ -35,6 +36,9 @@ region of interest (ROI)}
 \item{threshold}{Only return partners >= to an integer value. Default of 1
 returns all partners. This threshold will be applied to the ROI weight when
 the \code{roi} argument is specified, otherwise to the whole neuron.}
+
+\item{details}{When \code{TRUE} returns adds a name and type column for
+partners.}
 
 \item{superLevel}{When \code{by.roi=TRUE}, should we look at low-level ROIs
 (\code{superLevel=FALSE}) or only super-level ROIs
