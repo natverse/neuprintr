@@ -234,23 +234,25 @@ neuprint_connection_table <- function(bodyids,
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
 
-  cypher <-sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
-                         "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
-                         "WHERE %s.bodyId=bodyId",
-                         "%s",
-                         "%s",
-                         "RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight",
-                         "%s"),
-                   id2json(bodyids),
-                   all_segments.json,
-                   all_segments.json,
-                   ifelse(prepost=="POST","a","b"),
-                   ifelse(threshold>1, paste("AND c.weight >= ", threshold), ""),
-                   ifelse(!is.null(roi)|by.roi,"UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""),
-                   ifelse(prepost=="POST","bodyid","partner"),
-                   ifelse(prepost=="POST","partner","bodyid"),
-                   ifelse(!is.null(roi)|by.roi,", k AS roi, apoc.convert.fromJsonMap(c.roiInfo)[k].post AS ROIweight","")
-                  )
+  WITH=sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",id2json(bodyids))
+
+  MATCH=sprintf("MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
+                all_segments.json, all_segments.json)
+
+  WHERE=sprintf("WHERE %s.bodyId=bodyId %s %s",
+                ifelse(prepost=="POST","a","b"),
+                ifelse(threshold>1, paste("AND c.weight >= ", threshold), ""),
+                ifelse(!is.null(roi)|by.roi,
+                       "UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""))
+
+  RETURN=sprintf("RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight %s",
+                 ifelse(prepost=="POST","bodyid","partner"),
+                 ifelse(prepost=="POST","partner","bodyid"),
+                 ifelse(!is.null(roi)|by.roi,", k AS roi, apoc.convert.fromJsonMap(c.roiInfo)[k].post AS ROIweight","")
+
+  )
+  cypher <-paste(WITH, MATCH, WHERE, RETURN)
+
   nc <-neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
   if(!is.null(roi)|by.roi){
