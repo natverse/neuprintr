@@ -9,14 +9,19 @@ test_that("neuprint_connection_table works", {
                t1)
 
   # test that threshold works ok
-  expect_equal(
+  expect_equal(t1.2 <-
     neuprint_connection_table(c(818983130, 1796818119),threshold = 2),
     subset(t1, weight >= 2))
 
-  expect_is(t2 <- neuprint_connection_table(c(818983130, 1796818119),
-                                            prepost = "POST",
-                                            by.roi = TRUE),
-            'data.frame')
+  expect_is(t2 <- neuprint_connection_table(
+    c(818983130, 1796818119), prepost = "POST", by.roi = TRUE),
+    'data.frame')
+  #
+  t2.2=neuprint_connection_table(c(818983130, 1796818119),
+                                 prepost = "POST",
+                                 by.roi = TRUE, details = T)
+  expect_equal(t2, t2.2[colnames(t2)])
+  expect_equal(t2.2$name, unname(neuprint_get_neuron_names(t2$partner)))
   expect_equal(neuprint_connection_table(c(818983130, 1796818119),
                                             prepost = "POST",
                                             by.roi = TRUE, progress=TRUE),
