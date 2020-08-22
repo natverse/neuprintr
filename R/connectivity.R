@@ -102,6 +102,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'   \code{bodyids}
 #' @param by.roi logical, whether or not to break neurons' connectivity down by
 #'   region of interest (ROI)
+#' @param details When \code{TRUE} returns adds a name and type column for
+#'   partners.
 #' @param threshold Only return partners >= to an integer value. Default of 1
 #'   returns all partners. This threshold will be applied to the ROI weight when
 #'   the \code{roi} argument is specified, otherwise to the whole neuron.
@@ -179,6 +181,7 @@ neuprint_connection_table <- function(bodyids,
                                       roi = NULL,
                                       by.roi = FALSE,
                                       threshold=1L,
+                                      details=FALSE,
                                       superLevel = FALSE,
                                       progress = FALSE,
                                       dataset = NULL,
@@ -234,27 +237,35 @@ neuprint_connection_table <- function(bodyids,
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
 
-  cypher <-sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
-                         "MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
-                         "WHERE %s.bodyId=bodyId",
-                         "%s",
-                         "%s",
-                         "RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight",
-                         "%s"),
-                   id2json(bodyids),
-                   all_segments.json,
-                   all_segments.json,
-                   ifelse(prepost=="POST","a","b"),
-                   ifelse(threshold>1, paste("AND c.weight >= ", threshold), ""),
-                   ifelse(!is.null(roi)|by.roi,"UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""),
-                   ifelse(prepost=="POST","bodyid","partner"),
-                   ifelse(prepost=="POST","partner","bodyid"),
-                   ifelse(!is.null(roi)|by.roi,", k AS roi, apoc.convert.fromJsonMap(c.roiInfo)[k].post AS ROIweight","")
-                  )
+  WITH=sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",id2json(bodyids))
+
+  MATCH=sprintf("MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
+                all_segments.json, all_segments.json)
+
+  WHERE=sprintf("WHERE %s.bodyId=bodyId %s %s",
+                ifelse(prepost=="POST","a","b"),
+                ifelse(threshold>1, paste("AND c.weight >= ", threshold), ""),
+                ifelse(!is.null(roi)|by.roi,
+                       "UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""))
+
+  extrafields <- if(isTRUE(details)) {
+    ab=ifelse(prepost=="PRE","a","b")
+    sprintf(", %s.type AS type, %s.instance AS name", ab, ab)
+  } else ""
+  RETURN=sprintf("RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight %s %s",
+                 ifelse(prepost=="POST","bodyid","partner"),
+                 ifelse(prepost=="POST","partner","bodyid"),
+                 extrafields,
+                 ifelse(!is.null(roi)|by.roi,", k AS roi, apoc.convert.fromJsonMap(c.roiInfo)[k].post AS ROIweight","")
+
+  )
+  cypher <-paste(WITH, MATCH, WHERE, RETURN)
+
   nc <-neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
   if(!is.null(roi)|by.roi){
-    nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[4]]))]
+    roicol=match("roi", unlist(nc$columns))
+    nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[roicol]]))]
   }
   d <- neuprint_list2df(nc, return_empty_df = TRUE)
   d$weight <- as.integer(d$weight)
@@ -268,7 +279,11 @@ neuprint_connection_table <- function(bodyids,
   }
   d <-  d[order(d$weight,decreasing=TRUE),]
   rownames(d) <- NULL
-  d=d[,sort(colnames(d))]
+  firstcols=sort(c(colnames(d)[1:3], 'prepost'))
+  if(details)
+    firstcols=c(firstcols, 'name', 'type')
+  othercols=setdiff(colnames(d), firstcols)
+  d=d[,c(firstcols, sort(othercols))]
 
   if(!is.null(roi) && threshold>1)
     d=d[d$ROIweight>=threshold,]
