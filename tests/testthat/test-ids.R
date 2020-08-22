@@ -33,13 +33,17 @@ test_that("id conversion works", {
 
   toobigid="9223372036854775807"
   expect_error(id2bit64(toobigid))
+  expect_error(id2bit64(-1))
+  expect_equal(id2bit64(c(1,NA)), bit64::as.integer64(c("1", NA)))
+  expect_equal(id2bit64(c(1, NA, "")), bit64::as.integer64(c("1", NA, NA)))
 
   expect_equal(id2char(NULL), character(0))
   expect_equal(id2char(character(0)), character(0))
   expect_equal(id2char(logical(0)), character(0))
   expect_equal(id2char(numeric(0)), character(0))
   expect_equal(id2char(factor()), character(0))
-  expect_error(id2char(""))
+  expect_equal(id2char(""), NA_character_)
+  expect_equal(id2char(NA), NA_character_)
 
   expect_equal(neuprint_ids(bigid), bigid)
   expect_equal(neuprint_ids(1:4), as.character(1:4))
@@ -48,8 +52,22 @@ test_that("id conversion works", {
   expect_error(neuprint_ids(-1))
   expect_error(neuprint_ids(numeric()))
   expect_equal(neuprint_ids(numeric(), mustWork = FALSE), character())
+  expect_error(neuprint_ids(NA))
+  expect_equal(neuprint_ids(NA, mustWork = F), NA_character_)
 })
 
+test_that("valid_id works", {
+  expect_true(valid_id(1))
+  expect_false(valid_id(NA))
+  expect_false(valid_id(NULL))
+  expect_false(valid_id(logical()))
+  expect_false(valid_id(-1))
+  toobigid="9223372036854775807"
+  expect_false(valid_id(toobigid))
+})
+
+
+skip_if_offline()
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("neuprint_ids works", {
