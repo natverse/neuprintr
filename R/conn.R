@@ -167,18 +167,8 @@ neuprint_connection <- function(server=NULL, token=NULL, dataset=NULL,
   # Set a default server if none specified
   neuprint_server <-
     if(is.null(server)) unlist(getenvoroption("server")) else server
-  pu=httr::parse_url(neuprint_server)
-  if(is.null(pu$scheme)) {
-    pu$scheme="https"
-    if(is.null(pu$hostname)) {
-      pu$hostname=pu$path
-      pu$path=NULL
-    }
-    neuprint_server=httr::build_url(pu)
-    warning("No URL scheme specified for your server! Assuming it should be:x\n",
-            neuprint_server,
-            "\nPlease specify the URL in full next time!")
-  }
+  # we will always add one in our calls
+  neuprint_server <- remove_trailing_slash(neuprint_server)
   # Set a default token if none specified
   neuprint_token <- if(is.null(token)) unlist(getenvoroption("token")) else token
   # collect any curl options defined as environment variables
@@ -202,6 +192,8 @@ print.neuprint_connection <- function(x, ...) {
   }
   invisible(x)
 }
+
+remove_trailing_slash <- function(x) sub("/$", "", x)
 
 # Hidden
 neuprint_last_connection <- function(){
@@ -285,6 +277,17 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
     )
     conn$authresponse = httr::GET(url = conn$server,con=conn$config)
     httr::stop_for_status(conn$authresponse)
+    canonurl=remove_trailing_slash(conn$authresponse$url)
+    if(!isTRUE(conn$server==canonurl)) {
+      warning("The URL reported by neuprint server differs from what you specified:\n\n",
+              paste("  The server URL that you provided : ", conn$server, "\n"),
+              paste("  Canonical URL according to server: ", canonurl, "\n\n"),
+              "I will update the URL in this neuprint connection to the canonical URL\n",
+              "and recommend that you change your configuration to match.\n",
+              "See ?neuprint_login for more details."
+              )
+      conn$server=canonurl
+    }
   }
   conn$cookies = unlist(httr::cookies(conn$authresponse))
   conn$config = c(conn$config, httr::set_cookies(conn$cookies))
