@@ -151,6 +151,7 @@
   roi = <span class='kw'>NULL</span>,
   by.roi = <span class='fl'>FALSE</span>,
   threshold = <span class='fl'>1L</span>,
+  details = <span class='fl'>FALSE</span>,
   superLevel = <span class='fl'>FALSE</span>,
   progress = <span class='fl'>FALSE</span>,
   dataset = <span class='kw'>NULL</span>,
@@ -188,6 +189,11 @@ region of interest (ROI)</p></td>
       <td><p>Only return partners &gt;= to an integer value. Default of 1
 returns all partners. This threshold will be applied to the ROI weight when
 the <code>roi</code> argument is specified, otherwise to the whole neuron.</p></td>
+    </tr>
+    <tr>
+      <th>details</th>
+      <td><p>When <code>TRUE</code> returns adds a name and type column for
+partners.</p></td>
     </tr>
     <tr>
       <th>superLevel</th>
@@ -275,13 +281,13 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 <span class='co'>## The same connections broken down by ROI</span>
 <span class='kw'>c2</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), prepost = <span class='st'>"POST"</span>,
                                by.roi = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>c2</span>)</div><div class='output co'>#&gt;       bodyid   partner prepost         roi ROIweight weight
-#&gt; 1 1796818119 632402333       1 MB(+ACA)(R)        26     26
-#&gt; 2 1796818119 632402333       1       MB(R)        26     26
-#&gt; 3 1796818119 632402333       1       CA(R)        26     26
-#&gt; 4  818983130 785914742       1 MB(+ACA)(R)        23     24
-#&gt; 5  818983130 785914742       1       MB(R)        23     24
-#&gt; 6  818983130 785914742       1     mALT(R)         1     24</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>c2</span>)</div><div class='output co'>#&gt;       bodyid   partner prepost weight         roi ROIweight
+#&gt; 1 1796818119 632402333       1     26 MB(+ACA)(R)        26
+#&gt; 2 1796818119 632402333       1     26       MB(R)        26
+#&gt; 3 1796818119 632402333       1     26       CA(R)        26
+#&gt; 4  818983130 785914742       1     24 MB(+ACA)(R)        23
+#&gt; 5  818983130 785914742       1     24       MB(R)        23
+#&gt; 6  818983130 785914742       1     24     mALT(R)         1</div><div class='input'>
 <span class='co'>## The same connections broken down by super-level ROIs only</span>
 <span class='kw'>c3</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), prepost = <span class='st'>"POST"</span>,
                                by.roi = <span class='fl'>TRUE</span>, superLevel = <span class='fl'>TRUE</span>)
