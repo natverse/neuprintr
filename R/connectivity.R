@@ -222,6 +222,7 @@ neuprint_connection_table <- function(bodyids,
       roi = roi,
       by.roi = by.roi,
       threshold = threshold,
+      details=details,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
