@@ -88,12 +88,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -145,15 +139,15 @@
   given bodyids, either upstream or downstream.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_common_connectivity</span>(
-  <span class='kw'>bodyids</span>,
-  statuses = <span class='kw'>NULL</span>,
-  prepost = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRE"</span>, <span class='st'>"POST"</span>),
-  all_segments = <span class='fl'>FALSE</span>,
-  dataset = <span class='kw'>NULL</span>,
-  conn = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_common_connectivity</span><span class='op'>(</span>
+  <span class='va'>bodyids</span>,
+  statuses <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prepost <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PRE"</span>, <span class='st'>"POST"</span><span class='op'>)</span>,
+  all_segments <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,15 +203,18 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>'.*DA2.*'</span>)
-<span class='kw'>da2conn</span> <span class='op'>=</span> <span class='fu'>neuprint_common_connectivity</span>(<span class='kw'>da2s</span><span class='op'>$</span><span class='kw'>bodyid</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>], prepost=<span class='st'>'PRE'</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='kw'>da2conn</span>))</div><div class='img'><img src='neuprint_common_connectivity-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='kw'>da2conn</span>), sum=<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='kw'>da2conn</span>)))</div><div class='output co'>#&gt;           1796817841 1827516355 sum
+<span class='va'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span><span class='op'>(</span><span class='st'>'.*DA2.*'</span><span class='op'>)</span>
+<span class='va'>da2conn</span> <span class='op'>=</span> <span class='fu'>neuprint_common_connectivity</span><span class='op'>(</span><span class='va'>da2s</span><span class='op'>$</span><span class='va'>bodyid</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, prepost<span class='op'>=</span><span class='st'>'PRE'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>da2conn</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='neuprint_common_connectivity-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>da2conn</span><span class='op'>)</span>, sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>da2conn</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           1796817841 1827516355 sum
 #&gt; 425790257          2          2   4
 #&gt; 478613576          5          3   8
 #&gt; 480590566          6          4  10
 #&gt; 513323340          1          5   6
 #&gt; 543679473          1          1   2
-#&gt; 573695941          7          9  16</div><div class='input'><span class='co'># }</span></div></pre>
+#&gt; 573695941          7          9  16</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -233,7 +230,7 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

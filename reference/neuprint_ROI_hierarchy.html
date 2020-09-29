@@ -87,12 +87,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -143,13 +137,13 @@
     <p>Get the region of interest (ROI) hierarchy in a dataset</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_ROI_hierarchy</span>(
-  root = <span class='kw'>NULL</span>,
-  rval = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"edgelist"</span>, <span class='st'>"graph"</span>),
-  dataset = <span class='kw'>NULL</span>,
-  conn = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_ROI_hierarchy</span><span class='op'>(</span>
+  root <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rval <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"edgelist"</span>, <span class='st'>"graph"</span><span class='op'>)</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,22 +184,26 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>g</span> <span class='op'>=</span> <span class='fu'>neuprint_ROI_hierarchy</span>(rval=<span class='st'>'graph'</span>)
-<span class='kw'>igraph</span>::<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/plot.igraph.html'>plot.igraph</a></span>(<span class='kw'>g</span>, layout=<span class='kw'>igraph</span>::<span class='kw'><a href='https://rdrr.io/pkg/igraph/man/layout_as_tree.html'>layout_as_tree</a></span>)</div><div class='img'><img src='neuprint_ROI_hierarchy-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>g</span> <span class='op'>=</span> <span class='fu'>neuprint_ROI_hierarchy</span><span class='op'>(</span>rval<span class='op'>=</span><span class='st'>'graph'</span><span class='op'>)</span>
+<span class='fu'>igraph</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/plot.igraph.html'>plot.igraph</a></span><span class='op'>(</span><span class='va'>g</span>, layout<span class='op'>=</span><span class='fu'>igraph</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/igraph/man/layout_as_tree.html'>layout_as_tree</a></span><span class='op'>)</span>
+</div><div class='img'><img src='neuprint_ROI_hierarchy-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># just the Mushroom Body Nodes on right hand side</span>
-<span class='kw'>mbg</span><span class='op'>=</span><span class='fu'>neuprint_ROI_hierarchy</span>(root=<span class='st'>'MB(R)'</span>, rval=<span class='st'>'graph'</span>)
-<span class='kw'>igraph</span>::<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/plot.igraph.html'>plot.igraph</a></span>(<span class='kw'>mbg</span>)</div><div class='img'><img src='neuprint_ROI_hierarchy-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># find just the terminal nodes of the graph</span>
-<span class='kw'>mbterms</span><span class='op'>=</span><span class='kw'>nat</span>::<span class='fu'><a href='https://rdrr.io/pkg/nat/man/rootpoints.html'>endpoints</a></span>(<span class='kw'>mbg</span>)
-<span class='kw'>mbterms</span></div><div class='output co'>#&gt;  [1] "CA(R)"  "PED(R)" "a'1(R)" "a'2(R)" "a'3(R)" "a1(R)"  "a2(R)"  "a3(R)" 
+<span class='va'>mbg</span><span class='op'>=</span><span class='fu'>neuprint_ROI_hierarchy</span><span class='op'>(</span>root<span class='op'>=</span><span class='st'>'MB(R)'</span>, rval<span class='op'>=</span><span class='st'>'graph'</span><span class='op'>)</span>
+<span class='fu'>igraph</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/plot.igraph.html'>plot.igraph</a></span><span class='op'>(</span><span class='va'>mbg</span><span class='op'>)</span>
+</div><div class='img'><img src='neuprint_ROI_hierarchy-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># find just the terminal nodes of the graph</span>
+<span class='va'>mbterms</span><span class='op'>=</span><span class='fu'>nat</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nat/man/rootpoints.html'>endpoints</a></span><span class='op'>(</span><span class='va'>mbg</span><span class='op'>)</span>
+<span class='va'>mbterms</span>
+</div><div class='output co'>#&gt;  [1] "CA(R)"  "PED(R)" "a'1(R)" "a'2(R)" "a'3(R)" "a1(R)"  "a2(R)"  "a3(R)" 
 #&gt;  [9] "g1(R)"  "g2(R)"  "g3(R)"  "g4(R)"  "g5(R)"  "b'1(R)" "b'2(R)" "b1(R)" 
 #&gt; [17] "b2(R)" </div><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># read in all the MB meshes</span>
-<span class='kw'>mbmeshes</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='kw'>mbterms</span>, <span class='kw'>neuprint_ROI_mesh</span>, simplify = <span class='fl'>FALSE</span>)
+<span class='va'>mbmeshes</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>mbterms</span>, <span class='va'>neuprint_ROI_mesh</span>, simplify <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='co'># 3D plot in different colours</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mapply.html'>mapply</a></span>(<span class='kw'>shade3d</span>, <span class='kw'>mbmeshes</span>, col=<span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>rainbow</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='kw'>mbmeshes</span>)))
-}
-<span class='co'># }</span></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/mapply.html'>mapply</a></span><span class='op'>(</span><span class='va'>shade3d</span>, <span class='va'>mbmeshes</span>, col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>rainbow</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>mbmeshes</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -221,7 +219,7 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

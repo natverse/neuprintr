@@ -87,12 +87,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -143,15 +137,15 @@
     <p>Get key metadata for body (including name, type, status, size)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_meta</span>(
-  <span class='kw'>bodyids</span>,
-  dataset = <span class='kw'>NULL</span>,
-  all_segments = <span class='fl'>TRUE</span>,
-  conn = <span class='kw'>NULL</span>,
-  chunk = <span class='fl'>TRUE</span>,
-  progress = <span class='fl'>FALSE</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_get_meta</span><span class='op'>(</span>
+  <span class='va'>bodyids</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all_segments <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  chunk <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,8 +215,9 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>)
-<span class='fu'>neuprint_get_meta</span>(<span class='kw'>da2s</span><span class='op'>$</span><span class='kw'>bodyid</span>)</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped              name    type
+<span class='va'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span><span class='op'>(</span><span class='st'>".*DA2.*"</span><span class='op'>)</span>
+<span class='fu'>neuprint_get_meta</span><span class='op'>(</span><span class='va'>da2s</span><span class='op'>$</span><span class='va'>bodyid</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped              name    type
 #&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
 #&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
 #&gt; 3  818983130 408  562 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
@@ -234,7 +229,8 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
 #&gt; 3           A12 606338969 FALSE
 #&gt; 4           A12 445320106 FALSE
 #&gt; 5           A12 907369420  TRUE</div><div class='input'><span class='co'># or simpler</span>
-<span class='fu'>neuprint_get_meta</span>(<span class='st'>'DA2'</span>)</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped              name    type
+<span class='fu'>neuprint_get_meta</span><span class='op'>(</span><span class='st'>'DA2'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped              name    type
 #&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
 #&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
 #&gt; 3  818983130 408  562 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
@@ -245,7 +241,8 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
 #&gt; 2           A12 737014743  TRUE
 #&gt; 3           A12 606338969 FALSE
 #&gt; 4           A12 445320106 FALSE
-#&gt; 5           A12 907369420  TRUE</div><div class='input'><span class='co'># }</span></div></pre>
+#&gt; 5           A12 907369420  TRUE</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -261,7 +258,7 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

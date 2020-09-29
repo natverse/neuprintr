@@ -88,12 +88,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -145,21 +139,21 @@
   restricted to within an ROI if specified</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_connection_table</span>(
-  <span class='kw'>bodyids</span>,
-  prepost = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRE"</span>, <span class='st'>"POST"</span>),
-  roi = <span class='kw'>NULL</span>,
-  by.roi = <span class='fl'>FALSE</span>,
-  threshold = <span class='fl'>1L</span>,
-  details = <span class='fl'>FALSE</span>,
-  superLevel = <span class='fl'>FALSE</span>,
-  progress = <span class='fl'>FALSE</span>,
-  dataset = <span class='kw'>NULL</span>,
-  chunk = <span class='fl'>TRUE</span>,
-  all_segments = <span class='fl'>FALSE</span>,
-  conn = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_connection_table</span><span class='op'>(</span>
+  <span class='va'>bodyids</span>,
+  prepost <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PRE"</span>, <span class='st'>"POST"</span><span class='op'>)</span>,
+  roi <span class='op'>=</span> <span class='cn'>NULL</span>,
+  by.roi <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  threshold <span class='op'>=</span> <span class='fl'>1L</span>,
+  details <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  superLevel <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  chunk <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  all_segments <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -270,8 +264,9 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'>## Unitary connection strengths between two chosen neurons,</span>
 <span class='co'>## and their downstream targets</span>
-<span class='kw'>c1</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), prepost = <span class='st'>"POST"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>c1</span>)</div><div class='output co'>#&gt;       bodyid    partner prepost weight
+<span class='va'>c1</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span>, prepost <span class='op'>=</span> <span class='st'>"POST"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>c1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       bodyid    partner prepost weight
 #&gt; 1 1796818119  632402333       1     26
 #&gt; 2  818983130  785914742       1     24
 #&gt; 3 1796818119 5813080766       1     24
@@ -279,9 +274,10 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 #&gt; 5  818983130 5813055865       1     23
 #&gt; 6  818983130  798869986       1     23</div><div class='input'>
 <span class='co'>## The same connections broken down by ROI</span>
-<span class='kw'>c2</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), prepost = <span class='st'>"POST"</span>,
-                               by.roi = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>c2</span>)</div><div class='output co'>#&gt;       bodyid   partner prepost weight         roi ROIweight
+<span class='va'>c2</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span>, prepost <span class='op'>=</span> <span class='st'>"POST"</span>,
+                               by.roi <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>c2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       bodyid   partner prepost weight         roi ROIweight
 #&gt; 1 1796818119 632402333       1     26 MB(+ACA)(R)        26
 #&gt; 2 1796818119 632402333       1     26       MB(R)        26
 #&gt; 3 1796818119 632402333       1     26       CA(R)        26
@@ -289,14 +285,17 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 #&gt; 5  818983130 785914742       1     24       MB(R)        23
 #&gt; 6  818983130 785914742       1     24     mALT(R)         1</div><div class='input'>
 <span class='co'>## The same connections broken down by super-level ROIs only</span>
-<span class='kw'>c3</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), prepost = <span class='st'>"POST"</span>,
-                               by.roi = <span class='fl'>TRUE</span>, superLevel = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>c3</span>)</div><div class='output co'>#&gt; [1] 641</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>c2</span>)</div><div class='output co'>#&gt; [1] 854</div><div class='input'>
+<span class='va'>c3</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span>, prepost <span class='op'>=</span> <span class='st'>"POST"</span>,
+                               by.roi <span class='op'>=</span> <span class='cn'>TRUE</span>, superLevel <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>c3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 641</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>c2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 854</div><div class='input'>
 <span class='co'>## Find only the connections within a specific ROI</span>
-<span class='kw'>c4</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>), prepost = <span class='st'>"POST"</span>,
-                               by.roi = <span class='fl'>TRUE</span>, roi = <span class='st'>"LH(R)"</span>)
+<span class='va'>c4</span> <span class='op'>=</span> <span class='fu'>neuprint_connection_table</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span>, prepost <span class='op'>=</span> <span class='st'>"POST"</span>,
+                               by.roi <span class='op'>=</span> <span class='cn'>TRUE</span>, roi <span class='op'>=</span> <span class='st'>"LH(R)"</span><span class='op'>)</span>
 
-<span class='co'># }</span></div></pre>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -312,7 +311,7 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

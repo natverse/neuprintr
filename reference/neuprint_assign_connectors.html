@@ -88,12 +88,6 @@ For some datasets, somata positions have been mapped to pixels within a soma vol
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -145,15 +139,15 @@ For some datasets, somata positions have been mapped to pixels within a soma vol
 <p>For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_assign_connectors</span>(<span class='kw'>x</span>, bodyids = <span class='kw'>NULL</span>, dataset = <span class='kw'>NULL</span>, conn = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>neuprint_assign_connectors</span><span class='op'>(</span><span class='va'>x</span>, bodyids <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>neuprint_locate_soma</span>(
-  <span class='kw'>bodyids</span>,
-  dataset = <span class='kw'>NULL</span>,
-  all_segments = <span class='fl'>TRUE</span>,
-  conn = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+<span class='fu'>neuprint_locate_soma</span><span class='op'>(</span>
+  <span class='va'>bodyids</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all_segments <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,8 +196,10 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_locate_soma</span>(<span class='st'>"5813115796"</span>)</div><div class='output co'>#&gt;       bodyid    X     Y     Z
-#&gt; 1 5813115796 4345 27108 13968</div><div class='input'><span class='co'># }</span></div></pre>
+<span class='fu'>neuprint_locate_soma</span><span class='op'>(</span><span class='st'>"5813115796"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       bodyid    X     Y     Z
+#&gt; 1 5813115796 4345 27108 13968</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -219,7 +215,7 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

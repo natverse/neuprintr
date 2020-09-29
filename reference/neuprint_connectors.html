@@ -90,12 +90,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -148,13 +142,13 @@
   associated body IDs and their locations in 3D space.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_connectors</span>(
-  <span class='kw'>connector_ids</span>,
-  all_segments = <span class='fl'>TRUE</span>,
-  conn = <span class='kw'>NULL</span>,
-  dataset = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_connectors</span><span class='op'>(</span>
+  <span class='va'>connector_ids</span>,
+  all_segments <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,10 +195,11 @@ current connection, is used. See <code><a href='neuprint_connection.html'>neupri
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>syns</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span>(<span class='fl'>818983130</span>) <span class='co'># note</span>
+<span class='va'>syns</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span><span class='op'>(</span><span class='fl'>818983130</span><span class='op'>)</span> <span class='co'># note</span>
 <span class='co'># all given connectorIDs from this function are for presynapses</span>
-<span class='kw'>prepost.conn</span> <span class='op'>=</span> <span class='fu'>neuprint_connectors</span>(<span class='kw'>syns</span><span class='op'>$</span><span class='kw'>connector_id</span>, all_segments = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>prepost.conn</span>) <span class='co'># All the synapses that connect to or from 818983130</span></div><div class='output co'>#&gt;   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post
+<span class='va'>prepost.conn</span> <span class='op'>=</span> <span class='fu'>neuprint_connectors</span><span class='op'>(</span><span class='va'>syns</span><span class='op'>$</span><span class='va'>connector_id</span>, all_segments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>prepost.conn</span><span class='op'>)</span> <span class='co'># All the synapses that connect to or from 818983130</span>
+</div><div class='output co'>#&gt;   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post
 #&gt; 1        134790431       134770109   818983130  975432645   6323  17828  14144
 #&gt; 2        134790432       134770109  1006820405  975432645   6300  17836  14145
 #&gt; 3        134770105       134770109   947453617  975432645   6335  17828  14130
@@ -218,7 +213,8 @@ current connection, is used. See <code><a href='neuprint_connection.html'>neupri
 #&gt; 4       0.9932270  6326 17842 14138          0.953
 #&gt; 5       0.8970000  5267 16548 13857          0.785
 #&gt; 6       0.6449590  5358 16493 13900          0.964</div><div class='input'><span class='co'># and their other connections to other bodies too</span>
-<span class='co'># }</span></div></pre>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -234,7 +230,7 @@ current connection, is used. See <code><a href='neuprint_connection.html'>neupri
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

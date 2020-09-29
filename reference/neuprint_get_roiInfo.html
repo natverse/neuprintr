@@ -87,12 +87,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -143,15 +137,15 @@
     <p>Return pre and post counts in all the ROIs given bodyids innervate.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_roiInfo</span>(
-  <span class='kw'>bodyids</span>,
-  dataset = <span class='kw'>NULL</span>,
-  all_segments = <span class='fl'>FALSE</span>,
-  chunk = <span class='fl'>TRUE</span>,
-  progress = <span class='fl'>FALSE</span>,
-  conn = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_get_roiInfo</span><span class='op'>(</span>
+  <span class='va'>bodyids</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all_segments <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  chunk <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,15 +197,17 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_get_roiInfo</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 17
+<span class='fu'>neuprint_get_roiInfo</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 17</span><span>
 #&gt;   bodyid `LH(R).pre` `LH(R).post` `MB(R).pre` `MB(R).post` `CA(R).pre`
-#&gt;    &lt;int&gt;       &lt;int&gt;        &lt;int&gt;       &lt;int&gt;        &lt;int&gt;       &lt;int&gt;
-#&gt; 1 8.19e8         210           97          75           14          75
-#&gt; 2 1.80e9         283          117          77           16          77
-#&gt; # … with 11 more variables: `CA(R).post` &lt;int&gt;, `MB(+ACA)(R).pre` &lt;int&gt;,
-#&gt; #   `MB(+ACA)(R).post` &lt;int&gt;, `SNP(R).pre` &lt;int&gt;, `SNP(R).post` &lt;int&gt;,
-#&gt; #   `SLP(R).pre` &lt;int&gt;, `SLP(R).post` &lt;int&gt;, `mALT(R).pre` &lt;int&gt;,
-#&gt; #   `mALT(R).post` &lt;int&gt;, `AL(R).pre` &lt;int&gt;, `AL(R).post` &lt;int&gt;</div><div class='input'><span class='co'># }</span></div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 8.19</span><span style='color: #555555;'>e</span><span>8         210           97          75           14          75
+#&gt; </span><span style='color: #555555;'>2</span><span> 1.80</span><span style='color: #555555;'>e</span><span>9         283          117          77           16          77
+#&gt; </span><span style='color: #555555;'># … with 11 more variables: `CA(R).post` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, `MB(+ACA)(R).pre` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   `MB(+ACA)(R).post` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, `SNP(R).pre` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, `SNP(R).post` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   `SLP(R).pre` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, `SLP(R).post` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, `mALT(R).pre` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   `mALT(R).post` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, `AL(R).pre` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, `AL(R).post` </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -227,7 +223,7 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -101,12 +101,6 @@ The connection object returned by neuprint_login (or cached when
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -170,15 +164,15 @@ The connection object returned by neuprint_login (or cached when
   neuPrint server by get/query/fetch functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_connection</span>(
-  server = <span class='kw'>NULL</span>,
-  token = <span class='kw'>NULL</span>,
-  dataset = <span class='kw'>NULL</span>,
-  conn = <span class='kw'>NULL</span>,
-  config = <span class='kw'>httr</span>::<span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>()
-)
+    <pre class="usage"><span class='fu'>neuprint_connection</span><span class='op'>(</span>
+  server <span class='op'>=</span> <span class='cn'>NULL</span>,
+  token <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  config <span class='op'>=</span> <span class='fu'>httr</span><span class='fu'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>neuprint_login</span>(conn = <span class='kw'>NULL</span>, Cache = <span class='fl'>TRUE</span>, Force = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>neuprint_login</span><span class='op'>(</span>conn <span class='op'>=</span> <span class='cn'>NULL</span>, Cache <span class='op'>=</span> <span class='cn'>TRUE</span>, Force <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -272,8 +266,8 @@ reused automatically.</p></td>
 <li><p><code>neuprint_token</code></p></li>
 <li><p><code>neuprint_dataset</code></p></li>
 </ul><p>An example <code>.Renviron</code> file might look like:</p>
-<p></p><pre><span class='kw'>neuprint_server</span> <span class='op'>=</span> <span class='st'>"https://neuprint.janelia.org"</span>
-  <span class='kw'>neuprint_token</span> <span class='op'>=</span>
+<p></p><pre><span class='va'>neuprint_server</span> <span class='op'>=</span> <span class='st'>"https://neuprint.janelia.org"</span>
+  <span class='va'>neuprint_token</span> <span class='op'>=</span>
   <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5zaGFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21vL3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span></pre>
 
 <p>and <b>must</b> finish with a return at the end of the last line. Your
@@ -284,7 +278,7 @@ reused automatically.</p></td>
   dataset. This default will <em>not</em> apply to connections that refer to a
   server other than the one specified by the <code>neuprint_server</code>
   environment variable.</p>
-<p></p><pre><span class='kw'>neuprint_dataset</span> <span class='op'>=</span> <span class='st'>"hemibrain:v1.0"</span></pre>
+<p></p><pre><span class='va'>neuprint_dataset</span> <span class='op'>=</span> <span class='st'>"hemibrain:v1.0"</span></pre>
 
     <h2 class="hasAnchor" id="options"><a class="anchor" href="#options"></a>Options</h2>
 
@@ -318,42 +312,38 @@ reused automatically.</p></td>
   <code><a href='neuprint_datasets.html'>neuprint_datasets</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>## example explicitly specifying connection options</span>
-<span class='kw'>conn</span> <span class='op'>=</span> <span class='fu'>neuprint_login</span>(server= <span class='st'>"neuprint.janelia.org"</span>,
-  token= <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5za
+<span class='va'>conn</span> <span class='op'>=</span> <span class='fu'>neuprint_login</span><span class='op'>(</span>server<span class='op'>=</span> <span class='st'>"neuprint.janelia.org"</span>,
+  token<span class='op'>=</span> <span class='st'>"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5za
   GFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIj
   oiaHR0cHM7Ly9saDQuZ35vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUF
   BQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21v
   L3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjM2HH0.jhh1nMDBPl5A1HYKcszXM518NZ
-  eAhZG9jKy3hzVOWEU"</span>JIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhhbmRlci5za
-  GFrZWVsLmJhdGVzQGdtYWlsLmNvbSIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIj
-  oiaHR0cHM7Ly9saDQuZ35vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUF
-  BQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlBRL21v
-  L3Bob3RvLapwZz9zej01MCIsImV4cCI6MTczMjc1MjM2HH0.jhh1nMDBPl5A1HYKcszXM518NZ
-  eAhZG9jKy3hzVOWEU")
+  eAhZG9jKy3hzVOWEU"</span><span class='op'>)</span>
 
 
 <span class='co'>## examples assuming that neuprint_* environment variables/options are set</span>
-<span class='kw'>conn</span> <span class='op'>=</span> <span class='fu'>neuprint_login</span>()
+<span class='va'>conn</span> <span class='op'>=</span> <span class='fu'>neuprint_login</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'>## using env vars + config to set advanced curl options</span>
-<span class='fu'>neuprint_login</span>(config=<span class='kw'>httr</span>::<span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span>(ssl_verifyhost=<span class='fl'>0</span>))
+<span class='fu'>neuprint_login</span><span class='op'>(</span>config<span class='op'>=</span><span class='fu'>httr</span><span class='fu'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/config.html'>config</a></span><span class='op'>(</span>ssl_verifyhost<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>## now do stuff with the connection like</span>
-<span class='kw'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_datasets.html'>neuprint_datasets</a></span>(conn=<span class='kw'>conn</span>)
+<span class='va'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_datasets.html'>neuprint_datasets</a></span><span class='op'>(</span>conn<span class='op'>=</span><span class='va'>conn</span><span class='op'>)</span>
 
 <span class='co'>## which, if you have edited your R.profile / R.environ, should produce the same results as</span>
-<span class='kw'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_datasets.html'>neuprint_datasets</a></span>(conn=<span class='kw'>NULL</span>)
+<span class='va'>available.datasets</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_datasets.html'>neuprint_datasets</a></span><span class='op'>(</span>conn<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># make connection to second server</span>
-<span class='kw'>conn2</span><span class='op'>=</span><span class='fu'>neuprint_login</span>(server=<span class='st'>"https://server2.org"</span>,
-  token=<span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>))
+<span class='va'>conn2</span><span class='op'>=</span><span class='fu'>neuprint_login</span><span class='op'>(</span>server<span class='op'>=</span><span class='st'>"https://server2.org"</span>,
+  token<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>'NPSERVER2'</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># specify a default dataset (only required when &gt;1 dataset available)</span>
-<span class='kw'>conn2</span><span class='op'>=</span><span class='fu'>neuprint_login</span>(server=<span class='st'>"https://server2.org"</span>,
-  token=<span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>'NPSERVER2'</span>), dataset=<span class='st'>"hemibrain"</span>)
-}</div></pre>
+<span class='va'>conn2</span><span class='op'>=</span><span class='fu'>neuprint_login</span><span class='op'>(</span>server<span class='op'>=</span><span class='st'>"https://server2.org"</span>,
+  token<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>'NPSERVER2'</span><span class='op'>)</span>, dataset<span class='op'>=</span><span class='st'>"hemibrain"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -369,7 +359,7 @@ reused automatically.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

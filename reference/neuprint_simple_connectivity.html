@@ -88,12 +88,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -145,13 +139,13 @@
   query neurons, either upstream or downstream of them</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_simple_connectivity</span>(
-  <span class='kw'>bodyids</span>,
-  prepost = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRE"</span>, <span class='st'>"POST"</span>),
-  dataset = <span class='kw'>NULL</span>,
-  conn = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_simple_connectivity</span><span class='op'>(</span>
+  <span class='va'>bodyids</span>,
+  prepost <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PRE"</span>, <span class='st'>"POST"</span><span class='op'>)</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,8 +189,9 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span>(<span class='st'>".*DA2.*"</span>)
-<span class='fu'><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></span>(<span class='kw'>da2s</span><span class='op'>$</span><span class='kw'>bodyid</span>)</div><div class='output co'>#&gt;            425790257 478613576 480590566 513323340 573695941 698194389
+<span class='va'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span><span class='op'>(</span><span class='st'>".*DA2.*"</span><span class='op'>)</span>
+<span class='fu'><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></span><span class='op'>(</span><span class='va'>da2s</span><span class='op'>$</span><span class='va'>bodyid</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            425790257 478613576 480590566 513323340 573695941 698194389
 #&gt; 1796817841         2         5         6         1         7         5
 #&gt; 1827516355         2         3         4         5         9         3
 #&gt; 818983130          5         1         2         5        10         3
@@ -262,20 +257,23 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 #&gt; 818983130           1          1          1          2         12         28
 #&gt; 1797505019          3          2          3          1          5         11
 #&gt; 1796818119          3          1          5          3          4         28</div><div class='input'><span class='co'># }</span>
-<span class='kw'>inputs</span> <span class='op'>&lt;-</span> <span class='fu'>neuprint_simple_connectivity</span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'PRE'</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='kw'>inputs</span>)</div><div class='output co'>#&gt;        input          name                      type 5901222731_weight
+<span class='va'>inputs</span> <span class='op'>&lt;-</span> <span class='fu'>neuprint_simple_connectivity</span><span class='op'>(</span><span class='fl'>5901222731</span>, prepost<span class='op'>=</span><span class='st'>'PRE'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span><span class='op'>(</span><span class='va'>inputs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;        input          name                      type 5901222731_weight
 #&gt; 1 5901218894   LN(AVM02)_R              olfactory LN                34
 #&gt; 2 5901208281          &lt;NA&gt;                      &lt;NA&gt;                 1
 #&gt; 3 5901204007          &lt;NA&gt;                      &lt;NA&gt;                 4
 #&gt; 4 5813132949   LN(AVM02)_R              olfactory LN                11
 #&gt; 5 5901206553        LN(AL)              olfactory LN                 2
 #&gt; 6 5901194556 mPNX(AVM06)_R olfactory multi lvPN mALT                 5</div><div class='input'><span class='co'># top inputs</span>
-<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>inputs</span><span class='op'>$</span><span class='kw'>type</span>), decreasing = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>inputs</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>, decreasing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;              olfactory LN                       ORN olfactory multi vPN mlALT 
 #&gt;                        96                        19                         9 
 #&gt;  olfactory multi lPN mALT olfactory multi lvPN mALT                AVL07k_pct 
-#&gt;                         8                         7                         5 </div><div class='input'><span class='kw'>outputs</span> <span class='op'>&lt;-</span> <span class='fu'>neuprint_simple_connectivity</span>(<span class='fl'>5901222731</span>, prepost=<span class='st'>'POST'</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span>(<span class='kw'>outputs</span>)</div><div class='output co'>#&gt;   name     output type 5901222731_weight
+#&gt;                         8                         7                         5 </div><div class='input'><span class='va'>outputs</span> <span class='op'>&lt;-</span> <span class='fu'>neuprint_simple_connectivity</span><span class='op'>(</span><span class='fl'>5901222731</span>, prepost<span class='op'>=</span><span class='st'>'POST'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html'>head</a></span><span class='op'>(</span><span class='va'>outputs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   name     output type 5901222731_weight
 #&gt; 1 &lt;NA&gt; 1164373123 &lt;NA&gt;                 1
 #&gt; 2 &lt;NA&gt; 1164373194 &lt;NA&gt;                 1
 #&gt; 3 &lt;NA&gt; 1226785176 &lt;NA&gt;                 1
@@ -297,7 +295,7 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

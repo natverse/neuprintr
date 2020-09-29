@@ -91,12 +91,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -151,16 +145,16 @@
   logic use in <code>rcatmaid</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_synapses</span>(
-  <span class='kw'>bodyids</span>,
-  roi = <span class='kw'>NULL</span>,
-  remove.autapses = <span class='fl'>TRUE</span>,
-  chunk = <span class='fl'>TRUE</span>,
-  progress = <span class='kw'>NULL</span>,
-  dataset = <span class='kw'>NULL</span>,
-  conn = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>neuprint_get_synapses</span><span class='op'>(</span>
+  <span class='va'>bodyids</span>,
+  roi <span class='op'>=</span> <span class='cn'>NULL</span>,
+  remove.autapses <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  chunk <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -233,14 +227,16 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>syns</span><span class='op'>=</span><span class='fu'>neuprint_get_synapses</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>818983130</span>, <span class='fl'>1796818119</span>))
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>syns</span>)</div><div class='output co'>#&gt;   connector_id prepost    x     y     z confidence    bodyid   partner
+<span class='va'>syns</span><span class='op'>=</span><span class='fu'>neuprint_get_synapses</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>syns</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   connector_id prepost    x     y     z confidence    bodyid   partner
 #&gt; 1    134770109       1 6323 17828 14144   0.852126 818983130 975432645
 #&gt; 2    133916420       1 5265 16547 13869   0.897000 818983130 974753221
 #&gt; 3    133925140       1 5360 16498 13893   0.562622 818983130 974753207
 #&gt; 4    133177269       1 5657 16563 13786   0.929711 818983130 974753105
 #&gt; 5    133944217       1 4957 16595 13991   0.333720 818983130 974749962
-#&gt; 6    133944206       1 4846 16575 14000   0.575020 818983130 974745316</div><div class='input'><span class='co'># }</span></div></pre>
+#&gt; 6    133944206       1 4846 16575 14000   0.575020 818983130 974745316</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -256,7 +252,7 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
