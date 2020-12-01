@@ -19,7 +19,8 @@ test_that("neuprint_connection_table works", {
   #
   t2.2=neuprint_connection_table(c(818983130, 1796818119),
                                  prepost = "POST",
-                                 by.roi = TRUE, details = T)
+                                 by.roi = TRUE, details = T, chunk = 1)
+  expect_true("type" %in% names(t2.2))
   expect_equal(t2, t2.2[colnames(t2)])
   expect_equal(t2.2$name, unname(neuprint_get_neuron_names(t2$partner)))
   expect_equal(neuprint_connection_table(c(818983130, 1796818119),
@@ -42,6 +43,9 @@ test_that("neuprint_connection_table works", {
     ),
     subset(t3, ROIweight >= 3)
   )
+
+  expect_is(emptydf <- neuprint_connection_table(5812996970, prepost = "POST", threshold = 5, details=TRUE), "data.frame")
+  expect_true(nrow(emptydf)==0)
 })
 
 test_that("other connectivity functions work", {

@@ -222,6 +222,7 @@ neuprint_connection_table <- function(bodyids,
       roi = roi,
       by.roi = by.roi,
       threshold = threshold,
+      details=details,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
@@ -269,7 +270,11 @@ neuprint_connection_table <- function(bodyids,
   }
   d <- neuprint_list2df(nc, return_empty_df = TRUE)
   d$weight <- as.integer(d$weight)
-  d$prepost <-  ifelse(prepost=="PRE",0,1)
+  if(nrow(d)==0) {
+    d$prepost=integer(length = 0L)
+  } else {
+    d$prepost <-  ifelse(prepost=="PRE",0,1)
+  }
   if(!is.null(roi)){
     d <- d[d$roi%in%roi,]
   }
