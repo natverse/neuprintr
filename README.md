@@ -1,5 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
+
 [![natverse](https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6)](https://natverse.github.io)
 [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://natverse.github.io/neuprintr/reference/)
 [![Travis-CI Build
@@ -27,8 +28,7 @@ analysis in aid of neuronal reconstruction efforts at Janelia Research
 Campus. The main focus is analysis of the
 [hemibrain](https://www.janelia.org/project-team/flyem/hemibrain),
 densely reconstructed adult Drosophila brain dataset available at
-<a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>.
-For more information, have a look
+<https://neuprint.janelia.org/>. For more information, have a look
 [here](https://neuprint.janelia.org/help). Using this R package in
 concert with the [natverse](https://github.com/natverse/natverse)
 ecosystem is highly recommended.
@@ -47,11 +47,16 @@ examples and more.
 <iframe src="https://www.slideshare.net/slideshow/embed_code/key/GcE2Blzz02nfhM" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
 </iframe>
 </p>
+
+<div align="center" style="margin-bottom:5px">
+
 <strong>
 <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr-225098909" title="Accessing hemibrain data using Neuprintr " target="_blank">Accessing
 hemibrain data using Neuprintr </a> </strong> from
 <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alexander
 Bates</a></strong>
+
+</div>
 
 Installation
 ------------
@@ -72,11 +77,10 @@ In order to use *neuprintr* you will need to be able to login to a
 neuPrint server and be able to access it underlying Neo4j database. You
 may need an authenticated accounted, or you may be able to register your
 `@gmail` address without an authentication process. Navigate to a
-neuPrint website,
-e.g. <a href="https://neuprint.janelia.org" class="uri">https://neuprint.janelia.org</a>,
-and hit ‘login’. Sign in using an `@gmail` account. If you have
-authentication/the server is public, you will now be able to see your
-access token by going to ‘Account’:
+neuPrint website, e.g. <https://neuprint.janelia.org>, and hit ‘login’.
+Sign in using an `@gmail` account. If you have authentication/the server
+is public, you will now be able to see your access token by going to
+‘Account’:
 
 ![access your bearer
 token](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png)
@@ -138,8 +142,7 @@ neuprint_ROIs()
 Use the client to request data from neuprint. The
 `neuprint_fetch_custom` method will run an arbitrary cypher query
 against the database. For information about the neuprint data model, see
-the neuprint explorer web help:
-<a href="https://neuprint.janelia.org/help" class="uri">https://neuprint.janelia.org/help</a>.
+the neuprint explorer web help: <https://neuprint.janelia.org/help>.
 
 Some cyphers and other API endpoints have been explored by this package.
 Have a look a the functions, for example, that give you neuron
@@ -186,13 +189,63 @@ Bates](https://scholar.google.com/citations?user=BOVTiXIAAAAJ&hl=en) and
 [Gregory Jefferis](https://en.wikipedia.org/wiki/Gregory_Jefferis) with
 Romain
 [Franconville](https://scholar.google.com/citations?user=I7yBLlsAAAAJ&hl=en)
-now providing key contributions. You can cite this package as:
+now providing key contributions. You can cite a specific version of this
+package as:
 
 ``` r
 citation(package = "neuprintr")
+Warning in citation(package = "neuprintr"): no date field in DESCRIPTION file of
+package 'neuprintr'
+
+To cite package 'neuprintr' in publications use:
+
+  Alexander Bates, Gregory Jefferis and Romain Franconville (2020).
+  neuprintr: R client utilities for interacting with the neuPrint
+  connectome analysis service. R package version 1.1.
+  https://github.com/natverse/neuprintr
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {neuprintr: R client utilities for interacting with the neuPrint connectome
+analysis service},
+    author = {Alexander Bates and Gregory Jefferis and Romain Franconville},
+    year = {2020},
+    note = {R package version 1.1},
+    url = {https://github.com/natverse/neuprintr},
+  }
 ```
 
-**Bates AS, Franconville R, Jefferis GSXE** (2019). *neuprintr: R client
-utilities for interacting with the neuPrint connectome analysis
-service.* **R package** version 0.4.0.
-<a href="https://github.com/natverse/neuprintr" class="uri">https://github.com/natverse/neuprintr</a>
+however we would appreciate if you would cite the *natverse* journal
+article in which *neuprintr* was first introduced. You can get full
+citation details for that as follows:
+
+``` r
+citation(package = "natverse")
+
+If you use the natverse, please cite our paper (Bates, Manton et al,
+eLife 2020). You may need to cite additional publications if you use
+specific packages that implement specialised algorithms or provide
+datasets for reanalysis. Use a command like:
+citation(package="flycircuit") to see if there is a specific citation
+to use for a given package in addition to the general natverse paper.
+
+Bates AS, Manton JD, Jagannathan SR, Costa M, Schlegel P, Rohlfing T,
+Jefferis GSXE (2020). "The natverse, a versatile toolbox for combining
+and analysing neuroanatomical data." _Elife_, *9*. doi:
+10.7554/eLife.53350 (URL: https://doi.org/10.7554/eLife.53350), <URL:
+https://doi.org/10.7554/eLife.53350>.
+
+A BibTeX entry for LaTeX users is
+
+  @Article{Bates:2020aa,
+    author = {Alexander Shakeel Bates and James D. Manton and Sridhar R. Jagannathan and Marta Costa and Philipp Schlegel and Torsten Rohlfing and Gregory S. X. E. Jefferis},
+    journal = {Elife},
+    month = {Apr},
+    title = {The natverse, a versatile toolbox for combining and analysing neuroanatomical data},
+    volume = {9},
+    year = {2020},
+    doi = {10.7554/eLife.53350},
+    url = {https://doi.org/10.7554/eLife.53350},
+  }
+```
