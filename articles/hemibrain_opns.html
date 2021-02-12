@@ -69,7 +69,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/natverse/neuprintr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -106,8 +106,8 @@
 <div id="lock-and-load" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lock-and-load" class="anchor"></a>Lock and load</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># install</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install</span>
 <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st">'devtools'</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st">'natverse'</span><span class="op">)</span><span class="op">)</span> <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"natverse/natverse"</span><span class="op">)</span>
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
@@ -143,7 +143,7 @@
 
 <span class="co">## Then see if a simple function works for you:</span>
 <span class="va">available.datasets</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_datasets.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">available.datasets</span></pre></div>
+<span class="va">available.datasets</span></code></pre></div>
 <p>If you need help/have not before logged into neuPrint via R, please see the package README or see <code><a href="../reference/neuprint_connection.html">?neuprint_login</a></code>.</p>
 <p>The main point is that you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package <code>usethis</code> to easily edit your R environ file. You will need to add these lines to your R environ to specify the hemibrain dataset:</p>
 <p><code>neuprint_token="YOUR_TOKEN_HERE"</code> <code>neuprint_server='https://neuprint.janelia.org/'</code> <code>neuprint_dataset='hemibrain:v1.0'</code></p>
@@ -160,8 +160,8 @@
 <p>So what do we want to look at? Some of the best studied neurons in the brain are the olfactory projections neurons (OPNs) <a href="https://www.ncbi.nlm.nih.gov/pubmed/27653699">Grabe et al. 2016</a>. These are second-order olfactory neurons that project from the fly’s equivalent of the olfactory bulb, i.e. the antennal lobe, to higher order brain regions that generate innate behaviours (the lateral horn, LH) <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6550879">(Frechter. 209,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/31112130">Dolan et al. 2019)</a> and learning &amp; memory (the mushroom body) <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535793">(Aso et al. 2014a,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535794">Aso et al. 2014b)</a>. We know a fair bit about them, compared with most neurons in the fly brain. For example, a bit of their odour response profiles <a href="https://www.ncbi.nlm.nih.gov/pubmed/27321924">Badel et al., 2016</a>.</p>
 <p>Perhaps we could look at some popular OPN types and see if they connect to each other? How do we get this information?</p>
 <p>Let’s find some in our HemiBrain data:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co">### Let's find some in our HemiBrain data:</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">### Let's find some in our HemiBrain data:</span>
 <span class="va">opn.info</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_search.html">neuprint_search</a></span><span class="op">(</span><span class="st">".*mPN1.*"</span><span class="op">)</span>
 <span class="va">opn.info</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">opn.info</span><span class="op">$</span><span class="va">type</span><span class="op">)</span>,<span class="st">"type"</span><span class="op">]</span> <span class="op">=</span> <span class="va">opn.info</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">opn.info</span><span class="op">$</span><span class="va">type</span><span class="op">)</span>,<span class="st">"name"</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">opn.info</span><span class="op">)</span> <span class="op">=</span> <span class="va">opn.info</span><span class="op">$</span><span class="va">bodyid</span>
@@ -250,7 +250,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">ca.info</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## Getting all that data took a while, so let's save it for later</span>
-<span class="fu"><a href="https://rdrr.io/r/base/save.html">save</a></span><span class="op">(</span><span class="va">opns</span>,file <span class="op">=</span> <span class="st">"hemibrain_opns.rda"</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/save.html">save</a></span><span class="op">(</span><span class="va">opns</span>,file <span class="op">=</span> <span class="st">"hemibrain_opns.rda"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns.png" alt="hemibrain_opns"><p class="caption">hemibrain_opns</p>
 </div>
@@ -263,8 +263,8 @@
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_olfactory_neuropils.png" alt="hemibrain_olfactory_neuropils"><p class="caption">hemibrain_olfactory_neuropils</p>
 </div>
 <p>Let’s fetch some volume data to plot:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co">## Let's get some neuropil volume data from neuPrint!</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Let's get some neuropil volume data from neuPrint!</span>
 <span class="co">### Specifically, in the last R file we chose to look at OPNs</span>
 <span class="co">### So let's fetch their meshes for the antennal lobe!</span>
 <span class="co">### First, we gotta see what is available:</span>
@@ -301,7 +301,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html">plot3d</a></span><span class="op">(</span><span class="va">ca.mesh</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html">plot3d</a></span><span class="op">(</span><span class="va">lh.mesh</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html">plot3d</a></span><span class="op">(</span><span class="va">opns</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">lacroix</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">opns</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_opns_neuropils.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span></pre></div>
+<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_opns_neuropils.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span></code></pre></div>
 <p>Here is what the neurons look like with these brain meshes:</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns_neuropils.png" alt="hemibrain_opns_neuropils"><p class="caption">hemibrain_opns_neuropils</p>
@@ -323,8 +323,8 @@
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_uPN_inputs_to_select_LHNs.png" alt="hemibrain_uPN_inputs_to_select_LHNs"><p class="caption">hemibrain_uPN_inputs_to_select_LHNs</p>
 </div>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co">## We are looking at connectivity between OPNs.</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## We are looking at connectivity between OPNs.</span>
 <span class="co">### We can get an adjaceny matrix between all of these OPNs</span>
 <span class="va">opn.adj</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_get_adjacency_matrix.html">neuprint_get_adjacency_matrix</a></span><span class="op">(</span>bodyids <span class="op">=</span> <span class="va">opn.info</span><span class="op">$</span><span class="va">bodyid</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">opn.adj</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">opn.adj</span><span class="op">)</span> <span class="op">=</span> <span class="va">opn.info</span><span class="op">$</span><span class="va">type</span>
@@ -481,7 +481,7 @@
   <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">opn.cols</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_blank</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  
   <span class="fu">guides</span><span class="op">(</span>color <span class="op">=</span> <span class="cn">FALSE</span>, shape <span class="op">=</span> <span class="cn">FALSE</span>, fill <span class="op">=</span> <span class="cn">FALSE</span>, size <span class="op">=</span> <span class="cn">FALSE</span>, linetype <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ylab</span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span> <span class="fu">xlab</span><span class="op">(</span><span class="st">""</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="article" class="section level2">
 <h2 class="hasAnchor">

@@ -59,6 +59,8 @@ neuprint_ids provides for flexible search / specification
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -117,7 +119,7 @@ neuprint_ids provides for flexible search / specification
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/natverse/neuprintr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -269,18 +271,18 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>".*DA2.*"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped              name    type
-#&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
-#&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
-#&gt; 3  818983130 408  562 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
-#&gt; 4 1797505019 339  479 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
-#&gt; 5 1796818119 510  818 Traced Roughly traced   FALSE mPN1_DA2(AVM02)_R DA2 lPN
-#&gt;   cellBodyFiber    voxels  soma
-#&gt; 1           A12 723036360  TRUE
-#&gt; 2           A12 737014743  TRUE
-#&gt; 3           A12 606338969 FALSE
-#&gt; 4           A12 445320106 FALSE
-#&gt; 5           A12 907369420  TRUE</div><div class='input'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>".*DA2.*"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped    voxels              name
+#&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R
+#&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R
+#&gt; 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R
+#&gt; 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R
+#&gt; 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R
+#&gt;      type cellBodyFiber  soma
+#&gt; 1 DA2 lPN           A12  TRUE
+#&gt; 2 DA2 lPN           A12  TRUE
+#&gt; 3 DA2 lPN           A12 FALSE
+#&gt; 4 DA2 lPN           A12 FALSE
+#&gt; 5 DA2 lPN           A12  TRUE</div><div class='input'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>".*DA2.*"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 1796817841 1827516355  818983130 1797505019 1796818119</div><div class='input'>
 <span class='co'># Search the type field</span>
 <span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON.*"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>

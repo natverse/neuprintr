@@ -71,7 +71,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/natverse/neuprintr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,63 +101,67 @@
 <iframe src="https://www.slideshare.net/slideshow/embed_code/key/GcE2Blzz02nfhM" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
 </iframe>
 </p>
+<div align="center" style="margin-bottom:5px">
 <p><strong> <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr-225098909" title="Accessing hemibrain data using Neuprintr " target="_blank">Accessing hemibrain data using Neuprintr </a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alexander Bates</a></strong></p>
+</div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># install</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install</span>
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"natverse/neuprintr"</span><span class="op">)</span>
 
 <span class="co"># use </span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/natverse/neuprintr">neuprintr</a></span><span class="op">)</span></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/natverse/neuprintr">neuprintr</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="authentication" class="section level2">
 <h2 class="hasAnchor">
 <a href="#authentication" class="anchor"></a>Authentication</h2>
 <p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g. <a href="https://neuprint.janelia.org" class="uri">https://neuprint.janelia.org</a>, and hit ‘login’. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to ‘Account’:</p>
-<p><img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png" alt="access your bearer token"></p>
+<div class="figure">
+<img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png" alt="access your bearer token"><p class="caption">access your bearer token</p>
+</div>
 <p>To make life easier, you can then edit your <code>.Renviron</code> file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. A convenient way to do this is to do</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>and then edit the file that pops up, adding a section like</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">neuprint_server</span><span class="op">=</span><span class="st">"https://neuprint.janelia.org"</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">neuprint_server</span><span class="op">=</span><span class="st">"https://neuprint.janelia.org"</span>
 <span class="co"># nb this token is a dummy</span>
-<span class="va">neuprint_token</span><span class="op">=</span><span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span></pre></div>
+<span class="va">neuprint_token</span><span class="op">=</span><span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span></code></pre></div>
 <p>Make sure you have a blank line at the end of your <code>.Renviron</code> file. Note that you can optionally specify a default dataset:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">neuprint_dataset</span> <span class="op">=</span> <span class="st">"hemibrain:v1.0"</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">neuprint_dataset</span> <span class="op">=</span> <span class="st">"hemibrain:v1.0"</span></code></pre></div>
 <p>if your neuPrint server has more than one dataset. For further information about neuprintr login, see the help for <code><a href="reference/neuprint_connection.html">neuprint_login()</a></code>.</p>
 <p>Finally you can also login on the command line once per session, like so:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">conn</span> <span class="op">=</span> <span class="fu"><a href="reference/neuprint_connection.html">neuprint_login</a></span><span class="op">(</span>server<span class="op">=</span> <span class="st">"https://neuprint.janelia.org/"</span>,
-   token<span class="op">=</span> <span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">conn</span> <span class="op">=</span> <span class="fu"><a href="reference/neuprint_connection.html">neuprint_login</a></span><span class="op">(</span>server<span class="op">=</span> <span class="st">"https://neuprint.janelia.org/"</span>,
+   token<span class="op">=</span> <span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span><span class="op">)</span></code></pre></div>
 <p>This is also the approach that you would take if you were working with more than two neuPrint servers.</p>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Now we can have a look at what is available</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="co"># What data sets are available?</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># What data sets are available?</span>
 <span class="fu"><a href="reference/neuprint_datasets.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># What's the underlying database</span>
 <span class="fu"><a href="reference/neuprint_datasets.html">neuprint_database</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)</span>
-<span class="fu"><a href="reference/neuprint_ROIs.html">neuprint_ROIs</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="reference/neuprint_ROIs.html">neuprint_ROIs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Use the client to request data from neuprint. The <code>neuprint_fetch_custom</code> method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://neuprint.janelia.org/help" class="uri">https://neuprint.janelia.org/help</a>.</p>
 <p>Some cyphers and other API endpoints have been explored by this package. Have a look a the functions, for example, that give you neuron skeletons, synapse locations, connectivity matrices, etc.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="op">?</span><span class="va">neuprint_search</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">?</span><span class="va">neuprint_search</span>
 <span class="op">?</span><span class="va">neuprint_get_adjacency_matrix</span>
 <span class="op">?</span><span class="va">neuprint_ROI_connectivity</span>
 <span class="op">?</span><span class="va">neuprint_get_synapses</span>
-<span class="op">?</span><span class="va">neuprint_read_neurons</span></pre></div>
+<span class="op">?</span><span class="va">neuprint_read_neurons</span></code></pre></div>
 </div>
 <div id="example-data" class="section level2">
 <h2 class="hasAnchor">
@@ -172,10 +176,56 @@
 <h2 class="hasAnchor">
 <a href="#acknowledging-the-data-and-tools" class="anchor"></a>Acknowledging the data and tools</h2>
 <p>neuPrint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: <a href="https://github.com/connectome-neuprint/neuPrintHTTP">neuPrintHTTP</a>, <a href="https://github.com/connectome-neuprint/neuPrintExplorer">neuPrintExplorer</a>, <a href="https://github.com/connectome-neuprint/neuprint-python">Python API</a>.</p>
-<p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Gregory Jefferis</a> with Romain <a href="https://scholar.google.com/citations?user=I7yBLlsAAAAJ&amp;hl=en">Franconville</a> now providing key contributions. You can cite this package as:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"neuprintr"</span><span class="op">)</span></pre></div>
-<p><strong>Bates AS, Franconville R, Jefferis GSXE</strong> (2019). <em>neuprintr: R client utilities for interacting with the neuPrint connectome analysis service.</em> <strong>R package</strong> version 0.4.0. <a href="https://github.com/natverse/neuprintr" class="uri">https://github.com/natverse/neuprintr</a></p>
+<p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Gregory Jefferis</a> with Romain <a href="https://scholar.google.com/citations?user=I7yBLlsAAAAJ&amp;hl=en">Franconville</a> now providing key contributions. You can cite a specific version of this package as:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">citation</span>(<span class="dt">package =</span> <span class="st">"neuprintr"</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">Warning <span class="cf">in</span> <span class="kw">citation</span>(<span class="dt">package =</span> <span class="st">"neuprintr"</span>)<span class="op">:</span><span class="st"> </span>no date field <span class="cf">in</span> DESCRIPTION file of</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">package <span class="st">'neuprintr'</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">To cite package <span class="st">'neuprintr'</span> <span class="cf">in</span> publications use<span class="op">:</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span>Alexander Bates, Gregory Jefferis and Romain <span class="kw">Franconville</span> (<span class="dv">2020</span>).</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  neuprintr<span class="op">:</span><span class="st"> </span>R client utilities <span class="cf">for</span> interacting with the neuPrint</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">  connectome analysis service. R package version <span class="dv">1</span>.<span class="fl">1.</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">  https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>natverse<span class="op">/</span>neuprintr</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">A BibTeX entry <span class="cf">for</span> LaTeX users is</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">  <span class="op">@</span>Manual{,</a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">    title =<span class="st"> </span>{neuprintr<span class="op">:</span><span class="st"> </span>R client utilities <span class="cf">for</span> interacting with the neuPrint connectome</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16">analysis service},</a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">    author =<span class="st"> </span>{Alexander Bates and Gregory Jefferis and Romain Franconville},</a>
+<a class="sourceLine" id="cb8-18" data-line-number="18">    year =<span class="st"> </span>{<span class="dv">2020</span>},</a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">    note =<span class="st"> </span>{R package version <span class="fl">1.1</span>},</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">    url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>natverse<span class="op">/</span>neuprintr},</a>
+<a class="sourceLine" id="cb8-21" data-line-number="21">  }</a></code></pre></div>
+<p>however we would appreciate if you would cite the <em>natverse</em> journal article in which <em>neuprintr</em> was first introduced. You can get full citation details for that as follows:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">citation</span>(<span class="dt">package =</span> <span class="st">"natverse"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">If you use the natverse, please cite our <span class="kw">paper</span> (Bates, Manton et al,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">eLife <span class="dv">2020</span>). You may need to cite additional publications <span class="cf">if</span> you use</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">specific packages that implement specialised algorithms or provide</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">datasets <span class="cf">for</span> reanalysis. Use a command like<span class="op">:</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="kw">citation</span>(<span class="dt">package=</span><span class="st">"flycircuit"</span>) to see <span class="cf">if</span> there is a specific citation</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">to use <span class="cf">for</span> a given package <span class="cf">in</span> addition to the general natverse paper.</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">Bates AS, Manton JD, Jagannathan SR, Costa M, Schlegel P, Rohlfing T,</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">Jefferis <span class="kw">GSXE</span> (<span class="dv">2020</span>). <span class="st">"The natverse, a versatile toolbox for combining</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">and analysing neuroanatomical data."</span> _Elife_, <span class="op">*</span><span class="dv">9</span><span class="op">*</span>. doi<span class="op">:</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="fl">10.7554</span><span class="op">/</span><span class="kw">eLife.53350</span> (URL<span class="op">:</span><span class="st"> </span>https<span class="op">:</span><span class="er">//</span>doi.org<span class="op">/</span><span class="fl">10.7554</span><span class="op">/</span>eLife<span class="fl">.53350</span>), <span class="op">&lt;</span>URL<span class="op">:</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">https<span class="op">:</span><span class="er">//</span>doi.org<span class="op">/</span><span class="fl">10.7554</span><span class="op">/</span>eLife<span class="fl">.53350</span><span class="op">&gt;</span>.</a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16">A BibTeX entry <span class="cf">for</span> LaTeX users is</a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18">  <span class="op">@</span>Article{Bates<span class="op">:</span>2020aa,</a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">    author =<span class="st"> </span>{Alexander Shakeel Bates and James D. Manton and Sridhar R. Jagannathan and Marta Costa and Philipp Schlegel and Torsten Rohlfing and Gregory S. X. E. Jefferis},</a>
+<a class="sourceLine" id="cb9-20" data-line-number="20">    journal =<span class="st"> </span>{Elife},</a>
+<a class="sourceLine" id="cb9-21" data-line-number="21">    month =<span class="st"> </span>{Apr},</a>
+<a class="sourceLine" id="cb9-22" data-line-number="22">    title =<span class="st"> </span>{The natverse, a versatile toolbox <span class="cf">for</span> combining and analysing neuroanatomical data},</a>
+<a class="sourceLine" id="cb9-23" data-line-number="23">    volume =<span class="st"> </span>{<span class="dv">9</span>},</a>
+<a class="sourceLine" id="cb9-24" data-line-number="24">    year =<span class="st"> </span>{<span class="dv">2020</span>},</a>
+<a class="sourceLine" id="cb9-25" data-line-number="25">    doi =<span class="st"> </span>{<span class="fl">10.7554</span><span class="op">/</span>eLife<span class="fl">.53350</span>},</a>
+<a class="sourceLine" id="cb9-26" data-line-number="26">    url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>doi.org<span class="op">/</span><span class="fl">10.7554</span><span class="op">/</span>eLife<span class="fl">.53350</span>},</a>
+<a class="sourceLine" id="cb9-27" data-line-number="27">  }</a></code></pre></div>
 </div>
 </div>
 
@@ -191,12 +241,15 @@
 </li>
 </ul>
 </div>
+
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
 </ul>
 </div>
+
+
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
@@ -206,7 +259,7 @@
 </ul>
 </div>
 
-  <div class="dev-status">
+<div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://natverse.github.io"><img src="https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6" alt="natverse"></a></li>
@@ -217,7 +270,8 @@
 <li><a href="https://doi.org/10.5281/zenodo.3843544"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3843544.svg" alt="DOI"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
