@@ -299,9 +299,18 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
 }
 
 # Hidden
-getenvoroption <- function(vars, prefix="neuprint_"){
+getenvoroption <- function(vars, prefix="neuprint_", ignore.case=TRUE){
   fullvars=paste0(prefix, vars)
-  res=Sys.getenv(fullvars, names = T, unset = NA)
+  res <- if(isTRUE(ignore.case)) {
+    fullvars=tolower(fullvars)
+    envs=Sys.getenv(names=T)
+    envsc=envs
+    names(envsc)=tolower(names(envs))
+    c(envsc[fullvars])
+  } else {
+    Sys.getenv(fullvars, names = T, unset = NA)
+  }
+
   if(all(is.na(res))){
     # no env variables are set, let's try options
     res=do.call(options, as.list(fullvars))
