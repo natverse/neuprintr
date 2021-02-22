@@ -1,8 +1,8 @@
 pandoc: '2.2'
 pkgdown: 1.6.1.9000
-pkgdown_sha: 48dabb1d46a5859ddb118a3b94d946c89919c25d
+pkgdown_sha: 86e9d1eddcc1c47e1ae61f5d4c3feb2d6f16f952
 articles:
   customquery: customquery.html
   hemibrain_opns: hemibrain_opns.html
-last_built: 2021-02-12T02:53Z
+last_built: 2021-02-22T18:58Z
 

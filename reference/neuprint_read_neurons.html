@@ -72,9 +72,15 @@ If neuprint_read_skeletons is used, just a simple skeleton is
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -290,13 +296,13 @@ details.</p></td>
 
 <span class='co'>## In this example, in hemibrain:v1.0, an erroneously connected bit</span>
 <span class='co'>## of neuron skeleton is removed.</span>
-<span class='va'>n1</span> <span class='op'>=</span> <span class='fu'>neuprint_read_neurons</span><span class='op'>(</span><span class='fl'>5812980863</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Could not connect two vertices as edge length18730.12 is above threshold</span></div><div class='input'><span class='co'>## compare with</span>
+<span class='va'>n1</span> <span class='op'>=</span> <span class='fu'>neuprint_read_neurons</span><span class='op'>(</span><span class='fl'>5812980863</span>, heal.threshold <span class='op'>=</span> <span class='fl'>20e3</span><span class='op'>)</span>
+<span class='co'>## compare with</span>
 <span class='va'>n2</span> <span class='op'>=</span> <span class='fu'>neuprint_read_neurons</span><span class='op'>(</span><span class='fl'>5812980863</span>, heal <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='va'>dl1s</span><span class='op'>=</span><span class='fu'>neuprint_read_skeletons</span><span class='op'>(</span><span class='st'>'DL1 adPN'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>dl1s</span>, WithNode<span class='op'>=</span><span class='cn'>F</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>dl1s</span>, WithNode<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='img'><img src='neuprint_read_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
@@ -310,11 +316,11 @@ details.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p><p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -322,6 +328,8 @@ details.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

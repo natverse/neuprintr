@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -68,7 +70,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/natverse/neuprintr/">
+  <a href="https://github.com/natverse/neuprintr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -89,7 +91,7 @@
       <h1 data-toc-skip>Writing query functions in neuprintr</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/master/vignettes/customquery.Rmd"><code>vignettes/customquery.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/master/vignettes/customquery.Rmd" class="external-link"><code>vignettes/customquery.Rmd</code></a></small>
       <div class="hidden name"><code>customquery.Rmd</code></div>
 
     </div>
@@ -99,7 +101,7 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>neuPrint includes both an <a href="https://neuprint.janelia.org/help/api">API</a> which provides a range of queries as well as the option to send <em>custom queries</em> written in the <a href="https://neo4j.com/developer/cypher-query-language/">Cypher query language</a> of the <a href="https://neo4j.com">Neo4j</a> graph database.</p>
+<p>neuPrint includes both an <a href="https://neuprint.janelia.org/help/api" class="external-link">API</a> which provides a range of queries as well as the option to send <em>custom queries</em> written in the <a href="https://neo4j.com/developer/cypher-query-language/" class="external-link">Cypher query language</a> of the <a href="https://neo4j.com" class="external-link">Neo4j</a> graph database.</p>
 <p>It is probably worth making queries via the API if they will solve your problem. However custom queries offer maximum flexibility.</p>
 </div>
 <div id="do-you-need-a-function" class="section level2">
@@ -119,25 +121,25 @@
 <code class="sourceCode R"><span class="va">neuprint_get_neuron_names</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bodyids</span>, <span class="va">dataset</span> <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">all_segments</span> <span class="op">=</span> <span class="cn">FALSE</span>,
                                       <span class="va">conn</span> <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">bodyids</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_search.html">neuprint_ids</a></span><span class="op">(</span><span class="va">bodyids</span>, conn <span class="op">=</span> <span class="va">conn</span>, dataset <span class="op">=</span> <span class="va">dataset</span><span class="op">)</span>
-  <span class="va">all_segments.json</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">all_segments</span>,<span class="st">"Segment"</span>, <span class="st">"Neuron"</span><span class="op">)</span>
-  <span class="va">cypher</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name"</span>,
+  <span class="va">all_segments.json</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">all_segments</span>,<span class="st">"Segment"</span>, <span class="st">"Neuron"</span><span class="op">)</span>
+  <span class="va">cypher</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name"</span>,
                    <span class="fu">id2json</span><span class="op">(</span><span class="va">bodyids</span><span class="op">)</span>,
                    <span class="va">all_segments.json</span><span class="op">)</span>
 
   <span class="va">nc</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom</a></span><span class="op">(</span>cypher<span class="op">=</span><span class="va">cypher</span>, conn <span class="op">=</span> <span class="va">conn</span>, dataset <span class="op">=</span> <span class="va">dataset</span>, <span class="va">...</span><span class="op">)</span>
-  <span class="va">d</span> <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">data</span>,<span class="va">nullToNA</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">=</span> <span class="va">bodyids</span>
+  <span class="va">d</span> <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">data</span>,<span class="va">nullToNA</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">=</span> <span class="va">bodyids</span>
   <span class="va">d</span>
 <span class="op">}</span></code></pre></div>
 <p><code>bodyids</code> is the main input argument. These typically come in as either character vector or numeric format. By passing the argument to the <code><a href="../reference/neuprint_search.html">neuprint_ids()</a></code> function you can also enable a range of queries to define the bodyids. The internal function <code>id2json()</code> is eventually used to look after formatting them appropriately for the Neo4j cypher query.</p>
-<p>In this function, <code>cypher</code> is the actual query written in the <a href="https://neo4j.com/developer/cypher-query-language/">Cypher query language</a>. One helpful tip. <em>You can press the i key in neuPrint explorer to reveal the cypher query</em>!</p>
+<p>In this function, <code>cypher</code> is the actual query written in the <a href="https://neo4j.com/developer/cypher-query-language/" class="external-link">Cypher query language</a>. One helpful tip. <em>You can press the i key in neuPrint explorer to reveal the cypher query</em>!</p>
 <p>Many functions that operate on neurons will have an argument controlling whether they operate only for larger objects (aka <em>Neuron</em>) or also on fragments (aka <em>Segment</em>). Restricting queries to <em>Neuron</em> can result in big speed-ups in some cases. You can provide an <code>all_segments</code> argument to handle this option.</p>
-<p>Finally the results that come back from <code>neuprint_fetch_custom</code> are typically in a big list object. For simple results, you can just <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> this to make a vector. In this case a function <code>nullToNA</code> is first applied in order to ensure that any values that come back as <code>NULL</code> are converted to <code>NA</code>; this is necessary to ensure that you can make a vector - vector objects can only contain <code>NA</code>s not <code>NULL</code>s.</p>
+<p>Finally the results that come back from <code>neuprint_fetch_custom</code> are typically in a big list object. For simple results, you can just <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> this to make a vector. In this case a function <code>nullToNA</code> is first applied in order to ensure that any values that come back as <code>NULL</code> are converted to <code>NA</code>; this is necessary to ensure that you can make a vector - vector objects can only contain <code>NA</code>s not <code>NULL</code>s.</p>
 </div>
 <div id="preparing-the-query" class="section level3">
 <h3 class="hasAnchor">
 <a href="#preparing-the-query" class="anchor"></a>Preparing the query</h3>
-<p>As you can see this step uses the <code>sprintf</code> function to interpolate variables into a string. You could do this in other ways (e.g. the <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> function or the <code>glue()</code> package). You may need to watch out for quoting issues if you should need to use single or double quotes inside your queries.</p>
+<p>As you can see this step uses the <code>sprintf</code> function to interpolate variables into a string. You could do this in other ways (e.g. the <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code> function or the <code>glue()</code> package). You may need to watch out for quoting issues if you should need to use single or double quotes inside your queries.</p>
 </div>
 <div id="body-ids" class="section level3">
 <h3 class="hasAnchor">
@@ -147,7 +149,7 @@
 <p>However, the biggest integer (here data is represented in signed format <code>int64</code>) that we need to worry about is (2^63)-1 = 9,223,372,036,854,775,807. This cannot be represented as a numeric. I have yet to spot a body id in this upper range, but the <code>neuprint_ids</code> function will take care that you do not use one. If you need to specify a large bodyid as input to your function then you should insist on</p>
 <ul>
 <li>character vector input</li>
-<li>64 bit integers provided by <code><a href="https://rdrr.io/pkg/bit64/man/bit64-package.html">bit64::integer64()</a></code>
+<li>64 bit integers provided by <code><a href="https://rdrr.io/pkg/bit64/man/bit64-package.html" class="external-link">bit64::integer64()</a></code>
 </li>
 </ul>
 <p>The latter seems better in theory (since it is more compact) than using character vectors, but it relies on an add-on package (bit64) rather than base R and I have seen subtle errors when <code>integer64</code> objects lose their class. In particular you cannot turn them into a list or run <code>lapply</code> without losing their class. Therefore I recommend using character vectors where possible.</p>
@@ -174,14 +176,14 @@
 <div id="processing-the-results" class="section level3">
 <h3 class="hasAnchor">
 <a href="#processing-the-results" class="anchor"></a>Processing the results</h3>
-<p>The sample function just ran <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> on the list returned by <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code>. This is fine in many cases. You can also pass the <code>simplifyVector</code> argument to <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> and this will clean up many forms of list. See <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">jsonlite::fromJSON()</a></code> for details of how this operates.</p>
+<p>The sample function just ran <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on the list returned by <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code>. This is fine in many cases. You can also pass the <code>simplifyVector</code> argument to <code><a href="../reference/neuprint_fetch_custom.html">neuprint_fetch_custom()</a></code> and this will clean up many forms of list. See <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">jsonlite::fromJSON()</a></code> for details of how this operates.</p>
 <p>If you are getting a nested list specifying a table (i.e. a <code>data.frame</code> or spreadsheet like result) then there is a function <code><a href="../reference/neuprint_list2df.html">neuprint_list2df()</a></code> which will do a lot of the heavy lifting. It is strongly recommended to make use of this whenever possible. See <code><a href="../reference/neuprint_get_meta.html">neuprint_get_meta()</a></code> for an example. Note that <code><a href="../reference/neuprint_list2df.html">neuprint_list2df()</a></code> has an argument with default <code>stringsAsFactors=FALSE</code> to ensure that columns in the output <code>data.frame</code> will be character vectors unless you take steps to make them factors.</p>
 </div>
 </div>
 <div id="need-help" class="section level2">
 <h2 class="hasAnchor">
 <a href="#need-help" class="anchor"></a>Need help?</h2>
-<p>Feel free to ask for help on the <a href="https://groups.google.com/forum/#!forum/nat-user">nat-user google group</a> or by <a href="https://github.com/natverse/neuprintr/issues/">making an issue</a>.</p>
+<p>Feel free to ask for help on the <a href="https://groups.google.com/forum/#!forum/nat-user" class="external-link">nat-user google group</a> or by <a href="https://github.com/natverse/neuprintr/issues/" class="external-link">making an issue</a>.</p>
 </div>
   </div>
 
@@ -196,11 +198,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p></p>
+<p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -208,6 +212,8 @@
 
   
 
+
+  
 
   </body>
 </html>
