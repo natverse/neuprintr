@@ -309,7 +309,7 @@ getenvoroption <- function(vars, prefix="neuprint_"){
     # convert environment variables into options style list
     res=as.list(res)
     # replace missing values with NULL
-    res=sapply(res, function(x) if(is.na(x)) NULL else x)
+    res=sapply(res, function(x) if(is.na(x)) NULL else x, simplify = F)
   }
   # give result the original variable names
   names(res)=vars
