@@ -94,7 +94,7 @@
 <div id="neuprintr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#neuprintr" class="anchor"></a>neuprintr</h1></div>
-<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint" class="external-link">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python" class="external-link">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">hemibrain</a>, densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="external-link">https://neuprint.janelia.org/</a>. For more information, have a look <a href="https://neuprint.janelia.org/help" class="external-link">here</a>. Using this R package in concert with the <a href="https://github.com/natverse/natverse" class="external-link">natverse</a> ecosystem is highly recommended.</p>
+<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint" class="external-link">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python" class="external-link">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">hemibrain</a>, densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="external-link uri">https://neuprint.janelia.org/</a>. For more information, have a look <a href="https://neuprint.janelia.org/help" class="external-link">here</a>. Using this R package in concert with the <a href="https://github.com/natverse/natverse" class="external-link">natverse</a> ecosystem is highly recommended.</p>
 <div id="tutorial" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tutorial" class="anchor"></a>Tutorial</h2>
@@ -121,7 +121,7 @@
 <div id="authentication" class="section level2">
 <h2 class="hasAnchor">
 <a href="#authentication" class="anchor"></a>Authentication</h2>
-<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g. <a href="https://neuprint.janelia.org" class="external-link">https://neuprint.janelia.org</a>, and hit ‘login’. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to ‘Account’:</p>
+<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g. <a href="https://neuprint.janelia.org" class="external-link uri">https://neuprint.janelia.org</a>, and hit ‘login’. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to ‘Account’:</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png" alt="access your bearer token"><p class="caption">access your bearer token</p>
 </div>
@@ -156,7 +156,7 @@
 
 <span class="co"># What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)</span>
 <span class="fu"><a href="reference/neuprint_ROIs.html">neuprint_ROIs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Use the client to request data from neuprint. The <code>neuprint_fetch_custom</code> method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://neuprint.janelia.org/help" class="external-link">https://neuprint.janelia.org/help</a>.</p>
+<p>Use the client to request data from neuprint. The <code>neuprint_fetch_custom</code> method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://neuprint.janelia.org/help" class="external-link uri">https://neuprint.janelia.org/help</a>.</p>
 <p>Some cyphers and other API endpoints have been explored by this package. Have a look a the functions, for example, that give you neuron skeletons, synapse locations, connectivity matrices, etc.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">?</span><span class="va">neuprint_search</span>
@@ -278,13 +278,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
