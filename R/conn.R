@@ -193,7 +193,9 @@ print.neuprint_connection <- function(x, ...) {
   invisible(x)
 }
 
-remove_trailing_slash <- function(x) sub("/$", "", x)
+remove_trailing_slash <- function(x) {
+  if(isTRUE(nzchar(x))) sub("/$", "", x) else x
+}
 
 # Hidden
 neuprint_last_connection <- function(){
@@ -254,6 +256,12 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
     if (!is.null(cached_conn))
       return(invisible(cached_conn))
   }
+  if(is.null(conn$server))
+    stop("Sorry you must specify a neuprint server! See ?neuprint_login for details!")
+  if(is.null(conn$token) && isTRUE(grepl("neuprint.janelia.org", conn$server)))
+    stop("You must supply an authorisation token for neuprint.janelia.org",
+         "\nSee http://natverse.org/neuprintr or ?neuprint_login for details!")
+
   if (isTRUE(conn$nologin)) {
     conn$authresponse = httr::GET(url = conn$server)
     httr::stop_for_status(conn$authresponse)
@@ -275,7 +283,7 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
         `Content-Type` = "application/json"
       )
     )
-    conn$authresponse = httr::GET(url = conn$server,con=conn$config)
+    conn$authresponse = httr::GET(url = conn$server, con=conn$config)
     httr::stop_for_status(conn$authresponse)
     canonurl=remove_trailing_slash(conn$authresponse$url)
     if(!isTRUE(conn$server==canonurl)) {
