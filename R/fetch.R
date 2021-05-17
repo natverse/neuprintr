@@ -115,7 +115,7 @@ neuprint_name_field <- memoise(function(conn=NULL, dataset = NULL) {
       "before using neuprint_name_field(conn) in your function!",
       call. = FALSE
     )
-  q="MATCH (n :hemibrain_Neuron) WHERE exists(n.instance) RETURN count(n)"
+  q = "MATCH (n :Neuron) WHERE exists(n.instance) RETURN count(n)"
   n=unlist(neuprint_fetch_custom(q, conn = conn, dataset = dataset,
                                  include_headers=F)[['data']])
   return(ifelse(n>0, "instance", "name"))
