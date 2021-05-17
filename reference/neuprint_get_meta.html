@@ -66,6 +66,7 @@
 
 
 
+
   
 
   
@@ -145,7 +146,7 @@
     <p>Get key metadata for body (including name, type, status, size)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_get_meta</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>neuprint_get_meta</span><span class='op'>(</span>
   <span class='va'>bodyids</span>,
   dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
   all_segments <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -153,7 +154,7 @@
   chunk <span class='op'>=</span> <span class='cn'>TRUE</span>,
   progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +168,7 @@ This can be in any form understood by <code><a href='neuprint_search.html'>neupr
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>all_segments</th>
@@ -179,7 +180,7 @@ current connection, is used. See <code><a href='neuprint_connection.html'>neupri
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>chunk</th>
@@ -222,35 +223,37 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
   information .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='va'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span><span class='op'>(</span><span class='st'>".*DA2.*"</span><span class='op'>)</span>
-<span class='fu'>neuprint_get_meta</span><span class='op'>(</span><span class='va'>da2s</span><span class='op'>$</span><span class='va'>bodyid</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped    voxels              name
-#&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R
-#&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R
-#&gt; 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R
-#&gt; 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R
-#&gt; 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R
-#&gt;      type cellBodyFiber  soma
-#&gt; 1 DA2 lPN           A12  TRUE
-#&gt; 2 DA2 lPN           A12  TRUE
-#&gt; 3 DA2 lPN           A12 FALSE
-#&gt; 4 DA2 lPN           A12 FALSE
-#&gt; 5 DA2 lPN           A12  TRUE</div><div class='input'><span class='co'># or simpler</span>
-<span class='fu'>neuprint_get_meta</span><span class='op'>(</span><span class='st'>'DA2'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped    voxels              name
-#&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R
-#&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R
-#&gt; 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R
-#&gt; 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R
-#&gt; 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R
-#&gt;      type cellBodyFiber  soma
-#&gt; 1 DA2 lPN           A12  TRUE
-#&gt; 2 DA2 lPN           A12  TRUE
-#&gt; 3 DA2 lPN           A12 FALSE
-#&gt; 4 DA2 lPN           A12 FALSE
-#&gt; 5 DA2 lPN           A12  TRUE</div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='va'>da2s</span><span class='op'>=</span><span class='fu'><a href='neuprint_search.html'>neuprint_search</a></span><span class='op'>(</span><span class='st'>".*DA2.*"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>neuprint_get_meta</span><span class='op'>(</span><span class='va'>da2s</span><span class='op'>$</span><span class='va'>bodyid</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       bodyid pre post status    statusLabel cropped    voxels              name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      type cellBodyFiber  soma</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 DA2 lPN           A12  TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 DA2 lPN           A12  TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 DA2 lPN           A12 FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 DA2 lPN           A12 FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 DA2 lPN           A12  TRUE</span>
+<span class='r-in'><span class='co'># or simpler</span></span>
+<span class='r-in'><span class='fu'>neuprint_get_meta</span><span class='op'>(</span><span class='st'>'DA2'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       bodyid pre post status    statusLabel cropped    voxels              name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      type cellBodyFiber  soma</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 DA2 lPN           A12  TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 DA2 lPN           A12  TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 DA2 lPN           A12 FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 DA2 lPN           A12 FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 DA2 lPN           A12  TRUE</span>
+<span class='r-in'><span class='co'># }</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -262,11 +265,11 @@ one <code>bodyid</code>, that <code>bodyid</code> is ignored</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p><p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

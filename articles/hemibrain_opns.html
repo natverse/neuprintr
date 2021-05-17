@@ -103,11 +103,11 @@
 </blockquote>
 <div id="inspecting-the-hemibrain" class="section level1">
 <h1 class="hasAnchor">
-<a href="#inspecting-the-hemibrain" class="anchor"></a>Inspecting the hemibrain</h1>
+<a href="#inspecting-the-hemibrain" class="anchor" aria-hidden="true"></a>Inspecting the hemibrain</h1>
 <p>The largest draft connectome to date was released on the 22nd of January, 2020. The <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">FlyEM Janelia HemiBrain project</a> has released 21,662 neurons, many more fragments, and almost 10 million synapses. About 35% of its automatically predicted synapses have been matched up to a semi-automatically traced ‘body’ deemed large enough to constitute an identifiable neuron. This data can be accessed using our R package <a href="https://github.com/natverse/neuprintr/" class="external-link">neuprintr</a> to query a publically accessible <a href="https://neuprint.janelia.org/" class="external-link">neuPrint explorer instance</a>.</p>
 <div id="lock-and-load" class="section level2">
 <h2 class="hasAnchor">
-<a href="#lock-and-load" class="anchor"></a>Lock and load</h2>
+<a href="#lock-and-load" class="anchor" aria-hidden="true"></a>Lock and load</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install</span>
 <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'devtools'</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
@@ -144,9 +144,9 @@
                    <span class="st">"red"</span>, <span class="st">"marine"</span><span class="op">)</span>
 
 <span class="co">## Then see if a simple function works for you:</span>
-<span class="va">available.datasets</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_datasets.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">available.datasets</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_info.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">available.datasets</span></code></pre></div>
-<p>If you need help/have not before logged into neuPrint via R, please see the package README or see <code><a href="../reference/neuprint_connection.html">?neuprint_login</a></code>.</p>
+<p>If you need help/have not before logged into neuPrint via R, please see the package README or see <code><a href="../reference/neuprint_login.html">?neuprint_login</a></code>.</p>
 <p>The main point is that you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package <code>usethis</code> to easily edit your R environ file. You will need to add these lines to your R environ to specify the hemibrain dataset:</p>
 <p><code>neuprint_token="YOUR_TOKEN_HERE"</code> <code>neuprint_server='https://neuprint.janelia.org/'</code> <code>neuprint_dataset='hemibrain:v1.0'</code></p>
 <p>Leave a blank line at the end of the file.</p>
@@ -154,7 +154,7 @@
 </div>
 <div id="find-neurons" class="section level2">
 <h2 class="hasAnchor">
-<a href="#find-neurons" class="anchor"></a>Find neurons</h2>
+<a href="#find-neurons" class="anchor" aria-hidden="true"></a>Find neurons</h2>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_an_opn.png" alt="hemibrain_an_opn"><p class="caption">hemibrain_an_opn</p>
 </div>
@@ -196,7 +196,7 @@
     windowRect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20L</span>, <span class="fl">65L</span>, <span class="fl">1191L</span>, <span class="fl">843L</span><span class="op">)</span><span class="op">)</span> <span class="co"># set view</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">opn</span>, WithConnectors <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="va">lacroix</span><span class="op">[[</span><span class="st">"brown"</span><span class="op">]</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"images"</span><span class="op">)</span>
-<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_an_opn.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
+<span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/snapshot.html" class="external-link">rgl.snapshot</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_an_opn.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
 <span class="co">### output synapses in red, input ones in blue</span>
 <span class="co">### You can see the auto-segmentation goes a bit crazy where the soma is</span>
 
@@ -208,7 +208,7 @@
                                  <span class="fl">0.0147849693894386</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, .Dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4L</span>, <span class="fl">4L</span><span class="op">)</span><span class="op">)</span>, zoom <span class="op">=</span> <span class="fl">0.644609212875366</span>, 
         windowRect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20L</span>, <span class="fl">65L</span>, <span class="fl">1191L</span>, <span class="fl">843L</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">opns</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">lacroix</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">opns</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_opns.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
+<span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/snapshot.html" class="external-link">rgl.snapshot</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_opns.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
 
 <span class="co">## The simple version of read neurons just reads the skeleton for a neuron</span>
 <span class="co">### We might also want our neuron objects to contain meta data and synapse information</span>
@@ -259,7 +259,7 @@
 </div>
 <div id="get-neuropil-volumes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#get-neuropil-volumes" class="anchor"></a>Get neuropil volumes</h2>
+<a href="#get-neuropil-volumes" class="anchor" aria-hidden="true"></a>Get neuropil volumes</h2>
 <p>So it is nice that we now have some neurons. But it would be good to see them with their neuropil context.</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_olfactory_neuropils.png" alt="hemibrain_olfactory_neuropils"><p class="caption">hemibrain_olfactory_neuropils</p>
@@ -288,7 +288,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">ca.mesh</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>, col <span class="op">=</span> <span class="va">lacroix</span><span class="op">[[</span><span class="st">"pink"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">lh.mesh</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>, col <span class="op">=</span> <span class="va">lacroix</span><span class="op">[[</span><span class="st">"green"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">malt.mesh</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.9</span>, col <span class="op">=</span> <span class="st">"grey30"</span><span class="op">)</span>
-<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_olfactory_neuropils.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
+<span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/snapshot.html" class="external-link">rgl.snapshot</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_olfactory_neuropils.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
 
 <span class="co">## Maybe get the whole hemibrai mesh?</span>
 <span class="co">## hemibrain = neuprint_ROI_mesh(roi = "hemibrain")</span>
@@ -303,7 +303,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">ca.mesh</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">lh.mesh</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">opns</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">lacroix</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">opns</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_opns_neuropils.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/snapshot.html" class="external-link">rgl.snapshot</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_opns_neuropils.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span></code></pre></div>
 <p>Here is what the neurons look like with these brain meshes:</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns_neuropils.png" alt="hemibrain_opns_neuropils"><p class="caption">hemibrain_opns_neuropils</p>
@@ -311,7 +311,7 @@
 </div>
 <div id="get-connectivity" class="section level2">
 <h2 class="hasAnchor">
-<a href="#get-connectivity" class="anchor"></a>Get connectivity</h2>
+<a href="#get-connectivity" class="anchor" aria-hidden="true"></a>Get connectivity</h2>
 <p>And now the really exciting bit! How do these neurons connect to each other?</p>
 <p>First we will look at connectivity between OPN types.</p>
 <div class="figure">
@@ -368,7 +368,7 @@
 <span class="co">### That they get innervation from local neurons.</span>
 <span class="va">kc.info</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_search.html">neuprint_search</a></span><span class="op">(</span><span class="st">"KC.*"</span><span class="op">)</span>
 <span class="va">opn.conn</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_connection_table.html">neuprint_connection_table</a></span><span class="op">(</span>bodyids <span class="op">=</span> <span class="va">opn.info</span><span class="op">$</span><span class="va">bodyid</span>, prepost <span class="op">=</span> <span class="st">"PRE"</span><span class="op">)</span>
-<span class="va">opn.conn</span> <span class="op">=</span> <span class="va">opn.conn</span><span class="op">[</span><span class="va">opn.conn</span><span class="op">$</span><span class="va">partner</span><span class="op">%in%</span><span class="va">kc.info</span><span class="op">$</span><span class="va">bodyid</span>,<span class="op">]</span>
+<span class="va">opn.conn</span> <span class="op">=</span> <span class="va">opn.conn</span><span class="op">[</span><span class="va">opn.conn</span><span class="op">$</span><span class="va">partner</span><span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span><span class="va">kc.info</span><span class="op">$</span><span class="va">bodyid</span>,<span class="op">]</span>
 <span class="va">opn.conn</span><span class="op">$</span><span class="va">glom</span> <span class="op">=</span> <span class="va">gloms</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">opn.conn</span><span class="op">$</span><span class="va">bodyid</span><span class="op">)</span><span class="op">]</span>
 <span class="va">glom.conn</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>weight <span class="op">=</span> <span class="va">opn.conn</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span>,
                       <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>glom <span class="op">=</span> <span class="va">opn.conn</span><span class="op">$</span><span class="va">glom</span>,
@@ -399,7 +399,7 @@
 <span class="op">-</span><span class="fl">0.160943150520325</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, .Dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4L</span>, <span class="fl">4L</span><span class="op">)</span><span class="op">)</span>, zoom <span class="op">=</span> <span class="fl">0.783526360988617</span>, 
     windowRect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6L</span>, <span class="fl">71L</span>, <span class="fl">1434L</span>, <span class="fl">927L</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">DM1.targets</span>, lwd <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">lacroix</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">DM1.targets</span><span class="op">)</span>,replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_DM1_strong_downstream_partners.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
+<span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/snapshot.html" class="external-link">rgl.snapshot</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_DM1_strong_downstream_partners.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/View.html" class="external-link">View</a></span><span class="op">(</span><span class="va">DM1.targets</span><span class="op">[</span>,<span class="op">]</span><span class="op">)</span>
 
 <span class="co">## So there are three lateral horn neuron targets of the axon there</span>
@@ -409,12 +409,12 @@
 <span class="va">lhn.cols</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">lacroix</span><span class="op">[[</span><span class="st">"marine"</span><span class="op">]</span><span class="op">]</span>,<span class="va">lacroix</span><span class="op">[[</span><span class="st">"blue"</span><span class="op">]</span><span class="op">]</span>,<span class="va">lacroix</span><span class="op">[[</span><span class="st">"green"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lhn.cols</span><span class="op">)</span> <span class="op">=</span> <span class="va">DM1.targets</span><span class="op">[</span><span class="va">lhns</span>,<span class="st">"type"</span><span class="op">]</span>
 <span class="va">lh.targets</span> <span class="op">=</span> <span class="va">DM1.targets</span><span class="op">[</span><span class="va">lhns</span><span class="op">]</span>
-<span class="fu">clear3d</span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/scene.html" class="external-link">clear3d</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">lh.targets</span>, lwd <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">lacroix</span><span class="op">[[</span><span class="st">"marine"</span><span class="op">]</span><span class="op">]</span>,
                                     <span class="va">lacroix</span><span class="op">[[</span><span class="st">"blue"</span><span class="op">]</span><span class="op">]</span>,
                                     <span class="va">lacroix</span><span class="op">[[</span><span class="st">"green"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/nat/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">opns</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"DM1"</span>,<span class="va">name</span><span class="op">)</span><span class="op">)</span>,lwd<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="va">lacroix</span><span class="op">[[</span><span class="st">"orange"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-<span class="fu">rgl.snapshot</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_DM1_strong_LH_targets.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
+<span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/snapshot.html" class="external-link">rgl.snapshot</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"images/hemibrain_DM1_strong_LH_targets.png"</span>, fmt <span class="op">=</span><span class="st">"png"</span><span class="op">)</span>
 
 <span class="co">## Can other OPNs influence these strong partners?</span>
 <span class="co">### Which other OPNs impinge on it?</span>
@@ -465,7 +465,7 @@
 <span class="va">gloms</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">opn.info</span><span class="op">$</span><span class="va">glomerulus</span><span class="op">)</span>
 <span class="va">opn.cols</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">lacroix</span><span class="op">[[</span><span class="st">"orange"</span><span class="op">]</span><span class="op">]</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">gloms</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">opn.cols</span><span class="op">)</span> <span class="op">=</span> <span class="va">gloms</span>
-<span class="va">opn.cols</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">opn.cols</span>,<span class="va">lhn.cols</span>,<span class="va">order.cols</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">order.cols</span><span class="op">)</span><span class="op">%in%</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lhn.cols</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">opn.cols</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="va">opn.cols</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">opn.cols</span>,<span class="va">lhn.cols</span>,<span class="va">order.cols</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">order.cols</span><span class="op">)</span><span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lhn.cols</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">opn.cols</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 
 <span class="co"># Plot</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
@@ -487,7 +487,7 @@
 </div>
 <div id="article" class="section level2">
 <h2 class="hasAnchor">
-<a href="#article" class="anchor"></a>Article</h2>
+<a href="#article" class="anchor" aria-hidden="true"></a>Article</h2>
 <p><strong>A Connectome of the Adult Drosophila Central Brain</strong></p>
 <p>Shan Xu, C; Januszewski, Michal; Lu, Zhiyuan; Takemura, Shin-Ya; Hayworth, Kenneth; Huang, Gary; Shinomiya, Kazunori; Maitin-Shepard, Jeremy; Ackerman, David; Berg, Stuart; Blakely, Tim; Bogovic, John; Clements, Jody; Dolafi, Tom; Hubbard, Philip; Kainmueller, Dagmar; Katz, William; Kawase, Takashi; Khairy, Khaled; Leavitt, Laramie; Li, Peter H; Lindsey, Larry; Neubarth, Nicole; Olbris, Donald J; Otsuna, Hideo; Troutman, Eric T; Umayam, Lowell; Zhao, Ting; Ito, Masayoshi; Goldammer, Jens; Wolff, Tanya; Svirskas, Robert; Schlegel, Philipp; Neace, Erika R; Knecht, Christopher J; Alvarado, Chelsea X; Bailey, Dennis; Ballinger, Samantha; Borycz, Jolanta A; Canino, Brandon; Cheatham, Natasha; Cook, Michael; Dreyer, Marisa; Duclos, Octave; Eubanks, Bryon; Fairbanks, Kelli; Finley, Samantha; Forknall, Nora; Francis, Audrey; Hopkins, Gary Patrick; Joyce, Emily M; Kim, Sungjin; Kirk, Nicole A; Kovalyak, Julie; Lauchie, Shirley A; Lohff, Alanna; Maldonado, Charli; Manley, Emily A; McLin, Sari; Mooney, Caroline; Ndama, Miatta; Ogundeyi, Omotara; Okeoma, Nneoma; Ordish, Christopher; Padilla, Nicholas; Patrick, Christopher; Paterson, Tyler; Phillips, Elliott E; Phillips, Emily M; Rampally, Neha; Ribeiro, Caitlin; Robertson, Madelaine K; Rymer, Jon Thomson; Ryan, Sean M; Sammons, Megan; Scott, Anne K; Scott, Ashley L; Shinomiya, Aya; Smith, Claire; Smith, Kelsey; Smith, Natalie L; Sobeski, Margaret A; Suleiman, Alia; Swift, Jackie; Takemura, Satoko; Talebi, Iris; Tarnogorska, Dorota; Tenshaw, Emily; Tokhi, Temour; Walsh, John J; Yang, Tansy; Horne, Jane Anne; Li, Feng; Parekh, Ruchi; Rivlin, Patricia K; Jayaraman, Vivek; Ito, Kei; Saalfeld, Stephan; George, Reed; Meinertzhagen, Ian; Rubin, Gerald M; Hess, Harald F; Scheffer, Louis K; Jain, Viren; Plaza, Stephen M</p>
 <p>bioRxiv, Jan 21, 2020 <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1" class="external-link">10.1101/2020.01.21.911859</a></p>
@@ -506,11 +506,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p></p>
+<p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>

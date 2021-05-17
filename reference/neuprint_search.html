@@ -72,6 +72,7 @@ neuprint_ids provides for flexible search / specification
 
 
 
+
   
 
   
@@ -157,7 +158,7 @@ neuprint_ids provides for flexible search / specification
   type. Returns a character vector of bodyids.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_search</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>neuprint_search</span><span class='op'>(</span>
   <span class='va'>search</span>,
   field <span class='op'>=</span> <span class='st'>"name"</span>,
   fixed <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -177,7 +178,7 @@ neuprint_ids provides for flexible search / specification
   conn <span class='op'>=</span> <span class='cn'>NULL</span>,
   dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -222,14 +223,14 @@ false for <code>fixed</code> queries.</p></td>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -275,109 +276,121 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 <p><code>neuprint_search</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>".*DA2.*"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       bodyid pre post status    statusLabel cropped    voxels              name
-#&gt; 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R
-#&gt; 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R
-#&gt; 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R
-#&gt; 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R
-#&gt; 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R
-#&gt;      type cellBodyFiber  soma
-#&gt; 1 DA2 lPN           A12  TRUE
-#&gt; 2 DA2 lPN           A12  TRUE
-#&gt; 3 DA2 lPN           A12 FALSE
-#&gt; 4 DA2 lPN           A12 FALSE
-#&gt; 5 DA2 lPN           A12  TRUE</div><div class='input'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>".*DA2.*"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1796817841 1827516355  818983130 1797505019 1796818119</div><div class='input'>
-<span class='co'># Search the type field</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON.*"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
-#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
-#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
-#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
-#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
-#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
-#&gt; [37]  673702721  673366098  457196643 5812981264 5812981543 5813020828
-#&gt; [43]  457196444  610463953  517854468  423774471  792368888 5813022896
-#&gt; [49] 5813042659  423382015  487143497  550081497  612742248  612422902
-#&gt; [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020
-#&gt; [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835
-#&gt; [67]  643847447  547552266 5813033000 1173814525</div><div class='input'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON[0-9]+"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
-#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
-#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
-#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
-#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
-#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
-#&gt; [37]  673702721  673366098 5812981264 5813020828  457196444  610463953
-#&gt; [43]  517854468  423774471  792368888 5813022896 5813042659  423382015
-#&gt; [49]  487143497  550081497  612742248  612422902 5813075634  895441451
-#&gt; [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048
-#&gt; [61] 5813022234  894020730  706948318  642732835  643847447  547552266
-#&gt; [67] 5813033000 1173814525</div><div class='input'>
-<span class='co'># compact specification of field</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"type:MBON[0-9]+"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
-#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
-#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
-#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
-#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
-#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
-#&gt; [37]  673702721  673366098 5812981264 5813020828  457196444  610463953
-#&gt; [43]  517854468  423774471  792368888 5813022896 5813042659  423382015
-#&gt; [49]  487143497  550081497  612742248  612422902 5813075634  895441451
-#&gt; [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048
-#&gt; [61] 5813022234  894020730  706948318  642732835  643847447  547552266
-#&gt; [67] 5813033000 1173814525</div><div class='input'>
-<span class='co'># starts with MBON</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"type:MBON.*"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  612371421  673509195  424789697 5813022341  612738462  487925037
-#&gt;  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634
-#&gt; [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779
-#&gt; [19] 1078693835  672352543  581678043  613719036  673085197  706840303
-#&gt; [25]  768555687 5812982924  517518166  424767514  861665641  704466265
-#&gt; [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141
-#&gt; [37]  673702721  673366098  457196643 5812981264 5812981543 5813020828
-#&gt; [43]  457196444  610463953  517854468  423774471  792368888 5813022896
-#&gt; [49] 5813042659  423382015  487143497  550081497  612742248  612422902
-#&gt; [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020
-#&gt; [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835
-#&gt; [67]  643847447  547552266 5813033000 1173814525</div><div class='input'><span class='co'># }</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON.*"</span>, field <span class='op'>=</span> <span class='st'>"type"</span><span class='op'>)</span>
-
-<span class='co'># fixed=TRUE can be useful when you don't want to worry about special</span>
-<span class='co'># characters like brackets</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"PEN_a(PEN1)"</span>, field<span class='op'>=</span><span class='st'>"type"</span>, fixed<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'># by default fixed=TRUE returns partial matches</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON16"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, fixed<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'># here the type must exactly match the query i.e. complete match</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON16"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, fixed<span class='op'>=</span><span class='cn'>TRUE</span>, exact <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"AVF1"</span>, field <span class='op'>=</span> <span class='st'>"cellBodyFiber"</span><span class='op'>)</span>
-<span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"cellBodyFiber:AVF1"</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># \donttest{</span>
-<span class='co'># exact match against whole type</span>
-<span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"!MBON01"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match</span>
-<span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"MBON01"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># partial match against name field rather than type</span>
-<span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"name:MBON01"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "673509195" "612371421"</div><div class='input'>
-<span class='co'># initial / indicates to use regex search (which must be exact)</span>
-<span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"/MBON01"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "612371421" "673509195"</div><div class='input'><span class='co'># more interesting regex search</span>
-<span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"/MBON0[1-4]"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "612371421"  "673509195"  "424789697"  "5813022341" "612738462" 
-#&gt; [6] "487925037"  "487925063"  "613079053" </div><div class='input'>
-<span class='co'># partial regex search against the name field (note leading/trailing .*)</span>
-<span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"/name:.*MBON0[1-4].*"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "673509195"  "612371421"  "5813022341" "424789697"  "612738462" 
-#&gt; [6] "487925037"  "613079053"  "487925063" </div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>".*DA2.*"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       bodyid pre post status    statusLabel cropped    voxels              name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      type cellBodyFiber  soma</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 DA2 lPN           A12  TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 DA2 lPN           A12  TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 DA2 lPN           A12 FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 DA2 lPN           A12 FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 DA2 lPN           A12  TRUE</span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>".*DA2.*"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1796817841 1827516355  818983130 1797505019 1796818119</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Search the type field</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON.*"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] 1078693835  672352543  581678043  613719036  673085197  706840303</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25]  768555687 5812982924  517518166  424767514  861665641  704466265</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37]  673702721  673366098  457196643 5812981264 5812981543 5813020828</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43]  457196444  610463953  517854468  423774471  792368888 5813022896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] 5813042659  423382015  487143497  550081497  612742248  612422902</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [67]  643847447  547552266 5813033000 1173814525</span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON[0-9]+"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] 1078693835  672352543  581678043  613719036  673085197  706840303</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25]  768555687 5812982924  517518166  424767514  861665641  704466265</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37]  673702721  673366098 5812981264 5813020828  457196444  610463953</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43]  517854468  423774471  792368888 5813022896 5813042659  423382015</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49]  487143497  550081497  612742248  612422902 5813075634  895441451</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [61] 5813022234  894020730  706948318  642732835  643847447  547552266</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [67] 5813033000 1173814525</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># compact specification of field</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"type:MBON[0-9]+"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] 1078693835  672352543  581678043  613719036  673085197  706840303</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25]  768555687 5812982924  517518166  424767514  861665641  704466265</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37]  673702721  673366098 5812981264 5813020828  457196444  610463953</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43]  517854468  423774471  792368888 5813022896 5813042659  423382015</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49]  487143497  550081497  612742248  612422902 5813075634  895441451</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [61] 5813022234  894020730  706948318  642732835  643847447  547552266</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [67] 5813033000 1173814525</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># starts with MBON</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"type:MBON.*"</span>, meta<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] 1078693835  672352543  581678043  613719036  673085197  706840303</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25]  768555687 5812982924  517518166  424767514  861665641  704466265</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 1139667240  394225044  300972942 5813068729 5813067721  642664141</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37]  673702721  673366098  457196643 5812981264 5812981543 5813020828</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43]  457196444  610463953  517854468  423774471  792368888 5813022896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] 5813042659  423382015  487143497  550081497  612742248  612422902</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [67]  643847447  547552266 5813033000 1173814525</span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON.*"</span>, field <span class='op'>=</span> <span class='st'>"type"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># fixed=TRUE can be useful when you don't want to worry about special</span></span>
+<span class='r-in'><span class='co'># characters like brackets</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"PEN_a(PEN1)"</span>, field<span class='op'>=</span><span class='st'>"type"</span>, fixed<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># by default fixed=TRUE returns partial matches</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON16"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, fixed<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># here the type must exactly match the query i.e. complete match</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"MBON16"</span>, field <span class='op'>=</span> <span class='st'>"type"</span>, fixed<span class='op'>=</span><span class='cn'>TRUE</span>, exact <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"AVF1"</span>, field <span class='op'>=</span> <span class='st'>"cellBodyFiber"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>neuprint_search</span><span class='op'>(</span><span class='st'>"cellBodyFiber:AVF1"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># exact match against whole type</span></span>
+<span class='r-in'><span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"!MBON01"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "612371421" "673509195"</span>
+<span class='r-in'><span class='co'># partial match</span></span>
+<span class='r-in'><span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"MBON01"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "612371421" "673509195"</span>
+<span class='r-in'><span class='co'># partial match against name field rather than type</span></span>
+<span class='r-in'><span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"name:MBON01"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "673509195" "612371421"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># initial / indicates to use regex search (which must be exact)</span></span>
+<span class='r-in'><span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"/MBON01"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "612371421" "673509195"</span>
+<span class='r-in'><span class='co'># more interesting regex search</span></span>
+<span class='r-in'><span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"/MBON0[1-4]"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "612371421"  "673509195"  "424789697"  "5813022341" "612738462" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [6] "487925037"  "487925063"  "613079053" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># partial regex search against the name field (note leading/trailing .*)</span></span>
+<span class='r-in'><span class='fu'>neuprint_ids</span><span class='op'>(</span><span class='st'>"/name:.*MBON0[1-4].*"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "673509195"  "612371421"  "5813022341" "424789697"  "612738462" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [6] "487925037"  "613079053"  "487925063" </span>
+<span class='r-in'><span class='co'># }</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -389,11 +402,11 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p><p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

@@ -67,6 +67,7 @@ For some datasets, somata positions have been mapped to pixels within a soma vol
 
 
 
+
   
 
   
@@ -147,7 +148,7 @@ For some datasets, somata positions have been mapped to pixels within a soma vol
 <p>For some datasets, somata positions have been mapped to pixels within a soma volume in the image data. If your bodyids contain such an annotated pixel, you can retrieve its position.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neuprint_assign_connectors</span><span class='op'>(</span><span class='va'>x</span>, bodyids <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>neuprint_assign_connectors</span><span class='op'>(</span><span class='va'>x</span>, bodyids <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>neuprint_locate_soma</span><span class='op'>(</span>
   <span class='va'>bodyids</span>,
@@ -155,7 +156,7 @@ For some datasets, somata positions have been mapped to pixels within a soma vol
   all_segments <span class='op'>=</span> <span class='cn'>TRUE</span>,
   conn <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,14 +174,14 @@ This can be in any form understood by <code><a href='neuprint_search.html'>neupr
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -203,11 +204,12 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 <p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>, <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code>, <code><a href='neuprint_read_neurons.html'>neuprint_read_neurons</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_locate_soma</span><span class='op'>(</span><span class='st'>"5813115796"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       bodyid    X     Y     Z
-#&gt; 1 5813115796 4345 27108 13968</div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='fu'>neuprint_locate_soma</span><span class='op'>(</span><span class='st'>"5813115796"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       bodyid    X     Y     Z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 5813115796 4345 27108 13968</span>
+<span class='r-in'><span class='co'># }</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -219,11 +221,11 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p><p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
