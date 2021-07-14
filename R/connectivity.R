@@ -63,6 +63,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     inputids <- neuprint_ids(bodyids, conn=conn, dataset = dataset, cache=cache)
     outputids <- inputids
   }
+  outputids=id2bit64(outputids)
+  inputids=id2bit64(inputids)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
   cypher = sprintf(
@@ -81,6 +83,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
                              cache=cache, ...)
   df = neuprint_list2df(nc, return_empty_df = TRUE)
   df$weight=as.integer(df$weight)
+  df$upstream=id2bit64(df$upstream)
+  df$downstream=id2bit64(df$downstream)
   sm = sparseMatrix(
     i = match(df$upstream, inputids),
     j = match(df$downstream, outputids),
