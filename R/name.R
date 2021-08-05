@@ -151,7 +151,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
   )
   nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)
-  meta <- meta[,names(meta) %in% rfields]
+  meta <- meta[,names(meta) %in% c(rfields, "soma")]
   meta
 }
 
@@ -415,11 +415,13 @@ dfFields <- function(field_name) {
   transTable <- data.frame(
     neuprint = c(
       "bodyId",
-      "instance"
+      "instance",
+      "size"
     ),
     rName = c(
       "bodyid",
-      "name"
+      "name",
+      "voxels"
     ),
     stringsAsFactors = FALSE
   )
