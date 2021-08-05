@@ -75,9 +75,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     ),
     id2json(inputids),
     id2json(outputids),
-    all_segments.json,
-    namefield,
-    namefield
+    all_segments.json
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset,
                              cache=cache, ...)
