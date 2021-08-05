@@ -49,9 +49,7 @@
 <meta property="og:title" content="Find out what some information about your neuPrint server — neuprint_datasets" />
 <meta property="og:description" content="Get summary information about the datasets hosted by the
   neuPrint server in which you are interested" />
-<meta property="og:image" content="/logo.svg" />
-
-
+<meta property="og:image" content="https://natverse.org/neuprintr/logo.svg" />
 
 
 
@@ -67,16 +65,9 @@
 
 
 
-
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -97,6 +88,12 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -148,13 +145,13 @@
   neuPrint server in which you are interested</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>neuprint_datasets</span><span class='op'>(</span>conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>neuprint_datasets</span><span class='op'>(</span>conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>neuprint_database</span><span class='op'>(</span>conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>neuprint_available</span><span class='op'>(</span>conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>neuprint_version</span><span class='op'>(</span>conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+<span class='fu'>neuprint_version</span><span class='op'>(</span>conn <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,7 +161,7 @@
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -174,416 +171,425 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='neuprint_login.html'>neuprint_login</a></code></p></div>
+    <div class='dont-index'><p><code><a href='neuprint_connection.html'>neuprint_login</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
-<span class='r-in'><span class='co'># list details for all the available datasets</span></span>
-<span class='r-in'><span class='fu'>neuprint_datasets</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v0.9`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v0.9`$`last-mod`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2019-06-27 18:08:56"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v0.9`$uuid</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "569625b31af845479fe4f13ff53f868e"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v0.9`$ROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] "LH(R)"             "PB(R2)"            "bL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4] "AL-VP3(R)"         "AL-VP1d(R)"        "CRE(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7] "AL-DA1(R)"         "AL-VC3l(R)"        "RUB(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10] "RUB(L)"            "IB112"             "AL-DC1(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13] "AL-VC3m(R)"        "AL-VL1(R)"         "AL-VM7d(L)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16] "AL-DA2(L)"         "NO"                "NO2(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19] "AOTU(R)"           "PB(L6)"            "FBl5"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [22] "SLP(R)"            "AL-DC1(L)"         "AL-DM6(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25] "PB(R1)"            "b'L(L)"            "AL-DC3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [28] "GC"                "FBl3"              "a3(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] "AL-D(L)"           "CX"                "PVLP(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [34] "EBr2r4"            "AL-VA2(R)"         "AL-VA3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37] "AL-VA6(R)"         "NO(R)"             "AL-DM3(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [40] "ATL(R)"            "CAN(R)"            "PB(R4)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43] "AL-DA4m(R)"        "CA(L)"             "b'2(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46] "AL(L)"             "AL-DL4(L)"         "AL-DM4(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49] "SIP(R)"            "gL(R)"             "OL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [52] "AL-DL2d(R)"        "EBr1"              "AL-DL2v(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55] "MB(R)"             "AL-DC2(R)"         "AL-VA1v(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [58] "b'1(R)"            "PB(L4)"            "PB"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] "AL-DA2(R)"         "AL-DP1m(R)"        "AL-VA5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [64] "AL-VP4(R)"         "NO1(R)"            "b2(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67] "a'L(R)"            "AL-DL4(R)"         "AL-DM2(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [70] "AL-DP1l(R)"        "PB(R7)"            "SAD(-AMMC)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73] "AL-VL2a(R)"        "VLNP(R)"           "ROB(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76] "a'1(R)"            "g5(R)"             "FBl1"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79] "AVLP(R)"           "ICL(R)"            "g2(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [82] "AL-DA3(L)"         "EBr3d"             "AL-D(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85] "VMNP"              "PB(R8)"            "AL-VA6(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [88] "FBl7"              "b1(R)"             "LAL(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] "PENP"              "PB(L9)"            "AL-V(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [94] "a'2(R)"            "INP"               "SNP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97] "AME(R)"            "AL-DA4l(R)"        "AL-VM3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [100] "dACA(R)"           "AL-DL1(R)"         "WED(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [103] "NO(L)"             "a'L(L)"            "BU(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [106] "EPA(R)"            "ME(R)"             "b'L(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [109] "BU(L)"             "SPS(L)"            "AL-DL5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [112] "SMP(L)"            "IB"                "AL-VM2(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [115] "NO3(R)"            "LX(R)"             "bL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [118] "GOR(R)"            "AL-VM7v(R)"        "SIP(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [121] "g4(R)"             "a2(R)"             "AL-VA4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [124] "AL-VC2(R)"         "AL-VL2p(R)"        "PLP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [127] "AL-VM7v(L)"        "AL-DL3(R)"         "lACA(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [130] "FB"                "LO(R)"             "AL-VP2(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [133] "mALT(L)"           "PB(L3)"            "AL-VA7m(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [136] "AL-DM4(R)"         "PB(L8)"            "AL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [139] "AL-VP1m(R)"        "SCL(L)"            "NO1(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [142] "LAL(-GA)(R)"       "GF(R)"             "AL-VM5d(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [145] "vACA(R)"           "LAL(L)"            "AL-VC4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [148] "GOR(L)"            "VES(R)"            "AB(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [151] "AMMC"              "NO3(L)"            "AL-DA4m(L)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [154] "AL-DL5(L)"         "SNP(L)"            "LX(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [157] "GNG"               "AL-DM5(R)"         "hemibrain"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [160] "AL-DA3(R)"         "AL-VM5v(R)"        "AL-VM7d(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [163] "AL-VP1l(R)"        "SMP(R)"            "a'3(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [166] "NO2(R)"            "EBr5"              "AL-DM1(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [169] "ICL(L)"            "g1(R)"             "FBl4"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [172] "AL-VP5(R)"         "AL-DC2(L)"         "FBl2"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [175] "FBl6"              "AL-VC1(R)"         "FLA(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [178] "FBl8"              "AL-DM1(R)"         "PB(R5)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [181] "CRE(-ROB,-RUB)(R)" "CRE(R)"            "AL-DM3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [184] "PB(L5)"            "MB(+ACA)(R)"       "SPS(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [187] "mALT(R)"           "SCL(R)"            "AL-DM5(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [190] "GA(R)"             "EB"                "aL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [193] "PED(R)"            "PB(R9)"            "AL-DC4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [196] "AL-VM4(R)"         "EBr6"              "EBr3am"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [199] "PB(L1)"            "PB(R3)"            "AL-VM1(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [202] "LOP(R)"            "FBl9"              "EBr3pw"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [205] "AOT(R)"            "AL-DM2(L)"         "PRW"              </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [208] "gL(L)"             "AB(L)"             "g3(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [211] "CA(R)"             "AL-VA1d(R)"        "aL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [214] "ATL(L)"            "AL-DM6(R)"         "MB(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [217] "CRE(-RUB)(L)"      "AL-VA7l(R)"        "PB(L2)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [220] "SAD"               "FB-column3"        "IPS(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [223] "POC"               "PB(R6)"            "AL-VC5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [226] "AL-DP1m(L)"        "PB(L7)"            "EPA(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [229] "VES(L)"            "a1(R)"             "AL-DC4(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v0.9`$superLevelROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v0.9`$info</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.janelia.org/project-team/flyem/hemibrain"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.0.1`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.0.1`$`last-mod`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2019-12-20T23:11:02"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.0.1`$uuid</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "52a13328874c4bb7b15dc4280da26576"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.0.1`$ROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] "PB(R5)"            "IB"                "mALT(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4] "g2(R)"             "NO1(R)"            "FBl1"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7] "FBl9"              "AME(R)"            "PB(L2)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10] "CRE(-ROB,-RUB)(R)" "PB(R9)"            "PB(L9)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13] "FBl2"              "AOT(R)"            "PB(L3)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16] "WED(R)"            "b'L(R)"            "SAD(-AMMC)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19] "LAL(-GA)(R)"       "LH(R)"             "PB(L4)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [22] "LAL(R)"            "AB(L)"             "BU(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25] "VMNP"              "SNP(R)"            "EPA(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [28] "SIP(R)"            "ICL(L)"            "LOP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] "bL(R)"             "AMMC"              "NO3(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [34] "EBr5"              "a'2(R)"            "LO(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37] "NO2(R)"            "INP"               "ME(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [40] "g1(R)"             "vACA(R)"           "SPS(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43] "FB"                "EBr2r4"            "g4(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46] "BU(R)"             "PLP(R)"            "EBr3d"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49] "EPA(L)"            "EB"                "mALT(L)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [52] "SMP(L)"            "dACA(R)"           "PB(L8)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55] "CAN(R)"            "AL(R)"             "PB"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [58] "PB(L7)"            "PB(R4)"            "b'L(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] "PB(R6)"            "SAD"               "gL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [64] "SNP(L)"            "FBl4"              "VLNP(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67] "VES(L)"            "GA(R)"             "GOR(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [70] "FBl8"              "AB(R)"             "GNG"              </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73] "GOR(R)"            "g3(R)"             "gL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76] "FBl5"              "FBl7"              "a1(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79] "PB(R2)"            "ICL(R)"            "LX(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [82] "MB(R)"             "POC"               "RUB(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85] "LAL(L)"            "PED(R)"            "b2(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [88] "CRE(L)"            "g5(R)"             "SLP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] "NO2(L)"            "PB(L1)"            "NO(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [94] "PVLP(R)"           "ATL(R)"            "OL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97] "b'2(R)"            "aL(R)"             "MB(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [100] "a'L(R)"            "bL(L)"             "FBl3"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [103] "FLA(R)"            "MB(+ACA)(R)"       "PB(R3)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [106] "SCL(R)"            "a'L(L)"            "AOTU(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [109] "SIP(L)"            "GC"                "AL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [112] "PENP"              "SPS(L)"            "PB(R8)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [115] "VES(R)"            "hemibrain"         "PB(R7)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [118] "CRE(R)"            "AVLP(R)"           "aL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [121] "a'3(R)"            "a2(R)"             "PRW"              </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [124] "NO3(L)"            "b'1(R)"            "PB(L5)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [127] "PB(L6)"            "EBr3pw"            "NO1(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [130] "NO"                "a'1(R)"            "RUB(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [133] "CX"                "NO(L)"             "ATL(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [136] "LX(R)"             "ROB(R)"            "PB(R1)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [139] "FBl6"              "CA(R)"             "IPS(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [142] "CA(L)"             "GF(R)"             "EBr1"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [145] "EBr6"              "b1(R)"             "SMP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [148] "EBr3am"            "lACA(R)"           "a3(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [151] "SCL(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.0.1`$superLevelROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.0.1`$info</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.janelia.org/project-team/flyem/hemibrain"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.1`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.1`$`last-mod`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-05-30 10:36:36"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.1`$uuid</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "20631f94c3f446d7864bc55bf515706e"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.1`$ROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] "INP"               "AL-DL2d(R)"        "AL-DL4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4] "AL-VC3l(R)"        "AL-DL5(L)"         "PB(R1)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7] "gL(R)"             "b'1(R)"            "PB(L5)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10] "mALT(L)"           "PED(R)"            "AL-VC4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13] "PB(R2)"            "PB(L4)"            "PB"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16] "FBl2"              "ATL(R)"            "VES(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19] "NO1(L)"            "SNP(L)"            "aL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [22] "FBl1"              "AL-VM7d(R)"        "ME(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25] "a'L(L)"            "AL-DC1(L)"         "AL-DC3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [28] "AL-VA6(R)"         "g2(R)"             "PB(R8)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] "LAL(R)"            "PB(R6)"            "PB(L1)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [34] "FBl9"              "ICL(R)"            "LAL(-GA)(R)"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37] "AL-DP1m(L)"        "LAL(L)"            "AL-DM5(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [40] "AL-DC1(R)"         "SNP(R)"            "VES(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43] "PVLP(R)"           "FBl6"              "AL-VM1(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46] "PB(L2)"            "EBr1"              "NO1(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49] "AB(L)"             "AOTU(R)"           "AL-VM3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [52] "CAN(R)"            "AOT(R)"            "EBr3am"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55] "mALT(R)"           "EB"                "EBr3pw"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [58] "g5(R)"             "IPS(R)"            "LX(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] "IB"                "AL-DA3(L)"         "AL-DL4(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [64] "NO3(R)"            "AL-VM7d(L)"        "NO(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67] "NO2(L)"            "AL-DP1m(R)"        "AL-VL1(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [70] "GF(R)"             "FB-column3"        "PB(R4)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73] "GNG"               "AL-DL5(R)"         "RUB(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76] "AL-VM7v(L)"        "CRE(L)"            "AL-VP3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79] "GA(R)"             "vACA(R)"           "MB(+ACA)(R)"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [82] "AL-VA7l(R)"        "AL-V(R)"           "PB(R7)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85] "gL(L)"             "AL-VP1d(R)"        "WED(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [88] "AL-DA1(R)"         "PLP(R)"            "PB(L6)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] "bL(L)"             "PRW"               "g1(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [94] "AL-DM3(R)"         "SMP(L)"            "SAD(-AMMC)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97] "AL-DM1(R)"         "AL-VC1(R)"         "AME(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [100] "AL-DA3(R)"         "FBl5"              "b1(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [103] "NO2(R)"            "AL-VA1d(R)"        "AL-DM1(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [106] "SIP(R)"            "aL(L)"             "AL-VA5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [109] "CRE(-ROB,-RUB)(R)" "EBr2r4"            "NO3(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [112] "AL-VA7m(R)"        "AL-VC3m(R)"        "NO(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [115] "AL-VA2(R)"         "GOR(L)"            "LX(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [118] "PB(R9)"            "AL-DP1l(R)"        "GC"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [121] "PB(L8)"            "FBl3"              "AL-VL2p(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [124] "b'L(R)"            "AL-DA4m(R)"        "AL-VP4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [127] "PB(R5)"            "PB(L3)"            "SPS(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [130] "AL-VP1l(R)"        "a'3(R)"            "EBr6"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [133] "FBl7"              "AL-DA2(R)"         "EPA(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [136] "RUB(L)"            "AL-VM5v(R)"        "AL-VM7v(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [139] "AMMC"              "SIP(L)"            "a3(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [142] "dACA(R)"           "AL-DM4(R)"         "g3(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [145] "a2(R)"             "FLA(R)"            "GOR(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [148] "SCL(L)"            "PENP"              "CA(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [151] "AVLP(R)"           "b'L(L)"            "AL-DL3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [154] "AL-DA4m(L)"        "AL-VA6(L)"         "BU(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [157] "AL-VA1v(R)"        "g4(R)"             "FBl4"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [160] "AL-DL2v(R)"        "AL-DC2(L)"         "AL-DC4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [163] "AL-DA2(L)"         "AL-D(L)"           "LO(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [166] "AL-D(R)"           "lACA(R)"           "EBr3d"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [169] "SCL(R)"            "AL-DC2(R)"         "AL-DM6(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [172] "AL-VC2(R)"         "AL-VL2a(R)"        "VMNP"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [175] "a'1(R)"            "AB(R)"             "AL-VM2(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [178] "AL-VP1m(R)"        "hemibrain"         "SPS(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [181] "AL-VP2(R)"         "CA(L)"             "FBl8"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [184] "AL-VA3(R)"         "CRE(-RUB)(L)"      "AL-DL1(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [187] "AL-DM5(R)"         "AL-VM4(R)"         "ATL(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [190] "CX"                "CRE(R)"            "BU(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [193] "NO"                "SLP(R)"            "a'L(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [196] "AL-DM6(L)"         "ICL(L)"            "b'2(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [199] "AL-DM4(L)"         "bL(R)"             "MB(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [202] "AL-DM2(R)"         "AL-VM5d(R)"        "AL-VP5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [205] "a'2(R)"            "PB(R3)"            "PB(L7)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [208] "AL(R)"             "AL-VA4(R)"         "LOP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [211] "a1(R)"             "SAD"               "FB"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [214] "LH(R)"             "POC"               "SMP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [217] "b2(R)"             "AL-DM2(L)"         "MB(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [220] "AL-DM3(L)"         "AL-DC4(L)"         "PB(L9)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [223] "VLNP(R)"           "EPA(R)"            "AL-VC5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [226] "ROB(R)"            "OL(R)"             "AL-DA4l(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [229] "EBr5"              "AL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.1`$superLevelROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.1`$info</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.janelia.org/project-team/flyem/hemibrain"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.2`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.2`$`last-mod`</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-12-05 21:53:59"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.2`$uuid</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "31597d95bd844060b0ccc928a1a8a0a4"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.2`$ROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] "SPS(R)"            "ME(R)"             "AL-DC2(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4] "AL-VM5d(R)"        "PB(R6)"            "FLA(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7] "gL(R)"             "CRE(-RUB)(L)"      "LAL(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10] "AL-DC2(R)"         "AL-VC4(R)"         "AL-VP5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13] "AL-VC3l(R)"        "AL-VP2(R)"         "a'2(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16] "AOT(R)"            "b1(R)"             "bL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19] "AL-DL1(R)"         "AL-DM2(R)"         "AL-VA3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [22] "PB(L2)"            "a1(R)"             "NO1(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25] "EPA(L)"            "b'L(L)"            "mALT(L)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [28] "GF(R)"             "NO"                "FBl6"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] "SAD"               "FB"                "ATL(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [34] "AL-DP1m(L)"        "AL-DA3(R)"         "dACA(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37] "PB(L8)"            "AL-DM2(L)"         "LO(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [40] "AL-DL2v(R)"        "AL-VA4(R)"         "AMMC"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43] "FBl7"              "IB"                "AL-DL5(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46] "a'1(R)"            "INP"               "AL-VL2p(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49] "g1(R)"             "VMNP"              "AL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [52] "PB(L6)"            "VES(L)"            "NO(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55] "IPS(R)"            "AL-DC4(R)"         "SMP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [58] "PRW"               "EPA(R)"            "AL-DL4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] "AL-VM3(R)"         "LX(R)"             "AL-DA4m(L)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [64] "PB(L9)"            "PB(R4)"            "MB(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67] "SLP(R)"            "AL-DM4(R)"         "AL-DP1l(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [70] "AL-DM4(L)"         "FBl4"              "PB(R3)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73] "AL-DP1m(R)"        "bL(L)"             "FBl5"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76] "RUB(R)"            "vACA(R)"           "SPS(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79] "ROB(R)"            "GOR(R)"            "EB"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [82] "AL-VP1d(R)"        "b2(R)"             "LAL(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85] "OL(R)"             "EBr3d"             "AL-DM5(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [88] "CAN(R)"            "NO2(L)"            "SIP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] "PB(R9)"            "AL-DC3(R)"         "CX"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [94] "SIP(L)"            "g5(R)"             "LX(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97] "AL-VA1d(R)"        "AL-VA6(R)"         "AL-DM5(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [100] "SCL(R)"            "EBr2r4"            "a'L(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [103] "g4(R)"             "FBl2"              "GNG"              </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [106] "AL-DL5(R)"         "SCL(L)"            "b'L(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [109] "NO3(L)"            "MB(+ACA)(R)"       "a'L(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [112] "AL-DM6(R)"         "VLNP(R)"           "PB(R5)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [115] "mALT(R)"           "AL-DM3(L)"         "PB(L3)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [118] "FB-column3"        "AL-VL2a(R)"        "LAL(-GA)(R)"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [121] "g2(R)"             "LH(R)"             "AL-VM7d(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [124] "g3(R)"             "PB(L7)"            "aL(L)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [127] "AL-DL3(R)"         "AL-VL1(R)"         "AL-VP1l(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [130] "a2(R)"             "PB"                "AL-VM5v(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [133] "GC"                "RUB(L)"            "a3(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [136] "NO(L)"             "AL-DA2(R)"         "AL-DC4(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [139] "AL-DM1(L)"         "NO2(R)"            "AL-VA1v(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [142] "CA(L)"             "GA(R)"             "lACA(R)"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [145] "AL-VA6(L)"         "AVLP(R)"           "b'2(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [148] "hemibrain"         "SNP(L)"            "AL-DA4m(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [151] "AL-D(R)"           "AL-VP1m(R)"        "PENP"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [154] "CA(R)"             "AB(R)"             "WED(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [157] "PB(R2)"            "PED(R)"            "AL-DC1(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [160] "EBr3pw"            "FBl3"              "PB(L5)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [163] "BU(L)"             "BU(R)"             "VES(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [166] "AL-DA1(R)"         "SNP(R)"            "AL-DL4(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [169] "PB(L4)"            "NO1(R)"            "PB(R8)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [172] "AL-DM6(L)"         "AL-VA2(R)"         "AL-VP3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [175] "PB(L1)"            "PVLP(R)"           "AL-VA7l(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [178] "AL-DA3(L)"         "AL-DA4l(R)"        "AL-VM4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [181] "EBr3am"            "EBr5"              "CRE(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [184] "FBl9"              "AL-VC1(R)"         "AL-VC3m(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [187] "AL-VM2(R)"         "CRE(-ROB,-RUB)(R)" "ICL(L)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [190] "FBl8"              "aL(R)"             "PLP(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [193] "ICL(R)"            "NO3(R)"            "AL-VM7v(L)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [196] "AME(R)"            "AL-DL2d(R)"        "AL-DM3(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [199] "AL-VC5(R)"         "POC"               "EBr6"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [202] "LOP(R)"            "SMP(L)"            "AL-DA2(L)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [205] "AL-D(L)"           "SAD(-AMMC)"        "AL(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [208] "AL-DM1(R)"         "AL-V(R)"           "AL-VP4(R)"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [211] "ATL(L)"            "PB(R1)"            "AL-VM7v(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [214] "AB(L)"             "GOR(L)"            "MB(R)"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [217] "AL-VC2(R)"         "AL-VM1(R)"         "EBr1"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [220] "AL-DC1(R)"         "b'1(R)"            "a'3(R)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [223] "CRE(R)"            "AL-VM7d(L)"        "FBl1"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [226] "AL-VA5(R)"         "AOTU(R)"           "PB(R7)"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [229] "gL(L)"             "AL-VA7m(R)"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.2`$superLevelROIs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $`hemibrain:v1.2`$info</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.janelia.org/project-team/flyem/hemibrain"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-in'><span class='co'># }</span></span>
-<span class='r-in'><span class='co'># \donttest{</span></span>
-<span class='r-in'><span class='co'># list API endpoints</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>neuprint_available</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      method     path                                        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] "HEAD"     "/api/*"                                    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] "PROPFIND" "/api/*"                                    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] "GET"      "/api/npexplorer/findneurons"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] "GET"      "/api/v:ver/raw/keyvalue/key/:instance/:key"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] "POST"     "/api/v:ver/npexplorer/rankedtable"         </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [6,] "POST"     "/api/v:ver/skeletons/skeleton/:dataset/:id"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      name                                                                                       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] "github.com/labstack/echo.glob..func1"                                                     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] "github.com/labstack/echo.glob..func1"                                                     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getFindNeurons-fm"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [6,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       </span>
-<span class='r-in'><span class='co'># }</span></span>
-<span class='r-in'><span class='co'># \donttest{</span></span>
-<span class='r-in'><span class='fu'>neuprint_version</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $Version</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "0.1.0"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-in'><span class='co'># }</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># list details for all the available datasets</span>
+<span class='fu'>neuprint_datasets</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $`hemibrain:v0.9`
+#&gt; $`hemibrain:v0.9`$`last-mod`
+#&gt; [1] "2019-06-27 18:08:56"
+#&gt; 
+#&gt; $`hemibrain:v0.9`$uuid
+#&gt; [1] "569625b31af845479fe4f13ff53f868e"
+#&gt; 
+#&gt; $`hemibrain:v0.9`$ROIs
+#&gt;   [1] "dACA(R)"           "IPS(R)"            "AL-VC3m(R)"       
+#&gt;   [4] "PB(L8)"            "AL-VM7d(L)"        "PB(L9)"           
+#&gt;   [7] "CRE(-ROB,-RUB)(R)" "FBl4"              "FBl7"             
+#&gt;  [10] "PENP"              "PB(R7)"            "AL-DM2(L)"        
+#&gt;  [13] "NO"                "gL(R)"             "FBl3"             
+#&gt;  [16] "RUB(R)"            "mALT(L)"           "a1(R)"            
+#&gt;  [19] "NO1(R)"            "g4(R)"             "bL(L)"            
+#&gt;  [22] "FBl6"              "AMMC"              "AL-DA3(L)"        
+#&gt;  [25] "LO(R)"             "AL-DM1(R)"         "hemibrain"        
+#&gt;  [28] "BU(L)"             "AL-DM3(L)"         "IB112"            
+#&gt;  [31] "AL-VP1d(R)"        "SCL(L)"            "a2(R)"            
+#&gt;  [34] "CAN(R)"            "AL-DA4m(R)"        "SPS(R)"           
+#&gt;  [37] "PB(R3)"            "ICL(R)"            "PB(L5)"           
+#&gt;  [40] "NO3(R)"            "PB(R1)"            "AL-VA2(R)"        
+#&gt;  [43] "AL-VM7v(R)"        "PB(L2)"            "AL-DM5(L)"        
+#&gt;  [46] "NO2(R)"            "AL-VP5(R)"         "AL-DM3(R)"        
+#&gt;  [49] "AL-VL2a(R)"        "AL-VP2(R)"         "b'1(R)"           
+#&gt;  [52] "AL-DC4(R)"         "CA(L)"             "SMP(R)"           
+#&gt;  [55] "mALT(R)"           "CRE(-RUB)(L)"      "GF(R)"            
+#&gt;  [58] "SMP(L)"            "AL-DL2v(R)"        "AL-VA7l(R)"       
+#&gt;  [61] "WED(R)"            "g5(R)"             "MB(+ACA)(R)"      
+#&gt;  [64] "LH(R)"             "AL-DM2(R)"         "AL-VM5v(R)"       
+#&gt;  [67] "AL-DP1m(L)"        "AL-VP4(R)"         "AL-VP1l(R)"       
+#&gt;  [70] "SCL(R)"            "EBr1"              "aL(R)"            
+#&gt;  [73] "EBr3am"            "vACA(R)"           "GC"               
+#&gt;  [76] "PB(L1)"            "AL-DL5(R)"         "AL-VA1v(R)"       
+#&gt;  [79] "AL-VC4(R)"         "PED(R)"            "AL-VA3(R)"        
+#&gt;  [82] "NO1(L)"            "AL-DL4(R)"         "FB"               
+#&gt;  [85] "AL-DL1(R)"         "lACA(R)"           "AL-VA6(L)"        
+#&gt;  [88] "AOT(R)"            "b'L(R)"            "SIP(R)"           
+#&gt;  [91] "AL-DA1(R)"         "b2(R)"             "EBr6"             
+#&gt;  [94] "VMNP"              "SAD(-AMMC)"        "FB-column3"       
+#&gt;  [97] "AL-DM4(R)"         "g3(R)"             "ROB(R)"           
+#&gt; [100] "CRE(L)"            "AVLP(R)"           "AL-VL1(R)"        
+#&gt; [103] "AL-VM7v(L)"        "g1(R)"             "b1(R)"            
+#&gt; [106] "CX"                "b'2(R)"            "g2(R)"            
+#&gt; [109] "b'L(L)"            "AL-DL3(R)"         "AL-VM1(R)"        
+#&gt; [112] "LAL(-GA)(R)"       "GOR(L)"            "AL-D(L)"          
+#&gt; [115] "OL(R)"             "AL-VM4(R)"         "AL-VM7d(R)"       
+#&gt; [118] "PLP(R)"            "AL-DA2(R)"         "VES(R)"           
+#&gt; [121] "aL(L)"             "AL-VM3(R)"         "AL-VM5d(R)"       
+#&gt; [124] "a'3(R)"            "GOR(R)"            "AL-DP1l(R)"       
+#&gt; [127] "AL-VA5(R)"         "AL-DA2(L)"         "AL-DC1(L)"        
+#&gt; [130] "LAL(R)"            "a'L(L)"            "AL-DA4l(R)"       
+#&gt; [133] "AL-VC2(R)"         "AL(R)"             "AL-DC2(R)"        
+#&gt; [136] "AL-DM4(L)"         "PB(L7)"            "FBl1"             
+#&gt; [139] "ATL(R)"            "AB(R)"             "INP"              
+#&gt; [142] "EPA(L)"            "a3(R)"             "PB(L4)"           
+#&gt; [145] "PB(R2)"            "RUB(L)"            "MB(R)"            
+#&gt; [148] "AL-DC1(R)"         "LOP(R)"            "EBr3d"            
+#&gt; [151] "FBl2"              "FBl9"              "bL(R)"            
+#&gt; [154] "AL-V(R)"           "a'L(R)"            "EPA(R)"           
+#&gt; [157] "AL-DC2(L)"         "ATL(L)"            "MB(L)"            
+#&gt; [160] "GNG"               "VES(L)"            "AL-DA3(R)"        
+#&gt; [163] "AL-VA7m(R)"        "IB"                "gL(L)"            
+#&gt; [166] "AL-DA4m(L)"        "AL-D(R)"           "VLNP(R)"          
+#&gt; [169] "NO2(L)"            "AL-VC3l(R)"        "AL-VL2p(R)"       
+#&gt; [172] "POC"               "BU(R)"             "AL(L)"            
+#&gt; [175] "AL-DM1(L)"         "PB(R9)"            "SNP(L)"           
+#&gt; [178] "AL-VA4(R)"         "FBl8"              "AL-DM6(R)"        
+#&gt; [181] "AL-VA6(R)"         "PB(R5)"            "EBr5"             
+#&gt; [184] "ME(R)"             "a'1(R)"            "NO3(L)"           
+#&gt; [187] "PB(R6)"            "LX(R)"             "AL-DM6(L)"        
+#&gt; [190] "AME(R)"            "PB(R4)"            "FLA(R)"           
+#&gt; [193] "NO(L)"             "PVLP(R)"           "AL-DL2d(R)"       
+#&gt; [196] "AL-VP1m(R)"        "AOTU(R)"           "PB(L6)"           
+#&gt; [199] "PB"                "EBr3pw"            "CA(R)"            
+#&gt; [202] "LX(L)"             "SLP(R)"            "AL-DM5(R)"        
+#&gt; [205] "SIP(L)"            "EBr2r4"            "NO(R)"            
+#&gt; [208] "FBl5"              "AL-DC3(R)"         "AL-VA1d(R)"       
+#&gt; [211] "PB(L3)"            "SAD"               "CRE(R)"           
+#&gt; [214] "EB"                "AL-DL4(L)"         "ICL(L)"           
+#&gt; [217] "a'2(R)"            "AL-DL5(L)"         "AL-VC1(R)"        
+#&gt; [220] "AL-VP3(R)"         "AB(L)"             "PRW"              
+#&gt; [223] "PB(R8)"            "AL-DC4(L)"         "AL-DP1m(R)"       
+#&gt; [226] "AL-VC5(R)"         "AL-VM2(R)"         "GA(R)"            
+#&gt; [229] "SPS(L)"            "LAL(L)"            "SNP(R)"           
+#&gt; 
+#&gt; $`hemibrain:v0.9`$superLevelROIs
+#&gt;  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" 
+#&gt;  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" 
+#&gt; [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     
+#&gt; [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"
+#&gt; [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" 
+#&gt; [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" 
+#&gt; [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  
+#&gt; [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" 
+#&gt; [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    
+#&gt; 
+#&gt; $`hemibrain:v0.9`$info
+#&gt; [1] "https://www.janelia.org/project-team/flyem/hemibrain"
+#&gt; 
+#&gt; $`hemibrain:v0.9`$hidden
+#&gt; [1] TRUE
+#&gt; 
+#&gt; 
+#&gt; $`hemibrain:v1.0.1`
+#&gt; $`hemibrain:v1.0.1`$`last-mod`
+#&gt; [1] "2019-12-20T23:11:02"
+#&gt; 
+#&gt; $`hemibrain:v1.0.1`$uuid
+#&gt; [1] "52a13328874c4bb7b15dc4280da26576"
+#&gt; 
+#&gt; $`hemibrain:v1.0.1`$ROIs
+#&gt;   [1] "a'L(L)"            "b'1(R)"            "GA(R)"            
+#&gt;   [4] "FB"                "PB(L6)"            "CA(R)"            
+#&gt;   [7] "b'2(R)"            "PB(L7)"            "PVLP(R)"          
+#&gt;  [10] "PB(R5)"            "AVLP(R)"           "LX(L)"            
+#&gt;  [13] "bL(R)"             "VLNP(R)"           "WED(R)"           
+#&gt;  [16] "CRE(R)"            "ME(R)"             "EBr2r4"           
+#&gt;  [19] "vACA(R)"           "a1(R)"             "SAD"              
+#&gt;  [22] "SIP(L)"            "PB(R7)"            "LOP(R)"           
+#&gt;  [25] "PB(L2)"            "mALT(L)"           "SMP(L)"           
+#&gt;  [28] "aL(R)"             "gL(L)"             "RUB(L)"           
+#&gt;  [31] "SAD(-AMMC)"        "VES(L)"            "AB(L)"            
+#&gt;  [34] "INP"               "SPS(R)"            "PB(L8)"           
+#&gt;  [37] "a'L(R)"            "b1(R)"             "LX(R)"            
+#&gt;  [40] "PB(R3)"            "GOR(R)"            "PB(L5)"           
+#&gt;  [43] "NO2(R)"            "LAL(R)"            "a'3(R)"           
+#&gt;  [46] "EBr5"              "NO"                "CRE(L)"           
+#&gt;  [49] "FBl2"              "GF(R)"             "a'2(R)"           
+#&gt;  [52] "b'L(L)"            "OL(R)"             "SCL(L)"           
+#&gt;  [55] "PRW"               "PB(L9)"            "SNP(L)"           
+#&gt;  [58] "ATL(R)"            "b2(R)"             "ICL(R)"           
+#&gt;  [61] "CA(L)"             "g1(R)"             "BU(R)"            
+#&gt;  [64] "NO3(L)"            "LH(R)"             "SIP(R)"           
+#&gt;  [67] "CAN(R)"            "POC"               "EBr3am"           
+#&gt;  [70] "b'L(R)"            "EBr1"              "FLA(R)"           
+#&gt;  [73] "EPA(R)"            "FBl8"              "AME(R)"           
+#&gt;  [76] "PB(L4)"            "CX"                "aL(L)"            
+#&gt;  [79] "AMMC"              "PB(R6)"            "ROB(R)"           
+#&gt;  [82] "gL(R)"             "MB(+ACA)(R)"       "PB(R9)"           
+#&gt;  [85] "EBr3pw"            "FBl3"              "FBl6"             
+#&gt;  [88] "PB(L3)"            "MB(L)"             "EBr3d"            
+#&gt;  [91] "SNP(R)"            "AL(L)"             "IB"               
+#&gt;  [94] "ATL(L)"            "g3(R)"             "hemibrain"        
+#&gt;  [97] "LAL(-GA)(R)"       "EB"                "PB(R8)"           
+#&gt; [100] "LO(R)"             "FBl1"              "SLP(R)"           
+#&gt; [103] "AOT(R)"            "g4(R)"             "FBl5"             
+#&gt; [106] "GNG"               "MB(R)"             "dACA(R)"          
+#&gt; [109] "ICL(L)"            "FBl9"              "NO(L)"            
+#&gt; [112] "PED(R)"            "NO1(L)"            "g2(R)"            
+#&gt; [115] "BU(L)"             "mALT(R)"           "GC"               
+#&gt; [118] "PB(R1)"            "a3(R)"             "CRE(-ROB,-RUB)(R)"
+#&gt; [121] "SCL(R)"            "EBr6"              "VMNP"             
+#&gt; [124] "NO(R)"             "PB(R4)"            "AL(R)"            
+#&gt; [127] "NO2(L)"            "lACA(R)"           "PB(L1)"           
+#&gt; [130] "SPS(L)"            "FBl7"              "PB(R2)"           
+#&gt; [133] "SMP(R)"            "GOR(L)"            "PLP(R)"           
+#&gt; [136] "g5(R)"             "IPS(R)"            "VES(R)"           
+#&gt; [139] "AB(R)"             "RUB(R)"            "LAL(L)"           
+#&gt; [142] "AOTU(R)"           "NO3(R)"            "bL(L)"            
+#&gt; [145] "a'1(R)"            "EPA(L)"            "FBl4"             
+#&gt; [148] "PENP"              "a2(R)"             "NO1(R)"           
+#&gt; [151] "PB"               
+#&gt; 
+#&gt; $`hemibrain:v1.0.1`$superLevelROIs
+#&gt;  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" 
+#&gt;  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" 
+#&gt; [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     
+#&gt; [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"
+#&gt; [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" 
+#&gt; [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" 
+#&gt; [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  
+#&gt; [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" 
+#&gt; [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    
+#&gt; 
+#&gt; $`hemibrain:v1.0.1`$info
+#&gt; [1] "https://www.janelia.org/project-team/flyem/hemibrain"
+#&gt; 
+#&gt; $`hemibrain:v1.0.1`$hidden
+#&gt; [1] FALSE
+#&gt; 
+#&gt; 
+#&gt; $`hemibrain:v1.1`
+#&gt; $`hemibrain:v1.1`$`last-mod`
+#&gt; [1] "2020-05-30 10:36:36"
+#&gt; 
+#&gt; $`hemibrain:v1.1`$uuid
+#&gt; [1] "20631f94c3f446d7864bc55bf515706e"
+#&gt; 
+#&gt; $`hemibrain:v1.1`$ROIs
+#&gt;   [1] "VMNP"              "PB(L9)"            "FB-column3"       
+#&gt;   [4] "MB(R)"             "LAL(-GA)(R)"       "AL-VM7v(L)"       
+#&gt;   [7] "FBl1"              "SLP(R)"            "AL-VA1v(R)"       
+#&gt;  [10] "AL-VA6(R)"         "AL-VC3l(R)"        "AL-VM2(R)"        
+#&gt;  [13] "AL-VM5v(R)"        "CRE(-RUB)(L)"      "GOR(R)"           
+#&gt;  [16] "EBr1"              "FBl9"              "a3(R)"            
+#&gt;  [19] "AL-VL1(R)"         "SMP(R)"            "g3(R)"            
+#&gt;  [22] "PVLP(R)"           "FBl3"              "NO2(R)"           
+#&gt;  [25] "PB(L4)"            "AL-VC3m(R)"        "AL-VM4(R)"        
+#&gt;  [28] "AL-VP3(R)"         "AOT(R)"            "PB(R5)"           
+#&gt;  [31] "b2(R)"             "g2(R)"             "SCL(R)"           
+#&gt;  [34] "AL-DL4(L)"         "VES(R)"            "AL-DM4(R)"        
+#&gt;  [37] "SAD"               "BU(L)"             "AL-DA4m(L)"       
+#&gt;  [40] "AL-DM1(L)"         "NO(R)"             "AL-DM1(R)"        
+#&gt;  [43] "CA(L)"             "LAL(L)"            "SMP(L)"           
+#&gt;  [46] "INP"               "AL-DA3(R)"         "EPA(L)"           
+#&gt;  [49] "AL-DM6(R)"         "PB(L1)"            "AL-VA1d(R)"       
+#&gt;  [52] "AL-VA2(R)"         "AL-VC1(R)"         "GOR(L)"           
+#&gt;  [55] "PB(R8)"            "AL-DL3(R)"         "AL-VC4(R)"        
+#&gt;  [58] "a'1(R)"            "AL-DC1(R)"         "AL-DL4(R)"        
+#&gt;  [61] "CX"                "AL(R)"             "AL-DL1(R)"        
+#&gt;  [64] "CRE(-ROB,-RUB)(R)" "NO1(L)"            "AL-VM7d(L)"       
+#&gt;  [67] "a'3(R)"            "PENP"              "PED(R)"           
+#&gt;  [70] "EBr5"              "LO(R)"             "b'L(L)"           
+#&gt;  [73] "AL-VA7m(R)"        "AL-VM3(R)"         "PRW"              
+#&gt;  [76] "SIP(L)"            "PB(R2)"            "a'L(L)"           
+#&gt;  [79] "AL-DC1(L)"         "AL-DP1m(R)"        "b'2(R)"           
+#&gt;  [82] "hemibrain"         "CA(R)"             "AL-VA3(R)"        
+#&gt;  [85] "AL-VP1d(R)"        "b'L(R)"            "AL-VA6(L)"        
+#&gt;  [88] "AL-DC4(R)"         "AL-D(R)"           "AB(L)"            
+#&gt;  [91] "ME(R)"             "AL-DM3(L)"         "ROB(R)"           
+#&gt;  [94] "PB(L6)"            "PB(R9)"            "AL-V(R)"          
+#&gt;  [97] "AL-VM7v(R)"        "a2(R)"             "EBr6"             
+#&gt; [100] "FB"                "PB(L8)"            "AL-DA2(L)"        
+#&gt; [103] "bL(L)"             "FBl5"              "CAN(R)"           
+#&gt; [106] "NO1(R)"            "g4(R)"             "SNP(L)"           
+#&gt; [109] "bL(R)"             "vACA(R)"           "NO2(L)"           
+#&gt; [112] "dACA(R)"           "AL-VL2a(R)"        "AL-VP4(R)"        
+#&gt; [115] "RUB(L)"            "gL(L)"             "LH(R)"            
+#&gt; [118] "AL-DM5(R)"         "ICL(R)"            "AME(R)"           
+#&gt; [121] "AL-VA7l(R)"        "AL-VC2(R)"         "AL-DM5(L)"        
+#&gt; [124] "AL-DC3(R)"         "AL-DP1l(R)"        "aL(R)"            
+#&gt; [127] "FBl7"              "PB(R3)"            "VLNP(R)"          
+#&gt; [130] "SPS(R)"            "PB"                "b'1(R)"           
+#&gt; [133] "GA(R)"             "AL-DC4(L)"         "b1(R)"            
+#&gt; [136] "RUB(R)"            "PB(L7)"            "AL-DC2(R)"        
+#&gt; [139] "AL-VA5(R)"         "AMMC"              "GF(R)"            
+#&gt; [142] "POC"               "EBr3d"             "SNP(R)"           
+#&gt; [145] "EB"                "AL-DC2(L)"         "AL-D(L)"          
+#&gt; [148] "AL-DM2(L)"         "LX(L)"             "AL-VP5(R)"        
+#&gt; [151] "AL-VP2(R)"         "PB(R1)"            "CRE(L)"           
+#&gt; [154] "AL-DM2(R)"         "AB(R)"             "LX(R)"            
+#&gt; [157] "AL-DM6(L)"         "GNG"               "mALT(L)"          
+#&gt; [160] "SIP(R)"            "NO3(L)"            "MB(+ACA)(R)"      
+#&gt; [163] "AL-DM3(R)"         "g5(R)"             "IPS(R)"           
+#&gt; [166] "AL-VM1(R)"         "EBr2r4"            "NO"               
+#&gt; [169] "EBr3pw"            "FBl2"              "AL-DL2d(R)"       
+#&gt; [172] "SAD(-AMMC)"        "AL-VM5d(R)"        "SCL(L)"           
+#&gt; [175] "lACA(R)"           "a'L(R)"            "AL-DL2v(R)"       
+#&gt; [178] "ATL(R)"            "EBr3am"            "PB(L5)"           
+#&gt; [181] "PB(L3)"            "SPS(L)"            "EPA(R)"           
+#&gt; [184] "ICL(L)"            "FLA(R)"            "BU(R)"            
+#&gt; [187] "ATL(L)"            "GC"                "AL-DA3(L)"        
+#&gt; [190] "FBl4"              "AL-DA4l(R)"        "CRE(R)"           
+#&gt; [193] "AL-DM4(L)"         "gL(R)"             "FBl8"             
+#&gt; [196] "OL(R)"             "AL-VA4(R)"         "PB(R7)"           
+#&gt; [199] "FBl6"              "g1(R)"             "AL-DP1m(L)"       
+#&gt; [202] "PB(R4)"            "AL-DA4m(R)"        "AL-VP1m(R)"       
+#&gt; [205] "AOTU(R)"           "a'2(R)"            "AL(L)"            
+#&gt; [208] "NO(L)"             "VES(L)"            "AL-DA2(R)"        
+#&gt; [211] "AL-DL5(R)"         "AL-VC5(R)"         "AL-VM7d(R)"       
+#&gt; [214] "IB"                "PB(L2)"            "a1(R)"            
+#&gt; [217] "MB(L)"             "AVLP(R)"           "NO3(R)"           
+#&gt; [220] "PLP(R)"            "aL(L)"             "LOP(R)"           
+#&gt; [223] "PB(R6)"            "mALT(R)"           "WED(R)"           
+#&gt; [226] "AL-DL5(L)"         "LAL(R)"            "AL-DA1(R)"        
+#&gt; [229] "AL-VL2p(R)"        "AL-VP1l(R)"       
+#&gt; 
+#&gt; $`hemibrain:v1.1`$superLevelROIs
+#&gt;  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" 
+#&gt;  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" 
+#&gt; [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     
+#&gt; [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"
+#&gt; [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" 
+#&gt; [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" 
+#&gt; [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  
+#&gt; [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" 
+#&gt; [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    
+#&gt; 
+#&gt; $`hemibrain:v1.1`$info
+#&gt; [1] "https://www.janelia.org/project-team/flyem/hemibrain"
+#&gt; 
+#&gt; $`hemibrain:v1.1`$hidden
+#&gt; [1] FALSE
+#&gt; 
+#&gt; 
+#&gt; $`hemibrain:v1.2.1`
+#&gt; $`hemibrain:v1.2.1`$`last-mod`
+#&gt; [1] "2020-12-05 21:53:59"
+#&gt; 
+#&gt; $`hemibrain:v1.2.1`$uuid
+#&gt; [1] "31597d95bd844060b0ccc928a1a8a0a4"
+#&gt; 
+#&gt; $`hemibrain:v1.2.1`$ROIs
+#&gt;   [1] "AL-DM5(L)"         "SNP(R)"            "PB(L7)"           
+#&gt;   [4] "SNP(L)"            "FBl9"              "hemibrain"        
+#&gt;   [7] "PB(R7)"            "PVLP(R)"           "FBl1"             
+#&gt;  [10] "LH(R)"             "AOT(R)"            "b'2(R)"           
+#&gt;  [13] "FLA(R)"            "PB(L9)"            "a3(R)"            
+#&gt;  [16] "AL-VA4(R)"         "AL-VA6(R)"         "EB"               
+#&gt;  [19] "AL-DA3(L)"         "AL-D(L)"           "AVLP(R)"          
+#&gt;  [22] "INP"               "AL(R)"             "EBr3pw"           
+#&gt;  [25] "LX(L)"             "AL-DL5(R)"         "g4(R)"            
+#&gt;  [28] "AL-DM6(L)"         "SIP(R)"            "NO(R)"            
+#&gt;  [31] "CRE(L)"            "GOR(R)"            "BU(R)"            
+#&gt;  [34] "CRE(-RUB)(L)"      "VES(R)"            "AL-VP4(R)"        
+#&gt;  [37] "LAL(L)"            "AL-DL3(R)"         "CRE(-ROB,-RUB)(R)"
+#&gt;  [40] "GA(R)"             "SPS(R)"            "AL-DA2(R)"        
+#&gt;  [43] "GF(R)"             "PB"                "ICL(L)"           
+#&gt;  [46] "AL-VP2(R)"         "POC"               "AB(L)"            
+#&gt;  [49] "WED(R)"            "aL(R)"             "FB"               
+#&gt;  [52] "a'L(R)"            "AL-DM1(R)"         "AL-VC1(R)"        
+#&gt;  [55] "vACA(R)"           "VMNP"              "gL(R)"            
+#&gt;  [58] "RUB(L)"            "AL-VP3(R)"         "a'3(R)"           
+#&gt;  [61] "PB(R4)"            "AL-DL2d(R)"        "AL-VA5(R)"        
+#&gt;  [64] "EBr3am"            "EBr3d"             "gL(L)"            
+#&gt;  [67] "MB(+ACA)(R)"       "FBl2"              "EBr5"             
+#&gt;  [70] "BU(L)"             "AL(L)"             "AME(R)"           
+#&gt;  [73] "CA(L)"             "AL-DC3(R)"         "PB(R5)"           
+#&gt;  [76] "AMMC"              "CX"                "AL-DA4m(R)"       
+#&gt;  [79] "AL-DL4(R)"         "AL-VM5v(R)"        "VLNP(R)"          
+#&gt;  [82] "AL-DC4(R)"         "AL-VL2p(R)"        "PB(R9)"           
+#&gt;  [85] "NO2(R)"            "OL(R)"             "AL-DM3(L)"        
+#&gt;  [88] "AL-V(R)"           "NO1(R)"            "PB(L4)"           
+#&gt;  [91] "mALT(L)"           "PB(L8)"            "AL-VM7d(L)"       
+#&gt;  [94] "ROB(R)"            "PB(R2)"            "a2(R)"            
+#&gt;  [97] "SAD(-AMMC)"        "AL-VM4(R)"         "AL-VC4(R)"        
+#&gt; [100] "PB(R6)"            "g3(R)"             "NO3(R)"           
+#&gt; [103] "b'L(R)"            "NO"                "AL-DM3(R)"        
+#&gt; [106] "AL-DC2(L)"         "FBl3"              "AL-DA1(R)"        
+#&gt; [109] "AL-VA1d(R)"        "a'1(R)"            "FBl5"             
+#&gt; [112] "AL-DM2(R)"         "AL-VA7m(R)"        "LOP(R)"           
+#&gt; [115] "ATL(R)"            "a1(R)"             "dACA(R)"          
+#&gt; [118] "a'2(R)"            "AL-DL2v(R)"        "AL-VM7v(R)"       
+#&gt; [121] "SCL(L)"            "PB(L3)"            "NO1(L)"           
+#&gt; [124] "SCL(R)"            "PLP(R)"            "AL-VP5(R)"        
+#&gt; [127] "SIP(L)"            "AL-DP1m(L)"        "LO(R)"            
+#&gt; [130] "AL-VP1d(R)"        "AL-DA3(R)"         "AL-DC1(R)"        
+#&gt; [133] "PRW"               "EBr6"              "g5(R)"            
+#&gt; [136] "AL-VM7d(R)"        "SMP(R)"            "EBr1"             
+#&gt; [139] "FBl6"              "EPA(L)"            "b'L(L)"           
+#&gt; [142] "SLP(R)"            "AL-DM1(L)"         "FB-column3"       
+#&gt; [145] "IPS(R)"            "SPS(L)"            "ICL(R)"           
+#&gt; [148] "CAN(R)"            "MB(R)"             "AL-DM5(R)"        
+#&gt; [151] "AL-VM1(R)"         "AL-DA4m(L)"        "AL-DL4(L)"        
+#&gt; [154] "AL-VA6(L)"         "NO3(L)"            "FBl7"             
+#&gt; [157] "g1(R)"             "AL-DA2(L)"         "AL-D(R)"          
+#&gt; [160] "AOTU(R)"           "PED(R)"            "ME(R)"            
+#&gt; [163] "AL-DM4(R)"         "NO2(L)"            "LAL(-GA)(R)"      
+#&gt; [166] "AL-DC4(L)"         "PB(R3)"            "AL-VC3m(R)"       
+#&gt; [169] "AL-VL1(R)"         "AL-VP1m(R)"        "EBr2r4"           
+#&gt; [172] "AL-DL5(L)"         "AL-DM2(L)"         "AL-VM7v(L)"       
+#&gt; [175] "LAL(R)"            "AL-DP1m(R)"        "mALT(R)"          
+#&gt; [178] "a'L(L)"            "AL-VP1l(R)"        "CA(R)"            
+#&gt; [181] "GNG"               "LX(R)"             "b'1(R)"           
+#&gt; [184] "lACA(R)"           "bL(L)"             "AL-VM2(R)"        
+#&gt; [187] "PB(L5)"            "SMP(L)"            "EPA(R)"           
+#&gt; [190] "AL-VA7l(R)"        "PB(L2)"            "AL-VL2a(R)"       
+#&gt; [193] "GC"                "FBl4"              "AB(R)"            
+#&gt; [196] "aL(L)"             "g2(R)"             "bL(R)"            
+#&gt; [199] "AL-VC3l(R)"        "PB(R8)"            "AL-DC2(R)"        
+#&gt; [202] "ATL(L)"            "PB(L1)"            "AL-DC1(L)"        
+#&gt; [205] "PENP"              "AL-VA2(R)"         "GOR(L)"           
+#&gt; [208] "AL-DM4(L)"         "PB(R1)"            "AL-DA4l(R)"       
+#&gt; [211] "AL-DP1l(R)"        "SAD"               "b2(R)"            
+#&gt; [214] "VES(L)"            "AL-DL1(R)"         "RUB(R)"           
+#&gt; [217] "PB(L6)"            "NO(L)"             "AL-VC2(R)"        
+#&gt; [220] "AL-VC5(R)"         "IB"                "CRE(R)"           
+#&gt; [223] "MB(L)"             "FBl8"              "b1(R)"            
+#&gt; [226] "AL-DM6(R)"         "AL-VA1v(R)"        "AL-VA3(R)"        
+#&gt; [229] "AL-VM3(R)"         "AL-VM5d(R)"       
+#&gt; 
+#&gt; $`hemibrain:v1.2.1`$superLevelROIs
+#&gt;  [1] "ME(R)"   "AME(R)"  "LO(R)"   "LOP(R)"  "CA(R)"   "CA(L)"   "PED(R)" 
+#&gt;  [8] "a'L(R)"  "a'L(L)"  "aL(R)"   "aL(L)"   "gL(R)"   "gL(L)"   "b'L(R)" 
+#&gt; [15] "b'L(L)"  "bL(R)"   "bL(L)"   "FB"      "AB(R)"   "AB(L)"   "EB"     
+#&gt; [22] "PB"      "NO"      "BU(R)"   "BU(L)"   "LAL(R)"  "LAL(L)"  "AOTU(R)"
+#&gt; [29] "AVLP(R)" "PVLP(R)" "PLP(R)"  "WED(R)"  "LH(R)"   "SLP(R)"  "SIP(R)" 
+#&gt; [36] "SIP(L)"  "SMP(R)"  "SMP(L)"  "CRE(R)"  "CRE(L)"  "SCL(R)"  "SCL(L)" 
+#&gt; [43] "ICL(R)"  "ICL(L)"  "IB"      "ATL(R)"  "ATL(L)"  "AL(R)"   "AL(L)"  
+#&gt; [50] "VES(R)"  "VES(L)"  "EPA(R)"  "EPA(L)"  "GOR(R)"  "GOR(L)"  "SPS(R)" 
+#&gt; [57] "SPS(L)"  "IPS(R)"  "SAD"     "FLA(R)"  "CAN(R)"  "PRW"     "GNG"    
+#&gt; 
+#&gt; $`hemibrain:v1.2.1`$info
+#&gt; [1] "https://www.janelia.org/project-team/flyem/hemibrain"
+#&gt; 
+#&gt; $`hemibrain:v1.2.1`$hidden
+#&gt; [1] FALSE
+#&gt; 
+#&gt; </div><div class='input'><span class='co'># }</span>
+<span class='co'># \donttest{</span>
+<span class='co'># list API endpoints</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>neuprint_available</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      method path                                  
+#&gt; [1,] "POST" "/api"                                
+#&gt; [2,] "GET"  "/api/npexplorer/findneurons"         
+#&gt; [3,] "POST" "/api/v:ver/npexplorer/completeness"  
+#&gt; [4,] "GET"  "/api/raw/keyvalue/key/:instance/:key"
+#&gt; [5,] "GET"  "/api/available"                      
+#&gt; [6,] "GET"  "/oauth2callback"                     
+#&gt;      name                                                                                       
+#&gt; [1,] "github.com/labstack/echo.glob..func1"                                                     
+#&gt; [2,] "github.com/connectome-neuprint/neuPrintHTTP/api/npexplorer.(*cypherAPI).getFindNeurons-fm"
+#&gt; [3,] "github.com/connectome-neuprint/neuPrintHTTP/api.CheckVersion.func1"                       
+#&gt; [4,] "github.com/connectome-neuprint/neuPrintHTTP/api/raw/keyvalue.masterAPI.getKV-fm"          
+#&gt; [5,] "github.com/connectome-neuprint/neuPrintHTTP/api.SetupRoutes.func1"                        
+#&gt; [6,] "github.com/janelia-flyem/echo-secure.oauthCallbackHandler"                                </div><div class='input'><span class='co'># }</span>
+<span class='co'># \donttest{</span>
+<span class='fu'>neuprint_version</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $Version
+#&gt; [1] "0.1.0"
+#&gt; </div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -595,11 +601,11 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p></p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -607,8 +613,6 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
   
 
-
-  
 
   </body>
 </html>

@@ -51,9 +51,7 @@
   up a synaptic object — neuprint_connectors" />
 <meta property="og:description" content="Get synapse IDs for a given connector ID, as well as their
   associated body IDs and their locations in 3D space." />
-<meta property="og:image" content="/logo.svg" />
-
-
+<meta property="og:image" content="https://natverse.org/neuprintr/logo.svg" />
 
 
 
@@ -69,16 +67,9 @@
 
 
 
-
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -99,6 +90,12 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -151,13 +148,13 @@
   associated body IDs and their locations in 3D space.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>neuprint_connectors</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>neuprint_connectors</span><span class='op'>(</span>
   <span class='va'>connector_ids</span>,
   all_segments <span class='op'>=</span> <span class='cn'>TRUE</span>,
   conn <span class='op'>=</span> <span class='cn'>NULL</span>,
   dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,13 +174,13 @@ connection object.</p></td>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -203,28 +200,27 @@ current connection, is used. See <code><a href='neuprint_login.html'>neuprint_lo
   <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
-<span class='r-in'><span class='va'>syns</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span><span class='op'>(</span><span class='fl'>818983130</span><span class='op'>)</span> <span class='co'># note</span></span>
-<span class='r-in'><span class='co'># all given connectorIDs from this function are for presynapses</span></span>
-<span class='r-in'><span class='va'>prepost.conn</span> <span class='op'>=</span> <span class='fu'>neuprint_connectors</span><span class='op'>(</span><span class='va'>syns</span><span class='op'>$</span><span class='va'>connector_id</span>, all_segments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>prepost.conn</span><span class='op'>)</span> <span class='co'># All the synapses that connect to or from 818983130</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1        134770239       134750463   818983130  975432645   6323  17828  14144</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2        134770240       134750463  1006820405  975432645   6300  17836  14145</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3        134750459       134750463   947453617  975432645   6335  17828  14130</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 4        134750458       134750463  1881751117  975432645   6319  17829  14130</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5        133912545       133912547   818983130  974753221   5265  16547  13869</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 6        133919081       133919083   696126258  974753207   5363  16481  13890</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   confidence_post x_pre y_pre z_pre confidence_pre</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1       0.8521260  6326 17842 14138          0.953</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2       0.4669051  6326 17842 14138          0.953</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3       0.6970400  6326 17842 14138          0.953</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 4       0.9932270  6326 17842 14138          0.953</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5       0.8970000  5267 16548 13857          0.785</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 6       0.6449590  5358 16493 13900          0.964</span>
-<span class='r-in'><span class='co'># and their other connections to other bodies too</span></span>
-<span class='r-in'><span class='co'># }</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='va'>syns</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span><span class='op'>(</span><span class='fl'>818983130</span><span class='op'>)</span> <span class='co'># note</span>
+<span class='co'># all given connectorIDs from this function are for presynapses</span>
+<span class='va'>prepost.conn</span> <span class='op'>=</span> <span class='fu'>neuprint_connectors</span><span class='op'>(</span><span class='va'>syns</span><span class='op'>$</span><span class='va'>connector_id</span>, all_segments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>prepost.conn</span><span class='op'>)</span> <span class='co'># All the synapses that connect to or from 818983130</span>
+</div><div class='output co'>#&gt;   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post
+#&gt; 1        134770239       134750463   818983130  975432645   6323  17828  14144
+#&gt; 2        134770240       134750463  1006820405  975432645   6300  17836  14145
+#&gt; 3        134750459       134750463   947453617  975432645   6335  17828  14130
+#&gt; 4        134750458       134750463  1881751117  975432645   6319  17829  14130
+#&gt; 5        133912545       133912547   818983130  974753221   5265  16547  13869
+#&gt; 6        133919081       133919083   696126258  974753207   5363  16481  13890
+#&gt;   confidence_post x_pre y_pre z_pre confidence_pre
+#&gt; 1       0.8521260  6326 17842 14138          0.953
+#&gt; 2       0.4669051  6326 17842 14138          0.953
+#&gt; 3       0.6970400  6326 17842 14138          0.953
+#&gt; 4       0.9932270  6326 17842 14138          0.953
+#&gt; 5       0.8970000  5267 16548 13857          0.785
+#&gt; 6       0.6449590  5358 16493 13900          0.964</div><div class='input'><span class='co'># and their other connections to other bodies too</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -236,11 +232,11 @@ current connection, is used. See <code><a href='neuprint_login.html'>neuprint_lo
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p></p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -248,8 +244,6 @@ current connection, is used. See <code><a href='neuprint_login.html'>neuprint_lo
 
   
 
-
-  
 
   </body>
 </html>

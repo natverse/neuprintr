@@ -48,9 +48,7 @@
 
 <meta property="og:title" content="Get available metadata fields for Neuron nodes — neuprint_get_fields" />
 <meta property="og:description" content="Get available metadata fields for Neuron nodes" />
-<meta property="og:image" content="/logo.svg" />
-
-
+<meta property="og:image" content="https://natverse.org/neuprintr/logo.svg" />
 
 
 
@@ -66,16 +64,9 @@
 
 
 
-
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -96,6 +87,12 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -146,7 +143,7 @@
     <p>Get available metadata fields for Neuron nodes</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>neuprint_get_fields</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>neuprint_get_fields</span><span class='op'>(</span>
   possibleFields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bodyId"</span>, <span class='st'>"pre"</span>, <span class='st'>"post"</span>, <span class='st'>"upstream"</span>, <span class='st'>"downstream"</span>, <span class='st'>"status"</span>,
     <span class='st'>"statusLabel"</span>, <span class='st'>"cropped"</span>, <span class='st'>"instance"</span>, <span class='st'>"name"</span>, <span class='st'>"size"</span>, <span class='st'>"type"</span>, <span class='st'>"cellBodyFiber"</span>,
     <span class='st'>"somaLocation"</span>, <span class='st'>"somaRadius"</span>, <span class='st'>"notes"</span><span class='op'>)</span>,
@@ -154,7 +151,7 @@
   dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
   conn <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,14 +168,14 @@
       <th>dataset</th>
       <td><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
-current connection, is used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>conn</th>
       <td><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a></code> or <code><a href='https://rdrr.io/r/base/Startup.html'>.Renviron</a></code> are
-used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for details.</p></td>
+used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -191,13 +188,12 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
     <p>a vector of available fields</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
-<span class='r-in'><span class='fu'>neuprint_get_fields</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "bodyId"        "pre"           "post"          "status"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "statusLabel"   "cropped"       "size"          "instance"     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "type"          "cellBodyFiber" "somaLocation"  "somaRadius"   </span>
-<span class='r-in'><span class='co'># }</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'>neuprint_get_fields</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "bodyId"        "pre"           "post"          "status"       
+#&gt;  [5] "statusLabel"   "cropped"       "size"          "instance"     
+#&gt;  [9] "type"          "cellBodyFiber" "somaLocation"  "somaRadius"   </div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -209,11 +205,11 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p></p>
+  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -221,8 +217,6 @@ used. See <code><a href='neuprint_login.html'>neuprint_login</a></code> for deta
 
   
 
-
-  
 
   </body>
 </html>
