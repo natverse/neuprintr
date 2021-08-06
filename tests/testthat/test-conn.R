@@ -1,10 +1,11 @@
 test_that('getenvoroption works',{
   skip_if_not_installed('withr')
-  withr::with_envvar(c('NEUPRINT_RHUBARB'="CRUMBLE"), {
-    expect_equal(getenvoroption("rhubarb"), list(rhubarb="CRUMBLE"))
-    expect_equal(getenvoroption("rhubarb", ignore.case = F),
-                 list(rhubarb=NULL))
-  })
+  withr::with_envvar(c('NEUPRINT_RHUBARB' = "CRUMBLE"),
+                     expect_equal(getenvoroption("rhubarb"),
+                                  list(rhubarb ="CRUMBLE")))
+  skip_on_os("windows")
+  withr::with_envvar(expect_equal(getenvoroption("rhubarb", ignore.case = F),
+                                  list(rhubarb = NULL)))
 })
 
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
