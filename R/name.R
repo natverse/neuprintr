@@ -40,14 +40,16 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'   \code{soma} is not, so this may be a good test of if the neuron is present
 #'   in the volume. The \code{cellBodyFiber} should be matched to (hemi)lineage
 #'   information .
-#' @return a \code{data.frame} containing the neuron's \itemize{ \item name
+#' @return a \code{data.frame} containing the neuron's \itemize{
+#'
+#'   \item name
 #'
 #'   \item type Cell type of the neuron
 #'
 #'   \item status (Traced etc)
 #'
 #'   \item statusLabel similar to \code{status} but often a bit more specific
-
+#'
 #'   \item size size in voxels
 #'
 #'   \item pre number of presynapses
@@ -61,14 +63,15 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'   \item cellBodyFiber names the tract connecting the soma to rest of neuron
 #'
 #'   }
-#'
+#' @param possibleFields passed to \code{\link{neuprint_get_fields}} when not
+#'   \code{NULL}, otherwise a default set are used.
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifying the size of those chunks (which defaults
-#'   to 2000 when \code{chunk=TRUE}).
-#' @param progress default FALSE. If TRUE, the API is called separately for
-#' each neuron and you can assess its progress, if an error is thrown by any
-#' one \code{bodyid}, that \code{bodyid} is ignored
+#'   chunks or an integer specifying the size of those chunks (which defaults to
+#'   2000 when \code{chunk=TRUE}).
+#' @param progress default FALSE. If TRUE, the API is called separately for each
+#'   neuron and you can assess its progress, if an error is thrown by any one
+#'   \code{bodyid}, that \code{bodyid} is ignored.
 #' @export
 #' @examples
 #' \donttest{
@@ -77,7 +80,9 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' # or simpler
 #' neuprint_get_meta('DA2')
 #' }
-neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL,chunk=TRUE,progress=FALSE, ...){
+neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
+                              conn = NULL, chunk=TRUE, progress=FALSE,
+                              possibleFields=NULL, ...){
   conn = neuprint_login(conn)
   dataset = check_dataset(dataset=dataset, conn=conn)
 
@@ -86,7 +91,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     ubodyids=unique(bodyids)
     unames=neuprint_get_meta(bodyids=ubodyids, dataset=dataset,
                              conn=conn, all_segments=all_segments,
-                             chunk=chunk, progress=progress, ...)
+                             chunk=chunk, progress=progress, possibleFields=possibleFields, ...)
     res=unames[match(bodyids, ubodyids),]
     return(res)
   }
@@ -125,10 +130,15 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
 
   all_segments = ifelse(all_segments,"Segment","Neuron")
 
-  fieldNames <- neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel","pre","post","upstream","downstream","cropped",
-                                                       "size","cellBodyFiber","notes"),
-                                    dataset=dataset,conn=conn,...)
-  returnCypher <- paste0("n.",fieldNames," AS ",dfFields(fieldNames),collapse=" , ")
+  if(is.null(possibleFields))
+    possibleFields <- c("bodyId","name","instance","type","status",
+                        "statusLabel","pre","post","upstream","downstream",
+                        "cropped","size","cellBodyFiber","notes")
+
+  fieldNames <- neuprint_get_fields(possibleFields = possibleFields,
+                                    dataset=dataset,conn=conn)
+  rfields=dfFields(fieldNames)
+  returnCypher <- paste0("n.",fieldNames," AS ",rfields,collapse=" , ")
   cypher = sprintf(
     paste(
       "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
@@ -141,7 +151,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
   )
   nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)
-  meta <- meta[,names(meta) %in% c("bodyid","voxels","soma","name",neuprint_get_fields(conn=conn,dataset = dataset,...))]
+  meta <- meta[,names(meta) %in% c(rfields, "soma")]
   meta
 }
 
@@ -405,42 +415,21 @@ dfFields <- function(field_name) {
   transTable <- data.frame(
     neuprint = c(
       "bodyId",
-      "pre",
-      "post",
-      "upstream",
-      "downstream",
-      "status",
-      "statusLabel",
-      "cropped",
       "instance",
-      "name",
-      "size",
-      "type",
-      "cellBodyFiber",
-      "somaLocation",
-      "somaRadius",
-      "notes"
+      "size"
     ),
     rName = c(
       "bodyid",
-      "pre",
-      "post",
-      "upstream",
-      "downstream",
-      "status",
-      "statusLabel",
-      "cropped",
       "name",
-      "name",
-      "voxels",
-      "type",
-      "cellBodyFiber",
-      "somaLocation",
-      "somaRadius",
-      "notes"
+      "voxels"
     ),
     stringsAsFactors = FALSE
   )
-  res=transTable$rName[match(field_name, transTable$neuprint)]
-  res
+  newnames=field_name
+  tocheck=field_name %in% transTable$neuprint
+  if(any(tocheck)) {
+    newnames[tocheck]=transTable$rName[match(field_name[tocheck],
+                                             transTable$neuprint)]
+  }
+  newnames
 }

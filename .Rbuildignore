@@ -11,3 +11,4 @@
 ^\.httr-oauth$
 ^examples$
 ^codecov\.yml$
+^\.github$
