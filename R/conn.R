@@ -315,6 +315,10 @@ getenvoroption <- function(vars, prefix="neuprint_", ignore.case=TRUE){
     envsc=envs
     names(envsc)=tolower(names(envs))
     c(envsc[fullvars])
+  } else if(isTRUE(.Platform$OS.type=="windows")) {
+    # getting env vars is not case sensitive on windows
+    ee=Sys.getenv(names=T, unset=NA)
+    ee[fullvars]
   } else {
     Sys.getenv(fullvars, names = T, unset = NA)
   }
