@@ -94,7 +94,11 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
   l=list()
   for(i in seq_along(cols)) {
     colidx=colidxs[i]
-    raw_col = sapply(x, "[[", colidx)
+    firstrec=x[[1]][[colidx]]
+    raw_col=if(is.list(firstrec) && !is.null(firstrec$coordinates)) {
+      # special case coordinates
+      lapply(x, function(r) r[[colidx]][['coordinates']])
+    } else sapply(x, "[[", colidx)
     if(is.list(raw_col)) {
       raw_col[sapply(raw_col, is.null)]=NA
       sublens=sapply(raw_col, length)
