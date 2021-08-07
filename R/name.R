@@ -122,6 +122,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
       bodyids = bi,
       progress = FALSE,
       chunk=FALSE, # nb don't want to further chunk
+      possibleFields=possibleFields,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
     rownames(d) <- NULL
