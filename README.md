@@ -3,8 +3,7 @@
 
 [![natverse](https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6)](https://natverse.github.io)
 [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://natverse.github.io/neuprintr/reference/)
-[![Travis-CI Build
-Status](https://api.travis-ci.org/natverse/neuprintr.svg?branch=master)](https://travis-ci.org/natverse/neuprintr)
+[![R-CMD-check](https://github.com/natverse/neuprintr/workflows/R-CMD-check/badge.svg)](https://github.com/natverse/neuprintr/actions)
 <img src="man/figures/logo.svg" align="right" height="139" /> [![Codecov
 test
 coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/neuprintr?branch=master)
@@ -13,8 +12,7 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3843544.svg)](https://doi.org/10.5281/zenodo.3843544)
 <!-- badges: end -->
 
-neuprintr
-=========
+# neuprintr
 
 The goal of *neuprintr* is to provide R client utilities for interacting
 with the neuPrint connectome analysis service. neuPrint is set of tools
@@ -33,8 +31,7 @@ densely reconstructed adult Drosophila brain dataset available at
 concert with the [natverse](https://github.com/natverse/natverse)
 ecosystem is highly recommended.
 
-Tutorial
---------
+## Tutorial
 
 To help you get to grips with `neuprintr`, we have made a tutorial in
 classic presentation form. This tutorial uses data from the [Janelia Fly
@@ -58,8 +55,7 @@ Bates</a></strong>
 
 </div>
 
-Installation
-------------
+## Installation
 
 ``` r
 # install
@@ -70,8 +66,7 @@ devtools::install_github("natverse/neuprintr")
 library(neuprintr)
 ```
 
-Authentication
---------------
+## Authentication
 
 In order to use *neuprintr* you will need to be able to login to a
 neuPrint server and be able to access it underlying Neo4j database. You
@@ -123,8 +118,7 @@ conn = neuprint_login(server= "https://neuprint.janelia.org/",
 This is also the approach that you would take if you were working with
 more than two neuPrint servers.
 
-Example
--------
+## Example
 
 Now we can have a look at what is available
 
@@ -156,8 +150,7 @@ skeletons, synapse locations, connectivity matrices, etc.
 ?neuprint_read_neurons
 ```
 
-Example data
-------------
+## Example data
 
 -   HemiBrain (hemibrain:v1.0) : from [“A Connectome of the Adult
     Drosophila Central
@@ -174,8 +167,7 @@ Example data
     Drosophila”](https://www.pnas.org/content/112/44/13711) (Takemura,
     et al. 2015)
 
-Acknowledging the data and tools
---------------------------------
+## Acknowledging the data and tools
 
 neuPrint comprises a set of tools for loading and analyzing connectome
 data into a Neo4j database. Analyze and explore connectome data stored
@@ -194,25 +186,21 @@ package as:
 
 ``` r
 citation(package = "neuprintr")
-Warning in citation(package = "neuprintr"): no date field in DESCRIPTION file of
-package 'neuprintr'
 
 To cite package 'neuprintr' in publications use:
 
-  Alexander Bates, Gregory Jefferis and Romain Franconville (2020).
+  Alexander Bates, Gregory Jefferis and Romain Franconville (2021).
   neuprintr: R client utilities for interacting with the neuPrint
-  connectome analysis service. R package version 1.1.
-  https://github.com/natverse/neuprintr
+  connectome analysis service. https://natverse.org/neuprintr,
+  https://github.com/natverse/neuprintr.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
-    title = {neuprintr: R client utilities for interacting with the neuPrint connectome
-analysis service},
+    title = {neuprintr: R client utilities for interacting with the neuPrint connectome analysis service},
     author = {Alexander Bates and Gregory Jefferis and Romain Franconville},
-    year = {2020},
-    note = {R package version 1.1},
-    url = {https://github.com/natverse/neuprintr},
+    year = {2021},
+    note = {https://natverse.org/neuprintr, https://github.com/natverse/neuprintr},
   }
 ```
 
