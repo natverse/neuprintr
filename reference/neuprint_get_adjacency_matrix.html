@@ -149,6 +149,7 @@
   bodyids <span class='op'>=</span> <span class='cn'>NULL</span>,
   inputids <span class='op'>=</span> <span class='cn'>NULL</span>,
   outputids <span class='op'>=</span> <span class='cn'>NULL</span>,
+  threshold <span class='op'>=</span> <span class='fl'>1L</span>,
   dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
   all_segments <span class='op'>=</span> <span class='cn'>FALSE</span>,
   conn <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -169,6 +170,11 @@ This can be in any form understood by <code><a href='neuprint_search.html'>neupr
       <th>inputids, outputids</th>
       <td><p>identifiers for input and output bodies (use as an
 alternative to <code>bodyids</code>)</p></td>
+    </tr>
+    <tr>
+      <th>threshold</th>
+      <td><p>Return only connections greater than or equal to the
+indicated strength (default 1 returns all connections).</p></td>
     </tr>
     <tr>
       <th>dataset</th>
