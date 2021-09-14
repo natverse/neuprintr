@@ -75,8 +75,25 @@ test_that("other connectivity functions work", {
   )
   # trickier test
   expect_is(
-    neuprint_get_adjacency_matrix(inputids = 'DA2', outputids = 'name:KCab-p'),
+    da2kc <- neuprint_get_adjacency_matrix(inputids = 'DA2', outputids = 'name:KCab-p'),
     'matrix')
+
+  expect_is(
+    da2kc2 <- neuprint_get_adjacency_matrix(inputids = 'DA2',
+                                            outputids = 'name:KCab-p',
+                                            chunksize = 10
+                                            ),
+    'matrix')
+  expect_equal(da2kc, da2kc2)
+
+  m1=neuprint_get_adjacency_matrix(inputids = 'DA2',
+                                  outputids = "name:KCa'b'",
+                                  chunksize = Inf, sparse = T
+  )
+  expect_equal(neuprint_get_adjacency_matrix(inputids = 'DA2',
+                                             outputids = "name:KCa'b'",
+                                             chunksize = 100, sparse = T
+  ), m1)
 
   # check errors when inappropriate arguments are provided
   expect_error(neuprint_get_adjacency_matrix(bodyids = da2s$bodyid, outputids = da2s$bodyid))
@@ -105,6 +122,7 @@ test_that("other connectivity functions work", {
   expect_equal(c1, c11.sel)
 })
 
+
 test_that("path functions work", {
   expect_is(p1 <- neuprint_get_shortest_paths(c(1128092885, 481121605), 5813041365,
                                         weightT=20), 'data.frame')
@@ -130,3 +148,4 @@ test_that("path functions work", {
                                   weightT=20,chunk=1,by.roi=TRUE),
                p2)
 })
+
