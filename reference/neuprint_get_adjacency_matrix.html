@@ -151,6 +151,7 @@
   outputids <span class='op'>=</span> <span class='cn'>NULL</span>,
   threshold <span class='op'>=</span> <span class='fl'>1L</span>,
   dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  chunksize <span class='op'>=</span> <span class='fl'>1000L</span>,
   all_segments <span class='op'>=</span> <span class='cn'>FALSE</span>,
   conn <span class='op'>=</span> <span class='cn'>NULL</span>,
   sparse <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -183,6 +184,12 @@ default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for details.</p></td>
     </tr>
     <tr>
+      <th>chunksize</th>
+      <td><p>Split large queries into chunks of this many ids to prevent
+server timeouts. The default of 1000 seems to be a reasonable compromise.
+Set to <code>Inf</code> to insist that the query is always sent in one pass only.</p></td>
+    </tr>
+    <tr>
       <th>all_segments</th>
       <td><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></td>
@@ -197,13 +204,16 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
     <tr>
       <th>sparse</th>
       <td><p>Whether to return a sparse adjacency matrix (of class
-<code>CsparseMatrix</code>). Default <code>FALSE</code>.</p></td>
+<code>CsparseMatrix</code>). This may be a
+particularly good idea for large matrices of &gt;5000 neurons, especially if a
+threshold is used to eliminate very numerous weak connections. Default
+<code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>cache</th>
       <td><p>the query to neuPrint server, so that it does not need to be
 repeated. Of course you can save the results, but this may be helpful e.g.
-inside a wrapper function that postprocesses the results like
+inside a wrapper function that post-processes the results like
 <code>hemibrainr::grouped_adjacency_matrix</code>.</p></td>
     </tr>
     <tr>
