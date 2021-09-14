@@ -4,6 +4,8 @@
 #'   set of specified bodies
 #' @param inputids,outputids identifiers for input and output bodies (use as an
 #'   alternative to \code{bodyids})
+#' @param threshold Return only connections greater than or equal to the
+#'   indicated strength (default 1 returns all connections).
 #' @param sparse Whether to return a sparse adjacency matrix (of class
 #'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.
 #' @param cache the query to neuPrint server, so that it does not need to be
@@ -48,7 +50,9 @@
 #' }
 #' @importFrom Matrix sparseMatrix
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
-                                          outputids=NULL, dataset = NULL,
+                                          outputids=NULL,
+                                          threshold=1L,
+                                          dataset = NULL,
                                           all_segments = FALSE, conn = NULL,
                                           sparse=FALSE, cache=FALSE, ...){
   conn=neuprint_login(conn)
@@ -67,10 +71,12 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   inputids=id2bit64(inputids)
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
+  checkmate::assertIntegerish(threshold, lower = 1, len = 1, any.missing = F)
   cypher = sprintf(
     paste(
       "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
       "WHERE n.bodyId IN input AND m.bodyId IN output",
+      ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
       "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight"
     ),
     id2json(inputids),

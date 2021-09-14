@@ -8,6 +8,7 @@ neuprint_get_adjacency_matrix(
   bodyids = NULL,
   inputids = NULL,
   outputids = NULL,
+  threshold = 1L,
   dataset = NULL,
   all_segments = FALSE,
   conn = NULL,
@@ -22,6 +23,9 @@ This can be in any form understood by \code{\link{neuprint_ids}}.}
 
 \item{inputids, outputids}{identifiers for input and output bodies (use as an
 alternative to \code{bodyids})}
+
+\item{threshold}{Return only connections greater than or equal to the
+indicated strength (default 1 returns all connections).}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the

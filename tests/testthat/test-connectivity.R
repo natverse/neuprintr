@@ -51,6 +51,15 @@ test_that("neuprint_connection_table works", {
 test_that("other connectivity functions work", {
   da2s=neuprint_search(".*DA2.*")
   expect_is(t1 <- neuprint_get_adjacency_matrix(da2s$bodyid, cache=T), 'matrix')
+  # test with threshold
+  t2b=t1
+  t2b[t2b<5]=0
+  expect_equal(
+    neuprint_get_adjacency_matrix(da2s$bodyid, cache=T, threshold = 5),
+    t2b)
+  expect_error(
+    neuprint_get_adjacency_matrix(da2s$bodyid, cache=T, threshold = 1.5))
+
   expect_equal(
     neuprint_get_adjacency_matrix(
       inputids = da2s$bodyid,
