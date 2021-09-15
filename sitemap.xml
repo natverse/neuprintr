@@ -4,7 +4,16 @@
     <loc>https://natverse.org/neuprintr/index.html</loc>
   </url>
   <url>
-    <loc>https://natverse.org/neuprintr/reference/neuprintr-package.html</loc>
+    <loc>https://natverse.org/neuprintr/reference/neuprint_ROI_connectivity.html</loc>
+  </url>
+  <url>
+    <loc>https://natverse.org/neuprintr/reference/neuprint_ROI_hierarchy.html</loc>
+  </url>
+  <url>
+    <loc>https://natverse.org/neuprintr/reference/neuprint_ROI_mesh.html</loc>
+  </url>
+  <url>
+    <loc>https://natverse.org/neuprintr/reference/neuprint_ROIs.html</loc>
   </url>
   <url>
     <loc>https://natverse.org/neuprintr/reference/neuprint_assign_connectors.html</loc>
@@ -64,18 +73,6 @@
     <loc>https://natverse.org/neuprintr/reference/neuprint_read_neurons.html</loc>
   </url>
   <url>
-    <loc>https://natverse.org/neuprintr/reference/neuprint_ROIs.html</loc>
-  </url>
-  <url>
-    <loc>https://natverse.org/neuprintr/reference/neuprint_ROI_connectivity.html</loc>
-  </url>
-  <url>
-    <loc>https://natverse.org/neuprintr/reference/neuprint_ROI_hierarchy.html</loc>
-  </url>
-  <url>
-    <loc>https://natverse.org/neuprintr/reference/neuprint_ROI_mesh.html</loc>
-  </url>
-  <url>
     <loc>https://natverse.org/neuprintr/reference/neuprint_search.html</loc>
   </url>
   <url>
@@ -83,6 +80,9 @@
   </url>
   <url>
     <loc>https://natverse.org/neuprintr/reference/neuprint_skeleton_connectivity_matrix.html</loc>
+  </url>
+  <url>
+    <loc>https://natverse.org/neuprintr/reference/neuprintr-package.html</loc>
   </url>
   <url>
     <loc>https://natverse.org/neuprintr/reference/reexports.html</loc>
