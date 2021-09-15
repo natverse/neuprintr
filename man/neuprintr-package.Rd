@@ -26,6 +26,7 @@ Access to the neuprint connectome analysis service, including
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://natverse.org/neuprintr}
   \item \url{https://github.com/natverse/neuprintr}
   \item Report bugs at \url{https://github.com/natverse/neuprintr/issues}
 }

@@ -8,7 +8,9 @@ neuprint_get_adjacency_matrix(
   bodyids = NULL,
   inputids = NULL,
   outputids = NULL,
+  threshold = 1L,
   dataset = NULL,
+  chunksize = 1000L,
   all_segments = FALSE,
   conn = NULL,
   sparse = FALSE,
@@ -23,9 +25,16 @@ This can be in any form understood by \code{\link{neuprint_ids}}.}
 \item{inputids, outputids}{identifiers for input and output bodies (use as an
 alternative to \code{bodyids})}
 
+\item{threshold}{Return only connections greater than or equal to the
+indicated strength (default 1 returns all connections).}
+
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See \code{\link{neuprint_login}} for details.}
+
+\item{chunksize}{Split large queries into chunks of this many ids to prevent
+server timeouts. The default of 1000 seems to be a reasonable compromise.
+Set to \code{Inf} to insist that the query is always sent in one pass only.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}
@@ -36,11 +45,14 @@ neuPrint server. If NULL, the defaults set in your
 used. See \code{\link{neuprint_login}} for details.}
 
 \item{sparse}{Whether to return a sparse adjacency matrix (of class
-\code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.}
+\code{\link[=CsparseMatrix-class]{CsparseMatrix}}). This may be a
+particularly good idea for large matrices of >5000 neurons, especially if a
+threshold is used to eliminate very numerous weak connections. Default
+\code{FALSE}.}
 
 \item{cache}{the query to neuPrint server, so that it does not need to be
 repeated. Of course you can save the results, but this may be helpful e.g.
-inside a wrapper function that postprocesses the results like
+inside a wrapper function that post-processes the results like
 \code{hemibrainr::grouped_adjacency_matrix}.}
 
 \item{...}{methods passed to \code{neuprint_login}}

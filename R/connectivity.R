@@ -4,11 +4,19 @@
 #'   set of specified bodies
 #' @param inputids,outputids identifiers for input and output bodies (use as an
 #'   alternative to \code{bodyids})
+#' @param threshold Return only connections greater than or equal to the
+#'   indicated strength (default 1 returns all connections).
 #' @param sparse Whether to return a sparse adjacency matrix (of class
-#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.
+#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). This may be a
+#'   particularly good idea for large matrices of >5000 neurons, especially if a
+#'   threshold is used to eliminate very numerous weak connections. Default
+#'   \code{FALSE}.
+#' @param chunksize Split large queries into chunks of this many ids to prevent
+#'   server timeouts. The default of 1000 seems to be a reasonable compromise.
+#'   Set to \code{Inf} to insist that the query is always sent in one pass only.
 #' @param cache the query to neuPrint server, so that it does not need to be
 #'   repeated. Of course you can save the results, but this may be helpful e.g.
-#'   inside a wrapper function that postprocesses the results like
+#'   inside a wrapper function that post-processes the results like
 #'   \code{hemibrainr::grouped_adjacency_matrix}.
 #' @inheritParams neuprint_read_neurons
 #' @return a n x n matrix, where the rows are input neurons and the columns are
@@ -48,7 +56,10 @@
 #' }
 #' @importFrom Matrix sparseMatrix
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
-                                          outputids=NULL, dataset = NULL,
+                                          outputids=NULL,
+                                          threshold=1L,
+                                          dataset = NULL,
+                                          chunksize=1000L,
                                           all_segments = FALSE, conn = NULL,
                                           sparse=FALSE, cache=FALSE, ...){
   conn=neuprint_login(conn)
@@ -65,12 +76,45 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   }
   outputids=id2bit64(outputids)
   inputids=id2bit64(inputids)
+
+  if(is.finite(chunksize) &&
+     (length(outputids)>chunksize || length(inputids)>chunksize)) {
+    cl=make_chunk_combs(inputids, outputids, chunksize=chunksize)
+    res=pbapply::pbmapply(neuprint_get_adjacency_matrix,
+                      inputids=cl[[1]],
+                      outputids=cl[[2]],
+                      SIMPLIFY=FALSE,
+                      MoreArgs = list(threshold=threshold,
+                                      dataset=dataset,
+                                      chunksize=Inf,
+                                      all_segments = all_segments,
+                                      conn = conn,
+                                      sparse=TRUE,
+                                      cache=cache))
+    # stitch the chunks back into a coherent sparse matrix
+    if(length(res)==1)
+      mat=res[[1]]
+    else {
+      gdf=attr(cl, 'grid')
+      # an empty list that will hold the rows
+      rl=list()
+      for(r in 1:max(gdf[[1]])) {
+        w=which(gdf[[1]]==r)
+        rl[[r]]=do.call(cbind, res[w])
+      }
+      mat=do.call(rbind, rl)
+    }
+    return(if(isTRUE(sparse)) mat else as.matrix(mat))
+  }
+
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
+  checkmate::assertIntegerish(threshold, lower = 1, len = 1, any.missing = F)
   cypher = sprintf(
     paste(
       "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
       "WHERE n.bodyId IN input AND m.bodyId IN output",
+      ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
       "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight"
     ),
     id2json(inputids),
@@ -92,6 +136,26 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   )
   if(isTRUE(sparse)) sm else as.matrix(sm)
 }
+
+# make a list containing ids divided into chunks
+make_chunklist <- function(ids, chunksize, int64=TRUE) {
+  cids=id2char(ids)
+  nids=length(ids)
+  nchunks=ceiling(nids/chunksize)
+  chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nids)]
+  res=split(cids, chunks)
+  if(int64) lapply(res, bit64::as.integer64) else res
+}
+
+make_chunk_combs <- function(a, b, ...) {
+  ac=make_chunklist(a, ...)
+  bc=make_chunklist(b, ...)
+  gdf=expand.grid(a=seq_along(ac), b=seq_along(bc))
+  l=list(a=ac[gdf[[1]]], b=bc[gdf[[2]]])
+  attr(l, 'grid')=gdf
+  l
+}
+
 
 #' @title Get the upstream and downstream connectivity of a neuron
 #'
