@@ -1,3 +1,8 @@
+# neuprintr (development version)
+
+* Improvements for large matrices in `neuprint_get_adjacency_matrix()`
+  includes chunking and an optional threshold (#147)
+
 # neuprintr 1.2
 
 * Fixed querying by name for non-hemibrain neurons (#139, #140 by @dokato)
