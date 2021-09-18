@@ -10,7 +10,7 @@ test_that("neuprint_connection_table works", {
                t1)
 
   # alternative way of specifying which connections to find
-  expect_error(neuprint_connection_table(ids, prepost = 'PRE', partners='in'))
+  expect_warning(neuprint_connection_table(ids, prepost = 'PRE', partners='in'))
   expect_equal(neuprint_connection_table(ids, prepost = 'PRE'),
                neuprint_connection_table(ids, partners='inputs'))
 
