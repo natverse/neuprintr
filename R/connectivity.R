@@ -163,9 +163,13 @@ make_chunk_combs <- function(a, b, ...) {
 #'   restricted to within an ROI if specified
 #' @inheritParams neuprint_read_neurons
 #' @inheritParams neuprint_find_neurons
+#' @param partners \code{inputs} looks for upstream inputs (presynaptic) whereas
+#'   \code{outputs} looks for downstream outputs (postsynaptic) to the given
+#'   \code{bodyids}.
 #' @param prepost \code{PRE}: look for partners presynaptic (i.e upstream
 #'   inputs) or \code{POST}: postsynaptic (downstream outputs) to the given
-#'   \code{bodyids}
+#'   \code{bodyids}. NB this is redundant to the \code{partners} argument and
+#'   you should only use one.
 #' @param by.roi logical, whether or not to break neurons' connectivity down by
 #'   region of interest (ROI)
 #' @param details When \code{TRUE} returns adds a name and type column for
@@ -190,8 +194,8 @@ make_chunk_combs <- function(a, b, ...) {
 #'
 #'   \item partner neuron identifier
 #'
-#'   \item prepost 0 for downstream/output partners; 1 for upstream/input
-#'   partners
+#'   \item prepost 0 for upstream/input partners; 1 for downstream/output
+#'   partners.
 #'
 #'   \item weight total number of connections between the query and partner
 #'   neuron.
@@ -243,6 +247,7 @@ make_chunk_combs <- function(a, b, ...) {
 #' }
 #' @importFrom checkmate assert_integer
 neuprint_connection_table <- function(bodyids,
+                                      partners = c("inputs", "outputs"),
                                       prepost = c("PRE","POST"),
                                       roi = NULL,
                                       by.roi = FALSE,
@@ -255,7 +260,14 @@ neuprint_connection_table <- function(bodyids,
                                       all_segments = FALSE,
                                       conn = NULL,
                                       ...){
-  prepost <- match.arg(prepost)
+  if(!missing(partners)) {
+    if(!missing(prepost))
+      warning("Please specify one of prepost and partners. I will use partners.")
+    partners <- match.arg(partners)
+    prepost <- ifelse(partners=='inputs', "PRE","POST")
+  } else {
+    prepost <- match.arg(prepost)
+  }
   conn<-neuprint_login(conn)
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
 

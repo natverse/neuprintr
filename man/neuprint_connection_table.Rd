@@ -6,6 +6,7 @@
 \usage{
 neuprint_connection_table(
   bodyids,
+  partners = c("inputs", "outputs"),
   prepost = c("PRE", "POST"),
   roi = NULL,
   by.roi = FALSE,
@@ -24,9 +25,14 @@ neuprint_connection_table(
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
 This can be in any form understood by \code{\link{neuprint_ids}}.}
 
+\item{partners}{\code{inputs} looks for upstream inputs (presynaptic) whereas
+\code{outputs} looks for downstream outputs (postsynaptic) to the given
+\code{bodyids}.}
+
 \item{prepost}{\code{PRE}: look for partners presynaptic (i.e upstream
 inputs) or \code{POST}: postsynaptic (downstream outputs) to the given
-\code{bodyids}}
+\code{bodyids}. NB this is redundant to the \code{partners} argument and
+you should only use one.}
 
 \item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
 
@@ -75,8 +81,8 @@ a data frame with one row for each unique combination of query
 
   \item partner neuron identifier
 
-  \item prepost 0 for downstream/output partners; 1 for upstream/input
-  partners
+  \item prepost 0 for upstream/input partners; 1 for downstream/output
+  partners.
 
   \item weight total number of connections between the query and partner
   neuron.
