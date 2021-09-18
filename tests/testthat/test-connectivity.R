@@ -1,34 +1,40 @@
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("neuprint_connection_table works", {
-  expect_is(t1 <- neuprint_connection_table(c(818983130, 1796818119)),
+  ids=c(818983130, 1796818119)
+  expect_is(t1 <- neuprint_connection_table(ids),
             'data.frame')
   # ensure we get the same answer with progress=TRUE
-  expect_equal(neuprint_connection_table(c(818983130, 1796818119),
+  expect_equal(neuprint_connection_table(ids,
                                          progress = TRUE),
                t1)
 
+  # alternative way of specifying which connections to find
+  expect_error(neuprint_connection_table(ids, prepost = 'PRE', partners='in'))
+  expect_equal(neuprint_connection_table(ids, prepost = 'PRE'),
+               neuprint_connection_table(ids, partners='inputs'))
+
   # test that threshold works ok
   expect_equal(t1.2 <-
-    neuprint_connection_table(c(818983130, 1796818119),threshold = 2),
+    neuprint_connection_table(ids,threshold = 2),
     subset(t1, weight >= 2))
 
   expect_is(t2 <- neuprint_connection_table(
-    c(818983130, 1796818119), prepost = "POST", by.roi = TRUE),
+    ids, prepost = "POST", by.roi = TRUE),
     'data.frame')
   #
-  t2.2=neuprint_connection_table(c(818983130, 1796818119),
+  t2.2=neuprint_connection_table(ids,
                                  prepost = "POST",
                                  by.roi = TRUE, details = T, chunk = 1)
   expect_true("type" %in% names(t2.2))
   expect_equal(t2, t2.2[colnames(t2)])
   expect_equal(t2.2$name, unname(neuprint_get_neuron_names(t2$partner)))
-  expect_equal(neuprint_connection_table(c(818983130, 1796818119),
+  expect_equal(neuprint_connection_table(ids,
                                             prepost = "POST",
                                             by.roi = TRUE, progress=TRUE),
             t2)
 
-  expect_is(t3 <- neuprint_connection_table(c(818983130, 1796818119),
+  expect_is(t3 <- neuprint_connection_table(ids,
                                             prepost = "POST",
                                             roi = "LH(R)"),
             'data.frame')
@@ -36,7 +42,7 @@ test_that("neuprint_connection_table works", {
   expect_equivalent(subset(t2, roi=='LH(R)'), t3)
   expect_equivalent(
     neuprint_connection_table(
-      c(818983130, 1796818119),
+      ids,
       prepost = "POST",
       roi = "LH(R)",
       threshold = 3
