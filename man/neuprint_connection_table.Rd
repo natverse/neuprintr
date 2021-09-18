@@ -81,8 +81,8 @@ a data frame with one row for each unique combination of query
 
   \item partner neuron identifier
 
-  \item prepost 0 for downstream/output partners; 1 for upstream/input
-  partners
+  \item prepost 0 for upstream/input partners; 1 for downstream/output
+  partners.
 
   \item weight total number of connections between the query and partner
   neuron.
