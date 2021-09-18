@@ -147,6 +147,7 @@
 
     <pre class="usage"><span class='fu'>neuprint_connection_table</span><span class='op'>(</span>
   <span class='va'>bodyids</span>,
+  partners <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"inputs"</span>, <span class='st'>"outputs"</span><span class='op'>)</span>,
   prepost <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PRE"</span>, <span class='st'>"POST"</span><span class='op'>)</span>,
   roi <span class='op'>=</span> <span class='cn'>NULL</span>,
   by.roi <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -170,10 +171,17 @@
 This can be in any form understood by <code><a href='neuprint_search.html'>neuprint_ids</a></code>.</p></td>
     </tr>
     <tr>
+      <th>partners</th>
+      <td><p><code>inputs</code> looks for upstream inputs (presynaptic) whereas
+<code>outputs</code> looks for downstream outputs (postsynaptic) to the given
+<code>bodyids</code>.</p></td>
+    </tr>
+    <tr>
       <th>prepost</th>
       <td><p><code>PRE</code>: look for partners presynaptic (i.e upstream
 inputs) or <code>POST</code>: postsynaptic (downstream outputs) to the given
-<code>bodyids</code></p></td>
+<code>bodyids</code>. NB this is redundant to the <code>partners</code> argument and
+you should only use one.</p></td>
     </tr>
     <tr>
       <th>roi</th>
@@ -244,8 +252,8 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
   neuron, partner neuron and (where specified) ROI.</p><ul>
 <li><p>bodyid query neuron identifier</p></li>
 <li><p>partner neuron identifier</p></li>
-<li><p>prepost 0 for downstream/output partners; 1 for upstream/input
-  partners</p></li>
+<li><p>prepost 0 for upstream/input partners; 1 for downstream/output
+  partners.</p></li>
 <li><p>weight total number of connections between the query and partner
   neuron.</p></li>
 </ul><p>. When <code>by.roi=TRUE</code></p>
