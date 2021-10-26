@@ -118,13 +118,18 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
     # if we got here and progress is unset then set it
     if(is.null(progress) || is.na(progress)) progress=TRUE
     MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
-    d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_get_meta(
+    ll=MYPLY(bodyids, function(bi) tryCatch(neuprint_get_meta(
       bodyids = bi,
       progress = FALSE,
       chunk=FALSE, # nb don't want to further chunk
       possibleFields=possibleFields,
       dataset = dataset, conn = conn, ...),
-      error = function(e) {warning(e); NULL})))
+      error = function(e) {warning(e); NULL}))
+    d  = try(dplyr::bind_rows(ll), silent = T)
+    # dplyr has got fussier about type safety e.g. mixing char and int
+    # this is a bit of a hack but easier than fussing about with type conversion
+    if(inherits(d, 'try-error'))
+      d <- do.call(rbind, ll)
     rownames(d) <- NULL
     return(d)
   }
