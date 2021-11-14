@@ -11,6 +11,7 @@ neuprint_connection_table(
   roi = NULL,
   by.roi = FALSE,
   threshold = 1L,
+  summary = FALSE,
   details = FALSE,
   superLevel = FALSE,
   progress = FALSE,
@@ -42,6 +43,9 @@ region of interest (ROI)}
 \item{threshold}{Only return partners >= to an integer value. Default of 1
 returns all partners. This threshold will be applied to the ROI weight when
 the \code{roi} argument is specified, otherwise to the whole neuron.}
+
+\item{summary}{When \code{TRUE} and more than one query neuron is given,
+summarises connectivity grouped by partner.}
 
 \item{details}{When \code{TRUE} returns adds a name and type column for
 partners.}
@@ -114,6 +118,13 @@ Get the upstream and downstream connectivity of a body,
 ## and their downstream targets
 c1 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST")
 head(c1)
+
+# query of regex against cell type
+# summarised per partner with additional details column
+c1s = c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
+head(c1s)
+# Kenyon cells typically receive fewer multiple inputs than other partners
+table(n=c1s$n, KC=grepl("^KC", c1s$type))
 
 ## The same connections broken down by ROI
 c2 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
