@@ -235,42 +235,46 @@ inside a wrapper function that post-processes the results like
   <code><a href='https://rdrr.io/pkg/Matrix/man/CsparseMatrix-class.html'>CsparseMatrix</a></code>)</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># these will mostly be axo-axonic connections between DA2 PNs</span>
-<span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span><span class='st'>'DA2 lPN'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            1796817841 1827516355 818983130 1797505019 1796818119
-#&gt; 1796817841          0          6         7          7          1
-#&gt; 1827516355          3          0         3          1          5
-#&gt; 818983130           3          7         0          6          5
-#&gt; 1797505019          6          4         6          0         11
-#&gt; 1796818119          3          6         7         10          0</div><div class='input'>
-<span class='co'># rectangular matrix with different in/out neurons</span>
-<span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span>inputids<span class='op'>=</span><span class='st'>'DA2 lPN'</span>, outputids<span class='op'>=</span><span class='st'>'DL4 adPN'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            1670934213
-#&gt; 1796817841          9
-#&gt; 1827516355          9
-#&gt; 818983130           0
-#&gt; 1797505019          4
-#&gt; 1796818119          9</div><div class='input'><span class='co'># }</span>
-<span class='co'># \donttest{</span>
-<span class='co'># Note the use of cache=T, which will avoid a subsequent query to the</span>
-<span class='co'># neuPrint server if the same information is requested</span>
-<span class='va'>pnkc</span><span class='op'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span>inputids<span class='op'>=</span><span class='st'>'name:mPN'</span>, outputids<span class='op'>=</span><span class='st'>'/KC.*'</span>,
-  cache<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>pnkc</span><span class='op'>)</span>, xlab <span class='op'>=</span> <span class='st'>'PN inputs / KC'</span>, br<span class='op'>=</span><span class='fl'>100</span><span class='op'>)</span>
-</div><div class='img'><img src='neuprint_get_adjacency_matrix-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span><span class='op'>(</span><span class='va'>pnkc</span><span class='op'>)</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 146</div><div class='input'><span class='co'># }</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># sparse adjacency matrix</span>
-<span class='va'>pnkcs</span><span class='op'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span>inputids<span class='op'>=</span><span class='st'>'name:mPN'</span>,
-  outputids<span class='op'>=</span><span class='st'>'/KC.*'</span>, sparse<span class='op'>=</span><span class='cn'>TRUE</span>, cache<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://Matrix.R-forge.R-project.org/'>Matrix</a></span><span class='op'>)</span>
-<span class='co'># PN-KC connectivity is itself sparse, so &lt; 2% of entries are non zero</span>
-<span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/nnzero.html'>nnzero</a></span><span class='op'>(</span><span class='va'>pnkcs</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>pnkcs</span><span class='op'>)</span>
-<span class='co'># while memory requirements are ~ 5%</span>
-<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>pnkcs</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>pnkc</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># these will mostly be axo-axonic connections between DA2 PNs</span></span>
+<span class='r-in'><span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span><span class='st'>'DA2 lPN'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            1796817841 1827516355 818983130 1797505019 1796818119</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1796817841          0          6         7          7          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1827516355          3          0         3          1          5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 818983130           3          7         0          6          5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1797505019          6          4         6          0         11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1796818119          3          6         7         10          0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># rectangular matrix with different in/out neurons</span></span>
+<span class='r-in'><span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span>inputids<span class='op'>=</span><span class='st'>'DA2 lPN'</span>, outputids<span class='op'>=</span><span class='st'>'DL4 adPN'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            1670934213</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1796817841          9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1827516355          9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 818983130           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1797505019          4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1796818119          9</span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># Note the use of cache=T, which will avoid a subsequent query to the</span></span>
+<span class='r-in'><span class='co'># neuPrint server if the same information is requested</span></span>
+<span class='r-in'><span class='va'>pnkc</span><span class='op'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span>inputids<span class='op'>=</span><span class='st'>'name:mPN'</span>, outputids<span class='op'>=</span><span class='st'>'/KC.*'</span>,</span>
+<span class='r-in'>  cache<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>pnkc</span><span class='op'>)</span>, xlab <span class='op'>=</span> <span class='st'>'PN inputs / KC'</span>, br<span class='op'>=</span><span class='fl'>100</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='neuprint_get_adjacency_matrix-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span><span class='op'>(</span><span class='va'>pnkc</span><span class='op'>)</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 146</span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># sparse adjacency matrix</span></span>
+<span class='r-in'><span class='va'>pnkcs</span><span class='op'>=</span><span class='fu'>neuprint_get_adjacency_matrix</span><span class='op'>(</span>inputids<span class='op'>=</span><span class='st'>'name:mPN'</span>,</span>
+<span class='r-in'>  outputids<span class='op'>=</span><span class='st'>'/KC.*'</span>, sparse<span class='op'>=</span><span class='cn'>TRUE</span>, cache<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://Matrix.R-forge.R-project.org/'>Matrix</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># PN-KC connectivity is itself sparse, so &lt; 2% of entries are non zero</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/nnzero.html'>nnzero</a></span><span class='op'>(</span><span class='va'>pnkcs</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>pnkcs</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># while memory requirements are ~ 5%</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>pnkcs</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>pnkc</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

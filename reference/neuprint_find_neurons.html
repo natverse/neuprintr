@@ -206,37 +206,40 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
     <div class='dont-index'><p><code><a href='neuprint_fetch_custom.html'>neuprint_fetch_custom</a></code>, <code><a href='neuprint_simple_connectivity.html'>neuprint_simple_connectivity</a></code>, <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># Find some neurons with inputs in the Antennal Lobe (AL) and</span>
-<span class='co'># outputs in the LH</span>
-<span class='va'>pncands</span><span class='op'>=</span><span class='fu'>neuprint_find_neurons</span><span class='op'>(</span>input_ROIs <span class='op'>=</span> <span class='st'>"AL(R)"</span>, output_ROIs <span class='op'>=</span> <span class='st'>"LH(R)"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pncands</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              bodyid            bodyname                  bodytype neuronStatus
-#&gt; 294792184 294792184      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced
-#&gt; 329566174 329566174  OA-VPM3(NO2/NO3)_R                   OA-VPM3       Traced
-#&gt; 420274150 420274150 AVM03m_pct(AVM03)_R                AVM03m_pct       Traced
-#&gt; 424379864 424379864 AVM03e_pct(AVM03)_R                AVM03e_pct       Traced
-#&gt; 480927537 480927537      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced
-#&gt; 481268653 481268653  mlPN2_VM2(AVM04)_R olfactory multi vPN mlALT       Traced
-#&gt;                 size npre npost notes AL(R).pre AL(R).post LH(R).pre LH(R).post
-#&gt; 294792184  420662445   93   344  &lt;NA&gt;         1        162        20         25
-#&gt; 329566174 6840451191 8568  9998  &lt;NA&gt;         7          2       235        160
-#&gt; 420274150 1402341169  912   841  &lt;NA&gt;         0          1        72         96
-#&gt; 424379864 1338354844 1066   809  &lt;NA&gt;         0          7         7          0
-#&gt; 480927537  239954420   82   273  &lt;NA&gt;         0        122        67        132
-#&gt; 481268653  265085609  146    58  &lt;NA&gt;         0         28       135         26</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>`LH(R).pre`</span><span class='op'>~</span><span class='va'>`AL(R).post`</span>, data<span class='op'>=</span><span class='va'>pncands</span><span class='op'>)</span>
-</div><div class='img'><img src='neuprint_find_neurons-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
-<span class='co'># \donttest{</span>
-<span class='va'>lhr</span><span class='op'>=</span><span class='fu'>neuprint_bodies_in_ROI</span><span class='op'>(</span><span class='st'>'LH(R)'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>lhr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      bodyid     voxels  pre post roipre roipost
-#&gt; 1 480940072  436591770  158  294      3       5
-#&gt; 2 759810119 4479200695 3631 6384    869    1125
-#&gt; 3 792692885 1939906668 1911 2469    180     161
-#&gt; 4 850233586  229634038   84  107      0       1
-#&gt; 5 359279388  372877967  143  270      4     106
-#&gt; 6 296120593 1194301818  621 1043     11     618</div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># Find some neurons with inputs in the Antennal Lobe (AL) and</span></span>
+<span class='r-in'><span class='co'># outputs in the LH</span></span>
+<span class='r-in'><span class='va'>pncands</span><span class='op'>=</span><span class='fu'>neuprint_find_neurons</span><span class='op'>(</span>input_ROIs <span class='op'>=</span> <span class='st'>"AL(R)"</span>, output_ROIs <span class='op'>=</span> <span class='st'>"LH(R)"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pncands</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              bodyid            bodyname                  bodytype neuronStatus</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 294792184 294792184      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 329566174 329566174  OA-VPM3(NO2/NO3)_R                   OA-VPM3       Traced</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 420274150 420274150 AVM03m_pct(AVM03)_R                AVM03m_pct       Traced</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 424379864 424379864 AVM03e_pct(AVM03)_R                AVM03e_pct       Traced</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 480927537 480927537      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 481268653 481268653  mlPN2_VM2(AVM04)_R olfactory multi vPN mlALT       Traced</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 size npre npost notes AL(R).pre AL(R).post LH(R).pre LH(R).post</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 294792184  420662445   93   344  &lt;NA&gt;         1        162        20         25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 329566174 6840451191 8568  9998  &lt;NA&gt;         7          2       235        160</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 420274150 1402341169  912   841  &lt;NA&gt;         0          1        72         96</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 424379864 1338354844 1066   809  &lt;NA&gt;         0          7         7          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 480927537  239954420   82   273  &lt;NA&gt;         0        122        67        132</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 481268653  265085609  146    58  &lt;NA&gt;         0         28       135         26</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>`LH(R).pre`</span><span class='op'>~</span><span class='va'>`AL(R).post`</span>, data<span class='op'>=</span><span class='va'>pncands</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='neuprint_find_neurons-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='va'>lhr</span><span class='op'>=</span><span class='fu'>neuprint_bodies_in_ROI</span><span class='op'>(</span><span class='st'>'LH(R)'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>lhr</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      bodyid     voxels  pre post roipre roipost</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 480940072  436591770  158  294      3       5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 759810119 4479200695 3631 6384    869    1125</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 792692885 1939906668 1911 2469    180     161</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 850233586  229634038   84  107      0       1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 359279388  372877967  143  270      4     106</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 296120593 1194301818  621 1043     11     618</span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

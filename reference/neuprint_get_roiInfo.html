@@ -202,18 +202,19 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
     <p>a dataframe, one row for each given body id, columns ROI_pre and ROI_post for every ROI. If data is missing, NA is returned.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>neuprint_get_roiInfo</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 17</span>
-#&gt;       bodyid `LH(R).pre` `LH(R).post` `MB(R).pre` `MB(R).post` `CA(R).pre`
-#&gt;        <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span>  818<span style='text-decoration: underline;'>983</span>130         210           97          75           14          75
-#&gt; <span style='color: #BCBCBC;'>2</span> <span style='text-decoration: underline;'>1</span>796<span style='text-decoration: underline;'>818</span>119         283          117          77           16          77
-#&gt; <span style='color: #949494;'># … with 11 more variables: CA(R).post &lt;int&gt;, MB(+ACA)(R).pre &lt;int&gt;,</span>
-#&gt; <span style='color: #949494;'>#   MB(+ACA)(R).post &lt;int&gt;, SNP(R).pre &lt;int&gt;, SNP(R).post &lt;int&gt;,</span>
-#&gt; <span style='color: #949494;'>#   SLP(R).pre &lt;int&gt;, SLP(R).post &lt;int&gt;, mALT(R).pre &lt;int&gt;, mALT(R).post &lt;int&gt;,</span>
-#&gt; <span style='color: #949494;'>#   AL(R).pre &lt;int&gt;, AL(R).post &lt;int&gt;</span></div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='fu'>neuprint_get_roiInfo</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 17</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       bodyid `LH(R).pre` `LH(R).post` `MB(R).pre` `MB(R).post` `CA(R).pre`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>  818<span style='text-decoration: underline;'>983</span>130         210           97          75           14          75</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> <span style='text-decoration: underline;'>1</span>796<span style='text-decoration: underline;'>818</span>119         283          117          77           16          77</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 11 more variables: CA(R).post &lt;int&gt;, MB(+ACA)(R).pre &lt;int&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   MB(+ACA)(R).post &lt;int&gt;, SNP(R).pre &lt;int&gt;, SNP(R).post &lt;int&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   SLP(R).pre &lt;int&gt;, SLP(R).post &lt;int&gt;, mALT(R).pre &lt;int&gt;, mALT(R).post &lt;int&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   AL(R).pre &lt;int&gt;, AL(R).post &lt;int&gt;</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -200,27 +200,28 @@ current connection, is used. See <code><a href='neuprint_connection.html'>neupri
   <code><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='va'>syns</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span><span class='op'>(</span><span class='fl'>818983130</span><span class='op'>)</span> <span class='co'># note</span>
-<span class='co'># all given connectorIDs from this function are for presynapses</span>
-<span class='va'>prepost.conn</span> <span class='op'>=</span> <span class='fu'>neuprint_connectors</span><span class='op'>(</span><span class='va'>syns</span><span class='op'>$</span><span class='va'>connector_id</span>, all_segments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>prepost.conn</span><span class='op'>)</span> <span class='co'># All the synapses that connect to or from 818983130</span>
-</div><div class='output co'>#&gt;   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post
-#&gt; 1        134770239       134750463   818983130  975432645   6323  17828  14144
-#&gt; 2        134770240       134750463  1006820405  975432645   6300  17836  14145
-#&gt; 3        134750459       134750463   947453617  975432645   6335  17828  14130
-#&gt; 4        134750458       134750463  1881751117  975432645   6319  17829  14130
-#&gt; 5        133912545       133912547   818983130  974753221   5265  16547  13869
-#&gt; 6        133919081       133919083   696126258  974753207   5363  16481  13890
-#&gt;   confidence_post x_pre y_pre z_pre confidence_pre
-#&gt; 1       0.8521260  6326 17842 14138          0.953
-#&gt; 2       0.4669051  6326 17842 14138          0.953
-#&gt; 3       0.6970400  6326 17842 14138          0.953
-#&gt; 4       0.9932270  6326 17842 14138          0.953
-#&gt; 5       0.8970000  5267 16548 13857          0.785
-#&gt; 6       0.6449590  5358 16493 13900          0.964</div><div class='input'><span class='co'># and their other connections to other bodies too</span>
-<span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='va'>syns</span> <span class='op'>=</span> <span class='fu'><a href='neuprint_get_synapses.html'>neuprint_get_synapses</a></span><span class='op'>(</span><span class='fl'>818983130</span><span class='op'>)</span> <span class='co'># note</span></span>
+<span class='r-in'><span class='co'># all given connectorIDs from this function are for presynapses</span></span>
+<span class='r-in'><span class='va'>prepost.conn</span> <span class='op'>=</span> <span class='fu'>neuprint_connectors</span><span class='op'>(</span><span class='va'>syns</span><span class='op'>$</span><span class='va'>connector_id</span>, all_segments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>prepost.conn</span><span class='op'>)</span> <span class='co'># All the synapses that connect to or from 818983130</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1        134770239       134750463   818983130  975432645   6323  17828  14144</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2        134770240       134750463  1006820405  975432645   6300  17836  14145</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3        134750459       134750463   947453617  975432645   6335  17828  14130</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4        134750458       134750463  1881751117  975432645   6319  17829  14130</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5        133912545       133912547   818983130  974753221   5265  16547  13869</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6        133919081       133919083   696126258  974753207   5363  16481  13890</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   confidence_post x_pre y_pre z_pre confidence_pre</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1       0.8521260  6326 17842 14138          0.953</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2       0.4669051  6326 17842 14138          0.953</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3       0.6970400  6326 17842 14138          0.953</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4       0.9932270  6326 17842 14138          0.953</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5       0.8970000  5267 16548 13857          0.785</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6       0.6449590  5358 16493 13900          0.964</span>
+<span class='r-in'><span class='co'># and their other connections to other bodies too</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

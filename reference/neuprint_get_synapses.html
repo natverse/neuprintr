@@ -232,17 +232,18 @@ used. See <code><a href='neuprint_connection.html'>neuprint_login</a></code> for
   <code><a href='neuprint_common_connectivity.html'>neuprint_common_connectivity</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='va'>syns</span><span class='op'>=</span><span class='fu'>neuprint_get_synapses</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>syns</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   connector_id prepost    x     y     z confidence    bodyid   partner
-#&gt; 1    134750463       1 6323 17828 14144   0.852126 818983130 975432645
-#&gt; 2    133912547       1 5265 16547 13869   0.897000 818983130 974753221
-#&gt; 3    133919083       1 5360 16498 13893   0.562622 818983130 974753207
-#&gt; 4    133202653       1 5657 16563 13786   0.929711 818983130 974753105
-#&gt; 5    133929970       1 4957 16595 13991   0.333720 818983130 974749962
-#&gt; 6    133929959       1 4846 16575 14000   0.575020 818983130 974745316</div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='va'>syns</span><span class='op'>=</span><span class='fu'>neuprint_get_synapses</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>818983130</span>, <span class='fl'>1796818119</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>syns</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   connector_id prepost    x     y     z confidence    bodyid   partner</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    134750463       1 6323 17828 14144   0.852126 818983130 975432645</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    133912547       1 5265 16547 13869   0.897000 818983130 974753221</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    133919083       1 5360 16498 13893   0.562622 818983130 974753207</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    133202653       1 5657 16563 13786   0.929711 818983130 974753105</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    133929970       1 4957 16595 13991   0.333720 818983130 974749962</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    133929959       1 4846 16575 14000   0.575020 818983130 974745316</span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
