@@ -174,6 +174,8 @@ make_chunk_combs <- function(a, b, ...) {
 #'   region of interest (ROI)
 #' @param details When \code{TRUE} returns adds a name and type column for
 #'   partners.
+#' @param summary When \code{TRUE} and more than one query neuron is given,
+#'   summarises connectivity grouped by partner.
 #' @param threshold Only return partners >= to an integer value. Default of 1
 #'   returns all partners. This threshold will be applied to the ROI weight when
 #'   the \code{roi} argument is specified, otherwise to the whole neuron.
@@ -229,6 +231,13 @@ make_chunk_combs <- function(a, b, ...) {
 #' c1 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST")
 #' head(c1)
 #'
+#' # query of regex against cell type
+#' # summarised per partner with additional details column
+#' c1s = c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
+#' head(c1s)
+#' # Kenyon cells typically receive fewer multiple inputs than other partners
+#' table(n=c1s$n, KC=grepl("^KC", c1s$type))
+#'
 #' ## The same connections broken down by ROI
 #' c2 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
 #'                                by.roi = TRUE)
@@ -252,6 +261,7 @@ neuprint_connection_table <- function(bodyids,
                                       roi = NULL,
                                       by.roi = FALSE,
                                       threshold=1L,
+                                      summary=FALSE,
                                       details=FALSE,
                                       superLevel = FALSE,
                                       progress = FALSE,
@@ -291,7 +301,7 @@ neuprint_connection_table <- function(bodyids,
     nchunks=ceiling(nP/chunksize)
     chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
     bodyids <- split(bodyids, chunks)
-    # if we got here and progess is unset then set it
+    # if we got here and progress is unset then set it
     if(is.null(progress) || is.na(progress)) progress=TRUE
     MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
     d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_connection_table(
@@ -301,11 +311,14 @@ neuprint_connection_table <- function(bodyids,
       by.roi = by.roi,
       threshold = threshold,
       details=details,
+      summary = FALSE,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
     d <-  d[order(d$weight,decreasing=TRUE),]
     rownames(d) <- NULL
+    if(summary)
+      d <- summarise_partnerdf(d)
     return(d)
   }
 
@@ -371,7 +384,19 @@ neuprint_connection_table <- function(bodyids,
   if(!is.null(roi) && threshold>1)
     d=d[d$ROIweight>=threshold,]
 
-  d
+  if(summary) summarise_partnerdf(d) else d
+}
+
+summarise_partnerdf <- function(df) {
+  df1 <- if("ROIweight" %in% colnames(df)) {
+    stop("Sorry, `summary=TRUE` is not yet implemented when `roi` specified")
+  }
+
+  dplyr::add_count(df, .data$partner, name = "n") %>%
+  dplyr::add_count(.data$partner, wt = .data$weight, name = "sumweight", sort = T) %>%
+  dplyr::filter(!duplicated(.data$partner, .data$bodyid)) %>%
+  dplyr::mutate(weight=.data$sumweight) %>%
+  dplyr::select(!dplyr::contains("sumweight"))
 }
 
 #' @title Get the common synaptic partners for a set of neurons
