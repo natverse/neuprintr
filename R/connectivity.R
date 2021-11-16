@@ -233,7 +233,7 @@ make_chunk_combs <- function(a, b, ...) {
 #'
 #' # query of regex against cell type
 #' # summarised per partner with additional details column
-#' c1s = c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
+#' c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
 #' head(c1s)
 #' # Kenyon cells typically receive fewer multiple inputs than other partners
 #' table(n=c1s$n, KC=grepl("^KC", c1s$type))
@@ -387,16 +387,25 @@ neuprint_connection_table <- function(bodyids,
   if(summary) summarise_partnerdf(d) else d
 }
 
-summarise_partnerdf <- function(df) {
+summarise_partnerdf <- function(df, withbodyids=F) {
   df1 <- if("ROIweight" %in% colnames(df)) {
     stop("Sorry, `summary=TRUE` is not yet implemented when `roi` specified")
   }
-
-  dplyr::add_count(df, .data$partner, name = "n") %>%
+  # uids=sort(unique(df$bodyid))
+  dfr <- dplyr::add_count(df, .data$partner, name = "n") %>%
   dplyr::add_count(.data$partner, wt = .data$weight, name = "sumweight", sort = T) %>%
-  dplyr::filter(!duplicated(.data$partner, .data$bodyid)) %>%
+  dplyr::group_by(.data$partner) %>%
+  # dplyr::mutate(bodyid=paste(match(.data$bodyid, uids), collapse = ',')) %>%
+  dplyr::mutate(bodyid=paste(.data$bodyid, collapse = ',')) %>%
+  dplyr::rename(bodyids=.data$bodyid) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(!duplicated(.data$partner)) %>%
   dplyr::mutate(weight=.data$sumweight) %>%
   dplyr::select(!dplyr::contains("sumweight"))
+  if(withbodyids) dfr else {
+    dfr %>%
+      dplyr::select(!"bodyids")
+  }
 }
 
 #' @title Get the common synaptic partners for a set of neurons
