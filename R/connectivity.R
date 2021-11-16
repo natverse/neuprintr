@@ -233,7 +233,7 @@ make_chunk_combs <- function(a, b, ...) {
 #'
 #' # query of regex against cell type
 #' # summarised per partner with additional details column
-#' c1s = c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
+#' c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
 #' head(c1s)
 #' # Kenyon cells typically receive fewer multiple inputs than other partners
 #' table(n=c1s$n, KC=grepl("^KC", c1s$type))
