@@ -42,7 +42,8 @@ Imports:
     stringr,
     tibble,
     Matrix,
-    checkmate
+    checkmate,
+    magrittr
 Remotes: 
     natverse/drvid,
     natverse/nat
