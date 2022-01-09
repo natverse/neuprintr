@@ -28,6 +28,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,18 +42,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -76,7 +72,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/natverse/neuprintr/">
+  <a href="https://github.com/natverse/neuprintr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -95,38 +91,40 @@
   <div class="contents col-md-9">
 
 
-<div id="neuprintr" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#neuprintr" class="anchor"></a>neuprintr</h1></div>
-<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain">hemibrain</a>, densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="uri">https://neuprint.janelia.org/</a>. For more information, have a look <a href="https://neuprint.janelia.org/help">here</a>. Using this R package in concert with the <a href="https://github.com/natverse/natverse">natverse</a> ecosystem is highly recommended.</p>
-<div id="tutorial" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tutorial" class="anchor"></a>Tutorial</h2>
-<p>To help you get to grips with <code>neuprintr</code>, we have made a tutorial in classic presentation form. This tutorial uses data from the <a href="https://www.janelia.org/project-team/flyem">Janelia Fly EM</a> team’s <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1">hemibrain</a> project. You can also see the vignettes in this package for the same examples and more.</p>
+<div class="section level1">
+<div class="page-header"><h1 id="neuprintr">neuprintr<a class="anchor" aria-label="anchor" href="#neuprintr"></a>
+</h1></div>
+<p>The goal of <em>neuprintr</em> is to provide R client utilities for interacting with the neuPrint connectome analysis service. neuPrint is set of tools for loading and analysing connectome data into a Neo4j database. You can find <a href="https://github.com/connectome-neuprint/neuPrint" class="external-link">neuprint</a> on Github. There is also a great python client available from Philipp Schlegel, <a href="https://github.com/schlegelp/neuprint-python" class="external-link">neuprint-python</a> if that’s your thing. neuPrint is currently being used for connectome analysis in aid of neuronal reconstruction efforts at Janelia Research Campus. The main focus is analysis of the <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">hemibrain</a>, densely reconstructed adult Drosophila brain dataset available at <a href="https://neuprint.janelia.org/" class="external-link uri">https://neuprint.janelia.org/</a>. For more information, have a look <a href="https://neuprint.janelia.org/help" class="external-link">here</a>. Using this R package in concert with the <a href="https://github.com/natverse/natverse" class="external-link">natverse</a> ecosystem is highly recommended.</p>
+<div class="section level2">
+<h2 id="tutorial">Tutorial<a class="anchor" aria-label="anchor" href="#tutorial"></a>
+</h2>
+<p>To help you get to grips with <code>neuprintr</code>, we have made a tutorial in classic presentation form. This tutorial uses data from the <a href="https://www.janelia.org/project-team/flyem" class="external-link">Janelia Fly EM</a> team’s <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1" class="external-link">hemibrain</a> project. You can also see the vignettes in this package for the same examples and more.</p>
 <p align="center">
 <iframe src="https://www.slideshare.net/slideshow/embed_code/key/GcE2Blzz02nfhM" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
 </iframe>
 </p>
 <div align="center" style="margin-bottom:5px">
-<p><strong> <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr-225098909" title="Accessing hemibrain data using Neuprintr " target="_blank">Accessing hemibrain data using Neuprintr </a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank">Alexander Bates</a></strong></p>
+<p><strong> <a href="https://www.slideshare.net/AlexBates4/accessing-hemibrain-data-using-neuprintr-225098909" title="Accessing hemibrain data using Neuprintr " target="_blank" class="external-link">Accessing hemibrain data using Neuprintr </a> </strong> from <strong><a href="https://www.slideshare.net/AlexBates4" target="_blank" class="external-link">Alexander Bates</a></strong></p>
 </div>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"natverse/neuprintr"</span><span class="op">)</span>
 
 <span class="co"># use </span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://natverse.org/neuprintr">neuprintr</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://natverse.org/neuprintr">neuprintr</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="authentication" class="section level2">
-<h2 class="hasAnchor">
-<a href="#authentication" class="anchor"></a>Authentication</h2>
-<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g. <a href="https://neuprint.janelia.org" class="uri">https://neuprint.janelia.org</a>, and hit ‘login’. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to ‘Account’:</p>
-<p><img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png" alt="access your bearer token"></p>
+<div class="section level2">
+<h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
+</h2>
+<p>In order to use <em>neuprintr</em> you will need to be able to login to a neuPrint server and be able to access it underlying Neo4j database. You may need an authenticated accounted, or you may be able to register your <code>@gmail</code> address without an authentication process. Navigate to a neuPrint website, e.g. <a href="https://neuprint.janelia.org" class="external-link uri">https://neuprint.janelia.org</a>, and hit ‘login’. Sign in using an <code>@gmail</code> account. If you have authentication/the server is public, you will now be able to see your access token by going to ‘Account’:</p>
+<div class="figure">
+<img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png" alt=""><p class="caption">access your bearer token</p>
+</div>
 <p>To make life easier, you can then edit your <code>.Renviron</code> file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. A convenient way to do this is to do</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -138,27 +136,27 @@
 <p>Make sure you have a blank line at the end of your <code>.Renviron</code> file. Note that you can optionally specify a default dataset:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">neuprint_dataset</span> <span class="op">=</span> <span class="st">"hemibrain:v1.0"</span></code></pre></div>
-<p>if your neuPrint server has more than one dataset. For further information about neuprintr login, see the help for <code><a href="reference/neuprint_connection.html">neuprint_login()</a></code>.</p>
+<p>if your neuPrint server has more than one dataset. For further information about neuprintr login, see the help for <code><a href="reference/neuprint_login.html">neuprint_login()</a></code>.</p>
 <p>Finally you can also login on the command line once per session, like so:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">conn</span> <span class="op">=</span> <span class="fu"><a href="reference/neuprint_connection.html">neuprint_login</a></span><span class="op">(</span>server<span class="op">=</span> <span class="st">"https://neuprint.janelia.org/"</span>,
+<code class="sourceCode R"><span class="va">conn</span> <span class="op">=</span> <span class="fu"><a href="reference/neuprint_login.html">neuprint_login</a></span><span class="op">(</span>server<span class="op">=</span> <span class="st">"https://neuprint.janelia.org/"</span>,
    token<span class="op">=</span> <span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span><span class="op">)</span></code></pre></div>
 <p>This is also the approach that you would take if you were working with more than two neuPrint servers.</p>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>Now we can have a look at what is available</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># What data sets are available?</span>
-<span class="fu"><a href="reference/neuprint_datasets.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="reference/neuprint_info.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># What's the underlying database</span>
-<span class="fu"><a href="reference/neuprint_datasets.html">neuprint_database</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="reference/neuprint_info.html">neuprint_database</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)</span>
 <span class="fu"><a href="reference/neuprint_ROIs.html">neuprint_ROIs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Use the client to request data from neuprint. The <code>neuprint_fetch_custom</code> method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://neuprint.janelia.org/help" class="uri">https://neuprint.janelia.org/help</a>.</p>
+<p>Use the client to request data from neuprint. The <code>neuprint_fetch_custom</code> method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://neuprint.janelia.org/help" class="external-link uri">https://neuprint.janelia.org/help</a>.</p>
 <p>Some cyphers and other API endpoints have been explored by this package. Have a look a the functions, for example, that give you neuron skeletons, synapse locations, connectivity matrices, etc.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">?</span><span class="va">neuprint_search</span>
@@ -167,20 +165,20 @@
 <span class="op">?</span><span class="va">neuprint_get_synapses</span>
 <span class="op">?</span><span class="va">neuprint_read_neurons</span></code></pre></div>
 </div>
-<div id="example-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-data" class="anchor"></a>Example data</h2>
+<div class="section level2">
+<h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
+</h2>
 <ul>
-<li><p>HemiBrain (hemibrain:v1.0) : from <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1">“A Connectome of the Adult Drosophila Central Brain”</a> (Xu, et al. 2020)</p></li>
-<li><p>mushroombody (mb6) : from <a href="https://elifesciences.org/articles/26975">“A connectome of a learning and memory center in the adult Drosophila brain”</a> (Takemura, et al. 2017)</p></li>
-<li><p>medulla7column (fib25) : from <a href="https://www.pnas.org/content/112/44/13711">“Synaptic circuits and their variations within different columns in the visual system of Drosophila”</a> (Takemura, et al. 2015)</p></li>
+<li><p>HemiBrain (hemibrain:v1.0) : from <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1" class="external-link">“A Connectome of the Adult Drosophila Central Brain”</a> (Xu, et al. 2020)</p></li>
+<li><p>mushroombody (mb6) : from <a href="https://elifesciences.org/articles/26975" class="external-link">“A connectome of a learning and memory center in the adult Drosophila brain”</a> (Takemura, et al. 2017)</p></li>
+<li><p>medulla7column (fib25) : from <a href="https://www.pnas.org/content/112/44/13711" class="external-link">“Synaptic circuits and their variations within different columns in the visual system of Drosophila”</a> (Takemura, et al. 2015)</p></li>
 </ul>
 </div>
-<div id="acknowledging-the-data-and-tools" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledging-the-data-and-tools" class="anchor"></a>Acknowledging the data and tools</h2>
-<p>neuPrint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: <a href="https://github.com/connectome-neuprint/neuPrintHTTP">neuPrintHTTP</a>, <a href="https://github.com/connectome-neuprint/neuPrintExplorer">neuPrintExplorer</a>, <a href="https://github.com/connectome-neuprint/neuprint-python">Python API</a>.</p>
-<p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis">Gregory Jefferis</a> with Romain <a href="https://scholar.google.com/citations?user=I7yBLlsAAAAJ&amp;hl=en">Franconville</a> now providing key contributions. You can cite a specific version of this package as:</p>
+<div class="section level2">
+<h2 id="acknowledging-the-data-and-tools">Acknowledging the data and tools<a class="anchor" aria-label="anchor" href="#acknowledging-the-data-and-tools"></a>
+</h2>
+<p>neuPrint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: <a href="https://github.com/connectome-neuprint/neuPrintHTTP" class="external-link">neuPrintHTTP</a>, <a href="https://github.com/connectome-neuprint/neuPrintExplorer" class="external-link">neuPrintExplorer</a>, <a href="https://github.com/connectome-neuprint/neuprint-python" class="external-link">Python API</a>.</p>
+<p>This package was created by <a href="https://scholar.google.com/citations?user=BOVTiXIAAAAJ&amp;hl=en" class="external-link">Alexander Shakeel Bates</a> and <a href="https://en.wikipedia.org/wiki/Gregory_Jefferis" class="external-link">Gregory Jefferis</a> with Romain <a href="https://scholar.google.com/citations?user=I7yBLlsAAAAJ&amp;hl=en" class="external-link">Franconville</a> now providing key contributions. You can cite a specific version of this package as:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">citation</span>(<span class="dt">package =</span> <span class="st">"neuprintr"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3"></a>To cite package <span class="st">'neuprintr'</span> <span class="cf">in</span> publications use<span class="op">:</span></span>
@@ -233,50 +231,61 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/natverse/neuprintr/">https://​github.com/​natverse/​neuprintr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/natverse/neuprintr/issues">https://​github.com/​natverse/​neuprintr/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Alexander Bates <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1195-0445" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Gregory Jefferis <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0587-9355" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Romain Franconville <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-4440-7297" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://github.com/natverse/neuprintr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/natverse/neuprintr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://natverse.github.io"><img src="https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6" alt="natverse"></a></li>
-<li><a href="http://natverse.github.io/neuprintr/reference/"><img src="https://img.shields.io/badge/docs-100%25-brightgreen.svg" alt="Docs"></a></li>
-<li><a href="https://github.com/natverse/neuprintr/actions"><img src="https://github.com/natverse/neuprintr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/natverse/neuprintr?branch=master"><img src="https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://doi.org/10.5281/zenodo.3843544"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3843544.svg" alt="DOI"></a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing neuprintr</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Alexander Bates <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1195-0445" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Gregory Jefferis <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0587-9355" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Romain Franconville <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-4440-7297" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://natverse.github.io" class="external-link"><img src="https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6" alt="natverse"></a></li>
+<li><a href="http://natverse.github.io/neuprintr/reference/" class="external-link"><img src="https://img.shields.io/badge/docs-100%25-brightgreen.svg" alt="Docs"></a></li>
+<li><a href="https://github.com/natverse/neuprintr/actions" class="external-link"><img src="https://github.com/natverse/neuprintr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/natverse/neuprintr?branch=master" class="external-link"><img src="https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.3843544" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3843544.svg" alt="DOI"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
+  <p></p>
+<p>Developed by Alexander Bates, Gregory Jefferis, Romain Franconville.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -284,6 +293,8 @@
 
   
 
+
+  
 
   </body>
 </html>
