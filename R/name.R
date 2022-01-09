@@ -439,3 +439,29 @@ dfFields <- function(field_name) {
   }
   newnames
 }
+
+#' @importFrom glue glue
+neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
+                            conn=NULL, dataset=NULL,  ...) {
+  type=match.arg(type)
+  if(length(field)>1) {
+    ff=sapply(field, neuprint_typeof, type=type, cache=cache, conn=conn, dataset=dataset, ...)
+    return(ff)
+  }
+  q <- if(type=='r') {"
+    MATCH (n:Neuron)
+    WHERE exists(n.`{field}`)
+    RETURN n.{field} AS {field}
+    LIMIT 1
+  " } else {"
+    MATCH (n:Neuron)
+    WHERE exists(n.`{field}`)
+    RETURN apoc.meta.type(n.`{field}`)
+    LIMIT 1
+  "}
+  q=glue(gsub("\\s+", " ", q))
+  r=try(neuprintr::neuprint_fetch_custom(q, include_headers = FALSE, cache = cache, conn=NULL, dataset=NULL, ...))
+  if(inherits(r, 'try-error')) NA_character_
+  else if(type=="r") mode(unlist(r$data, use.names = F))
+  else unlist(r$data, use.names = F)
+}

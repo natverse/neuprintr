@@ -62,6 +62,14 @@ test_that("test name searches ", {
                structure(c(NA_character_, ndup), .Names=c(1,iddup)))
 })
 
+test_that("test searches on non-string fields", {
+  expect_equal(neuprint_typeof('bodyId', 'r'), 'numeric')
+  expect_equal(neuprint_typeof('cropped', 'r'), 'logical')
+  expect_equal(neuprint_typeof('bodyId', 'neo4j'), 'INTEGER')
+  expect_equal(neuprint_typeof('cropped', 'neo4j'), 'BOOLEAN')
+  expect_equal(neuprint_typeof('type', 'neo4j'), 'STRING')
+})
+
 test_that("test bad dataset specification ", {
   expect_error(neuprint_search(".*DA2.*", dataset = 'hemibrain1'))
 })
