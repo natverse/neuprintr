@@ -313,12 +313,16 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
     exact=FALSE
   if(isFALSE(fixed) && isFALSE(exact))
     warning("Ignoring exact=FALSE as regular expression searches are always exact!")
-  all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("MATCH (n:`%s`) WHERE n.%s %s \\\"%s\\\" RETURN n.bodyId",
-                   all_segments.cypher,
-                   field,
-                   ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~"),
-                   search)
+  nodetype = ifelse(all_segments,'Segment','Neuron')
+  fieldtype=neuprint_typeof(field, type = 'neo4j')
+  if(fieldtype=="STRING") {
+    search=glue('\\"{search}\\"')
+    operator=ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~")
+  } else operator="="
+  cypher = glue("
+                MATCH (n:`{nodetype}`) \\
+                WHERE n.{field} {operator} {search} \\
+                RETURN n.bodyId")
   nc = neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)
   if(meta && isTRUE(length(foundbodyids)>0)){

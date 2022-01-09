@@ -68,6 +68,9 @@ test_that("test searches on non-string fields", {
   expect_equal(neuprint_typeof('bodyId', 'neo4j'), 'INTEGER')
   expect_equal(neuprint_typeof('cropped', 'neo4j'), 'BOOLEAN')
   expect_equal(neuprint_typeof('type', 'neo4j'), 'STRING')
+
+  expect_equal(neuprint_ids("bodyId:202916528"), "202916528")
+  expect_is(neuprint_ids("cropped:false"), 'character')
 })
 
 test_that("test bad dataset specification ", {
