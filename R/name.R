@@ -80,6 +80,9 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' # or simpler
 #' neuprint_get_meta('DA2')
 #' }
+#' \dontrun{
+#' neuprint_get_meta('cropped:false')
+#' }
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
                               conn = NULL, chunk=TRUE, progress=FALSE,
                               possibleFields=NULL, ...){
