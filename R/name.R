@@ -80,6 +80,9 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' # or simpler
 #' neuprint_get_meta('DA2')
 #' }
+#' \dontrun{
+#' neuprint_get_meta('cropped:false')
+#' }
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
                               conn = NULL, chunk=TRUE, progress=FALSE,
                               possibleFields=NULL, ...){
@@ -313,12 +316,16 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
     exact=FALSE
   if(isFALSE(fixed) && isFALSE(exact))
     warning("Ignoring exact=FALSE as regular expression searches are always exact!")
-  all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("MATCH (n:`%s`) WHERE n.%s %s \\\"%s\\\" RETURN n.bodyId",
-                   all_segments.cypher,
-                   field,
-                   ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~"),
-                   search)
+  nodetype = ifelse(all_segments,'Segment','Neuron')
+  fieldtype=neuprint_typeof(field, type = 'neo4j')
+  if(fieldtype=="STRING") {
+    search=glue('\\"{search}\\"')
+    operator=ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~")
+  } else operator="="
+  cypher = glue("
+                MATCH (n:`{nodetype}`) \\
+                WHERE n.{field} {operator} {search} \\
+                RETURN n.bodyId")
   nc = neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)
   if(meta && isTRUE(length(foundbodyids)>0)){
@@ -438,4 +445,30 @@ dfFields <- function(field_name) {
                                              transTable$neuprint)]
   }
   newnames
+}
+
+#' @importFrom glue glue
+neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
+                            conn=NULL, dataset=NULL,  ...) {
+  type=match.arg(type)
+  if(length(field)>1) {
+    ff=sapply(field, neuprint_typeof, type=type, cache=cache, conn=conn, dataset=dataset, ...)
+    return(ff)
+  }
+  q <- if(type=='r') {"
+    MATCH (n:Neuron)
+    WHERE exists(n.`{field}`)
+    RETURN n.{field} AS {field}
+    LIMIT 1
+  " } else {"
+    MATCH (n:Neuron)
+    WHERE exists(n.`{field}`)
+    RETURN apoc.meta.type(n.`{field}`)
+    LIMIT 1
+  "}
+  q=glue(gsub("\\s+", " ", q))
+  r=try(neuprintr::neuprint_fetch_custom(q, include_headers = FALSE, cache = cache, conn=NULL, dataset=NULL, ...))
+  if(inherits(r, 'try-error')) NA_character_
+  else if(type=="r") mode(unlist(r$data, use.names = F))
+  else unlist(r$data, use.names = F)
 }

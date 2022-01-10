@@ -85,4 +85,7 @@ neuprint_get_meta(da2s$bodyid)
 # or simpler
 neuprint_get_meta('DA2')
 }
+\dontrun{
+neuprint_get_meta('cropped:false')
+}
 }

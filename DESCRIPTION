@@ -43,12 +43,13 @@ Imports:
     tibble,
     Matrix,
     checkmate,
-    magrittr
+    magrittr,
+    glue
 Remotes: 
     natverse/drvid,
     natverse/nat
 Encoding: UTF-8
 Language: en-GB
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://natverse.org/neuprintr, https://github.com/natverse/neuprintr
 BugReports: https://github.com/natverse/neuprintr/issues
