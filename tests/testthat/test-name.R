@@ -73,6 +73,10 @@ test_that("test searches on non-string fields", {
   expect_is(neuprint_ids("cropped:false"), 'character')
 })
 
+test_that("test where searches", {
+  expect_is(neuprint_ids("where:exists(n.somaLocation) AND n.post>10000 AND NOT n.cropped"), "character")
+})
+
 test_that("test bad dataset specification ", {
   expect_error(neuprint_search(".*DA2.*", dataset = 'hemibrain1'))
 })
