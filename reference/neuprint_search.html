@@ -268,14 +268,7 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-in"><span class="co"># NB fields must be prefixed with n. to indicate that they are node properties.</span></span>
 <span class="r-in"><span class="co"># note also that exists(n.somaLocation) is cypher to ensure soma==TRUE</span></span>
 <span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"where:exists(n.somaLocation) AND n.post&gt;30000 AND NOT n.cropped"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid   pre   post status    statusLabel cropped      voxels</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  612371421  2208  32516 Traced         Traced   FALSE  6798484776</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 5813105172 17628  77269 Traced Roughly traced   FALSE 15150336407</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  425790257 16060 126513 Traced Roughly traced   FALSE 23074962804</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      name   type cellBodyFiber soma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 MBON01(y5B'2a)(ADM07)_R MBON01         aSMPB TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                   DPM_R    DPM          &lt;NA&gt; TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                   APL_R    APL          &lt;NA&gt; TRUE</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (fieldtype == "STRING") {    search = glue("\\\"{search}\\\"")    operator = ifelse(fixed, ifelse(exact, "=", "CONTAINS"),         "=~")} else operator = "=":</span> argument is of length zero</span>
 <span class="r-in"><span class="co"># }</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
