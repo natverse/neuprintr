@@ -153,11 +153,10 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
   when there are none and <code>mustWork=FALSE</code>).</p>
     </div>
-    <div id="standard-query-syntax">
-    <h2>Standard query syntax</h2>
-    <p>It is probably best just to look at the
-  examples, but the query syntax is as follows where square brackets denote
-  optional parts:</p>
+    <div id="query-syntax">
+    <h2>Query syntax</h2>
+    <p>It is probably best just to look at the examples, but
+  the query syntax is as follows where square brackets denote optional parts:</p>
 <p><code>[!/][&lt;field&gt;:]&lt;query&gt;</code></p>
 <p>Starting with the optional leading character. An exclamation mark denotes
   an exact, fixed search. The / denotes a regular expression (exact) search.
@@ -167,21 +166,11 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <p>Finally the query itself is a plain text (fixed) or regular expression
   query.</p>
     </div>
-    <div id="extended-query-syntax">
-    <h2>Extended query syntax</h2>
-    <p>As a stepping stone to writing full CYPHER
-  queries against Neo4J you can used the special <code>where</code> keyword to
-  introduce your queries:</p>
-<p><code>where:&lt;cypher query&gt;</code></p>
-<p>e.g.</p>
-<p><code>"where:exists(n.somaLocation) AND n.post&gt;30000 AND NOT n.cropped"</code></p>
-<p>Note that properties of individual nodes (i.e. neurons) must be prefixed
-  with <code>n.</code> as would be typical in a CYPHER query.</p>
-    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="neuprint_get_meta.html">neuprint_get_meta</a></code>,
-  <code><a href="neuprint_get_neuron_names.html">neuprint_get_neuron_names</a></code></p></div>
+  <code><a href="neuprint_get_neuron_names.html">neuprint_get_neuron_names</a></code></p>
+<p><code>neuprint_search</code></p></div>
     </div>
 
     <div id="ref-examples">
@@ -260,19 +249,6 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-out co"><span class="r-pr">#&gt;</span> [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [67]  643847447  547552266 5813033000 1173814525</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># full access to WHERE cypher queries over nodes (i.e. neurons) in neo4j</span></span>
-<span class="r-in"><span class="co"># NB fields must be prefixed with n. to indicate that they are node properties.</span></span>
-<span class="r-in"><span class="co"># note also that exists(n.somaLocation) is cypher to ensure soma==TRUE</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"where:exists(n.somaLocation) AND n.post&gt;30000 AND NOT n.cropped"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid   pre   post status    statusLabel cropped      voxels</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  612371421  2208  32516 Traced         Traced   FALSE  6798484776</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 5813105172 17628  77269 Traced Roughly traced   FALSE 15150336407</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  425790257 16060 126513 Traced Roughly traced   FALSE 23074962804</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      name   type cellBodyFiber soma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 MBON01(y5B'2a)(ADM07)_R MBON01         aSMPB TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                   DPM_R    DPM          &lt;NA&gt; TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                   APL_R    APL          &lt;NA&gt; TRUE</span>
 <span class="r-in"><span class="co"># }</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
