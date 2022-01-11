@@ -117,7 +117,10 @@ For \code{neuprint_ids}, a character vector of bodyids (of length 0
   \code{"where:exists(n.somaLocation) AND n.post>30000 AND NOT n.cropped"}
 
   Note that properties of individual nodes (i.e. neurons) must be prefixed
-  with \code{n.} as would be typical in a CYPHER query.
+  with \code{n.} as would be typical in a CYPHER query. This feature is still
+  experimental and details of the interface may still change. If you have
+  feedback please do so at
+  \url{https://github.com/natverse/neuprintr/pull/153}.
 }
 
 \examples{
