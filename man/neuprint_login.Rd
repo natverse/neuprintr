@@ -191,6 +191,10 @@ conn2=neuprint_login(server="https://server2.org",
 # specify a default dataset (only required when >1 dataset available)
 conn2=neuprint_login(server="https://server2.org",
   token=Sys.getenv('NPSERVER2'), dataset="hemibrain")
+
+# make a connection to the same server but using a different dataset
+# this may be more convenient than specifying the dataset argument
+conn3=neuprint_login(conn2, dataset="vnc")
 }
 }
 \seealso{
