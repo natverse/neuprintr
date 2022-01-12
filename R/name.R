@@ -505,3 +505,22 @@ neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
     else urd
   }
 }
+
+
+# Fix column types using neuprint_typeof information
+#' @importFrom methods as
+neuprint_fix_column_types <- function(df, conn=NULL, dataset=NULL) {
+  stopifnot(is.data.frame(df))
+  ctypes=sapply(df, mode)
+  for(cn in colnames(df)) {
+    col=df[[cn]]
+    # look for all NA logical columns
+    if(!isTRUE(mode(col)=='logical')) next
+    if(!all(is.na(col))) next
+    newtype <- neuprint_typeof(cn, conn=conn, dataset = dataset, type = 'r')
+    if(is.na(newtype) || newtype=='list') next
+    # message(cn, ":", newtype)
+    mode(df[[cn]])=newtype
+  }
+  df
+}
