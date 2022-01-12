@@ -261,6 +261,10 @@ reused automatically.</p></dd>
 <span class="r-in"><span class="co"># specify a default dataset (only required when &gt;1 dataset available)</span></span>
 <span class="r-in"><span class="va">conn2</span><span class="op">=</span><span class="fu">neuprint_login</span><span class="op">(</span>server<span class="op">=</span><span class="st">"https://server2.org"</span>,</span>
 <span class="r-in">  token<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">'NPSERVER2'</span><span class="op">)</span>, dataset<span class="op">=</span><span class="st">"hemibrain"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># make a connection to the same server but using a different dataset</span></span>
+<span class="r-in"><span class="co"># this may be more convenient than specifying the dataset argument</span></span>
+<span class="r-in"><span class="va">conn3</span><span class="op">=</span><span class="fu">neuprint_login</span><span class="op">(</span><span class="va">conn2</span>, dataset<span class="op">=</span><span class="st">"vnc"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
