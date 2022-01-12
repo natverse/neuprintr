@@ -279,6 +279,7 @@ neuprint_connection_table <- function(bodyids,
     prepost <- match.arg(prepost)
   }
   conn<-neuprint_login(conn)
+  dataset <- check_dataset(dataset)
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
 
   threshold=assert_integer(as.integer(round(threshold)), lower = 1, len = 1)
@@ -383,7 +384,7 @@ neuprint_connection_table <- function(bodyids,
 
   if(!is.null(roi) && threshold>1)
     d=d[d$ROIweight>=threshold,]
-
+  d=neuprint_fix_column_types(d, conn=conn, dataset=dataset)
   if(summary) summarise_partnerdf(d) else d
 }
 

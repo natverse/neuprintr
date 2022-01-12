@@ -25,7 +25,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   df=neuprint_list2df(nc, return_empty_df = TRUE)
-  nn=df$name
+  nn=as.character(df$name)
   names(nn) = df$bodyid
   missing=setdiff(bodyids, names(nn))
   if(length(missing)>0) {
@@ -160,6 +160,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
   )
   nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)
+  meta <- neuprint_fix_column_types(meta, conn=conn, dataset=dataset)
   meta <- meta[,names(meta) %in% c(rfields, "soma")]
   meta
 }
