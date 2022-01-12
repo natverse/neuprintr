@@ -388,24 +388,25 @@ neuprint_connection_table <- function(bodyids,
   if(summary) summarise_partnerdf(d) else d
 }
 
+#' @importFrom dplyr .data add_count group_by mutate rename ungroup filter select contains
 summarise_partnerdf <- function(df, withbodyids=F) {
   df1 <- if("ROIweight" %in% colnames(df)) {
     stop("Sorry, `summary=TRUE` is not yet implemented when `roi` specified")
   }
   # uids=sort(unique(df$bodyid))
-  dfr <- dplyr::add_count(df, .data$partner, name = "n") %>%
-  dplyr::add_count(.data$partner, wt = .data$weight, name = "sumweight", sort = T) %>%
-  dplyr::group_by(.data$partner) %>%
-  # dplyr::mutate(bodyid=paste(match(.data$bodyid, uids), collapse = ',')) %>%
-  dplyr::mutate(bodyid=paste(.data$bodyid, collapse = ',')) %>%
-  dplyr::rename(bodyids=.data$bodyid) %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(!duplicated(.data$partner)) %>%
-  dplyr::mutate(weight=.data$sumweight) %>%
-  dplyr::select(!dplyr::contains("sumweight"))
+  dfr <- add_count(df, .data$partner, name = "n") %>%
+  add_count(.data$partner, wt = .data$weight, name = "sumweight", sort = T) %>%
+  group_by(.data$partner) %>%
+  # mutate(bodyid=paste(match(.data$bodyid, uids), collapse = ',')) %>%
+  mutate(bodyid=paste(.data$bodyid, collapse = ',')) %>%
+  rename(bodyids=.data$bodyid) %>%
+  ungroup() %>%
+  filter(!duplicated(.data$partner)) %>%
+  mutate(weight=.data$sumweight) %>%
+  select(!contains("sumweight"))
   if(withbodyids) dfr else {
     dfr %>%
-      dplyr::select(!"bodyids")
+      select(!"bodyids")
   }
 }
 

@@ -509,7 +509,6 @@ neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
 
 
 # Fix column types using neuprint_typeof information
-#' @importFrom methods as
 neuprint_fix_column_types <- function(df, conn=NULL, dataset=NULL) {
   stopifnot(is.data.frame(df))
   ctypes=sapply(df, mode)
