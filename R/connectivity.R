@@ -110,16 +110,13 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
   checkmate::assertIntegerish(threshold, lower = 1, len = 1, any.missing = F)
-  cypher = sprintf(
-    paste(
-      "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
-      "WHERE n.bodyId IN input AND m.bodyId IN output",
-      ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
-      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight"
-    ),
-    id2json(inputids),
-    id2json(outputids),
-    all_segments.json
+  cypher = glue(
+    "WITH {id2json(inputids)} AS input, {id2json(outputids)} AS output",
+    "MATCH (n:`{all_segments.json}`)-[c:ConnectsTo]->(m)",
+    "WHERE n.bodyId IN input AND m.bodyId IN output",
+    ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
+    "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight",
+    .sep=" "
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset,
                              cache=cache, ...)
@@ -279,6 +276,7 @@ neuprint_connection_table <- function(bodyids,
     prepost <- match.arg(prepost)
   }
   conn<-neuprint_login(conn)
+  dataset <- check_dataset(dataset)
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
 
   threshold=assert_integer(as.integer(round(threshold)), lower = 1, len = 1)
@@ -322,17 +320,13 @@ neuprint_connection_table <- function(bodyids,
     return(d)
   }
 
-
-  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
-
   if(!is.null(roi)){
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
 
-  WITH=sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",id2json(bodyids))
-
-  MATCH=sprintf("MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
-                all_segments.json, all_segments.json)
+  WITH=glue("WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId")
+  MATCH=glue("MATCH (a:`{node}`)-[c:ConnectsTo]->(b:`{node}`)",
+             node=ifelse(all_segments,"Segment","Neuron"))
 
   WHERE=sprintf("WHERE %s.bodyId=bodyId %s %s",
                 ifelse(prepost=="POST","a","b"),
@@ -341,8 +335,8 @@ neuprint_connection_table <- function(bodyids,
                        "UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""))
 
   extrafields <- if(isTRUE(details)) {
-    ab=ifelse(prepost=="PRE","a","b")
-    sprintf(", %s.type AS type, %s.instance AS name", ab, ab)
+    glue(", {ab}.type AS type, {ab}.instance AS name",
+         ab=ifelse(prepost=="PRE","a","b"))
   } else ""
   RETURN=sprintf("RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight %s %s",
                  ifelse(prepost=="POST","bodyid","partner"),
@@ -383,28 +377,29 @@ neuprint_connection_table <- function(bodyids,
 
   if(!is.null(roi) && threshold>1)
     d=d[d$ROIweight>=threshold,]
-
+  d=neuprint_fix_column_types(d, conn=conn, dataset=dataset)
   if(summary) summarise_partnerdf(d) else d
 }
 
+#' @importFrom dplyr .data add_count group_by mutate rename ungroup filter select contains
 summarise_partnerdf <- function(df, withbodyids=F) {
   df1 <- if("ROIweight" %in% colnames(df)) {
     stop("Sorry, `summary=TRUE` is not yet implemented when `roi` specified")
   }
   # uids=sort(unique(df$bodyid))
-  dfr <- dplyr::add_count(df, .data$partner, name = "n") %>%
-  dplyr::add_count(.data$partner, wt = .data$weight, name = "sumweight", sort = T) %>%
-  dplyr::group_by(.data$partner) %>%
-  # dplyr::mutate(bodyid=paste(match(.data$bodyid, uids), collapse = ',')) %>%
-  dplyr::mutate(bodyid=paste(.data$bodyid, collapse = ',')) %>%
-  dplyr::rename(bodyids=.data$bodyid) %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(!duplicated(.data$partner)) %>%
-  dplyr::mutate(weight=.data$sumweight) %>%
-  dplyr::select(!dplyr::contains("sumweight"))
+  dfr <- add_count(df, .data$partner, name = "n") %>%
+  add_count(.data$partner, wt = .data$weight, name = "sumweight", sort = T) %>%
+  group_by(.data$partner) %>%
+  # mutate(bodyid=paste(match(.data$bodyid, uids), collapse = ',')) %>%
+  mutate(bodyid=paste(.data$bodyid, collapse = ',')) %>%
+  rename(bodyids=.data$bodyid) %>%
+  ungroup() %>%
+  filter(!duplicated(.data$partner)) %>%
+  mutate(weight=.data$sumweight) %>%
+  select(!contains("sumweight"))
   if(withbodyids) dfr else {
     dfr %>%
-      dplyr::select(!"bodyids")
+      select(!"bodyids")
   }
 }
 

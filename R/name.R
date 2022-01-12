@@ -9,7 +9,6 @@
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
-  all_segments.json = ifelse(all_segments,"Segment","Neuron")
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn, unique = FALSE,mustWork = FALSE)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
@@ -19,13 +18,16 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
     return(res)
   }
 
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name, n.bodyId AS bodyid",
-                   id2json(bodyids),
-                   all_segments.json)
+  cypher = glue(
+    "WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId",
+    " MATCH (n:`{node}`) WHERE n.bodyId=bodyId",
+    " RETURN n.instance AS name, n.bodyId AS bodyid",
+    node=ifelse(all_segments,"Segment","Neuron")
+  )
 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   df=neuprint_list2df(nc, return_empty_df = TRUE)
-  nn=df$name
+  nn=as.character(df$name)
   names(nn) = df$bodyid
   missing=setdiff(bodyids, names(nn))
   if(length(missing)>0) {
@@ -137,8 +139,6 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
     return(d)
   }
 
-  all_segments = ifelse(all_segments,"Segment","Neuron")
-
   if(is.null(possibleFields))
     possibleFields <- c("bodyId","name","instance","type","status",
                         "statusLabel","pre","post","upstream","downstream",
@@ -148,18 +148,15 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
                                     dataset=dataset,conn=conn)
   rfields=dfFields(fieldNames)
   returnCypher <- paste0("n.",fieldNames," AS ",rfields,collapse=" , ")
-  cypher = sprintf(
-    paste(
-      "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
-      "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN %s"
-    ),
-    id2json(bodyids),
-    all_segments,
-    paste(returnCypher, ", exists(n.somaLocation) AS soma")
+  cypher = glue(
+    "WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId ",
+    " MATCH (n:`{node}`) WHERE n.bodyId=bodyId",
+    " RETURN {returnCypher}, exists(n.somaLocation) AS soma",
+    node=ifelse(all_segments,"Segment","Neuron")
   )
   nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)
+  meta <- neuprint_fix_column_types(meta, conn=conn, dataset=dataset)
   meta <- meta[,names(meta) %in% c(rfields, "soma")]
   meta
 }
@@ -499,6 +496,27 @@ neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
   q=glue(gsub("\\s+", " ", q))
   r=try(neuprintr::neuprint_fetch_custom(q, include_headers = FALSE, cache = cache, conn=NULL, dataset=NULL, ...))
   if(inherits(r, 'try-error')) NA_character_
-  else if(type=="r") mode(unlist(r$data, use.names = F))
-  else unlist(r$data, use.names = F)
+  else {
+    urd=unlist(r$data, use.names = F)
+    if(type=="r") ifelse(is.null(urd), NA_character_, mode(urd))
+    else urd
+  }
+}
+
+
+# Fix column types using neuprint_typeof information
+neuprint_fix_column_types <- function(df, conn=NULL, dataset=NULL) {
+  stopifnot(is.data.frame(df))
+  ctypes=sapply(df, mode)
+  for(cn in colnames(df)) {
+    col=df[[cn]]
+    # look for all NA logical columns
+    if(!isTRUE(mode(col)=='logical')) next
+    if(!all(is.na(col))) next
+    newtype <- neuprint_typeof(cn, conn=conn, dataset = dataset, type = 'r')
+    if(is.na(newtype) || newtype=='list') next
+    # message(cn, ":", newtype)
+    mode(df[[cn]])=newtype
+  }
+  df
 }
