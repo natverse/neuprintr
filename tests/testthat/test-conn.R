@@ -14,14 +14,18 @@ test_that("neuprint_login works", {
 })
 
 test_that("neuprint_connection works", {
-  skip("don't test bad connection specs")
+  # skip("don't test bad connection specs")
+  skip_if_offline()
   expect_warning(expect_is(
-    neuprint_login(server = "neuprint.janelia.org",
+    conn <- neuprint_login(server = "neuprint.janelia.org",
                    dataset = 'hemibrain:v1.0.1',
                    Cache = F, Force = T),
     "neuprint_connection"
   ),
   regexp = "https://neuprint.janelia.org")
+
+  expect_s3_class(conn2 <- neuprint_login(conn, dataset="hemibrain:v1.1", Cache = F),
+                  "neuprint_connection")
 })
 
 

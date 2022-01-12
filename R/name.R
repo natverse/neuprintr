@@ -312,9 +312,10 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
     search <- regexres[,3]
   }
 
-  if(field=="name"){
+  if(!isTRUE(field=="where")){
     conn = neuprint_login(conn)
-    field = neuprint_name_field(conn)
+    if(field=="name")
+      field = neuprint_name_field(conn, dataset = dataset)
   }
   # we want fixed searches to be partial by default
   if(isTRUE(fixed) && is.null(exact))
@@ -327,7 +328,7 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
     # this is a raw CYPHER query
     where=search
   } else {
-    fieldtype=neuprint_typeof(field, type = 'neo4j')
+    fieldtype=neuprint_typeof(field, type = 'neo4j', conn=conn, dataset = dataset)
     if(fieldtype=="STRING") {
       search=glue('\\"{search}\\"')
       operator=ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~")
