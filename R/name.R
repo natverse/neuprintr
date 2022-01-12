@@ -499,6 +499,9 @@ neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
   q=glue(gsub("\\s+", " ", q))
   r=try(neuprintr::neuprint_fetch_custom(q, include_headers = FALSE, cache = cache, conn=NULL, dataset=NULL, ...))
   if(inherits(r, 'try-error')) NA_character_
-  else if(type=="r") mode(unlist(r$data, use.names = F))
-  else unlist(r$data, use.names = F)
+  else {
+    urd=unlist(r$data, use.names = F)
+    if(type=="r") ifelse(is.null(urd), NA_character_, mode(urd))
+    else urd
+  }
 }
