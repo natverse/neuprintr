@@ -9,7 +9,6 @@
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
-  all_segments.json = ifelse(all_segments,"Segment","Neuron")
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn, unique = FALSE,mustWork = FALSE)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
@@ -19,9 +18,12 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
     return(res)
   }
 
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name, n.bodyId AS bodyid",
-                   id2json(bodyids),
-                   all_segments.json)
+  cypher = glue(
+    "WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId",
+    " MATCH (n:`{node}`) WHERE n.bodyId=bodyId",
+    " RETURN n.instance AS name, n.bodyId AS bodyid",
+    node=ifelse(all_segments,"Segment","Neuron")
+  )
 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   df=neuprint_list2df(nc, return_empty_df = TRUE)
@@ -137,8 +139,6 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
     return(d)
   }
 
-  all_segments = ifelse(all_segments,"Segment","Neuron")
-
   if(is.null(possibleFields))
     possibleFields <- c("bodyId","name","instance","type","status",
                         "statusLabel","pre","post","upstream","downstream",
@@ -148,15 +148,11 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
                                     dataset=dataset,conn=conn)
   rfields=dfFields(fieldNames)
   returnCypher <- paste0("n.",fieldNames," AS ",rfields,collapse=" , ")
-  cypher = sprintf(
-    paste(
-      "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
-      "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN %s"
-    ),
-    id2json(bodyids),
-    all_segments,
-    paste(returnCypher, ", exists(n.somaLocation) AS soma")
+  cypher = glue(
+    "WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId ",
+    " MATCH (n:`{node}`) WHERE n.bodyId=bodyId",
+    " RETURN {returnCypher}, exists(n.somaLocation) AS soma",
+    node=ifelse(all_segments,"Segment","Neuron")
   )
   nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)

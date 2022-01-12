@@ -110,16 +110,13 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
   checkmate::assertIntegerish(threshold, lower = 1, len = 1, any.missing = F)
-  cypher = sprintf(
-    paste(
-      "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
-      "WHERE n.bodyId IN input AND m.bodyId IN output",
-      ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
-      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight"
-    ),
-    id2json(inputids),
-    id2json(outputids),
-    all_segments.json
+  cypher = glue(
+    "WITH {id2json(inputids)} AS input, {id2json(outputids)} AS output",
+    "MATCH (n:`{all_segments.json}`)-[c:ConnectsTo]->(m)",
+    "WHERE n.bodyId IN input AND m.bodyId IN output",
+    ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
+    "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight",
+    .sep=" "
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset,
                              cache=cache, ...)
@@ -323,17 +320,13 @@ neuprint_connection_table <- function(bodyids,
     return(d)
   }
 
-
-  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
-
   if(!is.null(roi)){
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
 
-  WITH=sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",id2json(bodyids))
-
-  MATCH=sprintf("MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
-                all_segments.json, all_segments.json)
+  WITH=glue("WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId")
+  MATCH=glue("MATCH (a:`{node}`)-[c:ConnectsTo]->(b:`{node}`)",
+             node=ifelse(all_segments,"Segment","Neuron"))
 
   WHERE=sprintf("WHERE %s.bodyId=bodyId %s %s",
                 ifelse(prepost=="POST","a","b"),
@@ -342,8 +335,8 @@ neuprint_connection_table <- function(bodyids,
                        "UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""))
 
   extrafields <- if(isTRUE(details)) {
-    ab=ifelse(prepost=="PRE","a","b")
-    sprintf(", %s.type AS type, %s.instance AS name", ab, ab)
+    glue(", {ab}.type AS type, {ab}.instance AS name",
+         ab=ifelse(prepost=="PRE","a","b"))
   } else ""
   RETURN=sprintf("RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight %s %s",
                  ifelse(prepost=="POST","bodyid","partner"),
