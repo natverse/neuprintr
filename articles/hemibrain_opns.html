@@ -101,13 +101,13 @@
 <blockquote>
 <p>“FROM many directions, workers are tunnelling hopefully into the mountain, some with steam shovels and others with dental drills. Some travel blindly in a circle and come out close to their point of entrance; some connect, usually in a mismatched fashion, with the burrows of others. Some have chosen to disregard the random activities of their fellows and have worked out in a small region an elegant system of tunnels of their own. Both the attraction and confusion of this multitudinous excavation lie in the fact that none of these workers knows precisely what they are looking for, or what they will find.” (<a href="https://www.springer.com/gp/book/9783642692734" class="external-link">Kenneth Roeder</a>)</p>
 </blockquote>
-<div class="section level1">
-<h1 id="inspecting-the-hemibrain">Inspecting the hemibrain<a class="anchor" aria-label="anchor" href="#inspecting-the-hemibrain"></a>
-</h1>
-<p>The largest draft connectome to date was released on the 22nd of January, 2020. The <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">FlyEM Janelia HemiBrain project</a> has released 21,662 neurons, many more fragments, and almost 10 million synapses. About 35% of its automatically predicted synapses have been matched up to a semi-automatically traced ‘body’ deemed large enough to constitute an identifiable neuron. This data can be accessed using our R package <a href="https://github.com/natverse/neuprintr/" class="external-link">neuprintr</a> to query a publically accessible <a href="https://neuprint.janelia.org/" class="external-link">neuPrint explorer instance</a>.</p>
 <div class="section level2">
-<h2 id="lock-and-load">Lock and load<a class="anchor" aria-label="anchor" href="#lock-and-load"></a>
+<h2 id="inspecting-the-hemibrain">Inspecting the hemibrain<a class="anchor" aria-label="anchor" href="#inspecting-the-hemibrain"></a>
 </h2>
+<p>The largest draft connectome to date was released on the 22nd of January, 2020. The <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">FlyEM Janelia HemiBrain project</a> has released 21,662 neurons, many more fragments, and almost 10 million synapses. About 35% of its automatically predicted synapses have been matched up to a semi-automatically traced ‘body’ deemed large enough to constitute an identifiable neuron. This data can be accessed using our R package <a href="https://github.com/natverse/neuprintr/" class="external-link">neuprintr</a> to query a publically accessible <a href="https://neuprint.janelia.org/" class="external-link">neuPrint explorer instance</a>.</p>
+<div class="section level3">
+<h3 id="lock-and-load">Lock and load<a class="anchor" aria-label="anchor" href="#lock-and-load"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install</span>
 <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">'devtools'</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
@@ -152,9 +152,9 @@
 <p>Leave a blank line at the end of the file.</p>
 <p>Then restart your R session.</p>
 </div>
-<div class="section level2">
-<h2 id="find-neurons">Find neurons<a class="anchor" aria-label="anchor" href="#find-neurons"></a>
-</h2>
+<div class="section level3">
+<h3 id="find-neurons">Find neurons<a class="anchor" aria-label="anchor" href="#find-neurons"></a>
+</h3>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_an_opn.png" alt=""><p class="caption">hemibrain_an_opn</p>
 </div>
@@ -257,9 +257,9 @@
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns.png" alt=""><p class="caption">hemibrain_opns</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="get-neuropil-volumes">Get neuropil volumes<a class="anchor" aria-label="anchor" href="#get-neuropil-volumes"></a>
-</h2>
+<div class="section level3">
+<h3 id="get-neuropil-volumes">Get neuropil volumes<a class="anchor" aria-label="anchor" href="#get-neuropil-volumes"></a>
+</h3>
 <p>So it is nice that we now have some neurons. But it would be good to see them with their neuropil context.</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_olfactory_neuropils.png" alt=""><p class="caption">hemibrain_olfactory_neuropils</p>
@@ -309,9 +309,9 @@
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_opns_neuropils.png" alt=""><p class="caption">hemibrain_opns_neuropils</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="get-connectivity">Get connectivity<a class="anchor" aria-label="anchor" href="#get-connectivity"></a>
-</h2>
+<div class="section level3">
+<h3 id="get-connectivity">Get connectivity<a class="anchor" aria-label="anchor" href="#get-connectivity"></a>
+</h3>
 <p>And now the really exciting bit! How do these neurons connect to each other?</p>
 <p>First we will look at connectivity between OPN types.</p>
 <div class="figure">
@@ -485,9 +485,9 @@
   <span class="fu">guides</span><span class="op">(</span>color <span class="op">=</span> <span class="cn">FALSE</span>, shape <span class="op">=</span> <span class="cn">FALSE</span>, fill <span class="op">=</span> <span class="cn">FALSE</span>, size <span class="op">=</span> <span class="cn">FALSE</span>, linetype <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ylab</span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span> <span class="fu">xlab</span><span class="op">(</span><span class="st">""</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="article">Article<a class="anchor" aria-label="anchor" href="#article"></a>
-</h2>
+<div class="section level3">
+<h3 id="article">Article<a class="anchor" aria-label="anchor" href="#article"></a>
+</h3>
 <p><strong>A Connectome of the Adult Drosophila Central Brain</strong></p>
 <p>Shan Xu, C; Januszewski, Michal; Lu, Zhiyuan; Takemura, Shin-Ya; Hayworth, Kenneth; Huang, Gary; Shinomiya, Kazunori; Maitin-Shepard, Jeremy; Ackerman, David; Berg, Stuart; Blakely, Tim; Bogovic, John; Clements, Jody; Dolafi, Tom; Hubbard, Philip; Kainmueller, Dagmar; Katz, William; Kawase, Takashi; Khairy, Khaled; Leavitt, Laramie; Li, Peter H; Lindsey, Larry; Neubarth, Nicole; Olbris, Donald J; Otsuna, Hideo; Troutman, Eric T; Umayam, Lowell; Zhao, Ting; Ito, Masayoshi; Goldammer, Jens; Wolff, Tanya; Svirskas, Robert; Schlegel, Philipp; Neace, Erika R; Knecht, Christopher J; Alvarado, Chelsea X; Bailey, Dennis; Ballinger, Samantha; Borycz, Jolanta A; Canino, Brandon; Cheatham, Natasha; Cook, Michael; Dreyer, Marisa; Duclos, Octave; Eubanks, Bryon; Fairbanks, Kelli; Finley, Samantha; Forknall, Nora; Francis, Audrey; Hopkins, Gary Patrick; Joyce, Emily M; Kim, Sungjin; Kirk, Nicole A; Kovalyak, Julie; Lauchie, Shirley A; Lohff, Alanna; Maldonado, Charli; Manley, Emily A; McLin, Sari; Mooney, Caroline; Ndama, Miatta; Ogundeyi, Omotara; Okeoma, Nneoma; Ordish, Christopher; Padilla, Nicholas; Patrick, Christopher; Paterson, Tyler; Phillips, Elliott E; Phillips, Emily M; Rampally, Neha; Ribeiro, Caitlin; Robertson, Madelaine K; Rymer, Jon Thomson; Ryan, Sean M; Sammons, Megan; Scott, Anne K; Scott, Ashley L; Shinomiya, Aya; Smith, Claire; Smith, Kelsey; Smith, Natalie L; Sobeski, Margaret A; Suleiman, Alia; Swift, Jackie; Takemura, Satoko; Talebi, Iris; Tarnogorska, Dorota; Tenshaw, Emily; Tokhi, Temour; Walsh, John J; Yang, Tansy; Horne, Jane Anne; Li, Feng; Parekh, Ruchi; Rivlin, Patricia K; Jayaraman, Vivek; Ito, Kei; Saalfeld, Stephan; George, Reed; Meinertzhagen, Ian; Rubin, Gerald M; Hess, Harald F; Scheffer, Louis K; Jain, Viren; Plaza, Stephen M</p>
 <p>bioRxiv, Jan 21, 2020 <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1" class="external-link">10.1101/2020.01.21.911859</a></p>
@@ -512,7 +512,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
