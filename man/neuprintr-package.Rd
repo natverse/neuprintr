@@ -5,11 +5,9 @@
 \alias{neuprintr-package}
 \alias{_PACKAGE}
 \alias{neuprintr}
-\title{neuprintr: R client utilities for interacting with the neuPrint connectome analysis service}
+\title{neuprintr: R Client Utilities for Interacting with the neuPrint Connectome Analysis Service}
 \description{
-Access to the neuprint connectome analysis service, including 
-    functions to fetch skeletons, synapses and ROIs, query connectivity data
-    and develop new low level queries.
+Access to the neuprint connectome analysis service, including functions to fetch skeletons, synapses and ROIs, query connectivity data and develop new low level queries.
 }
 \section{Login}{
  See \code{\link{neuprint_login}} or the package README for
@@ -26,6 +24,7 @@ Access to the neuprint connectome analysis service, including
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://natverse.org/neuprintr}
   \item \url{https://github.com/natverse/neuprintr}
   \item Report bugs at \url{https://github.com/natverse/neuprintr/issues}
 }

@@ -1,3 +1,24 @@
+# neuprintr (development version)
+
+* Improvements for large matrices in `neuprint_get_adjacency_matrix()`
+  includes chunking and an optional threshold (#147)
+
+# neuprintr 1.2
+
+* Fixed querying by name for non-hemibrain neurons (#139, #140 by @dokato)
+* Fix error with bad login details (#138)
+* Ignore case of environment variable with login details (#137)
+* `neuprint_connection_table()` returns error when no connections found (#135)
+* `neuprint_connection_table()`: pass on details argument when using progress bug (#133)
+* Add neuron name/type to `neuprint_connection_table()` (#132)
+* Use server URL returned at login (#130)
+* Basic implementation and test for connection threshold (#127, #128)
+* Pass through NA bodyids when fetching metadata (#126) 
+* `neuprint_login()` should choose the newest dataset as default (#124, #125)
+* Adding the synonyms field in metadata (#123 @romainFr)
+
+[Full list of fixed issues](https://github.com/natverse/neuprintr/issues?q=closed%3A2020-05-26..2021-05-18+)
+
 # neuprintr 1.1
 
 * Can now specify default dataset for a connection (#115, #116)

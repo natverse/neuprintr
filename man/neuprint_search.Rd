@@ -87,9 +87,10 @@ For \code{neuprint_ids}, a character vector of bodyids (of length 0
   ids. Queries are by default partial and fixed (i.e. non-regex) against
   type. Returns a character vector of bodyids.
 }
-\section{Query syntax}{
- It is probably best just to look at the examples, but
-  the query syntax is as follows where square brackets denote optional parts:
+\section{Standard query syntax}{
+ It is probably best just to look at the
+  examples, but the query syntax is as follows where square brackets denote
+  optional parts:
 
   \code{[!/][<field>:]<query>}
 
@@ -102,6 +103,24 @@ For \code{neuprint_ids}, a character vector of bodyids (of length 0
 
   Finally the query itself is a plain text (fixed) or regular expression
   query.
+}
+
+\section{Extended query syntax}{
+ As a stepping stone to writing full CYPHER
+  queries against Neo4J you can used the special \code{where} keyword to
+  introduce your queries:
+
+  \code{where:<cypher query>}
+
+  e.g.
+
+  \code{"where:exists(n.somaLocation) AND n.post>30000 AND NOT n.cropped"}
+
+  Note that properties of individual nodes (i.e. neurons) must be prefixed
+  with \code{n.} as would be typical in a CYPHER query. This feature is still
+  experimental and details of the interface may still change. If you have
+  feedback please do so at
+  \url{https://github.com/natverse/neuprintr/pull/153}.
 }
 
 \examples{
@@ -118,6 +137,11 @@ neuprint_search("type:MBON[0-9]+", meta=FALSE)
 
 # starts with MBON
 neuprint_search("type:MBON.*", meta=FALSE)
+
+# full access to WHERE cypher queries over nodes (i.e. neurons) in neo4j
+# NB fields must be prefixed with n. to indicate that they are node properties.
+# note also that exists(n.somaLocation) is cypher to ensure soma==TRUE
+neuprint_search("where:exists(n.somaLocation) AND n.post>30000 AND NOT n.cropped")
 }
 
 \dontrun{
@@ -154,6 +178,4 @@ neuprint_ids("/name:.*MBON0[1-4].*")
 \seealso{
 \code{\link{neuprint_get_meta}},
   \code{\link{neuprint_get_neuron_names}}
-
-\code{\link[neuprintr]{neuprint_search}}
 }

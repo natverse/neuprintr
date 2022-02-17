@@ -94,7 +94,11 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
   l=list()
   for(i in seq_along(cols)) {
     colidx=colidxs[i]
-    raw_col = sapply(x, "[[", colidx)
+    firstrec=x[[1]][[colidx]]
+    raw_col=if(is.list(firstrec) && !is.null(firstrec$coordinates)) {
+      # special case coordinates
+      lapply(x, function(r) r[[colidx]][['coordinates']])
+    } else sapply(x, "[[", colidx)
     if(is.list(raw_col)) {
       raw_col[sapply(raw_col, is.null)]=NA
       sublens=sapply(raw_col, length)
@@ -115,7 +119,7 @@ neuprint_name_field <- memoise(function(conn=NULL, dataset = NULL) {
       "before using neuprint_name_field(conn) in your function!",
       call. = FALSE
     )
-  q="MATCH (n :hemibrain_Neuron) WHERE exists(n.instance) RETURN count(n)"
+  q = "MATCH (n :Neuron) WHERE exists(n.instance) RETURN count(n)"
   n=unlist(neuprint_fetch_custom(q, conn = conn, dataset = dataset,
                                  include_headers=F)[['data']])
   return(ifelse(n>0, "instance", "name"))

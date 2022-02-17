@@ -112,13 +112,13 @@ plot3d(neurons, col = "purple", lwd = 2)
 
 ## In this example, in hemibrain:v1.0, an erroneously connected bit
 ## of neuron skeleton is removed.
-n1 = neuprint_read_neurons(5812980863)
+n1 = neuprint_read_neurons(5812980863, heal.threshold = 20e3)
 ## compare with
 n2 = neuprint_read_neurons(5812980863, heal = FALSE)
 }
 \donttest{
 dl1s=neuprint_read_skeletons('DL1 adPN')
-plot(dl1s, WithNode=F)
+plot(dl1s, WithNode=FALSE)
 }
 }
 \seealso{

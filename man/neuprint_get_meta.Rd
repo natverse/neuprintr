@@ -11,6 +11,7 @@ neuprint_get_meta(
   conn = NULL,
   chunk = TRUE,
   progress = FALSE,
+  possibleFields = NULL,
   ...
 )
 }
@@ -31,23 +32,29 @@ neuPrint server. If NULL, the defaults set in your
 used. See \code{\link{neuprint_login}} for details.}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
-chunks or an integer specifying the size of those chunks (which defaults
-to 2000 when \code{chunk=TRUE}).}
+chunks or an integer specifying the size of those chunks (which defaults to
+2000 when \code{chunk=TRUE}).}
 
-\item{progress}{default FALSE. If TRUE, the API is called separately for
-each neuron and you can assess its progress, if an error is thrown by any
-one \code{bodyid}, that \code{bodyid} is ignored}
+\item{progress}{default FALSE. If TRUE, the API is called separately for each
+neuron and you can assess its progress, if an error is thrown by any one
+\code{bodyid}, that \code{bodyid} is ignored.}
+
+\item{possibleFields}{passed to \code{\link{neuprint_get_fields}} when not
+\code{NULL}, otherwise a default set are used.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a \code{data.frame} containing the neuron's \itemize{ \item name
+a \code{data.frame} containing the neuron's \itemize{
+
+  \item name
 
   \item type Cell type of the neuron
 
   \item status (Traced etc)
 
   \item statusLabel similar to \code{status} but often a bit more specific
+
   \item size size in voxels
 
   \item pre number of presynapses
@@ -77,5 +84,8 @@ da2s=neuprint_search(".*DA2.*")
 neuprint_get_meta(da2s$bodyid)
 # or simpler
 neuprint_get_meta('DA2')
+}
+\dontrun{
+neuprint_get_meta('cropped:false')
 }
 }

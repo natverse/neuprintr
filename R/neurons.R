@@ -50,7 +50,7 @@
 #'
 #' ## In this example, in hemibrain:v1.0, an erroneously connected bit
 #' ## of neuron skeleton is removed.
-#' n1 = neuprint_read_neurons(5812980863)
+#' n1 = neuprint_read_neurons(5812980863, heal.threshold = 20e3)
 #' ## compare with
 #' n2 = neuprint_read_neurons(5812980863, heal = FALSE)
 #' }
@@ -75,6 +75,8 @@ neuprint_read_neurons <- function(bodyids,
                                   OmitFailures = TRUE,
                                   ...) {
   bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
+  if(length(bodyids)==0)
+    stop("No bodyids to fetch!")
   neurons = nat::nlapply(bodyids,function(bodyid)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
@@ -92,7 +94,7 @@ neuprint_read_neurons <- function(bodyids,
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(length(neurons)==0){
-    stop("Error reading bodyids")
+    stop("Error reading bodyids. Likely no valid ids or no connection to neuPrint!")
   }else if(!all(bodyids%in%names(neurons))){
     missed = setdiff(bodyids,names(neurons))
     warning("Dropping given bodyids that could not be read from ", neuprint_login(conn=conn)$server," : ", paste(missed, collapse = ", "))
@@ -206,7 +208,7 @@ neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), datase
 #' @examples
 #' \donttest{
 #' dl1s=neuprint_read_skeletons('DL1 adPN')
-#' plot(dl1s, WithNode=F)
+#' plot(dl1s, WithNode=FALSE)
 #' }
 neuprint_read_skeletons <- function(bodyids, dataset=NULL, conn=NULL, heal=TRUE,
                                     heal.threshold=1000, ...) {

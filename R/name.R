@@ -9,7 +9,6 @@
 #' neuprint_get_neuron_names(c(818983130, 1796818119))
 #' }
 neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
-  all_segments.json = ifelse(all_segments,"Segment","Neuron")
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn, unique = FALSE,mustWork = FALSE)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
@@ -19,13 +18,16 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
     return(res)
   }
 
-  cypher = sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId MATCH (n:`%s`) WHERE n.bodyId=bodyId RETURN n.instance AS name, n.bodyId AS bodyid",
-                   id2json(bodyids),
-                   all_segments.json)
+  cypher = glue(
+    "WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId",
+    " MATCH (n:`{node}`) WHERE n.bodyId=bodyId",
+    " RETURN n.instance AS name, n.bodyId AS bodyid",
+    node=ifelse(all_segments,"Segment","Neuron")
+  )
 
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   df=neuprint_list2df(nc, return_empty_df = TRUE)
-  nn=df$name
+  nn=as.character(df$name)
   names(nn) = df$bodyid
   missing=setdiff(bodyids, names(nn))
   if(length(missing)>0) {
@@ -40,14 +42,16 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'   \code{soma} is not, so this may be a good test of if the neuron is present
 #'   in the volume. The \code{cellBodyFiber} should be matched to (hemi)lineage
 #'   information .
-#' @return a \code{data.frame} containing the neuron's \itemize{ \item name
+#' @return a \code{data.frame} containing the neuron's \itemize{
+#'
+#'   \item name
 #'
 #'   \item type Cell type of the neuron
 #'
 #'   \item status (Traced etc)
 #'
 #'   \item statusLabel similar to \code{status} but often a bit more specific
-
+#'
 #'   \item size size in voxels
 #'
 #'   \item pre number of presynapses
@@ -61,14 +65,15 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #'   \item cellBodyFiber names the tract connecting the soma to rest of neuron
 #'
 #'   }
-#'
+#' @param possibleFields passed to \code{\link{neuprint_get_fields}} when not
+#'   \code{NULL}, otherwise a default set are used.
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param chunk A logical specifying whether to split the query into multiple
-#'   chunks or an integer specifying the size of those chunks (which defaults
-#'   to 2000 when \code{chunk=TRUE}).
-#' @param progress default FALSE. If TRUE, the API is called separately for
-#' each neuron and you can assess its progress, if an error is thrown by any
-#' one \code{bodyid}, that \code{bodyid} is ignored
+#'   chunks or an integer specifying the size of those chunks (which defaults to
+#'   2000 when \code{chunk=TRUE}).
+#' @param progress default FALSE. If TRUE, the API is called separately for each
+#'   neuron and you can assess its progress, if an error is thrown by any one
+#'   \code{bodyid}, that \code{bodyid} is ignored.
 #' @export
 #' @examples
 #' \donttest{
@@ -77,7 +82,12 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' # or simpler
 #' neuprint_get_meta('DA2')
 #' }
-neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL,chunk=TRUE,progress=FALSE, ...){
+#' \dontrun{
+#' neuprint_get_meta('cropped:false')
+#' }
+neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
+                              conn = NULL, chunk=TRUE, progress=FALSE,
+                              possibleFields=NULL, ...){
   conn = neuprint_login(conn)
   dataset = check_dataset(dataset=dataset, conn=conn)
 
@@ -86,7 +96,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     ubodyids=unique(bodyids)
     unames=neuprint_get_meta(bodyids=ubodyids, dataset=dataset,
                              conn=conn, all_segments=all_segments,
-                             chunk=chunk, progress=progress, ...)
+                             chunk=chunk, progress=progress, possibleFields=possibleFields, ...)
     res=unames[match(bodyids, ubodyids),]
     return(res)
   }
@@ -113,35 +123,41 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE, conn
     # if we got here and progress is unset then set it
     if(is.null(progress) || is.na(progress)) progress=TRUE
     MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
-    d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_get_meta(
+    ll=MYPLY(bodyids, function(bi) tryCatch(neuprint_get_meta(
       bodyids = bi,
       progress = FALSE,
       chunk=FALSE, # nb don't want to further chunk
+      possibleFields=possibleFields,
       dataset = dataset, conn = conn, ...),
-      error = function(e) {warning(e); NULL})))
+      error = function(e) {warning(e); NULL}))
+    d  = try(dplyr::bind_rows(ll), silent = T)
+    # dplyr has got fussier about type safety e.g. mixing char and int
+    # this is a bit of a hack but easier than fussing about with type conversion
+    if(inherits(d, 'try-error'))
+      d <- do.call(rbind, ll)
     rownames(d) <- NULL
     return(d)
   }
 
-  all_segments = ifelse(all_segments,"Segment","Neuron")
+  if(is.null(possibleFields))
+    possibleFields <- c("bodyId","name","instance","type","status",
+                        "statusLabel","pre","post","upstream","downstream",
+                        "cropped","size","cellBodyFiber","notes")
 
-  fieldNames <- neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel","pre","post","upstream","downstream","cropped",
-                                                       "size","cellBodyFiber","notes"),
-                                    dataset=dataset,conn=conn,...)
-  returnCypher <- paste0("n.",fieldNames," AS ",dfFields(fieldNames),collapse=" , ")
-  cypher = sprintf(
-    paste(
-      "WITH %s AS bodyIds UNWIND bodyIds AS bodyId ",
-      "MATCH (n:`%s`) WHERE n.bodyId=bodyId",
-      "RETURN %s"
-    ),
-    id2json(bodyids),
-    all_segments,
-    paste(returnCypher, ", exists(n.somaLocation) AS soma")
+  fieldNames <- neuprint_get_fields(possibleFields = possibleFields,
+                                    dataset=dataset,conn=conn)
+  rfields=dfFields(fieldNames)
+  returnCypher <- paste0("n.",fieldNames," AS ",rfields,collapse=" , ")
+  cypher = glue(
+    "WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId ",
+    " MATCH (n:`{node}`) WHERE n.bodyId=bodyId",
+    " RETURN {returnCypher}, exists(n.somaLocation) AS soma",
+    node=ifelse(all_segments,"Segment","Neuron")
   )
   nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)
-  meta <- meta[,names(meta) %in% c("bodyid","voxels","soma","name",neuprint_get_fields(conn=conn,dataset = dataset,...))]
+  meta <- neuprint_fix_column_types(meta, conn=conn, dataset=dataset)
+  meta <- meta[,names(meta) %in% c(rfields, "soma")]
   meta
 }
 
@@ -254,6 +270,11 @@ neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, 
 #'
 #' # starts with MBON
 #' neuprint_search("type:MBON.*", meta=FALSE)
+#'
+#' # full access to WHERE cypher queries over nodes (i.e. neurons) in neo4j
+#' # NB fields must be prefixed with n. to indicate that they are node properties.
+#' # note also that exists(n.somaLocation) is cypher to ensure soma==TRUE
+#' neuprint_search("where:exists(n.somaLocation) AND n.post>30000 AND NOT n.cropped")
 #' }
 #'
 #' \dontrun{
@@ -288,21 +309,34 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
     search <- regexres[,3]
   }
 
-  if(field=="name"){
+  if(!isTRUE(field=="where")){
     conn = neuprint_login(conn)
-    field = neuprint_name_field(conn)
+    if(field=="name")
+      field = neuprint_name_field(conn, dataset = dataset)
   }
   # we want fixed searches to be partial by default
   if(isTRUE(fixed) && is.null(exact))
     exact=FALSE
   if(isFALSE(fixed) && isFALSE(exact))
     warning("Ignoring exact=FALSE as regular expression searches are always exact!")
-  all_segments.cypher = ifelse(all_segments,"Segment","Neuron")
-  cypher = sprintf("MATCH (n:`%s`) WHERE n.%s %s \\\"%s\\\" RETURN n.bodyId",
-                   all_segments.cypher,
-                   field,
-                   ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~"),
-                   search)
+  nodetype = ifelse(all_segments,'Segment','Neuron')
+
+  if(isTRUE(tolower(field)=='where')) {
+    # this is a raw CYPHER query
+    where=search
+  } else {
+    fieldtype=neuprint_typeof(field, type = 'neo4j', conn=conn, dataset = dataset)
+    if(fieldtype=="STRING") {
+      search=glue('\\"{search}\\"')
+      operator=ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~")
+    } else operator="="
+    where=glue("n.{field} {operator} {search}")
+  }
+
+  cypher = glue("
+                MATCH (n:`{nodetype}`) \\
+                WHERE {where} \\
+                RETURN n.bodyId")
   nc = neuprint_fetch_custom(cypher=cypher, conn=conn, dataset = dataset, ...)
   foundbodyids=unlist(nc$data)
   if(meta && isTRUE(length(foundbodyids)>0)){
@@ -328,9 +362,9 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' @return For \code{neuprint_ids}, a character vector of bodyids (of length 0
 #'   when there are none and \code{mustWork=FALSE}).
 #' @export
-#' @seealso \code{\link[neuprintr]{neuprint_search}}
-#' @section Query syntax: It is probably best just to look at the examples, but
-#'   the query syntax is as follows where square brackets denote optional parts:
+#' @section Standard query syntax: It is probably best just to look at the
+#'   examples, but the query syntax is as follows where square brackets denote
+#'   optional parts:
 #'
 #'   \code{[!/][<field>:]<query>}
 #'
@@ -344,6 +378,22 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #'   Finally the query itself is a plain text (fixed) or regular expression
 #'   query.
 #'
+#'
+#' @section Extended query syntax: As a stepping stone to writing full CYPHER
+#'   queries against Neo4J you can used the special \code{where} keyword to
+#'   introduce your queries:
+#'
+#'   \code{where:<cypher query>}
+#'
+#'   e.g.
+#'
+#'   \code{"where:exists(n.somaLocation) AND n.post>30000 AND NOT n.cropped"}
+#'
+#'   Note that properties of individual nodes (i.e. neurons) must be prefixed
+#'   with \code{n.} as would be typical in a CYPHER query. This feature is still
+#'   experimental and details of the interface may still change. If you have
+#'   feedback please do so at
+#'   \url{https://github.com/natverse/neuprintr/pull/153}.
 #' @examples
 #' \donttest{
 #' # exact match against whole type
@@ -405,42 +455,68 @@ dfFields <- function(field_name) {
   transTable <- data.frame(
     neuprint = c(
       "bodyId",
-      "pre",
-      "post",
-      "upstream",
-      "downstream",
-      "status",
-      "statusLabel",
-      "cropped",
       "instance",
-      "name",
-      "size",
-      "type",
-      "cellBodyFiber",
-      "somaLocation",
-      "somaRadius",
-      "notes"
+      "size"
     ),
     rName = c(
       "bodyid",
-      "pre",
-      "post",
-      "upstream",
-      "downstream",
-      "status",
-      "statusLabel",
-      "cropped",
       "name",
-      "name",
-      "voxels",
-      "type",
-      "cellBodyFiber",
-      "somaLocation",
-      "somaRadius",
-      "notes"
+      "voxels"
     ),
     stringsAsFactors = FALSE
   )
-  res=transTable$rName[match(field_name, transTable$neuprint)]
-  res
+  newnames=field_name
+  tocheck=field_name %in% transTable$neuprint
+  if(any(tocheck)) {
+    newnames[tocheck]=transTable$rName[match(field_name[tocheck],
+                                             transTable$neuprint)]
+  }
+  newnames
+}
+
+#' @importFrom glue glue
+neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
+                            conn=NULL, dataset=NULL,  ...) {
+  type=match.arg(type)
+  if(length(field)>1) {
+    ff=sapply(field, neuprint_typeof, type=type, cache=cache, conn=conn, dataset=dataset, ...)
+    return(ff)
+  }
+  q <- if(type=='r') {"
+    MATCH (n:Neuron)
+    WHERE exists(n.`{field}`)
+    RETURN n.{field} AS {field}
+    LIMIT 1
+  " } else {"
+    MATCH (n:Neuron)
+    WHERE exists(n.`{field}`)
+    RETURN apoc.meta.type(n.`{field}`)
+    LIMIT 1
+  "}
+  q=glue(gsub("\\s+", " ", q))
+  r=try(neuprintr::neuprint_fetch_custom(q, include_headers = FALSE, cache = cache, conn=conn, dataset=dataset, ...))
+  if(inherits(r, 'try-error')) NA_character_
+  else {
+    urd=unlist(r$data, use.names = F)
+    if(type=="r") ifelse(is.null(urd), NA_character_, mode(urd))
+    else urd
+  }
+}
+
+
+# Fix column types using neuprint_typeof information
+neuprint_fix_column_types <- function(df, conn=NULL, dataset=NULL) {
+  stopifnot(is.data.frame(df))
+  ctypes=sapply(df, mode)
+  for(cn in colnames(df)) {
+    col=df[[cn]]
+    # look for all NA logical columns
+    if(!isTRUE(mode(col)=='logical')) next
+    if(!all(is.na(col))) next
+    newtype <- neuprint_typeof(cn, conn=conn, dataset = dataset, type = 'r')
+    if(is.na(newtype) || newtype=='list') next
+    # message(cn, ":", newtype)
+    mode(df[[cn]])=newtype
+  }
+  df
 }

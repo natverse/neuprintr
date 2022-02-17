@@ -6,10 +6,12 @@
 \usage{
 neuprint_connection_table(
   bodyids,
+  partners = c("inputs", "outputs"),
   prepost = c("PRE", "POST"),
   roi = NULL,
   by.roi = FALSE,
   threshold = 1L,
+  summary = FALSE,
   details = FALSE,
   superLevel = FALSE,
   progress = FALSE,
@@ -24,9 +26,14 @@ neuprint_connection_table(
 \item{bodyids}{the body IDs for neurons/segments (bodies) you wish to query.
 This can be in any form understood by \code{\link{neuprint_ids}}.}
 
+\item{partners}{\code{inputs} looks for upstream inputs (presynaptic) whereas
+\code{outputs} looks for downstream outputs (postsynaptic) to the given
+\code{bodyids}.}
+
 \item{prepost}{\code{PRE}: look for partners presynaptic (i.e upstream
 inputs) or \code{POST}: postsynaptic (downstream outputs) to the given
-\code{bodyids}}
+\code{bodyids}. NB this is redundant to the \code{partners} argument and
+you should only use one.}
 
 \item{roi}{a single ROI. Use \code{neuprint_ROIs} to see what is available.}
 
@@ -36,6 +43,9 @@ region of interest (ROI)}
 \item{threshold}{Only return partners >= to an integer value. Default of 1
 returns all partners. This threshold will be applied to the ROI weight when
 the \code{roi} argument is specified, otherwise to the whole neuron.}
+
+\item{summary}{When \code{TRUE} and more than one query neuron is given,
+summarises connectivity grouped by partner.}
 
 \item{details}{When \code{TRUE} returns adds a name and type column for
 partners.}
@@ -75,8 +85,8 @@ a data frame with one row for each unique combination of query
 
   \item partner neuron identifier
 
-  \item prepost 0 for downstream/output partners; 1 for upstream/input
-  partners
+  \item prepost 0 for upstream/input partners; 1 for downstream/output
+  partners.
 
   \item weight total number of connections between the query and partner
   neuron.
@@ -108,6 +118,13 @@ Get the upstream and downstream connectivity of a body,
 ## and their downstream targets
 c1 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST")
 head(c1)
+
+# query of regex against cell type
+# summarised per partner with additional details column
+c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
+head(c1s)
+# Kenyon cells typically receive fewer multiple inputs than other partners
+table(n=c1s$n, KC=grepl("^KC", c1s$type))
 
 ## The same connections broken down by ROI
 c2 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",

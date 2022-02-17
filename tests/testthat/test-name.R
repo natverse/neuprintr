@@ -25,11 +25,24 @@ test_that("test name searches ", {
 
   expect_is(mt <- neuprint_get_meta(da2s$bodyid[1]), 'data.frame')
   expect_named(mt,
-               c(dfFields(neuprint_get_fields(possibleFields = c("bodyId","name","instance","type","status","statusLabel",
-                                                               "pre","post","upstream","downstream","cropped",
-                                                               "size","cellBodyFiber","notes"))),"soma")
-               )
-
+               c(dfFields(neuprint_get_fields(
+                 possibleFields = c(
+                   "bodyId",
+                   "name",
+                   "instance",
+                   "type",
+                   "status",
+                   "statusLabel",
+                   "pre",
+                   "post",
+                   "upstream",
+                   "downstream",
+                   "cropped",
+                   "size",
+                   "cellBodyFiber",
+                   "notes"
+                 )
+               )), "soma"))
 
   id1=da2s$bodyid[1]
   n1=da2s$name[1]
@@ -47,6 +60,21 @@ test_that("test name searches ", {
   # duplicates and missing values
   expect_equal(neuprint_get_neuron_names(c(1, iddup)),
                structure(c(NA_character_, ndup), .Names=c(1,iddup)))
+})
+
+test_that("test searches on non-string fields", {
+  expect_equal(neuprint_typeof('bodyId', 'r'), 'numeric')
+  expect_equal(neuprint_typeof('cropped', 'r'), 'logical')
+  expect_equal(neuprint_typeof('bodyId', 'neo4j'), 'INTEGER')
+  expect_equal(neuprint_typeof('cropped', 'neo4j'), 'BOOLEAN')
+  expect_equal(neuprint_typeof('type', 'neo4j'), 'STRING')
+
+  expect_equal(neuprint_ids("bodyId:202916528"), "202916528")
+  expect_is(neuprint_ids("cropped:false"), 'character')
+})
+
+test_that("test where searches", {
+  expect_is(neuprint_ids("where:exists(n.somaLocation) AND n.post>10000 AND NOT n.cropped"), "character")
 })
 
 test_that("test bad dataset specification ", {

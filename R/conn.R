@@ -156,6 +156,10 @@
 #' # specify a default dataset (only required when >1 dataset available)
 #' conn2=neuprint_login(server="https://server2.org",
 #'   token=Sys.getenv('NPSERVER2'), dataset="hemibrain")
+#'
+#' # make a connection to the same server but using a different dataset
+#' # this may be more convenient than specifying the dataset argument
+#' conn3=neuprint_login(conn2, dataset="vnc")
 #' }
 #' @export
 #' @rdname neuprint_login
@@ -193,7 +197,9 @@ print.neuprint_connection <- function(x, ...) {
   invisible(x)
 }
 
-remove_trailing_slash <- function(x) sub("/$", "", x)
+remove_trailing_slash <- function(x) {
+  if(isTRUE(nzchar(x))) sub("/$", "", x) else x
+}
 
 # Hidden
 neuprint_last_connection <- function(){
@@ -240,20 +246,34 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
     stop("To connect to : ", conn, ", you must name the server argument i.e.\n",
          sprintf("  neuprint_login(server=\"%s\")", conn))
   }
+  dots=pairlist(...)
+  # local function to update/check the dataset of the returned connection
+  check_dataset_nl <- function(conn) {
+    if(length(dots)==0 || is.null(dots$dataset)) return(conn)
+    conn$dataset=check_dataset(conn = conn, dataset = dots$dataset)
+    conn
+  }
   if (is.null(conn)) {
-    if (!length(pairlist(...))) {
+    if (length(dots)==0) {
       conn = neuprint_last_connection()
     }
     if (is.null(conn))
       conn = neuprint_connection(...)
-  }
+  } else if(!is.null(dots$dataset))
+    conn$dataset=dots$dataset
   if (!Force) {
     if (!is.null(conn$authresponse))
-      return(invisible(conn))
+      return(invisible(check_dataset_nl(conn)))
     cached_conn = neuprint_cached_connection(conn)
     if (!is.null(cached_conn))
-      return(invisible(cached_conn))
+      return(invisible(check_dataset_nl(cached_conn)))
   }
+  if(is.null(conn$server))
+    stop("Sorry you must specify a neuprint server! See ?neuprint_login for details!")
+  if(is.null(conn$token) && isTRUE(grepl("neuprint.janelia.org", conn$server)))
+    stop("You must supply an authorisation token for neuprint.janelia.org",
+         "\nSee http://natverse.org/neuprintr or ?neuprint_login for details!")
+
   if (isTRUE(conn$nologin)) {
     conn$authresponse = httr::GET(url = conn$server)
     httr::stop_for_status(conn$authresponse)
@@ -275,7 +295,7 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
         `Content-Type` = "application/json"
       )
     )
-    conn$authresponse = httr::GET(url = conn$server,con=conn$config)
+    conn$authresponse = httr::GET(url = conn$server, con=conn$config)
     httr::stop_for_status(conn$authresponse)
     canonurl=remove_trailing_slash(conn$authresponse$url)
     if(!isTRUE(conn$server==canonurl)) {
@@ -299,9 +319,22 @@ neuprint_login <- function(conn = NULL, Cache = TRUE, Force = FALSE, ...){
 }
 
 # Hidden
-getenvoroption <- function(vars, prefix="neuprint_"){
+getenvoroption <- function(vars, prefix="neuprint_", ignore.case=TRUE){
   fullvars=paste0(prefix, vars)
-  res=Sys.getenv(fullvars, names = T, unset = NA)
+  res <- if(isTRUE(ignore.case)) {
+    fullvars=tolower(fullvars)
+    envs=Sys.getenv(names=T)
+    envsc=envs
+    names(envsc)=tolower(names(envs))
+    c(envsc[fullvars])
+  } else if(isTRUE(.Platform$OS.type=="windows")) {
+    # getting env vars is not case sensitive on windows
+    ee=Sys.getenv(names=T, unset=NA)
+    ee[fullvars]
+  } else {
+    Sys.getenv(fullvars, names = T, unset = NA)
+  }
+
   if(all(is.na(res))){
     # no env variables are set, let's try options
     res=do.call(options, as.list(fullvars))
@@ -309,7 +342,7 @@ getenvoroption <- function(vars, prefix="neuprint_"){
     # convert environment variables into options style list
     res=as.list(res)
     # replace missing values with NULL
-    res=sapply(res, function(x) if(is.na(x)) NULL else x)
+    res=sapply(res, function(x) if(is.na(x)) NULL else x, simplify = F)
   }
   # give result the original variable names
   names(res)=vars

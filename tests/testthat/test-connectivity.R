@@ -1,34 +1,40 @@
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("neuprint_connection_table works", {
-  expect_is(t1 <- neuprint_connection_table(c(818983130, 1796818119)),
+  ids=c(818983130, 1796818119)
+  expect_is(t1 <- neuprint_connection_table(ids),
             'data.frame')
   # ensure we get the same answer with progress=TRUE
-  expect_equal(neuprint_connection_table(c(818983130, 1796818119),
+  expect_equal(neuprint_connection_table(ids,
                                          progress = TRUE),
                t1)
 
+  # alternative way of specifying which connections to find
+  expect_warning(neuprint_connection_table(ids, prepost = 'PRE', partners='in'))
+  expect_equal(neuprint_connection_table(ids, prepost = 'PRE'),
+               neuprint_connection_table(ids, partners='inputs'))
+
   # test that threshold works ok
   expect_equal(t1.2 <-
-    neuprint_connection_table(c(818983130, 1796818119),threshold = 2),
+    neuprint_connection_table(ids,threshold = 2),
     subset(t1, weight >= 2))
 
   expect_is(t2 <- neuprint_connection_table(
-    c(818983130, 1796818119), prepost = "POST", by.roi = TRUE),
+    ids, prepost = "POST", by.roi = TRUE),
     'data.frame')
   #
-  t2.2=neuprint_connection_table(c(818983130, 1796818119),
+  t2.2=neuprint_connection_table(ids,
                                  prepost = "POST",
                                  by.roi = TRUE, details = T, chunk = 1)
   expect_true("type" %in% names(t2.2))
   expect_equal(t2, t2.2[colnames(t2)])
   expect_equal(t2.2$name, unname(neuprint_get_neuron_names(t2$partner)))
-  expect_equal(neuprint_connection_table(c(818983130, 1796818119),
+  expect_equal(neuprint_connection_table(ids,
                                             prepost = "POST",
                                             by.roi = TRUE, progress=TRUE),
             t2)
 
-  expect_is(t3 <- neuprint_connection_table(c(818983130, 1796818119),
+  expect_is(t3 <- neuprint_connection_table(ids,
                                             prepost = "POST",
                                             roi = "LH(R)"),
             'data.frame')
@@ -36,7 +42,7 @@ test_that("neuprint_connection_table works", {
   expect_equivalent(subset(t2, roi=='LH(R)'), t3)
   expect_equivalent(
     neuprint_connection_table(
-      c(818983130, 1796818119),
+      ids,
       prepost = "POST",
       roi = "LH(R)",
       threshold = 3
@@ -51,6 +57,15 @@ test_that("neuprint_connection_table works", {
 test_that("other connectivity functions work", {
   da2s=neuprint_search(".*DA2.*")
   expect_is(t1 <- neuprint_get_adjacency_matrix(da2s$bodyid, cache=T), 'matrix')
+  # test with threshold
+  t2b=t1
+  t2b[t2b<5]=0
+  expect_equal(
+    neuprint_get_adjacency_matrix(da2s$bodyid, cache=T, threshold = 5),
+    t2b)
+  expect_error(
+    neuprint_get_adjacency_matrix(da2s$bodyid, cache=T, threshold = 1.5))
+
   expect_equal(
     neuprint_get_adjacency_matrix(
       inputids = da2s$bodyid,
@@ -66,8 +81,25 @@ test_that("other connectivity functions work", {
   )
   # trickier test
   expect_is(
-    neuprint_get_adjacency_matrix(inputids = 'DA2', outputids = 'name:KCab-p'),
+    da2kc <- neuprint_get_adjacency_matrix(inputids = 'DA2', outputids = 'name:KCab-p'),
     'matrix')
+
+  expect_is(
+    da2kc2 <- neuprint_get_adjacency_matrix(inputids = 'DA2',
+                                            outputids = 'name:KCab-p',
+                                            chunksize = 10
+                                            ),
+    'matrix')
+  expect_equal(da2kc, da2kc2)
+
+  m1=neuprint_get_adjacency_matrix(inputids = 'DA2',
+                                  outputids = "name:KCa'b'",
+                                  chunksize = Inf, sparse = T
+  )
+  expect_equal(neuprint_get_adjacency_matrix(inputids = 'DA2',
+                                             outputids = "name:KCa'b'",
+                                             chunksize = 100, sparse = T
+  ), m1)
 
   # check errors when inappropriate arguments are provided
   expect_error(neuprint_get_adjacency_matrix(bodyids = da2s$bodyid, outputids = da2s$bodyid))
@@ -96,6 +128,7 @@ test_that("other connectivity functions work", {
   expect_equal(c1, c11.sel)
 })
 
+
 test_that("path functions work", {
   expect_is(p1 <- neuprint_get_shortest_paths(c(1128092885, 481121605), 5813041365,
                                         weightT=20), 'data.frame')
@@ -121,3 +154,4 @@ test_that("path functions work", {
                                   weightT=20,chunk=1,by.roi=TRUE),
                p2)
 })
+

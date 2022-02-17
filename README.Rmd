@@ -9,14 +9,14 @@ output:
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
+  comment = "",
   fig.path = "README-"
 )
 ```
 <!-- badges: start -->
 [![natverse](https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6)](https://natverse.github.io)
 [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://natverse.github.io/neuprintr/reference/)
-[![Travis-CI Build Status](https://api.travis-ci.org/natverse/neuprintr.svg?branch=master)](https://travis-ci.org/natverse/neuprintr)
+[![R-CMD-check](https://github.com/natverse/neuprintr/workflows/R-CMD-check/badge.svg)](https://github.com/natverse/neuprintr/actions)
 <img src="man/figures/logo.svg" align="right" height="139" /> 
 [![Codecov test coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/neuprintr?branch=master)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
@@ -132,10 +132,16 @@ Some cyphers and other API endpoints have been explored by this package. Have a 
 neuPrint comprises a set of tools for loading and analyzing connectome data into a Neo4j database. Analyze and explore connectome data stored in Neo4j using the neuPrint ecosystem: [neuPrintHTTP](https://github.com/connectome-neuprint/neuPrintHTTP), [neuPrintExplorer](https://github.com/connectome-neuprint/neuPrintExplorer), [Python API](https://github.com/connectome-neuprint/neuprint-python).
 
 This package was created by [Alexander Shakeel Bates](https://scholar.google.com/citations?user=BOVTiXIAAAAJ&hl=en) and [Gregory Jefferis](https://en.wikipedia.org/wiki/Gregory_Jefferis) with Romain [Franconville](https://scholar.google.com/citations?user=I7yBLlsAAAAJ&hl=en) 
-now providing key contributions. You can cite this package as:
+now providing key contributions. You can cite a specific version of this package as:
 
-```{r citation, eval = FALSE}
+```{r citation, eval = TRUE}
 citation(package = "neuprintr")
 ```
 
-**Bates AS, Franconville R, Jefferis GSXE** (2019). *neuprintr: R client utilities for interacting with the neuPrint connectome analysis service.* **R package** version 0.4.0. https://github.com/natverse/neuprintr
+however we would appreciate if you would cite the *natverse* journal article in which *neuprintr* was first introduced.
+You can get full citation details for that as follows:
+
+```{r citation2, eval = TRUE}
+citation(package = "natverse")
+```
+

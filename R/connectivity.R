@@ -4,11 +4,19 @@
 #'   set of specified bodies
 #' @param inputids,outputids identifiers for input and output bodies (use as an
 #'   alternative to \code{bodyids})
+#' @param threshold Return only connections greater than or equal to the
+#'   indicated strength (default 1 returns all connections).
 #' @param sparse Whether to return a sparse adjacency matrix (of class
-#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). Default \code{FALSE}.
+#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). This may be a
+#'   particularly good idea for large matrices of >5000 neurons, especially if a
+#'   threshold is used to eliminate very numerous weak connections. Default
+#'   \code{FALSE}.
+#' @param chunksize Split large queries into chunks of this many ids to prevent
+#'   server timeouts. The default of 1000 seems to be a reasonable compromise.
+#'   Set to \code{Inf} to insist that the query is always sent in one pass only.
 #' @param cache the query to neuPrint server, so that it does not need to be
 #'   repeated. Of course you can save the results, but this may be helpful e.g.
-#'   inside a wrapper function that postprocesses the results like
+#'   inside a wrapper function that post-processes the results like
 #'   \code{hemibrainr::grouped_adjacency_matrix}.
 #' @inheritParams neuprint_read_neurons
 #' @return a n x n matrix, where the rows are input neurons and the columns are
@@ -48,7 +56,10 @@
 #' }
 #' @importFrom Matrix sparseMatrix
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
-                                          outputids=NULL, dataset = NULL,
+                                          outputids=NULL,
+                                          threshold=1L,
+                                          dataset = NULL,
+                                          chunksize=1000L,
                                           all_segments = FALSE, conn = NULL,
                                           sparse=FALSE, cache=FALSE, ...){
   conn=neuprint_login(conn)
@@ -63,24 +74,56 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     inputids <- neuprint_ids(bodyids, conn=conn, dataset = dataset, cache=cache)
     outputids <- inputids
   }
+  outputids=id2bit64(outputids)
+  inputids=id2bit64(inputids)
+
+  if(is.finite(chunksize) &&
+     (length(outputids)>chunksize || length(inputids)>chunksize)) {
+    cl=make_chunk_combs(inputids, outputids, chunksize=chunksize)
+    res=pbapply::pbmapply(neuprint_get_adjacency_matrix,
+                      inputids=cl[[1]],
+                      outputids=cl[[2]],
+                      SIMPLIFY=FALSE,
+                      MoreArgs = list(threshold=threshold,
+                                      dataset=dataset,
+                                      chunksize=Inf,
+                                      all_segments = all_segments,
+                                      conn = conn,
+                                      sparse=TRUE,
+                                      cache=cache))
+    # stitch the chunks back into a coherent sparse matrix
+    if(length(res)==1)
+      mat=res[[1]]
+    else {
+      gdf=attr(cl, 'grid')
+      # an empty list that will hold the rows
+      rl=list()
+      for(r in 1:max(gdf[[1]])) {
+        w=which(gdf[[1]]==r)
+        rl[[r]]=do.call(cbind, res[w])
+      }
+      mat=do.call(rbind, rl)
+    }
+    return(if(isTRUE(sparse)) mat else as.matrix(mat))
+  }
+
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
-  cypher = sprintf(
-    paste(
-      "WITH %s AS input, %s AS output MATCH (n:`%s`)-[c:ConnectsTo]->(m)",
-      "WHERE n.bodyId IN input AND m.bodyId IN output",
-      "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight"
-    ),
-    id2json(inputids),
-    id2json(outputids),
-    all_segments.json,
-    namefield,
-    namefield
+  checkmate::assertIntegerish(threshold, lower = 1, len = 1, any.missing = F)
+  cypher = glue(
+    "WITH {id2json(inputids)} AS input, {id2json(outputids)} AS output",
+    "MATCH (n:`{all_segments.json}`)-[c:ConnectsTo]->(m)",
+    "WHERE n.bodyId IN input AND m.bodyId IN output",
+    ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
+    "RETURN n.bodyId AS upstream, m.bodyId AS downstream, c.weight AS weight",
+    .sep=" "
   )
   nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset,
                              cache=cache, ...)
   df = neuprint_list2df(nc, return_empty_df = TRUE)
   df$weight=as.integer(df$weight)
+  df$upstream=id2bit64(df$upstream)
+  df$downstream=id2bit64(df$downstream)
   sm = sparseMatrix(
     i = match(df$upstream, inputids),
     j = match(df$downstream, outputids),
@@ -91,19 +134,45 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   if(isTRUE(sparse)) sm else as.matrix(sm)
 }
 
+# make a list containing ids divided into chunks
+make_chunklist <- function(ids, chunksize, int64=TRUE) {
+  cids=id2char(ids)
+  nids=length(ids)
+  nchunks=ceiling(nids/chunksize)
+  chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nids)]
+  res=split(cids, chunks)
+  if(int64) lapply(res, bit64::as.integer64) else res
+}
+
+make_chunk_combs <- function(a, b, ...) {
+  ac=make_chunklist(a, ...)
+  bc=make_chunklist(b, ...)
+  gdf=expand.grid(a=seq_along(ac), b=seq_along(bc))
+  l=list(a=ac[gdf[[1]]], b=bc[gdf[[2]]])
+  attr(l, 'grid')=gdf
+  l
+}
+
+
 #' @title Get the upstream and downstream connectivity of a neuron
 #'
 #' @description Get the upstream and downstream connectivity of a body,
 #'   restricted to within an ROI if specified
 #' @inheritParams neuprint_read_neurons
 #' @inheritParams neuprint_find_neurons
+#' @param partners \code{inputs} looks for upstream inputs (presynaptic) whereas
+#'   \code{outputs} looks for downstream outputs (postsynaptic) to the given
+#'   \code{bodyids}.
 #' @param prepost \code{PRE}: look for partners presynaptic (i.e upstream
 #'   inputs) or \code{POST}: postsynaptic (downstream outputs) to the given
-#'   \code{bodyids}
+#'   \code{bodyids}. NB this is redundant to the \code{partners} argument and
+#'   you should only use one.
 #' @param by.roi logical, whether or not to break neurons' connectivity down by
 #'   region of interest (ROI)
 #' @param details When \code{TRUE} returns adds a name and type column for
 #'   partners.
+#' @param summary When \code{TRUE} and more than one query neuron is given,
+#'   summarises connectivity grouped by partner.
 #' @param threshold Only return partners >= to an integer value. Default of 1
 #'   returns all partners. This threshold will be applied to the ROI weight when
 #'   the \code{roi} argument is specified, otherwise to the whole neuron.
@@ -124,8 +193,8 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #'
 #'   \item partner neuron identifier
 #'
-#'   \item prepost 0 for downstream/output partners; 1 for upstream/input
-#'   partners
+#'   \item prepost 0 for upstream/input partners; 1 for downstream/output
+#'   partners.
 #'
 #'   \item weight total number of connections between the query and partner
 #'   neuron.
@@ -159,6 +228,13 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #' c1 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST")
 #' head(c1)
 #'
+#' # query of regex against cell type
+#' # summarised per partner with additional details column
+#' c1s = neuprint_connection_table("/DA2.*lPN", partners='out', summary=TRUE, details=TRUE)
+#' head(c1s)
+#' # Kenyon cells typically receive fewer multiple inputs than other partners
+#' table(n=c1s$n, KC=grepl("^KC", c1s$type))
+#'
 #' ## The same connections broken down by ROI
 #' c2 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
 #'                                by.roi = TRUE)
@@ -177,10 +253,12 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
 #' }
 #' @importFrom checkmate assert_integer
 neuprint_connection_table <- function(bodyids,
+                                      partners = c("inputs", "outputs"),
                                       prepost = c("PRE","POST"),
                                       roi = NULL,
                                       by.roi = FALSE,
                                       threshold=1L,
+                                      summary=FALSE,
                                       details=FALSE,
                                       superLevel = FALSE,
                                       progress = FALSE,
@@ -189,8 +267,16 @@ neuprint_connection_table <- function(bodyids,
                                       all_segments = FALSE,
                                       conn = NULL,
                                       ...){
-  prepost <- match.arg(prepost)
+  if(!missing(partners)) {
+    if(!missing(prepost))
+      warning("Please specify one of prepost and partners. I will use partners.")
+    partners <- match.arg(partners)
+    prepost <- ifelse(partners=='inputs', "PRE","POST")
+  } else {
+    prepost <- match.arg(prepost)
+  }
   conn<-neuprint_login(conn)
+  dataset <- check_dataset(dataset)
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
 
   threshold=assert_integer(as.integer(round(threshold)), lower = 1, len = 1)
@@ -213,7 +299,7 @@ neuprint_connection_table <- function(bodyids,
     nchunks=ceiling(nP/chunksize)
     chunks=rep(seq_len(nchunks), rep(chunksize, nchunks))[seq_len(nP)]
     bodyids <- split(bodyids, chunks)
-    # if we got here and progess is unset then set it
+    # if we got here and progress is unset then set it
     if(is.null(progress) || is.na(progress)) progress=TRUE
     MYPLY <- if(isTRUE(progress)) pbapply::pblapply else lapply
     d  = dplyr::bind_rows(MYPLY(bodyids, function(bi) tryCatch(neuprint_connection_table(
@@ -223,25 +309,24 @@ neuprint_connection_table <- function(bodyids,
       by.roi = by.roi,
       threshold = threshold,
       details=details,
+      summary = FALSE,
       progress = FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
     d <-  d[order(d$weight,decreasing=TRUE),]
     rownames(d) <- NULL
+    if(summary)
+      d <- summarise_partnerdf(d)
     return(d)
   }
-
-
-  all_segments.json <- ifelse(all_segments,"Segment","Neuron")
 
   if(!is.null(roi)){
     roicheck <- neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, superLevel = superLevel , ...)
   }
 
-  WITH=sprintf("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",id2json(bodyids))
-
-  MATCH=sprintf("MATCH (a:`%s`)-[c:ConnectsTo]->(b:`%s`)",
-                all_segments.json, all_segments.json)
+  WITH=glue("WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId")
+  MATCH=glue("MATCH (a:`{node}`)-[c:ConnectsTo]->(b:`{node}`)",
+             node=ifelse(all_segments,"Segment","Neuron"))
 
   WHERE=sprintf("WHERE %s.bodyId=bodyId %s %s",
                 ifelse(prepost=="POST","a","b"),
@@ -250,8 +335,8 @@ neuprint_connection_table <- function(bodyids,
                        "UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""))
 
   extrafields <- if(isTRUE(details)) {
-    ab=ifelse(prepost=="PRE","a","b")
-    sprintf(", %s.type AS type, %s.instance AS name", ab, ab)
+    glue(", {ab}.type AS type, {ab}.instance AS name",
+         ab=ifelse(prepost=="PRE","a","b"))
   } else ""
   RETURN=sprintf("RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight %s %s",
                  ifelse(prepost=="POST","bodyid","partner"),
@@ -292,8 +377,30 @@ neuprint_connection_table <- function(bodyids,
 
   if(!is.null(roi) && threshold>1)
     d=d[d$ROIweight>=threshold,]
+  d=neuprint_fix_column_types(d, conn=conn, dataset=dataset)
+  if(summary) summarise_partnerdf(d) else d
+}
 
-  d
+#' @importFrom dplyr .data add_count group_by mutate rename ungroup filter select contains
+summarise_partnerdf <- function(df, withbodyids=F) {
+  df1 <- if("ROIweight" %in% colnames(df)) {
+    stop("Sorry, `summary=TRUE` is not yet implemented when `roi` specified")
+  }
+  # uids=sort(unique(df$bodyid))
+  dfr <- add_count(df, .data$partner, name = "n") %>%
+  add_count(.data$partner, wt = .data$weight, name = "sumweight", sort = T) %>%
+  group_by(.data$partner) %>%
+  # mutate(bodyid=paste(match(.data$bodyid, uids), collapse = ',')) %>%
+  mutate(bodyid=paste(.data$bodyid, collapse = ',')) %>%
+  rename(bodyids=.data$bodyid) %>%
+  ungroup() %>%
+  filter(!duplicated(.data$partner)) %>%
+  mutate(weight=.data$sumweight) %>%
+  select(!contains("sumweight"))
+  if(withbodyids) dfr else {
+    dfr %>%
+      select(!"bodyids")
+  }
 }
 
 #' @title Get the common synaptic partners for a set of neurons
