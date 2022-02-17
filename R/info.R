@@ -179,5 +179,16 @@ neuprint_ROI_hierarchy <- function(root=NULL, rval=c("edgelist","graph"),
   if(rval=='graph') g else el
 }
 
-
+# get NT information at the per neuron level
+neuprint_nt <- function(bodyids, dataset = NULL, all_segments = TRUE, conn = NULL, ...) {
+  bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset, unique = TRUE)
+  all_segments.json = ifelse(all_segments,"Segment","Neuron")
+  cypher = sprintf(paste("WITH %s AS bodyIds UNWIND bodyIds AS bodyId",
+                    "MATCH (n :`%s`)",
+                    "RETURN n.bodyId AS bodyid, n.gaba AS gab, n.acetylcholine AS acetylcholine, n.glutamate AS glutamate"),
+              id2json(bodyids),
+              all_segments.json)
+  nc = neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
+  neuprint_list2df(nc)
+}
 

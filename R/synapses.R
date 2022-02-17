@@ -127,7 +127,7 @@ neuprint_get_synapses <- function(bodyids, roi = NULL, remove.autapses=TRUE,
   m = rbind(neuprint_list2df(nc.post),neuprint_list2df(nc.pre))
   m$prepost = ifelse(m$prepost=="post",1,0)
   if(remove.autapses)   # Automatically remove autapses, hopefully we only need to do this temporarily
-    m = subset(m, bodyid!=partner)
+    m = subset(m, m$bodyid!=m$partner)
   m
 }
 
