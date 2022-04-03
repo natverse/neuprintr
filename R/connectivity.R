@@ -309,8 +309,10 @@ neuprint_connection_table <- function(bodyids,
       by.roi = by.roi,
       threshold = threshold,
       details=details,
+      all_segments=all_segments,
       summary = FALSE,
       progress = FALSE,
+      chunk=FALSE,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL})))
     d <-  d[order(d$weight,decreasing=TRUE),]

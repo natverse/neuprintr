@@ -52,6 +52,15 @@ test_that("neuprint_connection_table works", {
 
   expect_is(emptydf <- neuprint_connection_table(5812996970, prepost = "POST", threshold = 5, details=TRUE), "data.frame")
   expect_true(nrow(emptydf)==0)
+
+  # make sure all_segments is passed on
+
+  pn10=c("5813038889", "5813055184", "1536947502", "1734350788", "1765040289",
+    "1734350908", "754538881", "754534424", "733316908", "5813039315"
+  )
+
+  expect_equal(neuprint_connection_table(pn10, all_segments = T, chunk = F),
+               neuprint_connection_table(pn10, all_segments = T, chunk = 2))
 })
 
 test_that("other connectivity functions work", {
