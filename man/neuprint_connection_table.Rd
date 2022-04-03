@@ -112,6 +112,13 @@ a data frame with one row for each unique combination of query
 Get the upstream and downstream connectivity of a body,
   restricted to within an ROI if specified
 }
+\details{
+Note that by default neuprint_connection_table only returns upstream
+  or downstream connections with objects that were large enough to be
+  designated as "Neurons". Smaller objects (Segments) can be included when
+  \code{all_segments=TRUE}. When this is done then the total counts will
+  match what is reported by \code{\link{neuprint_get_meta}}.
+}
 \examples{
 \donttest{
 ## Unitary connection strengths between two chosen neurons,
@@ -141,6 +148,15 @@ nrow(c2)
 c4 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
                                by.roi = TRUE, roi = "LH(R)")
 
+}
+
+\donttest{
+# compare pre/post/upstream/downstream when all_segments=TRUE or FALSE
+neuprint_get_meta('/DP1m.*vPN')
+sum(neuprint_connection_table('/DP1m.*vPN', partners = 'in')$weight)
+sum(neuprint_connection_table('/DP1m.*vPN', partners = 'in', all_segments = TRUE)$weight)
+sum(neuprint_connection_table('/DP1m.*vPN', partners = 'out')$weight)
+sum(neuprint_connection_table('/DP1m.*vPN', partners = 'out', all_segments = TRUE)$weight)
 }
 }
 \seealso{

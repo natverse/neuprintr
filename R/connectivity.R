@@ -216,6 +216,12 @@ make_chunk_combs <- function(a, b, ...) {
 #'   sum the \code{ROIweight} to match the total connection strength (which is
 #'   available as the \code{weight} column).
 #'
+#' @details Note that by default neuprint_connection_table only returns upstream
+#'   or downstream connections with objects that were large enough to be
+#'   designated as "Neurons". Smaller objects (Segments) can be included when
+#'   \code{all_segments=TRUE}. When this is done then the total counts will
+#'   match what is reported by \code{\link{neuprint_get_meta}}.
+#'
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_simple_connectivity}},
 #'   \code{\link{neuprint_common_connectivity}}, \code{\link{neuprint_ROIs}}
@@ -250,6 +256,15 @@ make_chunk_combs <- function(a, b, ...) {
 #' c4 = neuprint_connection_table(c(818983130, 1796818119), prepost = "POST",
 #'                                by.roi = TRUE, roi = "LH(R)")
 #'
+#' }
+#'
+#' \donttest{
+#' # compare pre/post/upstream/downstream when all_segments=TRUE or FALSE
+#' neuprint_get_meta('/DP1m.*vPN')
+#' sum(neuprint_connection_table('/DP1m.*vPN', partners = 'in')$weight)
+#' sum(neuprint_connection_table('/DP1m.*vPN', partners = 'in', all_segments = TRUE)$weight)
+#' sum(neuprint_connection_table('/DP1m.*vPN', partners = 'out')$weight)
+#' sum(neuprint_connection_table('/DP1m.*vPN', partners = 'out', all_segments = TRUE)$weight)
 #' }
 #' @importFrom checkmate assert_integer
 neuprint_connection_table <- function(bodyids,
