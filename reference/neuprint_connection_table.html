@@ -162,6 +162,14 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
   sum the <code>ROIweight</code> to match the total connection strength (which is
   available as the <code>weight</code> column).</p>
     </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>Note that by default neuprint_connection_table only returns upstream
+  or downstream connections with objects that were large enough to be
+  designated as "Neurons". Smaller objects (Segments) can be included when
+  <code>all_segments=TRUE</code>. When this is done then the total counts will
+  match what is reported by <code><a href="neuprint_get_meta.html">neuprint_get_meta</a></code>.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom</a></code>,
@@ -231,6 +239,23 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-in"><span class="va">c4</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span>
 <span class="r-in">                               by.roi <span class="op">=</span> <span class="cn">TRUE</span>, roi <span class="op">=</span> <span class="st">"LH(R)"</span><span class="op">)</span></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># \donttest{</span></span>
+<span class="r-in"><span class="co"># compare pre/post/upstream/downstream when all_segments=TRUE or FALSE</span></span>
+<span class="r-in"><span class="fu"><a href="neuprint_get_meta.html">neuprint_get_meta</a></span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      bodyid pre post status    statusLabel cropped    voxels</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 635048729 180  273 Traced Roughly traced   FALSE 615424679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  name     type cellBodyFiber soma</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 mlPN2_DP1m(AVM04)_R DP1m vPN           A14 TRUE</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 252</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 273</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 335</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1871</span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>
