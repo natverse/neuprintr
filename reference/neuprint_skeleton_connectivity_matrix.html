@@ -29,7 +29,7 @@ this modified skeleton, and not all connectivity associated with a bodyid on neu
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -97,6 +97,12 @@ this modified skeleton, and not all connectivity associated with a bodyid on neu
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
 <span class="r-in"><span class="va">neurons</span> <span class="op">=</span> <span class="fu"><a href="neuprint_read_neurons.html">neuprint_read_neurons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>,<span class="fl">1143677310</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Argument `neimode' is deprecated; use `mode' instead</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Argument `neimode' is deprecated; use `mode' instead</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Argument `neimode' is deprecated; use `mode' instead</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Argument `neimode' is deprecated; use `mode' instead</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Argument `neimode' is deprecated; use `mode' instead</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Argument `neimode' is deprecated; use `mode' instead</span>
 <span class="r-in"><span class="va">M</span> <span class="op">=</span> <span class="fu">neuprint_skeleton_connectivity_matrix</span><span class="op">(</span><span class="va">neurons</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="neuprint_skeleton_connectivity_matrix-1.png" alt="" width="700" height="433"></span>

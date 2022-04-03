@@ -27,7 +27,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -173,7 +173,7 @@ inside a wrapper function that post-processes the results like
 <span class="r-in"><span class="co"># sparse adjacency matrix</span></span>
 <span class="r-in"><span class="va">pnkcs</span><span class="op">=</span><span class="fu">neuprint_get_adjacency_matrix</span><span class="op">(</span>inputids<span class="op">=</span><span class="st">'name:mPN'</span>,</span>
 <span class="r-in">  outputids<span class="op">=</span><span class="st">'/KC.*'</span>, sparse<span class="op">=</span><span class="cn">TRUE</span>, cache<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/" class="external-link">Matrix</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://Matrix.R-forge.R-project.org/" class="external-link">Matrix</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># PN-KC connectivity is itself sparse, so &lt; 2% of entries are non zero</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/nnzero.html" class="external-link">nnzero</a></span><span class="op">(</span><span class="va">pnkcs</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">pnkcs</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># while memory requirements are ~ 5%</span></span>
