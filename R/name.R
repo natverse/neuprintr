@@ -85,6 +85,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' \dontrun{
 #' neuprint_get_meta('cropped:false')
 #' }
+#' @importFrom glue glue_collapse glue
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
                               conn = NULL, chunk=TRUE, progress=FALSE,
                               possibleFields=NULL, ...){
@@ -147,7 +148,9 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
   fieldNames <- neuprint_get_fields(possibleFields = possibleFields,
                                     dataset=dataset,conn=conn)
   rfields=dfFields(fieldNames)
-  returnCypher <- paste0("n.",fieldNames," AS ",rfields,collapse=" , ")
+  returnCypher <- glue("n.`{dfields}` AS `{rfields}`",
+                       dfields=fieldNames)
+  returnCypher=glue_collapse(returnCypher, sep = ',')
   cypher = glue(
     "WITH {id2json(bodyids)} AS bodyIds UNWIND bodyIds AS bodyId ",
     " MATCH (n:`{node}`) WHERE n.bodyId=bodyId",
@@ -485,7 +488,7 @@ neuprint_typeof <- function(field, type=c("r", "neo4j"), cache=TRUE,
   q <- if(type=='r') {"
     MATCH (n:Neuron)
     WHERE exists(n.`{field}`)
-    RETURN n.{field} AS {field}
+    RETURN n.`{field}` AS `{field}`
     LIMIT 1
   " } else {"
     MATCH (n:Neuron)

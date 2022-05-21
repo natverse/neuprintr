@@ -72,9 +72,14 @@ neuprint_error_check <- function(req) {
 #' @param stringsAsFactors Whether to return character vector columns as
 #'   factors. Note that the default of \code{FALSE} differs from
 #'   \code{\link{data.frame}} and friends.
+#' @param check.names Whether to convert column names into R friendly form. This
+#'   is not necessary but would be the default for \code{\link{data.frame}} were
+#'   we not to set it ourselves. See \code{\link{as.data.frame}} for details.
 #' @param ... Additional arguments passed to \code{\link{as.data.frame}}
+#'
 #' @export
 neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
+                             check.names=FALSE,
                              stringsAsFactors=FALSE, ...) {
 
   if(length(x)>=2 && all(c("columns", "data") %in% names(x))) {
@@ -87,7 +92,7 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
 
   if(!length(x)) {
     return(if(return_empty_df){
-      as.data.frame(structure(replicate(length(cols), logical(0)), .Names=cols))
+      as.data.frame(structure(replicate(length(cols), logical(0)), .Names=cols), check.names=check.names)
     } else NULL)
   }
 
@@ -108,7 +113,7 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
     }
     l[[cols[i]]]=raw_col
   }
-  as.data.frame(l, stringsAsFactors=stringsAsFactors, ...)
+  as.data.frame(l, stringsAsFactors=stringsAsFactors, check.names=check.names, ...)
 }
 
 #' @importFrom memoise memoise
