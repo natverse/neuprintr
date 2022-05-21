@@ -8,6 +8,7 @@ neuprint_list2df(
   x,
   cols = NULL,
   return_empty_df = FALSE,
+  check.names = FALSE,
   stringsAsFactors = FALSE,
   ...
 )
@@ -19,6 +20,10 @@ neuprint_list2df(
 all of those named in \code{x}, see details).}
 
 \item{return_empty_df}{Return a zero row data frame when there is no result.}
+
+\item{check.names}{Whether to convert column names into R friendly form. This
+is not necessary but would be the default for \code{\link{data.frame}} were
+we not to set it ourselves. See \code{\link{as.data.frame}} for details.}
 
 \item{stringsAsFactors}{Whether to return character vector columns as
 factors. Note that the default of \code{FALSE} differs from
