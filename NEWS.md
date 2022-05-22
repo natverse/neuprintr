@@ -1,7 +1,21 @@
-# neuprintr (development version)
+# neuprintr 1.3
 
+* Fix problem with numeric bodyids by @jefferis in https://github.com/natverse/neuprintr/pull/142
+* Feature/meta more fields by @jefferis in https://github.com/natverse/neuprintr/pull/144
+* Fix: more metadata fields by @jefferis in https://github.com/natverse/neuprintr/pull/145
 * Improvements for large matrices in `neuprint_get_adjacency_matrix()`
-  includes chunking and an optional threshold (#147)
+  by @jefferis includes chunking and an optional threshold (#147)
+* Fix pre post docs (and add partners arg) by @jefferis in https://github.com/natverse/neuprintr/pull/148
+* fix for dplyr type error in neuprint_get_meta by @jefferis in https://github.com/natverse/neuprintr/pull/149
+* Give neuprint_connection_table a summary option by @jefferis in https://github.com/natverse/neuprintr/pull/150
+* Feature/connection table summary by @jefferis in https://github.com/natverse/neuprintr/pull/151
+* Feature/search numeric by @jefferis in https://github.com/natverse/neuprintr/pull/152
+* implement where searches for ids/meta by @jefferis in https://github.com/natverse/neuprintr/pull/153
+* Allow neuprint_login to update connections by @jefferis in https://github.com/natverse/neuprintr/pull/154
+* Standardise metadata column types by @jefferis in https://github.com/natverse/neuprintr/pull/155
+* Fix fields with brackets by @jefferis in https://github.com/natverse/neuprintr/pull/158
+
+**Full Changelog**: https://github.com/natverse/neuprintr/compare/v1.2...v1.3
 
 # neuprintr 1.2
 
