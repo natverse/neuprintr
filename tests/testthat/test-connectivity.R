@@ -119,6 +119,8 @@ test_that("other connectivity functions work", {
   expect_equal(rownames(t1), rownames(t2))
   expect_true(length(t1)>0)
 
+  expect_error(neuprint_get_adjacency_matrix(bodyids = da2s$bodyid, neurotransmitter = "x")
+
   expect_is(t3 <- neuprint_simple_connectivity(da2s$bodyid[1], prepost='PRE'),
             'data.frame')
   pns11=neuprint_search('.*PN.*', meta=FALSE, all_segments = FALSE)[1:11]
