@@ -66,99 +66,138 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_dump</span><span class="op">(</span>
-  <span class="va">dir</span>,
-  bodyids <span class="op">=</span> <span class="cn">NULL</span>,
-  roi <span class="op">=</span> <span class="cn">NULL</span>,
-  preprocess <span class="op">=</span> <span class="cn">NULL</span>,
-  connectivity <span class="op">=</span> <span class="cn">TRUE</span>,
-  volumes <span class="op">=</span> <span class="cn">TRUE</span>,
-  meta <span class="op">=</span> <span class="cn">TRUE</span>,
-  nat <span class="op">=</span> <span class="cn">TRUE</span>,
-  drvid <span class="op">=</span> <span class="cn">FALSE</span>,
-  soma <span class="op">=</span> <span class="cn">TRUE</span>,
-  heal <span class="op">=</span> <span class="cn">TRUE</span>,
-  connectors <span class="op">=</span> <span class="cn">TRUE</span>,
-  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,
-  resample <span class="op">=</span> <span class="cn">FALSE</span>,
-  scale <span class="op">=</span> <span class="fl">4</span>,
-  voxel.thresh <span class="op">=</span> <span class="fl">1e+07</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  OmitFailures <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_dump</span><span class="op">(</span></span>
+<span>  <span class="va">dir</span>,</span>
+<span>  bodyids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  roi <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  preprocess <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  connectivity <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  volumes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  meta <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  nat <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  drvid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  soma <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  heal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  connectors <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  resample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  voxel.thresh <span class="op">=</span> <span class="fl">1e+07</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  OmitFailures <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dir</dt>
 <dd><p>the directory to which to save the dump</p></dd>
+
+
 <dt>bodyids</dt>
 <dd><p>the body IDs for neurons/segments (bodies) you wish to query.
 This can be in any form understood by <code><a href="neuprint_search.html">neuprint_ids</a></code>.</p></dd>
+
+
 <dt>roi</dt>
 <dd><p>a single ROI. Use <code>neuprint_ROIs</code> to see what is available.</p></dd>
+
+
 <dt>preprocess</dt>
 <dd><p>a function that can be applied to a nat::neuronlist object, to be called on neurons once they are read from
 the neuprint server using <code>neuprint_read_neurons</code></p></dd>
+
+
 <dt>connectivity</dt>
 <dd><p>whether or not to include connectivity information in the dump, i.e. an adjacency matrix between bodyids</p></dd>
+
+
 <dt>volumes</dt>
 <dd><p>whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
 the package drvid</p></dd>
+
+
 <dt>meta</dt>
 <dd><p>whether or not to fetch a meta data for the given bodyids, using
 <code>neuprint_get_meta</code></p></dd>
+
+
 <dt>nat</dt>
 <dd><p>whether or not to read neurons are <code><a href="https://rdrr.io/pkg/nat/man/neuronlist.html" class="external-link">nat::neuronlist</a></code> objects
 (TRUE) or get SWC data frame (FALSE)</p></dd>
+
+
 <dt>drvid</dt>
 <dd><p>whether or not to use <code><a href="https://rdrr.io/pkg/drvid/man/read.neuron.dvid.html" class="external-link">drvid::read.neuron.dvid</a></code> rather than
 a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a
 neuron. This might be faster, and this might also enable access to
 skeletons on an underlying DVID database that have not yet been ported to
 neuprint.</p></dd>
+
+
 <dt>soma</dt>
 <dd><p>whether or not to fetch a possible soma location for the given
 bodyids, using <code>neuprint_locate_soma</code></p></dd>
+
+
 <dt>heal</dt>
 <dd><p>whether or not to heal a fragmented skeleton using a minimum
 spanning tree, via <code><a href="https://rdrr.io/pkg/nat/man/stitch_neurons_mst.html" class="external-link">nat::stitch_neurons_mst</a></code></p></dd>
+
+
 <dt>connectors</dt>
 <dd><p>whether or not to add synapse data to the retrieved
 skeletons in the format used by the <code>rcatmaid</code> package, for easy use
 with <code>rcatmaid</code> or <code>catnat</code> functions. This can be done for
 synapse-less skeletons using <code>neuprint_assign_connectors</code></p></dd>
+
+
 <dt>all_segments</dt>
 <dd><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></dd>
+
+
 <dt>resample</dt>
 <dd><p>if a number, the neuron is resampled using
 <code><a href="https://rdrr.io/pkg/nat/man/resample.html" class="external-link">nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no
 resampling occurs.</p></dd>
+
+
 <dt>scale</dt>
 <dd><p>Resolution of sparse volume starting with 0 where each level
 beyond 0 has 1/2 resolution of previous level. "coarse" will return the
 volume in block coordinates.</p></dd>
+
+
 <dt>voxel.thresh</dt>
 <dd><p>the size threshold, in number of voxels, a neuron/segment must exceed, to be included in the dump, if read from an ROI</p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>OmitFailures</dt>
 <dd><p>Whether to omit neurons for which <code>FUN</code> gives an
 error. The default value (<code>NA</code>) will result in nlapply stopping with
 an error message the moment there is an error. For other values, see
 details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>methods passed to <code>neuprint_login</code></p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -177,7 +216,7 @@ details.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

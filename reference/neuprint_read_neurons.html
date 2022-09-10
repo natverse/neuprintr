@@ -78,33 +78,33 @@ If neuprint_read_skeletons is used, just a simple skeleton is
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_read_neurons</span><span class="op">(</span>
-  <span class="va">bodyids</span>,
-  meta <span class="op">=</span> <span class="cn">TRUE</span>,
-  nat <span class="op">=</span> <span class="cn">TRUE</span>,
-  drvid <span class="op">=</span> <span class="cn">FALSE</span>,
-  soma <span class="op">=</span> <span class="cn">TRUE</span>,
-  heal <span class="op">=</span> <span class="cn">TRUE</span>,
-  heal.threshold <span class="op">=</span> <span class="fl">1000</span>,
-  connectors <span class="op">=</span> <span class="cn">TRUE</span>,
-  all_segments <span class="op">=</span> <span class="cn">TRUE</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  resample <span class="op">=</span> <span class="cn">FALSE</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  OmitFailures <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">neuprint_read_skeletons</span><span class="op">(</span>
-  <span class="va">bodyids</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  heal <span class="op">=</span> <span class="cn">TRUE</span>,
-  heal.threshold <span class="op">=</span> <span class="fl">1000</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">neuprint_read_neurons_simple</span><span class="op">(</span><span class="va">bodyids</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_read_neurons</span><span class="op">(</span></span>
+<span>  <span class="va">bodyids</span>,</span>
+<span>  meta <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  nat <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  drvid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  soma <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  heal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  heal.threshold <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  connectors <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  all_segments <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  resample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  OmitFailures <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">neuprint_read_skeletons</span><span class="op">(</span></span>
+<span>  <span class="va">bodyids</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  heal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  heal.threshold <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">neuprint_read_neurons_simple</span><span class="op">(</span><span class="va">bodyids</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -112,62 +112,92 @@ If neuprint_read_skeletons is used, just a simple skeleton is
     <dl><dt>bodyids</dt>
 <dd><p>the body IDs for neurons/segments (bodies) you wish to query.
 This can be in any form understood by <code><a href="neuprint_search.html">neuprint_ids</a></code>.</p></dd>
+
+
 <dt>meta</dt>
 <dd><p>whether or not to fetch a meta data for the given bodyids, using
 <code>neuprint_get_meta</code></p></dd>
+
+
 <dt>nat</dt>
 <dd><p>whether or not to read neurons are <code><a href="https://rdrr.io/pkg/nat/man/neuronlist.html" class="external-link">nat::neuronlist</a></code> objects
 (TRUE) or get SWC data frame (FALSE)</p></dd>
+
+
 <dt>drvid</dt>
 <dd><p>whether or not to use <code><a href="https://rdrr.io/pkg/drvid/man/read.neuron.dvid.html" class="external-link">drvid::read.neuron.dvid</a></code> rather than
 a cypher post request to <code>neuprint_fetch_custom</code>, in order to read a
 neuron. This might be faster, and this might also enable access to
 skeletons on an underlying DVID database that have not yet been ported to
 neuprint.</p></dd>
+
+
 <dt>soma</dt>
 <dd><p>whether or not to fetch a possible soma location for the given
 bodyids, using <code>neuprint_locate_soma</code></p></dd>
+
+
 <dt>heal</dt>
 <dd><p>whether or not to heal a fragmented skeleton using a minimum
 spanning tree, via <code><a href="https://rdrr.io/pkg/nat/man/stitch_neurons_mst.html" class="external-link">nat::stitch_neurons_mst</a></code></p></dd>
+
+
 <dt>heal.threshold</dt>
 <dd><p>distance in raw units beyond which isolated fragments
 will not be merged onto the main skeleton. The default of <code>1000</code>
 implies 8000 nm for the hemibrain dataset. Use <code>Inf</code> to merge all
 fragments.</p></dd>
+
+
 <dt>connectors</dt>
 <dd><p>whether or not to add synapse data to the retrieved
 skeletons in the format used by the <code>rcatmaid</code> package, for easy use
 with <code>rcatmaid</code> or <code>catnat</code> functions. This can be done for
 synapse-less skeletons using <code>neuprint_assign_connectors</code></p></dd>
+
+
 <dt>all_segments</dt>
 <dd><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>resample</dt>
 <dd><p>if a number, the neuron is resampled using
 <code><a href="https://rdrr.io/pkg/nat/man/resample.html" class="external-link">nat::resample</a></code>, stepsize = resample. If 0 or FALSE (default), no
 resampling occurs.</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>OmitFailures</dt>
 <dd><p>Whether to omit neurons for which <code>FUN</code> gives an
 error. The default value (<code>NA</code>) will result in nlapply stopping with
 an error message the moment there is an error. For other values, see
 details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>methods passed to <code>neuprint_login</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data frame in SWC format, or a
-<code>nat::<a href="https://rdrr.io/pkg/nat/man/neuronlist.html" class="external-link">neuronlist</a></code>/<code>nat::<a href="https://rdrr.io/pkg/nat/man/neuron.html" class="external-link">neuron</a></code> object as used by
+    
+
+<p>a data frame in SWC format, or a</p>
+<p></p>
+<p><code>nat::<a href="https://rdrr.io/pkg/nat/man/neuronlist.html" class="external-link">neuronlist</a></code>/<code>nat::<a href="https://rdrr.io/pkg/nat/man/neuron.html" class="external-link">neuron</a></code> object as used by
   the <code>nat</code> and <code>catmaid</code> packages</p>
     </div>
     <div id="see-also">
@@ -179,9 +209,9 @@ details.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">neurons</span> <span class="op">=</span> <span class="fu">neuprint_read_neurons</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/natverse/nat" class="external-link">nat</a></span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">neurons</span> <span class="op">=</span> <span class="fu">neuprint_read_neurons</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/natverse/nat" class="external-link">nat</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: rgl</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Some nat functions depend on a CMTK installation. See ?cmtk and README.md for details.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -192,19 +222,19 @@ details.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, union</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/nat/man/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">neurons</span>, col <span class="op">=</span> <span class="st">"purple"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## In this example, in hemibrain:v1.0, an erroneously connected bit</span></span>
-<span class="r-in"><span class="co">## of neuron skeleton is removed.</span></span>
-<span class="r-in"><span class="va">n1</span> <span class="op">=</span> <span class="fu">neuprint_read_neurons</span><span class="op">(</span><span class="fl">5812980863</span>, heal.threshold <span class="op">=</span> <span class="fl">20e3</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## compare with</span></span>
-<span class="r-in"><span class="va">n2</span> <span class="op">=</span> <span class="fu">neuprint_read_neurons</span><span class="op">(</span><span class="fl">5812980863</span>, heal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">dl1s</span><span class="op">=</span><span class="fu">neuprint_read_skeletons</span><span class="op">(</span><span class="st">'DL1 adPN'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dl1s</span>, WithNode<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://dmurdoch.github.io/rgl/dev/reference/plot3d.html" class="external-link">plot3d</a></span><span class="op">(</span><span class="va">neurons</span>, col <span class="op">=</span> <span class="st">"purple"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## In this example, in hemibrain:v1.0, an erroneously connected bit</span></span></span>
+<span class="r-in"><span><span class="co">## of neuron skeleton is removed.</span></span></span>
+<span class="r-in"><span><span class="va">n1</span> <span class="op">=</span> <span class="fu">neuprint_read_neurons</span><span class="op">(</span><span class="fl">5812980863</span>, heal.threshold <span class="op">=</span> <span class="fl">20e3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## compare with</span></span></span>
+<span class="r-in"><span><span class="va">n2</span> <span class="op">=</span> <span class="fu">neuprint_read_neurons</span><span class="op">(</span><span class="fl">5812980863</span>, heal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">dl1s</span><span class="op">=</span><span class="fu">neuprint_read_skeletons</span><span class="op">(</span><span class="st">'DL1 adPN'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dl1s</span>, WithNode<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="neuprint_read_neurons-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -219,7 +249,7 @@ details.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

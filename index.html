@@ -106,12 +106,12 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"natverse/neuprintr"</span><span class="op">)</span>
-
-<span class="co"># use </span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://natverse.org/neuprintr">neuprintr</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"natverse/neuprintr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># use </span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://natverse.org/neuprintr">neuprintr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
@@ -122,20 +122,20 @@
 </div>
 <p>To make life easier, you can then edit your <code>.Renviron</code> file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. A convenient way to do this is to do</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>and then edit the file that pops up, adding a section like</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">neuprint_server</span><span class="op">=</span><span class="st">"https://neuprint.janelia.org"</span>
-<span class="co"># nb this token is a dummy</span>
-<span class="va">neuprint_token</span><span class="op">=</span><span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">neuprint_server</span><span class="op">=</span><span class="st">"https://neuprint.janelia.org"</span></span>
+<span><span class="co"># nb this token is a dummy</span></span>
+<span><span class="va">neuprint_token</span><span class="op">=</span><span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span></span></code></pre></div>
 <p>Make sure you have a blank line at the end of your <code>.Renviron</code> file. Note that you can optionally specify a default dataset:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">neuprint_dataset</span> <span class="op">=</span> <span class="st">"hemibrain:v1.0"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">neuprint_dataset</span> <span class="op">=</span> <span class="st">"hemibrain:v1.0"</span></span></code></pre></div>
 <p>if your neuPrint server has more than one dataset. For further information about neuprintr login, see the help for <code><a href="reference/neuprint_login.html">neuprint_login()</a></code>.</p>
 <p>Finally you can also login on the command line once per session, like so:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">conn</span> <span class="op">=</span> <span class="fu"><a href="reference/neuprint_login.html">neuprint_login</a></span><span class="op">(</span>server<span class="op">=</span> <span class="st">"https://neuprint.janelia.org/"</span>,
-   token<span class="op">=</span> <span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">conn</span> <span class="op">=</span> <span class="fu"><a href="reference/neuprint_login.html">neuprint_login</a></span><span class="op">(</span>server<span class="op">=</span> <span class="st">"https://neuprint.janelia.org/"</span>,</span>
+<span>   token<span class="op">=</span> <span class="st">"asBatEsiOIJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImIsImxldmVsIjoicmVhZHdyaXRlIiwiaW1hZ2UtdXJsIjoiaHR0cHM7Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1QeFVrTFZtbHdmcy9BQUFBQUFBQUFBDD9BQUFBQUFBQUFBQS9BQ0hpM3JleFZMeEI4Nl9FT1asb0dyMnV0QjJBcFJSZlI6MTczMjc1MjU2HH0.jhh1nMDBPl5A1HYKcszXM518NZeAhZG9jKy3hzVOWEU"</span><span class="op">)</span></span></code></pre></div>
 <p>This is also the approach that you would take if you were working with more than two neuPrint servers.</p>
 </div>
 <div class="section level2">
@@ -143,22 +143,22 @@
 </h2>
 <p>Now we can have a look at what is available</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># What data sets are available?</span>
-<span class="fu"><a href="reference/neuprint_info.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># What's the underlying database</span>
-<span class="fu"><a href="reference/neuprint_info.html">neuprint_database</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)</span>
-<span class="fu"><a href="reference/neuprint_ROIs.html">neuprint_ROIs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># What data sets are available?</span></span>
+<span><span class="fu"><a href="reference/neuprint_info.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># What's the underlying database</span></span>
+<span><span class="fu"><a href="reference/neuprint_info.html">neuprint_database</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># What are the regions of interrst in your default datasest (specified in R.environ, see ?neuprint_login)</span></span>
+<span><span class="fu"><a href="reference/neuprint_ROIs.html">neuprint_ROIs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Use the client to request data from neuprint. The <code>neuprint_fetch_custom</code> method will run an arbitrary cypher query against the database. For information about the neuprint data model, see the neuprint explorer web help: <a href="https://neuprint.janelia.org/help" class="external-link uri">https://neuprint.janelia.org/help</a>.</p>
 <p>Some cyphers and other API endpoints have been explored by this package. Have a look a the functions, for example, that give you neuron skeletons, synapse locations, connectivity matrices, etc.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">?</span><span class="va">neuprint_search</span>
-<span class="op">?</span><span class="va">neuprint_get_adjacency_matrix</span>
-<span class="op">?</span><span class="va">neuprint_ROI_connectivity</span>
-<span class="op">?</span><span class="va">neuprint_get_synapses</span>
-<span class="op">?</span><span class="va">neuprint_read_neurons</span></code></pre></div>
+<code class="sourceCode R"><span><span class="op">?</span><span class="va">neuprint_search</span></span>
+<span><span class="op">?</span><span class="va">neuprint_get_adjacency_matrix</span></span>
+<span><span class="op">?</span><span class="va">neuprint_ROI_connectivity</span></span>
+<span><span class="op">?</span><span class="va">neuprint_get_synapses</span></span>
+<span><span class="op">?</span><span class="va">neuprint_read_neurons</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
@@ -280,7 +280,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

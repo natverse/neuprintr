@@ -72,21 +72,28 @@ this modified skeleton, and not all connectivity associated with a bodyid on neu
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_skeleton_connectivity_matrix</span><span class="op">(</span><span class="va">pre</span>, post <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_skeleton_connectivity_matrix</span><span class="op">(</span><span class="va">pre</span>, post <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>pre</dt>
 <dd><p>a neuron/neuronlist object. Putative input neurons (rows of returned matrix). If <code>post</code> is <code>NULL</code>, then these are also the putative target neurons (columns of returned matrix)</p></dd>
+
+
 <dt>post</dt>
 <dd><p>a neuron/neuronlist object. Putative target neurons. Defaults to <code>NULL</code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>methods sent to <code><a href="https://rdrr.io/pkg/nat/man/nlapply.html" class="external-link">nat::nlapply</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a n x n matrix, where the rows are input neurons and the columns are their targets. Names are bodyids.</p>
+    
+
+<p>a n x n matrix, where the rows are input neurons and the columns are their targets. Names are bodyids.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -95,12 +102,12 @@ this modified skeleton, and not all connectivity associated with a bodyid on neu
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">neurons</span> <span class="op">=</span> <span class="fu"><a href="neuprint_read_neurons.html">neuprint_read_neurons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>,<span class="fl">1143677310</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">M</span> <span class="op">=</span> <span class="fu">neuprint_skeleton_connectivity_matrix</span><span class="op">(</span><span class="va">neurons</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">neurons</span> <span class="op">=</span> <span class="fu"><a href="neuprint_read_neurons.html">neuprint_read_neurons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>,<span class="fl">1143677310</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">M</span> <span class="op">=</span> <span class="fu">neuprint_skeleton_connectivity_matrix</span><span class="op">(</span><span class="va">neurons</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="neuprint_skeleton_connectivity_matrix-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -115,7 +122,7 @@ this modified skeleton, and not all connectivity associated with a bodyid on neu
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

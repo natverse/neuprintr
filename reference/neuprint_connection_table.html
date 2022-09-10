@@ -68,23 +68,23 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_connection_table</span><span class="op">(</span>
-  <span class="va">bodyids</span>,
-  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inputs"</span>, <span class="st">"outputs"</span><span class="op">)</span>,
-  prepost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRE"</span>, <span class="st">"POST"</span><span class="op">)</span>,
-  roi <span class="op">=</span> <span class="cn">NULL</span>,
-  by.roi <span class="op">=</span> <span class="cn">FALSE</span>,
-  threshold <span class="op">=</span> <span class="fl">1L</span>,
-  summary <span class="op">=</span> <span class="cn">FALSE</span>,
-  details <span class="op">=</span> <span class="cn">FALSE</span>,
-  superLevel <span class="op">=</span> <span class="cn">FALSE</span>,
-  progress <span class="op">=</span> <span class="cn">FALSE</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  chunk <span class="op">=</span> <span class="cn">TRUE</span>,
-  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_connection_table</span><span class="op">(</span></span>
+<span>  <span class="va">bodyids</span>,</span>
+<span>  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inputs"</span>, <span class="st">"outputs"</span><span class="op">)</span>,</span>
+<span>  prepost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRE"</span>, <span class="st">"POST"</span><span class="op">)</span>,</span>
+<span>  roi <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  by.roi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  threshold <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  summary <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  details <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  superLevel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  chunk <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -92,73 +92,109 @@
     <dl><dt>bodyids</dt>
 <dd><p>the body IDs for neurons/segments (bodies) you wish to query.
 This can be in any form understood by <code><a href="neuprint_search.html">neuprint_ids</a></code>.</p></dd>
+
+
 <dt>partners</dt>
 <dd><p><code>inputs</code> looks for upstream inputs (presynaptic) whereas
 <code>outputs</code> looks for downstream outputs (postsynaptic) to the given
 <code>bodyids</code>.</p></dd>
+
+
 <dt>prepost</dt>
 <dd><p><code>PRE</code>: look for partners presynaptic (i.e upstream
 inputs) or <code>POST</code>: postsynaptic (downstream outputs) to the given
 <code>bodyids</code>. NB this is redundant to the <code>partners</code> argument and
 you should only use one.</p></dd>
+
+
 <dt>roi</dt>
 <dd><p>a single ROI. Use <code>neuprint_ROIs</code> to see what is available.</p></dd>
+
+
 <dt>by.roi</dt>
 <dd><p>logical, whether or not to break neurons' connectivity down by
 region of interest (ROI)</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>Only return partners &gt;= to an integer value. Default of 1
 returns all partners. This threshold will be applied to the ROI weight when
 the <code>roi</code> argument is specified, otherwise to the whole neuron.</p></dd>
+
+
 <dt>summary</dt>
 <dd><p>When <code>TRUE</code> and more than one query neuron is given,
 summarises connectivity grouped by partner.</p></dd>
+
+
 <dt>details</dt>
 <dd><p>When <code>TRUE</code> returns adds a name and type column for
 partners.</p></dd>
+
+
 <dt>superLevel</dt>
 <dd><p>When <code>by.roi=TRUE</code>, should we look at low-level ROIs
 (<code>superLevel=FALSE</code>) or only super-level ROIs
 (<code>superLevel=TRUE</code>). A super-level ROIs can contain multiple
 lower-level ROIs. If set to `NULL`, both are returned.</p></dd>
+
+
 <dt>progress</dt>
 <dd><p>default FALSE. If TRUE, the API is called separately for each
 neuron and you can assess its progress, if an error is thrown by any one
 <code>bodyid</code>, that <code>bodyid</code> is ignored</p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>chunk</dt>
 <dd><p>A logical specifying whether to split the query into multiple
 chunks or an integer specifying the size of those chunks (which defaults to
 20 when <code>chunk=TRUE</code>).</p></dd>
+
+
 <dt>all_segments</dt>
 <dd><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>methods passed to <code>neuprint_login</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data frame with one row for each unique combination of query
+    
+
+<p>a data frame with one row for each unique combination of query
   neuron, partner neuron and (where specified) ROI.</p><ul><li><p>bodyid query neuron identifier</p></li>
 <li><p>partner neuron identifier</p></li>
 <li><p>prepost 0 for upstream/input partners; 1 for downstream/output
   partners.</p></li>
 <li><p>weight total number of connections between the query and partner
   neuron.</p></li>
-</ul><p>. When <code>by.roi=TRUE</code></p><ul><li><p>roi the name of the ROI</p></li>
+</ul><p>. When <code>by.roi=TRUE</code></p>
+
+
+<p></p>
+<ul><li><p>roi the name of the ROI</p></li>
 <li><p>ROIweight the number of connections within that ROI</p></li>
 </ul><p>Note that when <code>by.roi=TRUE</code> there may be multiple rows for each
   unique pair of neurons <b>and</b> connections may appear in more than one
-  row when some ROIs are contained within larger ROIs. For example the
-<code>CA(R)</code> is contained within the <code>MB(R)</code> ROI. Therefore you cannot
+  row when some ROIs are contained within larger ROIs. For example the</p>
+<p></p>
+<p><code>CA(R)</code> is contained within the <code>MB(R)</code> ROI. Therefore you cannot
   sum the <code>ROIweight</code> to match the total connection strength (which is
   available as the <code>weight</code> column).</p>
     </div>
@@ -179,11 +215,11 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co">## Unitary connection strengths between two chosen neurons,</span></span>
-<span class="r-in"><span class="co">## and their downstream targets</span></span>
-<span class="r-in"><span class="va">c1</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co">## Unitary connection strengths between two chosen neurons,</span></span></span>
+<span class="r-in"><span><span class="co">## and their downstream targets</span></span></span>
+<span class="r-in"><span><span class="va">c1</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid    partner prepost weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796818119  632402333       1     26</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  818983130  785914742       1     24</span>
@@ -191,11 +227,11 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4  818983130 1143677310       1     23</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5  818983130 5813055865       1     23</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6  818983130  798869986       1     23</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># query of regex against cell type</span></span>
-<span class="r-in"><span class="co"># summarised per partner with additional details column</span></span>
-<span class="r-in"><span class="va">c1s</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">"/DA2.*lPN"</span>, partners<span class="op">=</span><span class="st">'out'</span>, summary<span class="op">=</span><span class="cn">TRUE</span>, details<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c1s</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># query of regex against cell type</span></span></span>
+<span class="r-in"><span><span class="co"># summarised per partner with additional details column</span></span></span>
+<span class="r-in"><span><span class="va">c1s</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">"/DA2.*lPN"</span>, partners<span class="op">=</span><span class="st">'out'</span>, summary<span class="op">=</span><span class="cn">TRUE</span>, details<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c1s</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      partner prepost weight name                 type                          n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -205,8 +241,8 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  574<span style="text-decoration: underline;">377</span>845       1     60 ADL24t_pct(ADL24)_R  ADL24t_pct                    5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  574<span style="text-decoration: underline;">377</span>562       1     56 ADL24f_pct(ADL24)_R  ADL24f_pct                    5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  917<span style="text-decoration: underline;">842</span>566       1     54 PDL09c_pct(PDL09)_R  PDL09c_pct                    5</span>
-<span class="r-in"><span class="co"># Kenyon cells typically receive fewer multiple inputs than other partners</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>n<span class="op">=</span><span class="va">c1s</span><span class="op">$</span><span class="va">n</span>, KC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^KC"</span>, <span class="va">c1s</span><span class="op">$</span><span class="va">type</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Kenyon cells typically receive fewer multiple inputs than other partners</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>n<span class="op">=</span><span class="va">c1s</span><span class="op">$</span><span class="va">n</span>, KC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^KC"</span>, <span class="va">c1s</span><span class="op">$</span><span class="va">type</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    KC</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n   FALSE TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   231  125</span>
@@ -214,11 +250,11 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3    58    5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   4    58    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5    95    0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## The same connections broken down by ROI</span></span>
-<span class="r-in"><span class="va">c2</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span>
-<span class="r-in">                               by.roi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## The same connections broken down by ROI</span></span></span>
+<span class="r-in"><span><span class="va">c2</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span></span>
+<span class="r-in"><span>                               by.roi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid   partner prepost weight ROIweight         roi</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796818119 632402333       1     26        26 MB(+ACA)(R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1796818119 632402333       1     26        26       MB(R)</span>
@@ -226,37 +262,37 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4  818983130 785914742       1     24        23 MB(+ACA)(R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5  818983130 785914742       1     24        23       MB(R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6  818983130 785914742       1     24         1     mALT(R)</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## The same connections broken down by super-level ROIs only</span></span>
-<span class="r-in"><span class="va">c3</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span>
-<span class="r-in">                               by.roi <span class="op">=</span> <span class="cn">TRUE</span>, superLevel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">c3</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## The same connections broken down by super-level ROIs only</span></span></span>
+<span class="r-in"><span><span class="va">c3</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span></span>
+<span class="r-in"><span>                               by.roi <span class="op">=</span> <span class="cn">TRUE</span>, superLevel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">c3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 641</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">c2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">c2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 854</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Find only the connections within a specific ROI</span></span>
-<span class="r-in"><span class="va">c4</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span>
-<span class="r-in">                               by.roi <span class="op">=</span> <span class="cn">TRUE</span>, roi <span class="op">=</span> <span class="st">"LH(R)"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># compare pre/post/upstream/downstream when all_segments=TRUE or FALSE</span></span>
-<span class="r-in"><span class="fu"><a href="neuprint_get_meta.html">neuprint_get_meta</a></span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Find only the connections within a specific ROI</span></span></span>
+<span class="r-in"><span><span class="va">c4</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span></span>
+<span class="r-in"><span>                               by.roi <span class="op">=</span> <span class="cn">TRUE</span>, roi <span class="op">=</span> <span class="st">"LH(R)"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># compare pre/post/upstream/downstream when all_segments=TRUE or FALSE</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="neuprint_get_meta.html">neuprint_get_meta</a></span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      bodyid pre post status    statusLabel cropped    voxels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 635048729 180  273 Traced Roughly traced   FALSE 615424679</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  name     type cellBodyFiber soma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 mlPN2_DP1m(AVM04)_R DP1m vPN           A14 TRUE</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 252</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 273</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 335</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1871</span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -271,7 +307,7 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

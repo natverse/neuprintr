@@ -66,48 +66,59 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_get_fields</span><span class="op">(</span>
-  possibleFields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bodyId"</span>, <span class="st">"pre"</span>, <span class="st">"post"</span>, <span class="st">"upstream"</span>, <span class="st">"downstream"</span>, <span class="st">"status"</span>,
-    <span class="st">"statusLabel"</span>, <span class="st">"cropped"</span>, <span class="st">"instance"</span>, <span class="st">"name"</span>, <span class="st">"size"</span>, <span class="st">"type"</span>, <span class="st">"cellBodyFiber"</span>,
-    <span class="st">"somaLocation"</span>, <span class="st">"somaRadius"</span>, <span class="st">"notes"</span><span class="op">)</span>,
-  negateFields <span class="op">=</span> <span class="cn">FALSE</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_get_fields</span><span class="op">(</span></span>
+<span>  possibleFields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bodyId"</span>, <span class="st">"pre"</span>, <span class="st">"post"</span>, <span class="st">"upstream"</span>, <span class="st">"downstream"</span>, <span class="st">"status"</span>,</span>
+<span>    <span class="st">"statusLabel"</span>, <span class="st">"cropped"</span>, <span class="st">"instance"</span>, <span class="st">"name"</span>, <span class="st">"size"</span>, <span class="st">"type"</span>, <span class="st">"cellBodyFiber"</span>,</span>
+<span>    <span class="st">"somaLocation"</span>, <span class="st">"somaRadius"</span>, <span class="st">"notes"</span><span class="op">)</span>,</span>
+<span>  negateFields <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>possibleFields</dt>
 <dd><p>: field names to choose from</p></dd>
+
+
 <dt>negateFields</dt>
 <dd><p>: Whether to include (FALSE, the default) or exclude <code>possibleFields</code></p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments passed to <code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a vector of available fields</p>
+    
+
+<p>a vector of available fields</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu">neuprint_get_fields</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_get_fields</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "bodyId"        "pre"           "post"          "status"       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "statusLabel"   "cropped"       "size"          "instance"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "type"          "cellBodyFiber" "somaLocation"  "somaRadius"   </span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -122,7 +133,7 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

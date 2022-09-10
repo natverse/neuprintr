@@ -68,57 +68,78 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_get_shortest_paths</span><span class="op">(</span>
-  <span class="va">body_pre</span>,
-  <span class="va">body_post</span>,
-  weightT <span class="op">=</span> <span class="fl">5</span>,
-  roi <span class="op">=</span> <span class="cn">NULL</span>,
-  by.roi <span class="op">=</span> <span class="cn">FALSE</span>,
-  chunk <span class="op">=</span> <span class="cn">TRUE</span>,
-  progress <span class="op">=</span> <span class="cn">FALSE</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_get_shortest_paths</span><span class="op">(</span></span>
+<span>  <span class="va">body_pre</span>,</span>
+<span>  <span class="va">body_post</span>,</span>
+<span>  weightT <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  roi <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  by.roi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  chunk <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>body_pre</dt>
 <dd><p>the bodyid of the neuron at the start of the path</p></dd>
+
+
 <dt>body_post</dt>
 <dd><p>the bodyid of the neuron at the end of the path</p></dd>
+
+
 <dt>weightT</dt>
 <dd><p>weight threshold</p></dd>
+
+
 <dt>roi</dt>
 <dd><p>Limit the search to connections happening within a certain ROI or
 set of ROIs (NULL by default)</p></dd>
+
+
 <dt>by.roi</dt>
 <dd><p>Return the results by ROI. Default to FALSE</p></dd>
+
+
 <dt>chunk</dt>
 <dd><p>A logical specifying whether to split the query into multiple
 chunks or an integer specifying the size of those chunks (which defaults
 to 5 when <code>chunk=TRUE</code>).</p></dd>
+
+
 <dt>progress</dt>
 <dd><p>if TRUE, a progress bar will be shown. This may slow the data
 fetching process for smaller queries. The default of
 <code>progress=NULL</code> will only show a progress bar if the query will be
 split into multiple chunks based on the <code>chunk</code> argument.</p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>all_segments</dt>
 <dd><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>methods passed to <code>neuprint_login</code></p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -129,15 +150,15 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu">neuprint_get_shortest_paths</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1128092885</span>,<span class="fl">481121605</span><span class="op">)</span>,<span class="fl">5813041365</span>,weightT<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_get_shortest_paths</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1128092885</span>,<span class="fl">481121605</span><span class="op">)</span>,<span class="fl">5813041365</span>,weightT<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        from         to weight depth            name.from        name.to</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 481121605  677182018     45     1 PFL1(PB12a)_L2(_C3_) FB02c(ADM02)_R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 677182018 5813041365     22     2       FB02c(ADM02)_R PFL1(PB12a)_L4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   type.from type.to</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      PFL1  FB2B_b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    FB2B_b    PFL1</span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -152,7 +173,7 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

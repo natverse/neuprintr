@@ -66,13 +66,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_ROIs</span><span class="op">(</span>
-  superLevel <span class="op">=</span> <span class="cn">FALSE</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  fromNeuronFields <span class="op">=</span> <span class="cn">FALSE</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_ROIs</span><span class="op">(</span></span>
+<span>  superLevel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fromNeuronFields <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,21 +81,30 @@
 <dd><p>whether not to show 'superlevel' ROIs - ROIs composed of
 other ROIs. If set to NULL, both low-level and superlevel ROIs are
 returned.</p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>fromNeuronFields</dt>
 <dd><p>: Whether to use fields of :Neuron nodes to fetch the
 ROIs. If FALSE (the default), use the dataset metadata instead. If TRUE,
 the <code>superLevel</code> argument is ignored</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>methods passed to <code>neuprint_login</code></p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -115,7 +124,7 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

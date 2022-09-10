@@ -78,27 +78,27 @@ neuprint_ids provides for flexible search / specification
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_search</span><span class="op">(</span>
-  <span class="va">search</span>,
-  field <span class="op">=</span> <span class="st">"name"</span>,
-  fixed <span class="op">=</span> <span class="cn">FALSE</span>,
-  exact <span class="op">=</span> <span class="cn">NULL</span>,
-  meta <span class="op">=</span> <span class="cn">TRUE</span>,
-  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">neuprint_ids</span><span class="op">(</span>
-  <span class="va">x</span>,
-  mustWork <span class="op">=</span> <span class="cn">TRUE</span>,
-  unique <span class="op">=</span> <span class="cn">TRUE</span>,
-  fixed <span class="op">=</span> <span class="cn">TRUE</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_search</span><span class="op">(</span></span>
+<span>  <span class="va">search</span>,</span>
+<span>  field <span class="op">=</span> <span class="st">"name"</span>,</span>
+<span>  fixed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  exact <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  meta <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  all_segments <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">neuprint_ids</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  mustWork <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  unique <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fixed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -107,50 +107,77 @@ neuprint_ids provides for flexible search / specification
 <dd><p>Search query, by default a regular expression that must match
 the whole of the neuPrint instance name field. See examples and the
 <code>field</code>, <code>fixed</code> and <code>exact</code> for how this can be modified.</p></dd>
+
+
 <dt>field</dt>
 <dd><p>the meta data field in which you want a match for your search
 query. Defaults to name (or instance, as handled by
 <code>neuprintr:::neuprint_name_field</code>). Other common options include type,
 status, cellBodyFiber etc.</p></dd>
+
+
 <dt>fixed</dt>
 <dd><p>if <code>FALSE</code> (the default), <code>search</code> is interpreted as a
 regular expression (i.e. "Advanced input" in neuPrint Explorer). If
 <code>TRUE</code>, the string <code>search</code> is interpreted as a simple character
 string to be matched (the default search behavior in neuPrint explorer). In
 this case partial matches are fine.</p></dd>
+
+
 <dt>exact</dt>
 <dd><p>Whether the query must match the whole field. This is always
 true for regular expression queries while the default (<code>NULL</code>) implies
 false for <code>fixed</code> queries.</p></dd>
+
+
 <dt>meta</dt>
 <dd><p>if <code>TRUE</code>, meta data for found bodyids is also pulled</p></dd>
+
+
 <dt>all_segments</dt>
 <dd><p>if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.</p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code>neuprint_search</code></p></dd>
+
+
 <dt>x</dt>
 <dd><p>A set of bodyids or a query</p></dd>
+
+
 <dt>mustWork</dt>
 <dd><p>Whether to insist that at least one valid id is returned
 (default <code>TRUE</code>)</p></dd>
+
+
 <dt>unique</dt>
 <dd><p>Whether to ensure that only unique ids are returned (default
 <code>TRUE</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a vector of body ids, or a data frame with their meta information
-For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
+    
+
+<p>a vector of body ids, or a data frame with their meta information</p>
+
+
+<p>For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
   when there are none and <code>mustWork=FALSE</code>).</p>
     </div>
     <div id="standard-query-syntax">
@@ -189,8 +216,8 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">".*DA2.*"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">".*DA2.*"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid pre post status    statusLabel cropped    voxels              name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R</span>
@@ -203,11 +230,11 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 DA2 lPN           A12 FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 DA2 lPN           A12 FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 DA2 lPN           A12  TRUE</span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">".*DA2.*"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">".*DA2.*"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1796817841 1827516355  818983130 1797505019 1796818119</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Search the type field</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON.*"</span>, field <span class="op">=</span> <span class="st">"type"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Search the type field</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON.*"</span>, field <span class="op">=</span> <span class="st">"type"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
@@ -220,7 +247,7 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-out co"><span class="r-pr">#&gt;</span> [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [67]  643847447  547552266 5813033000 1173814525</span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON[0-9]+"</span>, field <span class="op">=</span> <span class="st">"type"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON[0-9]+"</span>, field <span class="op">=</span> <span class="st">"type"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
@@ -233,9 +260,9 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-out co"><span class="r-pr">#&gt;</span> [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [61] 5813022234  894020730  706948318  642732835  643847447  547552266</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [67] 5813033000 1173814525</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># compact specification of field</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"type:MBON[0-9]+"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># compact specification of field</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"type:MBON[0-9]+"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
@@ -248,9 +275,9 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-out co"><span class="r-pr">#&gt;</span> [55] 5813117385 5813061538 5813021291 5813075020 5813052909 5813058048</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [61] 5813022234  894020730  706948318  642732835  643847447  547552266</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [67] 5813033000 1173814525</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># starts with MBON</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"type:MBON.*"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># starts with MBON</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"type:MBON.*"</span>, meta<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  612371421  673509195  424789697 5813022341  612738462  487925037</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  487925063  613079053  799586652 1386512867 5813061512  422725634</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13]  733036127 1234386037  611477605  920470959 1016835041 1048215779</span>
@@ -263,11 +290,11 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-out co"><span class="r-pr">#&gt;</span> [55] 5813075634  895441451 5813117385 5813061538 5813021291 5813075020</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [61] 5813052909 5813058048 5813022234  894020730  706948318  642732835</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [67]  643847447  547552266 5813033000 1173814525</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># full access to WHERE cypher queries over nodes (i.e. neurons) in neo4j</span></span>
-<span class="r-in"><span class="co"># NB fields must be prefixed with n. to indicate that they are node properties.</span></span>
-<span class="r-in"><span class="co"># note also that exists(n.somaLocation) is cypher to ensure soma==TRUE</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"where:exists(n.somaLocation) AND n.post&gt;30000 AND NOT n.cropped"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># full access to WHERE cypher queries over nodes (i.e. neurons) in neo4j</span></span></span>
+<span class="r-in"><span><span class="co"># NB fields must be prefixed with n. to indicate that they are node properties.</span></span></span>
+<span class="r-in"><span><span class="co"># note also that exists(n.somaLocation) is cypher to ensure soma==TRUE</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"where:exists(n.somaLocation) AND n.post&gt;30000 AND NOT n.cropped"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid   pre   post status    statusLabel cropped      voxels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  612371421  2208  32516 Traced         Traced   FALSE  6798484776</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 5813105172 17628  77269 Traced Roughly traced   FALSE 15150336407</span>
@@ -276,46 +303,46 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 MBON01(y5B'2a)(ADM07)_R MBON01         aSMPB TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                   DPM_R    DPM          &lt;NA&gt; TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                   APL_R    APL          &lt;NA&gt; TRUE</span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON.*"</span>, field <span class="op">=</span> <span class="st">"type"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># fixed=TRUE can be useful when you don't want to worry about special</span></span>
-<span class="r-in"><span class="co"># characters like brackets</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"PEN_a(PEN1)"</span>, field<span class="op">=</span><span class="st">"type"</span>, fixed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># by default fixed=TRUE returns partial matches</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON16"</span>, field <span class="op">=</span> <span class="st">"type"</span>, fixed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># here the type must exactly match the query i.e. complete match</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON16"</span>, field <span class="op">=</span> <span class="st">"type"</span>, fixed<span class="op">=</span><span class="cn">TRUE</span>, exact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"AVF1"</span>, field <span class="op">=</span> <span class="st">"cellBodyFiber"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"cellBodyFiber:AVF1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># exact match against whole type</span></span>
-<span class="r-in"><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"!MBON01"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON.*"</span>, field <span class="op">=</span> <span class="st">"type"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># fixed=TRUE can be useful when you don't want to worry about special</span></span></span>
+<span class="r-in"><span><span class="co"># characters like brackets</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"PEN_a(PEN1)"</span>, field<span class="op">=</span><span class="st">"type"</span>, fixed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># by default fixed=TRUE returns partial matches</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON16"</span>, field <span class="op">=</span> <span class="st">"type"</span>, fixed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># here the type must exactly match the query i.e. complete match</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"MBON16"</span>, field <span class="op">=</span> <span class="st">"type"</span>, fixed<span class="op">=</span><span class="cn">TRUE</span>, exact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"AVF1"</span>, field <span class="op">=</span> <span class="st">"cellBodyFiber"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_search</span><span class="op">(</span><span class="st">"cellBodyFiber:AVF1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># exact match against whole type</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"!MBON01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "612371421" "673509195"</span>
-<span class="r-in"><span class="co"># partial match</span></span>
-<span class="r-in"><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"MBON01"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># partial match</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"MBON01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "612371421" "673509195"</span>
-<span class="r-in"><span class="co"># partial match against name field rather than type</span></span>
-<span class="r-in"><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"name:MBON01"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># partial match against name field rather than type</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"name:MBON01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "673509195" "612371421"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># initial / indicates to use regex search (which must be exact)</span></span>
-<span class="r-in"><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"/MBON01"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># initial / indicates to use regex search (which must be exact)</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"/MBON01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "612371421" "673509195"</span>
-<span class="r-in"><span class="co"># more interesting regex search</span></span>
-<span class="r-in"><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"/MBON0[1-4]"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># more interesting regex search</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"/MBON0[1-4]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "612371421"  "673509195"  "424789697"  "5813022341" "612738462" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "487925037"  "487925063"  "613079053" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># partial regex search against the name field (note leading/trailing .*)</span></span>
-<span class="r-in"><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"/name:.*MBON0[1-4].*"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># partial regex search against the name field (note leading/trailing .*)</span></span></span>
+<span class="r-in"><span><span class="fu">neuprint_ids</span><span class="op">(</span><span class="st">"/name:.*MBON0[1-4].*"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "673509195"  "612371421"  "5813022341" "424789697"  "612738462" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "487925037"  "613079053"  "487925063" </span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -330,7 +357,7 @@ For <code>neuprint_ids</code>, a character vector of bodyids (of length 0
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -66,35 +66,46 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_list2df</span><span class="op">(</span>
-  <span class="va">x</span>,
-  cols <span class="op">=</span> <span class="cn">NULL</span>,
-  return_empty_df <span class="op">=</span> <span class="cn">FALSE</span>,
-  check.names <span class="op">=</span> <span class="cn">FALSE</span>,
-  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_list2df</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  return_empty_df <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A list returned by <code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom</a></code></p></dd>
+
+
 <dt>cols</dt>
 <dd><p>Character vector specifying which columns to include (by default
 all of those named in <code>x</code>, see details).</p></dd>
+
+
 <dt>return_empty_df</dt>
 <dd><p>Return a zero row data frame when there is no result.</p></dd>
+
+
 <dt>check.names</dt>
 <dd><p>Whether to convert column names into R friendly form. This
 is not necessary but would be the default for <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></code> were
 we not to set it ourselves. See <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></code> for details.</p></dd>
+
+
 <dt>stringsAsFactors</dt>
 <dd><p>Whether to return character vector columns as
 factors. Note that the default of <code>FALSE</code> differs from
 <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></code> and friends.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></code></p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -122,7 +133,7 @@ factors. Note that the default of <code>FALSE</code> differs from
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

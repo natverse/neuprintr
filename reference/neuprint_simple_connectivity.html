@@ -68,37 +68,48 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neuprint_simple_connectivity</span><span class="op">(</span>
-  <span class="va">bodyids</span>,
-  prepost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRE"</span>, <span class="st">"POST"</span><span class="op">)</span>,
-  dataset <span class="op">=</span> <span class="cn">NULL</span>,
-  conn <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_simple_connectivity</span><span class="op">(</span></span>
+<span>  <span class="va">bodyids</span>,</span>
+<span>  prepost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRE"</span>, <span class="st">"POST"</span><span class="op">)</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>bodyids</dt>
 <dd><p>the cypher by which to make your search</p></dd>
+
+
 <dt>prepost</dt>
 <dd><p>whether to look for partners presynaptic to postsynaptic to
 the given bodyids</p></dd>
+
+
 <dt>dataset</dt>
 <dd><p>optional, a dataset you want to query. If <code>NULL</code>, the
 default specified by your R environ file is used or, failing that the
 current connection, is used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>methods passed to <code>neuprint_login</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a n x m matrix where n correspond to the neurons that connect to m
+    
+
+<p>a n x m matrix where n correspond to the neurons that connect to m
   bodyids</p>
     </div>
     <div id="see-also">
@@ -109,9 +120,9 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">da2s</span><span class="op">=</span><span class="fu"><a href="neuprint_search.html">neuprint_search</a></span><span class="op">(</span><span class="st">".*DA2.*"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="neuprint_common_connectivity.html">neuprint_common_connectivity</a></span><span class="op">(</span><span class="va">da2s</span><span class="op">$</span><span class="va">bodyid</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">da2s</span><span class="op">=</span><span class="fu"><a href="neuprint_search.html">neuprint_search</a></span><span class="op">(</span><span class="st">".*DA2.*"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="neuprint_common_connectivity.html">neuprint_common_connectivity</a></span><span class="op">(</span><span class="va">da2s</span><span class="op">$</span><span class="va">bodyid</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            425790257 478613576 480590566 513323340 573695941 698194389</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1796817841         2         5         6         1         7         5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1827516355         2         3         4         5         9         3</span>
@@ -178,9 +189,9 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-out co"><span class="r-pr">#&gt;</span> 818983130           1          1          1          2         12         28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1797505019          3          2          3          1          5         11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1796818119          3          1          5          3          4         28</span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu">neuprint_simple_connectivity</span><span class="op">(</span><span class="fl">5901222731</span>, prepost<span class="op">=</span><span class="st">'PRE'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html" class="external-link">head</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu">neuprint_simple_connectivity</span><span class="op">(</span><span class="fl">5901222731</span>, prepost<span class="op">=</span><span class="st">'PRE'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        input          name                      type 5901222731_weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 5901218894   LN(AVM02)_R              olfactory LN                34</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 5901208281          &lt;NA&gt;                      &lt;NA&gt;                 1</span>
@@ -188,15 +199,15 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 5901206553        LN(AL)              olfactory LN                 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 5813132949   LN(AVM02)_R              olfactory LN                11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 5901194556 mPNX(AVM06)_R olfactory multi lvPN mALT                 5</span>
-<span class="r-in"><span class="co"># top inputs</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">type</span><span class="op">)</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># top inputs</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">type</span><span class="op">)</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              olfactory LN                       ORN olfactory multi vPN mlALT </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                        96                        19                         9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  olfactory multi lPN mALT olfactory multi lvPN mALT                AVL07k_pct </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         8                         7                         5 </span>
-<span class="r-in"><span class="va">outputs</span> <span class="op">&lt;-</span> <span class="fu">neuprint_simple_connectivity</span><span class="op">(</span><span class="fl">5901222731</span>, prepost<span class="op">=</span><span class="st">'POST'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/nat/man/neuronlist-dataframe-methods.html" class="external-link">head</a></span><span class="op">(</span><span class="va">outputs</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">outputs</span> <span class="op">&lt;-</span> <span class="fu">neuprint_simple_connectivity</span><span class="op">(</span><span class="fl">5901222731</span>, prepost<span class="op">=</span><span class="st">'POST'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">outputs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name     output type 5901222731_weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 &lt;NA&gt; 1164373123 &lt;NA&gt;                 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 &lt;NA&gt; 1164373194 &lt;NA&gt;                 1</span>
@@ -218,7 +229,7 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
