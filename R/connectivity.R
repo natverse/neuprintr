@@ -291,7 +291,7 @@ neuprint_connection_table <- function(bodyids,
     prepost <- match.arg(prepost)
   }
   conn<-neuprint_login(conn)
-  dataset <- check_dataset(dataset)
+  dataset <- check_dataset(dataset, conn=conn)
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
 
   threshold=assert_integer(as.integer(round(threshold)), lower = 1, len = 1)
