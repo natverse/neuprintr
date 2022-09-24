@@ -129,7 +129,7 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
     j = match(df$downstream, outputids),
     x = df$weight,
     dims = c(length(inputids), length(outputids)),
-    dimnames = list(inputids, outputids)
+    dimnames = list(as.character(inputids), as.character(outputids))
   )
   if(isTRUE(sparse)) sm else as.matrix(sm)
 }
