@@ -381,7 +381,7 @@ neuprint_connection_table <- function(bodyids,
     d <- d[d$roi%in%roi,]
   }
   if(by.roi && is.null(roi)){
-    rois <- neuprint_ROIs(superLevel = superLevel)
+    rois <- neuprint_ROIs(superLevel = superLevel, conn=conn)
     d <- d[d$roi%in%rois,]
   }
   d <-  d[order(d$weight,decreasing=TRUE),]
