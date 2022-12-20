@@ -359,7 +359,7 @@ neuprint_connection_table <- function(bodyids,
                  ifelse(prepost=="POST","bodyid","partner"),
                  ifelse(prepost=="POST","partner","bodyid"),
                  extrafields,
-                 ifelse(!is.null(roi)|by.roi,", k AS roi, apoc.convert.fromJsonMap(c.roiInfo)[k].post AS ROIweight","")
+                 ifelse(!is.null(roi)|by.roi,", k AS roi, coalesce(apoc.convert.fromJsonMap(c.roiInfo)[k].post,0) AS ROIweight","")
 
   )
   cypher <-paste(WITH, MATCH, WHERE, RETURN)
