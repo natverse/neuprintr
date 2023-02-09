@@ -366,7 +366,7 @@ neuprint_connection_table <- function(bodyids,
 
   nc <-neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, ...)
   ## Filter out the rare cases where PSDs and tbars are in different ROIs (hence post is null)
-  if(!is.null(roi)|by.roi){
+  if(!is.null(roi)|by.roi && length(nc$data)>0){
     roicol=match("roi", unlist(nc$columns))
     nc$data <- nc$data[sapply(nc$data,function(x) !is.null(x[[roicol]]))]
   }
