@@ -23,7 +23,8 @@ Suggests:
     rmarkdown,
     covr,
     Rvcg,
-    withr
+    withr,
+    coconat
 VignetteBuilder: knitr
 Depends: R (>= 2.10)
 Imports: 
@@ -47,7 +48,8 @@ Imports:
     glue
 Remotes: 
     natverse/drvid,
-    natverse/nat
+    natverse/nat,
+    natverse/coconat
 Encoding: UTF-8
 Language: en-GB
 RoxygenNote: 7.1.2
