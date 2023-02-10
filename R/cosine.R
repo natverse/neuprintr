@@ -9,6 +9,7 @@ check_coconat <- function() {
 #' @param ids Passed to \code{\link{neuprint_ids}}
 #' @param ... Optional filter expression defining which partners to include
 #' @param threshold An integer threshold (connections >= this will be returned)
+#' @param group Whether to group by cell \code{type} or another named column.
 #' @param partners Whether to cluster based on connections to input or output
 #'   partner neurons (default both).
 #' @inheritParams neuprint_fetch_custom
@@ -22,6 +23,7 @@ check_coconat <- function() {
 #' }
 neuprint_cosine_matrix <- function(ids, ..., threshold=5,
                                    partners = c("outputs", "inputs"),
+                                   group=FALSE,
                                    conn=NULL) {
   check_coconat()
   partners=match.arg(partners, several.ok = T)
@@ -31,14 +33,23 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
   if(!(length(ids)>0))
     stop("No valid ids provided!")
 
-  cell_types=!missing(...)
+  cell_types=!missing(...) || !isFALSE(group)
+  if(isTRUE(group))
+    group='type'
 
   if('inputs' %in% partners) {
     fpsin=
       neuprintr::neuprint_connection_table(ids, partners = "in", summarise = T, details = cell_types, conn=conn, threshold = threshold) %>%
       filter(...) %>%
       dplyr::mutate(direction='in')
-    fami <- coconat::partner_summary2adjacency_matrix(fpsin, )
+    fami <- coconat::partner_summary2adjacency_matrix(
+      fpsin,
+      inputcol = ifelse(!isFALSE(group), group, 'partner'),
+      outputcol = 'bodyid',
+      outputids = ids,
+      standardise_input = F
+    )
+
     famicos=coconat::cosine_sim(fami, transpose = F)
   }
   if("outputs" %in% partners) {
@@ -46,7 +57,13 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
       dplyr::filter(...) %>%
       dplyr::mutate(direction='out')
     famo <-
-      coconat::partner_summary2adjacency_matrix(fpsout, inputids = ids)
+      coconat::partner_summary2adjacency_matrix(
+        fpsout,
+        inputcol = 'bodyid',
+        outputcol = ifelse(!isFALSE(group), group, 'partner'),
+        inputids = ids,
+        standardise_input = F
+      )
     famocos=coconat::cosine_sim(famo, transpose = T)
   }
   if(length(partners)==2)

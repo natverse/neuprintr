@@ -9,6 +9,7 @@ neuprint_cosine_matrix(
   ...,
   threshold = 5,
   partners = c("outputs", "inputs"),
+  group = FALSE,
   conn = NULL
 )
 }
@@ -21,6 +22,8 @@ neuprint_cosine_matrix(
 
 \item{partners}{Whether to cluster based on connections to input or output
 partner neurons (default both).}
+
+\item{group}{Whether to group by cell \code{type} or another named column.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your
