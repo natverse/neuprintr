@@ -170,7 +170,9 @@ make_chunk_combs <- function(a, b, ...) {
 #' @param by.roi logical, whether or not to break neurons' connectivity down by
 #'   region of interest (ROI)
 #' @param details When \code{TRUE} returns adds a name and type column for
-#'   partners.
+#'   partners. Alternatively a character vector of column names can be provided
+#'   (but see \emph{details} for details about \code{details}). Default
+#'   \code{details=FALSE}.
 #' @param summary When \code{TRUE} and more than one query neuron is given,
 #'   summarises connectivity grouped by partner.
 #' @param threshold Only return partners >= to an integer value. Default of 1
@@ -221,6 +223,13 @@ make_chunk_combs <- function(a, b, ...) {
 #'   designated as "Neurons". Smaller objects (Segments) can be included when
 #'   \code{all_segments=TRUE}. When this is done then the total counts will
 #'   match what is reported by \code{\link{neuprint_get_meta}}.
+#'
+#'   The user must ensure that any columns named in the \code{details} argument
+#'   are correct (non-existent columns will be filled with \code{NA}). For
+#'   historical reasons the column displayed by neuprintr as \code{name} must be
+#'   referred to as \code{instance} in this argument (but will be renamed to
+#'   \code{name}). \href{https://github.com/natverse/neuprintr/issues}{File an
+#'   issue} if this bothers you and I will try to do something smarter.
 #'
 #' @seealso \code{\link{neuprint_fetch_custom}},
 #'   \code{\link{neuprint_simple_connectivity}},
@@ -290,6 +299,8 @@ neuprint_connection_table <- function(bodyids,
   } else {
     prepost <- match.arg(prepost)
   }
+  if(isTRUE(details))
+    details=c("type", "instance")
   conn<-neuprint_login(conn)
   dataset <- check_dataset(dataset, conn=conn)
   bodyids <- neuprint_ids(bodyids, dataset = dataset, conn = conn)
@@ -351,9 +362,8 @@ neuprint_connection_table <- function(bodyids,
                 ifelse(!is.null(roi)|by.roi,
                        "UNWIND keys(apoc.convert.fromJsonMap(c.roiInfo)) AS k",""))
 
-  extrafields <- if(isTRUE(details)) {
-    glue(", {ab}.type AS type, {ab}.instance AS name",
-         ab=ifelse(prepost=="PRE","a","b"))
+  extrafields <- if(!isFALSE(details)) {
+    make_extra_fields(details, prepost = prepost)
   } else ""
   RETURN=sprintf("RETURN a.bodyId AS %s, b.bodyId AS %s, c.weight AS weight %s %s",
                  ifelse(prepost=="POST","bodyid","partner"),
@@ -387,8 +397,8 @@ neuprint_connection_table <- function(bodyids,
   d <-  d[order(d$weight,decreasing=TRUE),]
   rownames(d) <- NULL
   firstcols=sort(c(colnames(d)[1:3], 'prepost'))
-  if(details)
-    firstcols=c(firstcols, 'name', 'type')
+  if(!isFALSE(details))
+    firstcols=c(firstcols, intersect(c("name", "type", details), colnames(d)))
   othercols=setdiff(colnames(d), firstcols)
   d=d[,c(firstcols, sort(othercols))]
 
@@ -397,6 +407,18 @@ neuprint_connection_table <- function(bodyids,
   d=neuprint_fix_column_types(d, conn=conn, dataset=dataset)
   if(summary) summarise_partnerdf(d) else d
 }
+
+# private utility function for above
+make_extra_fields <- function(fields, prepost, rename=c(name='instance')) {
+  rename=rename[rename%in%fields]
+  fieldnames=fields
+  fieldnames[match(rename, fields)]=names(rename)
+
+  str=paste0("{ab}.", fields, " AS ", fieldnames, collapse = ",")
+  str2=glue(str, ab=ifelse(prepost=="PRE","a","b"))
+  paste(",", str2)
+}
+
 
 #' @importFrom dplyr .data add_count group_by mutate rename ungroup filter select contains
 summarise_partnerdf <- function(df, withbodyids=F) {

@@ -1,3 +1,13 @@
+test_that("make_extra_fields works", {
+  expect_equal(make_extra_fields(c("instance", "type"), prepost = 'PRE'),
+               ", a.instance AS name,a.type AS type")
+  expect_equal(make_extra_fields(c("instance", "type"), prepost = 'POST'),
+               ", b.instance AS name,b.type AS type")
+
+  expect_equal(make_extra_fields(c("type", "class"), prepost = 'POST'),
+               ", b.type AS type,b.class AS class")
+})
+
 skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
 
 test_that("neuprint_connection_table works", {

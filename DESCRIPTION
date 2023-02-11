@@ -23,7 +23,8 @@ Suggests:
     rmarkdown,
     covr,
     Rvcg,
-    withr
+    withr,
+    coconat
 VignetteBuilder: knitr
 Depends: R (>= 2.10)
 Imports: 
@@ -44,12 +45,14 @@ Imports:
     Matrix,
     checkmate,
     magrittr,
-    glue
+    glue,
+    stats
 Remotes: 
     natverse/drvid,
-    natverse/nat
+    natverse/nat,
+    natverse/coconat
 Encoding: UTF-8
 Language: en-GB
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 URL: https://natverse.org/neuprintr, https://github.com/natverse/neuprintr
 BugReports: https://github.com/natverse/neuprintr/issues

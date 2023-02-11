@@ -48,7 +48,9 @@ the \code{roi} argument is specified, otherwise to the whole neuron.}
 summarises connectivity grouped by partner.}
 
 \item{details}{When \code{TRUE} returns adds a name and type column for
-partners.}
+partners. Alternatively a character vector of column names can be provided
+(but see \emph{details} for details about \code{details}). Default
+\code{details=FALSE}.}
 
 \item{superLevel}{When \code{by.roi=TRUE}, should we look at low-level ROIs
 (\code{superLevel=FALSE}) or only super-level ROIs
@@ -118,6 +120,13 @@ Note that by default neuprint_connection_table only returns upstream
   designated as "Neurons". Smaller objects (Segments) can be included when
   \code{all_segments=TRUE}. When this is done then the total counts will
   match what is reported by \code{\link{neuprint_get_meta}}.
+
+  The user must ensure that any columns named in the \code{details} argument
+  are correct (non-existent columns will be filled with \code{NA}). For
+  historical reasons the column displayed by neuprintr as \code{name} must be
+  referred to as \code{instance} in this argument (but will be renamed to
+  \code{name}). \href{https://github.com/natverse/neuprintr/issues}{File an
+  issue} if this bothers you and I will try to do something smarter.
 }
 \examples{
 \donttest{
