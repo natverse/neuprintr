@@ -49,6 +49,12 @@
     <loc>https://natverse.org/neuprintr/reference/neuprint_connectors.html</loc>
   </url>
   <url>
+    <loc>https://natverse.org/neuprintr/reference/neuprint_cosine_matrix.html</loc>
+  </url>
+  <url>
+    <loc>https://natverse.org/neuprintr/reference/neuprint_cosine_plot.html</loc>
+  </url>
+  <url>
     <loc>https://natverse.org/neuprintr/reference/neuprint_dump.html</loc>
   </url>
   <url>
@@ -104,6 +110,9 @@
   </url>
   <url>
     <loc>https://natverse.org/neuprintr/reference/neuprintr-package.html</loc>
+  </url>
+  <url>
+    <loc>https://natverse.org/neuprintr/reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://natverse.org/neuprintr/reference/reexports.html</loc>

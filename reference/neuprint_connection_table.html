@@ -129,7 +129,9 @@ summarises connectivity grouped by partner.</p></dd>
 
 <dt>details</dt>
 <dd><p>When <code>TRUE</code> returns adds a name and type column for
-partners.</p></dd>
+partners. Alternatively a character vector of column names can be provided
+(but see <em>details</em> for details about <code>details</code>). Default
+<code>details=FALSE</code>.</p></dd>
 
 
 <dt>superLevel</dt>
@@ -205,6 +207,12 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
   designated as "Neurons". Smaller objects (Segments) can be included when
   <code>all_segments=TRUE</code>. When this is done then the total counts will
   match what is reported by <code><a href="neuprint_get_meta.html">neuprint_get_meta</a></code>.</p>
+<p>The user must ensure that any columns named in the <code>details</code> argument
+  are correct (non-existent columns will be filled with <code>NA</code>). For
+  historical reasons the column displayed by neuprintr as <code>name</code> must be
+  referred to as <code>instance</code> in this argument (but will be renamed to
+  <code>name</code>). <a href="https://github.com/natverse/neuprintr/issues" class="external-link">File an
+  issue</a> if this bothers you and I will try to do something smarter.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
