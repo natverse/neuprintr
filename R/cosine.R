@@ -18,7 +18,7 @@ check_coconat <- function() {
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' neuprint_cosine_matrix("/lLN2.+", grepl("PN",type), partners='in')
 #' }
 neuprint_cosine_matrix <- function(ids, ..., threshold=5,
@@ -95,6 +95,9 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 #'
 #' @examples
 #' \donttest{
+#' neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in')
+#' }
+#' \dontrun{
 #' # Considering all partners
 #' neuprint_cosine_matrix("/lLN2.+", partners='in') %>% neuprint_cosine_plot()
 #' # excluding the PN partners from the cosine distance score

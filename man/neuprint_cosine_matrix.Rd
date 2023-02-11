@@ -37,7 +37,7 @@ matrix or list of two matrices (input and output)
 Calculate a cosine similarity matrix for neuprint neurons
 }
 \examples{
-\donttest{
+\dontrun{
 neuprint_cosine_matrix("/lLN2.+", grepl("PN",type), partners='in')
 }
 }
