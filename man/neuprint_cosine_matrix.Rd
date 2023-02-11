@@ -10,6 +10,7 @@ neuprint_cosine_matrix(
   threshold = 5,
   partners = c("outputs", "inputs"),
   group = FALSE,
+  details = NULL,
   conn = NULL
 )
 }
@@ -24,6 +25,9 @@ neuprint_cosine_matrix(
 partner neurons (default both).}
 
 \item{group}{Whether to group by cell \code{type} or another named column.}
+
+\item{details}{Optional character vector naming metadata columns to fetch for
+partner neurons.}
 
 \item{conn}{optional, a neuprintr connection object, which also specifies the
 neuPrint server. If NULL, the defaults set in your

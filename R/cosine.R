@@ -10,6 +10,8 @@ check_coconat <- function() {
 #' @param ... Optional filter expression defining which partners to include
 #' @param threshold An integer threshold (connections >= this will be returned)
 #' @param group Whether to group by cell \code{type} or another named column.
+#' @param details Optional character vector naming metadata columns to fetch for
+#'   partner neurons.
 #' @param partners Whether to cluster based on connections to input or output
 #'   partner neurons (default both).
 #' @inheritParams neuprint_fetch_custom
@@ -24,6 +26,7 @@ check_coconat <- function() {
 neuprint_cosine_matrix <- function(ids, ..., threshold=5,
                                    partners = c("outputs", "inputs"),
                                    group=FALSE,
+                                   details=NULL,
                                    conn=NULL) {
   check_coconat()
   partners=match.arg(partners, several.ok = T)
@@ -33,13 +36,21 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
   if(!(length(ids)>0))
     stop("No valid ids provided!")
 
-  cell_types=!missing(...) || !isFALSE(group)
   if(isTRUE(group))
     group='type'
+  if(is.null(details)) {
+    if(missing(...) && isFALSE(group))
+      details=FALSE
+    else {
+      details=c("type", "instance")
+      if(!isFALSE(group))
+        details=union(details, group)
+    }
+  }
 
   if('inputs' %in% partners) {
     fpsin=
-      neuprintr::neuprint_connection_table(ids, partners = "in", summarise = T, details = cell_types, conn=conn, threshold = threshold) %>%
+      neuprintr::neuprint_connection_table(ids, partners = "in", summarise = T, details = details, conn=conn, threshold = threshold) %>%
       filter(...) %>%
       dplyr::mutate(direction='in')
     fami <- coconat::partner_summary2adjacency_matrix(
@@ -53,7 +64,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
     famicos=coconat::cosine_sim(fami, transpose = F)
   }
   if("outputs" %in% partners) {
-    fpsout=neuprintr::neuprint_connection_table(ids, partners = "out", summarise = T, details = cell_types, threshold = threshold, conn=conn) %>%
+    fpsout=neuprintr::neuprint_connection_table(ids, partners = "out", summarise = T, details = details, threshold = threshold, conn=conn) %>%
       dplyr::filter(...) %>%
       dplyr::mutate(direction='out')
     famo <-
