@@ -119,6 +119,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 neuprint_cosine_plot <- function(x, partners=c('inputs', 'outputs'), threshold=5,
                                  method=c("ward.D", "single", "complete", "average",
                                           "mcquitty", "median", "centroid", "ward.D2"),
+                                 group=FALSE,
                                  labRow='{type}',
                                  nas=c('zero','drop'),
                                  conn=NULL,
@@ -132,7 +133,7 @@ neuprint_cosine_plot <- function(x, partners=c('inputs', 'outputs'), threshold=5
 
   if(!ismatlist && !ismat) {
     x=neuprint_cosine_matrix(x, conn = conn, partners = partners,
-                             threshold=threshold)
+                             threshold=threshold, group=group)
   }
   x <- coconat::prepare_cosine_matrix(x, partners = partners, action=nas)
 

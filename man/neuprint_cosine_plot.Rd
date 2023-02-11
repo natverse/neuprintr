@@ -10,6 +10,7 @@ neuprint_cosine_plot(
   threshold = 5,
   method = c("ward.D", "single", "complete", "average", "mcquitty", "median", "centroid",
     "ward.D2"),
+  group = FALSE,
   labRow = "{type}",
   nas = c("zero", "drop"),
   conn = NULL,
@@ -26,6 +27,8 @@ partner neurons (default both).}
 \item{threshold}{An integer threshold (connections >= this will be returned)}
 
 \item{method}{The cluster method to use (see \code{\link{hclust}})}
+
+\item{group}{Whether to group by cell \code{type} or another named column.}
 
 \item{labRow}{A vector defining the row labels. If it is a character vector
 length 1 containing any curly braces it will be interpreted as a
