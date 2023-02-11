@@ -72,6 +72,7 @@
 <span>  threshold <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"outputs"</span>, <span class="st">"inputs"</span><span class="op">)</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  details <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  conn <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -97,6 +98,11 @@ partner neurons (default both).</p></dd>
 
 <dt>group</dt>
 <dd><p>Whether to group by cell <code>type</code> or another named column.</p></dd>
+
+
+<dt>details</dt>
+<dd><p>Optional character vector naming metadata columns to fetch for
+partner neurons.</p></dd>
 
 
 <dt>conn</dt>
