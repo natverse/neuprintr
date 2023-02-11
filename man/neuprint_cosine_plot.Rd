@@ -62,3 +62,6 @@ neuprint_cosine_matrix("/lLN2.+", !grepl("PN",type), partners='in') \%>\% neupri
 neuprint_cosine_matrix("/lLN2.+", grepl("PN",type), partners='in') \%>\% neuprint_cosine_plot()
 }
 }
+\seealso{
+\code{\link{neuprint_cosine_matrix}}
+}

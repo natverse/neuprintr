@@ -32,6 +32,8 @@ reference:
   - '`neuprint_skeleton_connectivity_matrix`'
   - '`neuprint_get_paths`'
   - '`neuprint_get_shortest_paths`'
+  - '`neuprint_cosine_matrix`'
+  - '`neuprint_cosine_plot`'
 - title: ROI information
   desc: List, visualise or summarise synpases in regions of interest.
   contents:

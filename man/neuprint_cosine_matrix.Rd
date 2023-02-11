@@ -41,3 +41,6 @@ Calculate a cosine similarity matrix for neuprint neurons
 neuprint_cosine_matrix("/lLN2.+", grepl("PN",type), partners='in')
 }
 }
+\seealso{
+\code{\link{neuprint_cosine_plot}}
+}

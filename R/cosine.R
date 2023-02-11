@@ -16,7 +16,7 @@ check_coconat <- function() {
 #'
 #' @return matrix or list of two matrices (input and output)
 #' @export
-#'
+#' @seealso \code{\link{neuprint_cosine_plot}}
 #' @examples
 #' \dontrun{
 #' neuprint_cosine_matrix("/lLN2.+", grepl("PN",type), partners='in')
@@ -92,7 +92,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 #' @return The result of \code{\link{heatmap}} invisibly including the row and
 #'   column dendrograms.
 #' @export
-#'
+#' @seealso \code{\link{neuprint_cosine_matrix}}
 #' @examples
 #' \donttest{
 #' neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in')
