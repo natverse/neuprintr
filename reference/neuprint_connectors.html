@@ -128,23 +128,12 @@ current connection, is used. See <code><a href="neuprint_login.html">neuprint_lo
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">syns</span> <span class="op">=</span> <span class="fu"><a href="neuprint_get_synapses.html">neuprint_get_synapses</a></span><span class="op">(</span><span class="fl">818983130</span><span class="op">)</span> <span class="co"># note</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="co"># all given connectorIDs from this function are for presynapses</span></span></span>
 <span class="r-in"><span><span class="va">prepost.conn</span> <span class="op">=</span> <span class="fu">neuprint_connectors</span><span class="op">(</span><span class="va">syns</span><span class="op">$</span><span class="va">connector_id</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in id2bit64(x):</span> object 'syns' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">prepost.conn</span><span class="op">)</span> <span class="co"># All the synapses that connect to or from 818983130</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   connectorId_post connectorId_pre bodyId_post bodyId_pre x_post y_post z_post</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        134770239       134750463   818983130  975432645   6323  17828  14144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        134770240       134750463  1006820405  975432645   6300  17836  14145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        134750459       134750463   947453617  975432645   6335  17828  14130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        134750458       134750463  1881751117  975432645   6319  17829  14130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        133912545       133912547   818983130  974753221   5265  16547  13869</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        133919081       133919083   696126258  974753207   5363  16481  13890</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   confidence_post x_pre y_pre z_pre confidence_pre</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       0.8521260  6326 17842 14138          0.953</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       0.4669051  6326 17842 14138          0.953</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       0.6970400  6326 17842 14138          0.953</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       0.9932270  6326 17842 14138          0.953</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       0.8970000  5267 16548 13857          0.785</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       0.6449590  5358 16493 13900          0.964</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(prepost.conn):</span> object 'prepost.conn' not found</span>
 <span class="r-in"><span><span class="co"># and their other connections to other bodies too</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

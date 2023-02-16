@@ -152,12 +152,7 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">neuprint_get_shortest_paths</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1128092885</span>,<span class="fl">481121605</span><span class="op">)</span>,<span class="fl">5813041365</span>,weightT<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        from         to weight depth            name.from        name.to</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 481121605  677182018     45     1 PFL1(PB12a)_L2(_C3_) FB02c(ADM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 677182018 5813041365     22     2       FB02c(ADM02)_R PFL1(PB12a)_L4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   type.from type.to</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      PFL1  FB2B_b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    FB2B_b    PFL1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

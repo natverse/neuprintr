@@ -151,33 +151,12 @@ neuron and you can assess its progress, if an error is thrown by any one
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">da2s</span><span class="op">=</span><span class="fu"><a href="neuprint_search.html">neuprint_search</a></span><span class="op">(</span><span class="st">".*DA2.*"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu">neuprint_get_meta</span><span class="op">(</span><span class="va">da2s</span><span class="op">$</span><span class="va">bodyid</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid pre post status    statusLabel cropped    voxels              name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      type cellBodyFiber  soma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 DA2 lPN           A12  TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 DA2 lPN           A12  TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 DA2 lPN           A12 FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 DA2 lPN           A12 FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 DA2 lPN           A12  TRUE</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="co"># or simpler</span></span></span>
 <span class="r-in"><span><span class="fu">neuprint_get_meta</span><span class="op">(</span><span class="st">'DA2'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid pre post status    statusLabel cropped    voxels              name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796817841 392  512 Traced Roughly traced   FALSE 723036360 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1827516355 391  548 Traced Roughly traced   FALSE 737014743 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  818983130 408  562 Traced Roughly traced   FALSE 606338969 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1797505019 339  479 Traced Roughly traced   FALSE 445320106 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1796818119 510  818 Traced Roughly traced   FALSE 907369420 mPN1_DA2(AVM02)_R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      type cellBodyFiber  soma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 DA2 lPN           A12  TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 DA2 lPN           A12  TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 DA2 lPN           A12 FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 DA2 lPN           A12 FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 DA2 lPN           A12  TRUE</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu">neuprint_get_meta</span><span class="op">(</span><span class="st">'cropped:false'</span><span class="op">)</span></span></span>

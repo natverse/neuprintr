@@ -136,34 +136,17 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-in"><span><span class="co"># Find some neurons with inputs in the Antennal Lobe (AL) and</span></span></span>
 <span class="r-in"><span><span class="co"># outputs in the LH</span></span></span>
 <span class="r-in"><span><span class="va">pncands</span><span class="op">=</span><span class="fu">neuprint_find_neurons</span><span class="op">(</span>input_ROIs <span class="op">=</span> <span class="st">"AL(R)"</span>, output_ROIs <span class="op">=</span> <span class="st">"LH(R)"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn = conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pncands</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              bodyid            bodyname                  bodytype neuronStatus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 294792184 294792184      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 329566174 329566174  OA-VPM3(NO2/NO3)_R                   OA-VPM3       Traced</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 420274150 420274150 AVM03m_pct(AVM03)_R                AVM03m_pct       Traced</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 424379864 424379864 AVM03e_pct(AVM03)_R                AVM03e_pct       Traced</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 480927537 480927537      mlPN2(AVM04)_R olfactory multi vPN mlALT       Traced</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 481268653 481268653  mlPN2_VM2(AVM04)_R olfactory multi vPN mlALT       Traced</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 size npre npost notes AL(R).pre AL(R).post LH(R).pre LH(R).post</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 294792184  420662445   93   344  &lt;NA&gt;         1        162        20         25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 329566174 6840451191 8568  9998  &lt;NA&gt;         7          2       235        160</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 420274150 1402341169  912   841  &lt;NA&gt;         0          1        72         96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 424379864 1338354844 1066   809  &lt;NA&gt;         0          7         7          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 480927537  239954420   82   273  &lt;NA&gt;         0        122        67        132</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 481268653  265085609  146    58  &lt;NA&gt;         0         28       135         26</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(pncands):</span> object 'pncands' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">`LH(R).pre`</span><span class="op">~</span><span class="va">`AL(R).post`</span>, data<span class="op">=</span><span class="va">pncands</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="neuprint_find_neurons-1.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(m$data, eframe):</span> object 'pncands' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">lhr</span><span class="op">=</span><span class="fu">neuprint_bodies_in_ROI</span><span class="op">(</span><span class="st">'LH(R)'</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lhr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      bodyid     voxels  pre post roipre roipost</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 480940072  436591770  158  294      3       5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 759810119 4479200695 3631 6384    869    1125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 792692885 1939906668 1911 2469    180     161</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 850233586  229634038   84  107      0       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 359279388  372877967  143  270      4     106</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 296120593 1194301818  621 1043     11     618</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(lhr):</span> object 'lhr' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

@@ -85,7 +85,7 @@
 
       
 
-      </header><script src="hemibrain_opns_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>hemibrain olfactory projection neurons</h1>
@@ -99,12 +99,29 @@
     
     
 <blockquote>
-<p>“FROM many directions, workers are tunnelling hopefully into the mountain, some with steam shovels and others with dental drills. Some travel blindly in a circle and come out close to their point of entrance; some connect, usually in a mismatched fashion, with the burrows of others. Some have chosen to disregard the random activities of their fellows and have worked out in a small region an elegant system of tunnels of their own. Both the attraction and confusion of this multitudinous excavation lie in the fact that none of these workers knows precisely what they are looking for, or what they will find.” (<a href="https://www.springer.com/gp/book/9783642692734" class="external-link">Kenneth Roeder</a>)</p>
+<p>“FROM many directions, workers are tunnelling hopefully into the
+mountain, some with steam shovels and others with dental drills. Some
+travel blindly in a circle and come out close to their point of
+entrance; some connect, usually in a mismatched fashion, with the
+burrows of others. Some have chosen to disregard the random activities
+of their fellows and have worked out in a small region an elegant system
+of tunnels of their own. Both the attraction and confusion of this
+multitudinous excavation lie in the fact that none of these workers
+knows precisely what they are looking for, or what they will find.” (<a href="https://www.springer.com/gp/book/9783642692734" class="external-link">Kenneth
+Roeder</a>)</p>
 </blockquote>
 <div class="section level2">
 <h2 id="inspecting-the-hemibrain">Inspecting the hemibrain<a class="anchor" aria-label="anchor" href="#inspecting-the-hemibrain"></a>
 </h2>
-<p>The largest draft connectome to date was released on the 22nd of January, 2020. The <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">FlyEM Janelia HemiBrain project</a> has released 21,662 neurons, many more fragments, and almost 10 million synapses. About 35% of its automatically predicted synapses have been matched up to a semi-automatically traced ‘body’ deemed large enough to constitute an identifiable neuron. This data can be accessed using our R package <a href="https://github.com/natverse/neuprintr/" class="external-link">neuprintr</a> to query a publically accessible <a href="https://neuprint.janelia.org/" class="external-link">neuPrint explorer instance</a>.</p>
+<p>The largest draft connectome to date was released on the 22nd of
+January, 2020. The <a href="https://www.janelia.org/project-team/flyem/hemibrain" class="external-link">FlyEM
+Janelia HemiBrain project</a> has released 21,662 neurons, many more
+fragments, and almost 10 million synapses. About 35% of its
+automatically predicted synapses have been matched up to a
+semi-automatically traced ‘body’ deemed large enough to constitute an
+identifiable neuron. This data can be accessed using our R package <a href="https://github.com/natverse/neuprintr/" class="external-link">neuprintr</a> to query a
+publically accessible <a href="https://neuprint.janelia.org/" class="external-link">neuPrint
+explorer instance</a>.</p>
 <div class="section level3">
 <h3 id="lock-and-load">Lock and load<a class="anchor" aria-label="anchor" href="#lock-and-load"></a>
 </h3>
@@ -146,9 +163,17 @@
 <span><span class="co">## Then see if a simple function works for you:</span></span>
 <span><span class="va">available.datasets</span> <span class="op">=</span> <span class="fu"><a href="../reference/neuprint_info.html">neuprint_datasets</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">available.datasets</span></span></code></pre></div>
-<p>If you need help/have not before logged into neuPrint via R, please see the package README or see <code><a href="../reference/neuprint_login.html">?neuprint_login</a></code>.</p>
-<p>The main point is that you can then edit your R.environ file to contain information about the neuPrint server you want to speak with, your token and the dataset hosted by that server, that you want to read. You can use the package <code>usethis</code> to easily edit your R environ file. You will need to add these lines to your R environ to specify the hemibrain dataset:</p>
-<p><code>neuprint_token="YOUR_TOKEN_HERE"</code> <code>neuprint_server='https://neuprint.janelia.org/'</code> <code>neuprint_dataset='hemibrain:v1.0'</code></p>
+<p>If you need help/have not before logged into neuPrint via R, please
+see the package README or see <code><a href="../reference/neuprint_login.html">?neuprint_login</a></code>.</p>
+<p>The main point is that you can then edit your R.environ file to
+contain information about the neuPrint server you want to speak with,
+your token and the dataset hosted by that server, that you want to read.
+You can use the package <code>usethis</code> to easily edit your R
+environ file. You will need to add these lines to your R environ to
+specify the hemibrain dataset:</p>
+<p><code>neuprint_token="YOUR_TOKEN_HERE"</code>
+<code>neuprint_server='https://neuprint.janelia.org/'</code>
+<code>neuprint_dataset='hemibrain:v1.0'</code></p>
 <p>Leave a blank line at the end of the file.</p>
 <p>Then restart your R session.</p>
 </div>
@@ -158,9 +183,24 @@
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_an_opn.png" alt=""><p class="caption">hemibrain_an_opn</p>
 </div>
-<p>First, we need to find neurons to read from neuPrint. We can do this easily in two ways - we can search by name, and we can search by brain region.</p>
-<p>So what do we want to look at? Some of the best studied neurons in the brain are the olfactory projections neurons (OPNs) <a href="https://www.ncbi.nlm.nih.gov/pubmed/27653699" class="external-link">Grabe et al. 2016</a>. These are second-order olfactory neurons that project from the fly’s equivalent of the olfactory bulb, i.e. the antennal lobe, to higher order brain regions that generate innate behaviours (the lateral horn, LH) <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6550879" class="external-link">(Frechter. 209,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/31112130" class="external-link">Dolan et al. 2019)</a> and learning &amp; memory (the mushroom body) <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535793" class="external-link">(Aso et al. 2014a,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535794" class="external-link">Aso et al. 2014b)</a>. We know a fair bit about them, compared with most neurons in the fly brain. For example, a bit of their odour response profiles <a href="https://www.ncbi.nlm.nih.gov/pubmed/27321924" class="external-link">Badel et al., 2016</a>.</p>
-<p>Perhaps we could look at some popular OPN types and see if they connect to each other? How do we get this information?</p>
+<p>First, we need to find neurons to read from neuPrint. We can do this
+easily in two ways - we can search by name, and we can search by brain
+region.</p>
+<p>So what do we want to look at? Some of the best studied neurons in
+the brain are the olfactory projections neurons (OPNs) <a href="https://www.ncbi.nlm.nih.gov/pubmed/27653699" class="external-link">Grabe et
+al. 2016</a>. These are second-order olfactory neurons that project from
+the fly’s equivalent of the olfactory bulb, i.e. the antennal lobe, to
+higher order brain regions that generate innate behaviours (the lateral
+horn, LH) <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6550879" class="external-link">(Frechter.
+209,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/31112130" class="external-link">Dolan et
+al. 2019)</a> and learning &amp; memory (the mushroom body) <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535793" class="external-link">(Aso et
+al. 2014a,</a> <a href="https://www.ncbi.nlm.nih.gov/pubmed/25535794" class="external-link">Aso et
+al. 2014b)</a>. We know a fair bit about them, compared with most
+neurons in the fly brain. For example, a bit of their odour response
+profiles <a href="https://www.ncbi.nlm.nih.gov/pubmed/27321924" class="external-link">Badel et
+al., 2016</a>.</p>
+<p>Perhaps we could look at some popular OPN types and see if they
+connect to each other? How do we get this information?</p>
 <p>Let’s find some in our HemiBrain data:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Let's find some in our HemiBrain data:</span></span>
@@ -260,7 +300,8 @@
 <div class="section level3">
 <h3 id="get-neuropil-volumes">Get neuropil volumes<a class="anchor" aria-label="anchor" href="#get-neuropil-volumes"></a>
 </h3>
-<p>So it is nice that we now have some neurons. But it would be good to see them with their neuropil context.</p>
+<p>So it is nice that we now have some neurons. But it would be good to
+see them with their neuropil context.</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_olfactory_neuropils.png" alt=""><p class="caption">hemibrain_olfactory_neuropils</p>
 </div>
@@ -312,16 +353,26 @@
 <div class="section level3">
 <h3 id="get-connectivity">Get connectivity<a class="anchor" aria-label="anchor" href="#get-connectivity"></a>
 </h3>
-<p>And now the really exciting bit! How do these neurons connect to each other?</p>
+<p>And now the really exciting bit! How do these neurons connect to each
+other?</p>
 <p>First we will look at connectivity between OPN types.</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_uPN_connections.png" alt=""><p class="caption">hemibrain_uPN_connections</p>
 </div>
-<p>Then we will follow up on their connectivity with other neurons in the brain. We will focus on the uniglomerular projection neuron (uPN) from the apple cider vinegar detecting glomerulus, DM1. It is already known that it is a hub for connectivity in the lateral horn, impinging on the axons of other food-odour related projection neurons <a href="https://www.biorxiv.org/content/10.1101/2020.01.19.911453v1" class="external-link">(Bates and Schlegel et al., 2020)</a>. We’ll see in the code below, that we can find that this PNs’ (orange) strongest downstream targets include these neurons in the lateral horn (the part of the brain that generates ‘innate’ behaviours):</p>
+<p>Then we will follow up on their connectivity with other neurons in
+the brain. We will focus on the uniglomerular projection neuron (uPN)
+from the apple cider vinegar detecting glomerulus, DM1. It is already
+known that it is a hub for connectivity in the lateral horn, impinging
+on the axons of other food-odour related projection neurons <a href="https://www.biorxiv.org/content/10.1101/2020.01.19.911453v1" class="external-link">(Bates
+and Schlegel et al., 2020)</a>. We’ll see in the code below, that we can
+find that this PNs’ (orange) strongest downstream targets include these
+neurons in the lateral horn (the part of the brain that generates
+‘innate’ behaviours):</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_DM1_strong_LH_targets.png" alt=""><p class="caption">hemibrain_DM1_strong_LH_targets</p>
 </div>
-<p>And that other uPNs can influence them both directly and via interstitial neurons:</p>
+<p>And that other uPNs can influence them both directly and via
+interstitial neurons:</p>
 <div class="figure">
 <img src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/hemibrain_uPN_inputs_to_select_LHNs.png" alt=""><p class="caption">hemibrain_uPN_inputs_to_select_LHNs</p>
 </div>
@@ -488,8 +539,34 @@
 <div class="section level3">
 <h3 id="article">Article<a class="anchor" aria-label="anchor" href="#article"></a>
 </h3>
-<p><strong>A Connectome of the Adult Drosophila Central Brain</strong></p>
-<p>Shan Xu, C; Januszewski, Michal; Lu, Zhiyuan; Takemura, Shin-Ya; Hayworth, Kenneth; Huang, Gary; Shinomiya, Kazunori; Maitin-Shepard, Jeremy; Ackerman, David; Berg, Stuart; Blakely, Tim; Bogovic, John; Clements, Jody; Dolafi, Tom; Hubbard, Philip; Kainmueller, Dagmar; Katz, William; Kawase, Takashi; Khairy, Khaled; Leavitt, Laramie; Li, Peter H; Lindsey, Larry; Neubarth, Nicole; Olbris, Donald J; Otsuna, Hideo; Troutman, Eric T; Umayam, Lowell; Zhao, Ting; Ito, Masayoshi; Goldammer, Jens; Wolff, Tanya; Svirskas, Robert; Schlegel, Philipp; Neace, Erika R; Knecht, Christopher J; Alvarado, Chelsea X; Bailey, Dennis; Ballinger, Samantha; Borycz, Jolanta A; Canino, Brandon; Cheatham, Natasha; Cook, Michael; Dreyer, Marisa; Duclos, Octave; Eubanks, Bryon; Fairbanks, Kelli; Finley, Samantha; Forknall, Nora; Francis, Audrey; Hopkins, Gary Patrick; Joyce, Emily M; Kim, Sungjin; Kirk, Nicole A; Kovalyak, Julie; Lauchie, Shirley A; Lohff, Alanna; Maldonado, Charli; Manley, Emily A; McLin, Sari; Mooney, Caroline; Ndama, Miatta; Ogundeyi, Omotara; Okeoma, Nneoma; Ordish, Christopher; Padilla, Nicholas; Patrick, Christopher; Paterson, Tyler; Phillips, Elliott E; Phillips, Emily M; Rampally, Neha; Ribeiro, Caitlin; Robertson, Madelaine K; Rymer, Jon Thomson; Ryan, Sean M; Sammons, Megan; Scott, Anne K; Scott, Ashley L; Shinomiya, Aya; Smith, Claire; Smith, Kelsey; Smith, Natalie L; Sobeski, Margaret A; Suleiman, Alia; Swift, Jackie; Takemura, Satoko; Talebi, Iris; Tarnogorska, Dorota; Tenshaw, Emily; Tokhi, Temour; Walsh, John J; Yang, Tansy; Horne, Jane Anne; Li, Feng; Parekh, Ruchi; Rivlin, Patricia K; Jayaraman, Vivek; Ito, Kei; Saalfeld, Stephan; George, Reed; Meinertzhagen, Ian; Rubin, Gerald M; Hess, Harald F; Scheffer, Louis K; Jain, Viren; Plaza, Stephen M</p>
+<p><strong>A Connectome of the Adult Drosophila Central
+Brain</strong></p>
+<p>Shan Xu, C; Januszewski, Michal; Lu, Zhiyuan; Takemura, Shin-Ya;
+Hayworth, Kenneth; Huang, Gary; Shinomiya, Kazunori; Maitin-Shepard,
+Jeremy; Ackerman, David; Berg, Stuart; Blakely, Tim; Bogovic, John;
+Clements, Jody; Dolafi, Tom; Hubbard, Philip; Kainmueller, Dagmar; Katz,
+William; Kawase, Takashi; Khairy, Khaled; Leavitt, Laramie; Li, Peter H;
+Lindsey, Larry; Neubarth, Nicole; Olbris, Donald J; Otsuna, Hideo;
+Troutman, Eric T; Umayam, Lowell; Zhao, Ting; Ito, Masayoshi; Goldammer,
+Jens; Wolff, Tanya; Svirskas, Robert; Schlegel, Philipp; Neace, Erika R;
+Knecht, Christopher J; Alvarado, Chelsea X; Bailey, Dennis; Ballinger,
+Samantha; Borycz, Jolanta A; Canino, Brandon; Cheatham, Natasha; Cook,
+Michael; Dreyer, Marisa; Duclos, Octave; Eubanks, Bryon; Fairbanks,
+Kelli; Finley, Samantha; Forknall, Nora; Francis, Audrey; Hopkins, Gary
+Patrick; Joyce, Emily M; Kim, Sungjin; Kirk, Nicole A; Kovalyak, Julie;
+Lauchie, Shirley A; Lohff, Alanna; Maldonado, Charli; Manley, Emily A;
+McLin, Sari; Mooney, Caroline; Ndama, Miatta; Ogundeyi, Omotara; Okeoma,
+Nneoma; Ordish, Christopher; Padilla, Nicholas; Patrick, Christopher;
+Paterson, Tyler; Phillips, Elliott E; Phillips, Emily M; Rampally, Neha;
+Ribeiro, Caitlin; Robertson, Madelaine K; Rymer, Jon Thomson; Ryan, Sean
+M; Sammons, Megan; Scott, Anne K; Scott, Ashley L; Shinomiya, Aya;
+Smith, Claire; Smith, Kelsey; Smith, Natalie L; Sobeski, Margaret A;
+Suleiman, Alia; Swift, Jackie; Takemura, Satoko; Talebi, Iris;
+Tarnogorska, Dorota; Tenshaw, Emily; Tokhi, Temour; Walsh, John J; Yang,
+Tansy; Horne, Jane Anne; Li, Feng; Parekh, Ruchi; Rivlin, Patricia K;
+Jayaraman, Vivek; Ito, Kei; Saalfeld, Stephan; George, Reed;
+Meinertzhagen, Ian; Rubin, Gerald M; Hess, Harald F; Scheffer, Louis K;
+Jain, Viren; Plaza, Stephen M</p>
 <p>bioRxiv, Jan 21, 2020 <a href="https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1" class="external-link">10.1101/2020.01.21.911859</a></p>
 </div>
 </div>
