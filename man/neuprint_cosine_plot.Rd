@@ -54,7 +54,7 @@ Plot cosine clustering of neuprint/hemibrain neurons
 }
 \examples{
 \donttest{
-neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in')
+neuprint_cosine_plot("/DA[1-3].*PN", partners='in')
 }
 \dontrun{
 # Considering all partners
