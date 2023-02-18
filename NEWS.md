@@ -1,3 +1,17 @@
+# neuprintr 1.3.1
+
+## What's Changed
+* add `neuprint_cosine_plot()` and `neuprint_cosine_matrix()` to support cosine 
+similarity clustering by @jefferis in https://github.com/natverse/neuprintr/pull/167
+
+* Fix when dataset for connection not passed on by @jefferis in https://github.com/natverse/neuprintr/pull/162
+* WIP: improved error messages by @jefferis in https://github.com/natverse/neuprintr/pull/161
+* Fix adjacency matrix names by @jefferis in https://github.com/natverse/neuprintr/pull/163
+* fix bug (noticed w malecns) when correct rois not fetched by @jefferis in https://github.com/natverse/neuprintr/pull/165
+* Fix bug when only presynapse is inside ROI by @jefferis in https://github.com/natverse/neuprintr/pull/166
+
+https://github.com/natverse/neuprintr/compare/v1.3...v1.3.1
+
 # neuprintr 1.3
 
 * Fix problem with numeric bodyids by @jefferis in https://github.com/natverse/neuprintr/pull/142
