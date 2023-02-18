@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -136,17 +136,41 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-in"><span><span class="co"># Find some neurons with inputs in the Antennal Lobe (AL) and</span></span></span>
 <span class="r-in"><span><span class="co"># outputs in the LH</span></span></span>
 <span class="r-in"><span><span class="va">pncands</span><span class="op">=</span><span class="fu">neuprint_find_neurons</span><span class="op">(</span>input_ROIs <span class="op">=</span> <span class="st">"AL(R)"</span>, output_ROIs <span class="op">=</span> <span class="st">"LH(R)"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn = conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pncands</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(pncands):</span> object 'pncands' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              bodyid           bodyname  bodytype neuronStatus       size npre</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 294792184 294792184        M_vPNml53_R M_vPNml53       Traced  424947333   92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 329566174 329566174 OA-VPM3(NO2/NO3)_R   OA-VPM3       Traced 6917059458 8632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 420274150 420274150           SLP236_R    SLP236       Traced 1406561606  918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 424379864 424379864           SLP234_R    SLP234       Traced 1339319152 1066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 480927537 480927537        M_vPNml70_R M_vPNml70       Traced  244229430   83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 481268653 481268653        M_vPNml89_R M_vPNml89       Traced  266715893  146</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           npost notes AL(R).pre AL(R).post AL(R).upstream AL(R).downstream</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 294792184   348  &lt;NA&gt;         1        162            162                3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 329566174 10075  &lt;NA&gt;         7          2              2               18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 420274150   847  &lt;NA&gt;         0          1              1                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 424379864   811  &lt;NA&gt;         0          7              7                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 480927537   279  &lt;NA&gt;         0        122            122                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 481268653    58  &lt;NA&gt;         0         28             28                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           LH(R).pre LH(R).post LH(R).upstream LH(R).downstream</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 294792184        20         29             29              166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 329566174       236        159            159             1066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 420274150        75         96             96              601</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 424379864         7          0              0               62</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 480927537        68        138            138              576</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 481268653       135         26             26             1498</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">`LH(R).pre`</span><span class="op">~</span><span class="va">`AL(R).post`</span>, data<span class="op">=</span><span class="va">pncands</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(m$data, eframe):</span> object 'pncands' not found</span>
+<span class="r-plt img"><img src="neuprint_find_neurons-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">lhr</span><span class="op">=</span><span class="fu">neuprint_bodies_in_ROI</span><span class="op">(</span><span class="st">'LH(R)'</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lhr</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(lhr):</span> object 'lhr' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid    voxels pre post roipre roipost</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1010248735   1014700   0   10      0       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1006105083   5363494   4    6      4       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1006446342   1031843   3    5      3       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1007865728   1801114   0   10      0      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1008145243   1123011   2    4      2       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1009919653 783883666 589  788      6       2</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -227,55 +227,79 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-in"><span><span class="co">## Unitary connection strengths between two chosen neurons,</span></span></span>
 <span class="r-in"><span><span class="co">## and their downstream targets</span></span></span>
 <span class="r-in"><span><span class="va">c1</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c1</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(c1):</span> object 'c1' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid    partner prepost weight</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796818119  632402333       1     26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  818983130  785914742       1     24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1796818119 5813080766       1     24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  818983130  754870859       1     23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  818983130  798869986       1     23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  818983130 1143677310       1     23</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># query of regex against cell type</span></span></span>
 <span class="r-in"><span><span class="co"># summarised per partner with additional details column</span></span></span>
 <span class="r-in"><span><span class="va">c1s</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">"/DA2.*lPN"</span>, partners<span class="op">=</span><span class="st">'out'</span>, summary<span class="op">=</span><span class="cn">TRUE</span>, details<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c1s</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(c1s):</span> object 'c1s' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      partner prepost weight name        type          n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="text-decoration: underline;">5</span>813<span style="text-decoration: underline;">055</span>865       1     85 LHAD1f2_R   LHAD1f2       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">1</span>671<span style="text-decoration: underline;">608</span>112       1     67 M_ilPNm90_R M_ilPNm90     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  573<span style="text-decoration: underline;">695</span>941       1     66 LHPV4b3_R   LHPV4b3       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  574<span style="text-decoration: underline;">377</span>562       1     62 LHAV2d1_R   LHAV2d1       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  574<span style="text-decoration: underline;">377</span>845       1     61 LHAV3f1_R   LHAV3f1       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="text-decoration: underline;">5</span>813<span style="text-decoration: underline;">012</span>083       1     55 LHAV4d1_R   LHAV4d1       5</span>
 <span class="r-in"><span><span class="co"># Kenyon cells typically receive fewer multiple inputs than other partners</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>n<span class="op">=</span><span class="va">c1s</span><span class="op">$</span><span class="va">n</span>, KC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^KC"</span>, <span class="va">c1s</span><span class="op">$</span><span class="va">type</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(n = c1s$n, KC = grepl("^KC", c1s$type)):</span> object 'c1s' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    KC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n   FALSE TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1   224  124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2    97   28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3    66    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4    57    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5    99    0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The same connections broken down by ROI</span></span></span>
 <span class="r-in"><span><span class="va">c2</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span></span>
 <span class="r-in"><span>                               by.roi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">c2</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(c2):</span> object 'c2' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       bodyid   partner prepost weight ROIweight         roi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1796818119 632402333       1     26        26 MB(+ACA)(R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1796818119 632402333       1     26        26       MB(R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1796818119 632402333       1     26        26       CA(R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  818983130 785914742       1     24        23 MB(+ACA)(R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  818983130 785914742       1     24        23       MB(R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  818983130 785914742       1     24         1     mALT(R)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The same connections broken down by super-level ROIs only</span></span></span>
 <span class="r-in"><span><span class="va">c3</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span></span>
 <span class="r-in"><span>                               by.roi <span class="op">=</span> <span class="cn">TRUE</span>, superLevel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">c3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in nrow(c3):</span> object 'c3' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 660</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">c2</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in nrow(c2):</span> object 'c2' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1186</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Find only the connections within a specific ROI</span></span></span>
 <span class="r-in"><span><span class="va">c4</span> <span class="op">=</span> <span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">818983130</span>, <span class="fl">1796818119</span><span class="op">)</span>, prepost <span class="op">=</span> <span class="st">"POST"</span>,</span></span>
 <span class="r-in"><span>                               by.roi <span class="op">=</span> <span class="cn">TRUE</span>, roi <span class="op">=</span> <span class="st">"LH(R)"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># compare pre/post/upstream/downstream when all_segments=TRUE or FALSE</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="neuprint_get_meta.html">neuprint_get_meta</a></span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      bodyid pre post upstream downstream status    statusLabel    voxels</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 635048729 180  273      273       1868 Traced Roughly traced 617533058</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cropped       name     type cellBodyFiber notes soma</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   FALSE DP1m_vPN_R DP1m_vPN         AVM04  &lt;NA&gt; TRUE</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 252</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'in'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 273</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 373</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">neuprint_connection_table</span><span class="op">(</span><span class="st">'/DP1m.*vPN'</span>, partners <span class="op">=</span> <span class="st">'out'</span>, all_segments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in neuprint_login(conn):</span> Sorry you must specify a neuprint server! See ?neuprint_login for details!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1868</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
