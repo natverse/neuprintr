@@ -142,61 +142,8 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="neuprint_cosine_matrix.html">neuprint_cosine_matrix</a></span><span class="op">(</span><span class="st">"/DA[1-3].*PN"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"ORN"</span>,<span class="va">type</span><span class="op">)</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            1734350788 1734350908 1765040289 5813039315 722817260 754534424</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1734350788  1.0000000  0.7911385  0.7838174  0.7508534 0.7478463 0.7899044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1734350908  0.7911385  1.0000000  0.8131651  0.8421953 0.7844044 0.8548269</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1765040289  0.7838174  0.8131651  1.0000000  0.8310386 0.8299156 0.9000086</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5813039315  0.7508534  0.8421953  0.8310386  1.0000000 0.8099328 0.8491668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 722817260   0.7478463  0.7844044  0.8299156  0.8099328 1.0000000 0.8307328</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 754534424   0.7899044  0.8548269  0.9000086  0.8491668 0.8307328 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 754538881   0.7874977  0.7809437  0.8708951  0.8050826 0.8282373 0.8532473</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 733316908   0.7594145  0.8497124  0.8137838  0.8343710 0.8326044 0.8468566</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1796817841  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1796818119  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1797505019  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1827516355  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 818983130   0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1702806746  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1702815630  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1703683361  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 666135689   0.0000000  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            754538881 733316908 1796817841 1796818119 1797505019 1827516355</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1734350788 0.7874977 0.7594145  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1734350908 0.7809437 0.8497124  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1765040289 0.8708951 0.8137838  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5813039315 0.8050826 0.8343710  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 722817260  0.8282373 0.8326044  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 754534424  0.8532473 0.8468566  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 754538881  1.0000000 0.8238283  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 733316908  0.8238283 1.0000000  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1796817841 0.0000000 0.0000000  1.0000000  0.4512069  0.3026890  0.3648613</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1796818119 0.0000000 0.0000000  0.4512069  1.0000000  0.5869982  0.7033427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1797505019 0.0000000 0.0000000  0.3026890  0.5869982  1.0000000  0.6480365</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1827516355 0.0000000 0.0000000  0.3648613  0.7033427  0.6480365  1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 818983130  0.0000000 0.0000000  0.4413857  0.6897041  0.5350274  0.5396716</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1702806746 0.0000000 0.0000000  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1702815630 0.0000000 0.0000000  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1703683361 0.0000000 0.0000000  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 666135689  0.0000000 0.0000000  0.0000000  0.0000000  0.0000000  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            818983130 1702806746 1702815630 1703683361 666135689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1734350788 0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1734350908 0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1765040289 0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5813039315 0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 722817260  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 754534424  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 754538881  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 733316908  0.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1796817841 0.4413857  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1796818119 0.6897041  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1797505019 0.5350274  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1827516355 0.5396716  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 818983130  1.0000000  0.0000000  0.0000000  0.0000000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1702806746 0.0000000  1.0000000  0.9713775  0.3657420 0.3632341</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1702815630 0.0000000  0.9713775  1.0000000  0.3593996 0.3463019</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1703683361 0.0000000  0.3657420  0.3593996  1.0000000 0.9335473</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 666135689  0.0000000  0.3632341  0.3463019  0.9335473 1.0000000</span>
+<span class="r-in"><span><span class="fu">neuprint_cosine_plot</span><span class="op">(</span><span class="st">"/DA[1-3].*PN"</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="neuprint_cosine_plot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Considering all partners</span></span></span>
