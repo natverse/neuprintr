@@ -10,6 +10,7 @@ neuprint_cosine_matrix(
   threshold = 5,
   partners = c("outputs", "inputs"),
   group = FALSE,
+  groupfun = NULL,
   details = NULL,
   conn = NULL
 )
@@ -26,6 +27,10 @@ partner neurons (default both).}
 
 \item{group}{Whether to group by cell \code{type} or another named column.}
 
+\item{groupfun}{A function which receives the metadata for all partner
+neurons and returns a single grouping vector (see the \bold{details}
+section).}
+
 \item{details}{Optional character vector naming metadata columns to fetch for
 partner neurons.}
 
@@ -40,8 +45,27 @@ matrix or list of two matrices (input and output)
 \description{
 Calculate a cosine similarity matrix for neuprint neurons
 }
+\details{
+For most purposes you can use \code{\link{neuprint_cosine_plot}}
+  directly, but it can sometimes be useful to use
+  \code{neuprint_cosine_matrix} to have more control over how partner neurons
+  are grouped (see e.g. \code{groupfun}) or which partner neurons are included
+  in the results (.
+
+  The \code{groupfun} argument can be a powerful way to construct flexible
+  grouping strategies for partner neurons. It was added in order to use
+  information present in fields such as the group, serial or instance/name
+  columns in the male VNC/CNS datasets. It will receive as input a dataframe
+  and expects to receive a single vector of length matching the number of
+  rows in the input dataframe. The input dataframe will contain the standard
+  columns returned by \code{\link{neuprint_connection_table}} but you can
+  request extra columns if necessary by naming them in the \code{group}
+  argument.
+}
 \examples{
 \donttest{
+# NB the second (unnamed argument) filters the partner neurons
+# so that only those with type containing the regular expression ORN are used
 neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in')
 }
 }

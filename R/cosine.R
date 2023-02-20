@@ -6,10 +6,29 @@ check_coconat <- function() {
 
 #' Calculate a cosine similarity matrix for neuprint neurons
 #'
+#' @details For most purposes you can use \code{\link{neuprint_cosine_plot}}
+#'   directly, but it can sometimes be useful to use
+#'   \code{neuprint_cosine_matrix} to have more control over how partner neurons
+#'   are grouped (see e.g. \code{groupfun}) or which partner neurons are included
+#'   in the results (.
+#'
+#'   The \code{groupfun} argument can be a powerful way to construct flexible
+#'   grouping strategies for partner neurons. It was added in order to use
+#'   information present in fields such as the group, serial or instance/name
+#'   columns in the male VNC/CNS datasets. It will receive as input a dataframe
+#'   and expects to receive a single vector of length matching the number of
+#'   rows in the input dataframe. The input dataframe will contain the standard
+#'   columns returned by \code{\link{neuprint_connection_table}} but you can
+#'   request extra columns if necessary by naming them in the \code{group}
+#'   argument.
+#'
 #' @param ids Passed to \code{\link{neuprint_ids}}
 #' @param ... Optional filter expression defining which partners to include
 #' @param threshold An integer threshold (connections >= this will be returned)
 #' @param group Whether to group by cell \code{type} or another named column.
+#' @param groupfun A function which receives the metadata for all partner
+#'   neurons and returns a single grouping vector (see the \bold{details}
+#'   section).
 #' @param details Optional character vector naming metadata columns to fetch for
 #'   partner neurons.
 #' @param partners Whether to cluster based on connections to input or output
@@ -21,11 +40,14 @@ check_coconat <- function() {
 #' @seealso \code{\link{neuprint_cosine_plot}}
 #' @examples
 #' \donttest{
+#' # NB the second (unnamed argument) filters the partner neurons
+#' # so that only those with type containing the regular expression ORN are used
 #' neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in')
 #' }
 neuprint_cosine_matrix <- function(ids, ..., threshold=5,
                                    partners = c("outputs", "inputs"),
                                    group=FALSE,
+                                   groupfun=NULL,
                                    details=NULL,
                                    conn=NULL) {
   check_coconat()
@@ -39,7 +61,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
   if(isTRUE(group))
     group='type'
   if(is.null(details)) {
-    if(missing(...) && isFALSE(group))
+    if(missing(...) && isFALSE(group) && is.null(groupfun))
       details=FALSE
     else {
       details=c("type", "instance")
@@ -56,6 +78,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
     fami <- coconat::partner_summary2adjacency_matrix(
       fpsin,
       inputcol = ifelse(!isFALSE(group), group, 'partner'),
+      inputids = groupfun,
       outputcol = 'bodyid',
       outputids = ids,
       standardise_input = F
@@ -72,6 +95,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
         fpsout,
         inputcol = 'bodyid',
         outputcol = ifelse(!isFALSE(group), group, 'partner'),
+        outputids = groupfun,
         inputids = ids,
         standardise_input = F
       )
