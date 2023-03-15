@@ -12,6 +12,7 @@ neuprint_cosine_plot(
     "ward.D2"),
   group = FALSE,
   labRow = "{type}",
+  interactive = FALSE,
   nas = c("zero", "drop"),
   conn = NULL,
   ...
@@ -35,6 +36,9 @@ length 1 containing any curly braces it will be interpreted as a
 \code{\link{glue}} string for interpolation, using the data.frame returned
 by \code{\link{neuprint_get_meta}} as a source of information.}
 
+\item{interactive}{Whether to plot an interactive heatmap (allowing zooming
+and id selection). See details.}
+
 \item{nas}{What to do with entries that have NAs. Default is to set them to 0
 similarity.}
 
@@ -52,6 +56,13 @@ The result of \code{\link{heatmap}} invisibly including the row and
 \description{
 Plot cosine clustering of neuprint/hemibrain neurons
 }
+\details{
+Note that when \code{interactive=TRUE} you must have external
+  packages including \code{InteractiveComplexHeatmap} installed with the
+  \code{coconat} package. If you are using Rstudio, we recommend using an
+  external browser (e.g. Chrome) rather than the built-in browser, especially
+  for larger heatmaps.
+}
 \examples{
 \donttest{
 neuprint_cosine_plot("/DA[1-3].*PN", partners='in')
@@ -63,6 +74,9 @@ neuprint_cosine_matrix("/lLN2.+", partners='in') \%>\% neuprint_cosine_plot()
 neuprint_cosine_matrix("/lLN2.+", !grepl("PN",type), partners='in') \%>\% neuprint_cosine_plot()
 # just use PN partners for cosine distance score
 neuprint_cosine_matrix("/lLN2.+", grepl("PN",type), partners='in') \%>\% neuprint_cosine_plot()
+
+# interactive heatmap allowing zooming and id selection
+neuprint_cosine_plot("/lLN2.+",  partners='out', interactive=TRUE)
 }
 }
 \seealso{

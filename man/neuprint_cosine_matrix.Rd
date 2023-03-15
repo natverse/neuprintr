@@ -49,8 +49,8 @@ Calculate a cosine similarity matrix for neuprint neurons
 For most purposes you can use \code{\link{neuprint_cosine_plot}}
   directly, but it can sometimes be useful to use
   \code{neuprint_cosine_matrix} to have more control over how partner neurons
-  are grouped (see e.g. \code{groupfun}) or which partner neurons are included
-  in the results (.
+  are grouped (see e.g. \code{groupfun}) or which partner neurons are
+  included in the results (.
 
   The \code{groupfun} argument can be a powerful way to construct flexible
   grouping strategies for partner neurons. It was added in order to use
