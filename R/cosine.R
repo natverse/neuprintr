@@ -21,17 +21,10 @@ check_coconat <- function() {
 #'   columns returned by \code{\link{neuprint_connection_table}} but you can
 #'   request extra columns if necessary by naming them in the \code{group}
 #'   argument.
-#'
-#'   Note that when \code{interactive=TRUE} you must have external packages
-#'   including \code{InteractiveComplexHeatmap} installed with the
-#'   \code{coconat} package.
-#'
 #' @param ids Passed to \code{\link{neuprint_ids}}
 #' @param ... Optional filter expression defining which partners to include
 #' @param threshold An integer threshold (connections >= this will be returned)
 #' @param group Whether to group by cell \code{type} or another named column.
-#' @param interactive Whether to plot an interactive heatmap (allowing zooming
-#'   and id selection).
 #' @param groupfun A function which receives the metadata for all partner
 #'   neurons and returns a single grouping vector (see the \bold{details}
 #'   section).
@@ -53,7 +46,6 @@ check_coconat <- function() {
 neuprint_cosine_matrix <- function(ids, ..., threshold=5,
                                    partners = c("outputs", "inputs"),
                                    group=FALSE,
-                                   interactive=FALSE,
                                    groupfun=NULL,
                                    details=NULL,
                                    conn=NULL) {
@@ -118,6 +110,12 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 
 #' Plot cosine clustering of neuprint/hemibrain neurons
 #'
+#' @details Note that when \code{interactive=TRUE} you must have external
+#'   packages including \code{InteractiveComplexHeatmap} installed with the
+#'   \code{coconat} package. If you are using Rstudio, we recommend using an
+#'   external browser (e.g. Chrome) rather than the built-in browser, especially
+#'   for larger heatmaps.
+#'
 #' @param x Query ids. May including searches in the style of
 #'   \code{\link{neuprint_ids}}
 #' @param nas What to do with entries that have NAs. Default is to set them to 0
@@ -127,6 +125,8 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 #'   length 1 containing any curly braces it will be interpreted as a
 #'   \code{\link{glue}} string for interpolation, using the data.frame returned
 #'   by \code{\link{neuprint_get_meta}} as a source of information.
+#' @param interactive Whether to plot an interactive heatmap (allowing zooming
+#'   and id selection). See details.
 #' @param ... Additional arguments passed to \code{\link{heatmap}}
 #' @inheritParams neuprint_cosine_matrix
 #' @inheritParams stats::heatmap
@@ -146,12 +146,16 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 #' neuprint_cosine_matrix("/lLN2.+", !grepl("PN",type), partners='in') %>% neuprint_cosine_plot()
 #' # just use PN partners for cosine distance score
 #' neuprint_cosine_matrix("/lLN2.+", grepl("PN",type), partners='in') %>% neuprint_cosine_plot()
+#'
+#' # interactive heatmap allowing zooming and id selection
+#' neuprint_cosine_plot("/lLN2.+",  partners='out', interactive=TRUE)
 #' }
 neuprint_cosine_plot <- function(x, partners=c('inputs', 'outputs'), threshold=5,
                                  method=c("ward.D", "single", "complete", "average",
                                           "mcquitty", "median", "centroid", "ward.D2"),
                                  group=FALSE,
                                  labRow='{type}',
+                                 interactive=FALSE,
                                  nas=c('zero','drop'),
                                  conn=NULL,
                                  ...) {
