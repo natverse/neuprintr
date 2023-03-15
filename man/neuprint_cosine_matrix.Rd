@@ -10,6 +10,7 @@ neuprint_cosine_matrix(
   threshold = 5,
   partners = c("outputs", "inputs"),
   group = FALSE,
+  interactive = FALSE,
   groupfun = NULL,
   details = NULL,
   conn = NULL
@@ -26,6 +27,9 @@ neuprint_cosine_matrix(
 partner neurons (default both).}
 
 \item{group}{Whether to group by cell \code{type} or another named column.}
+
+\item{interactive}{Whether to plot an interactive heatmap (allowing zooming
+and id selection).}
 
 \item{groupfun}{A function which receives the metadata for all partner
 neurons and returns a single grouping vector (see the \bold{details}
@@ -49,8 +53,8 @@ Calculate a cosine similarity matrix for neuprint neurons
 For most purposes you can use \code{\link{neuprint_cosine_plot}}
   directly, but it can sometimes be useful to use
   \code{neuprint_cosine_matrix} to have more control over how partner neurons
-  are grouped (see e.g. \code{groupfun}) or which partner neurons are included
-  in the results (.
+  are grouped (see e.g. \code{groupfun}) or which partner neurons are
+  included in the results (.
 
   The \code{groupfun} argument can be a powerful way to construct flexible
   grouping strategies for partner neurons. It was added in order to use
@@ -61,6 +65,10 @@ For most purposes you can use \code{\link{neuprint_cosine_plot}}
   columns returned by \code{\link{neuprint_connection_table}} but you can
   request extra columns if necessary by naming them in the \code{group}
   argument.
+
+  Note that when \code{interactive=TRUE} you must have external packages
+  including \code{InteractiveComplexHeatmap} installed with the
+  \code{coconat} package.
 }
 \examples{
 \donttest{

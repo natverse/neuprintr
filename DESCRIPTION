@@ -24,7 +24,7 @@ Suggests:
     covr,
     Rvcg,
     withr,
-    coconat
+    coconat (> 0.1.0)
 VignetteBuilder: knitr
 Depends: R (>= 2.10)
 Imports: 
