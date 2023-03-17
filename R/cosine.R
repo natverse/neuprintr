@@ -71,7 +71,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 
   if('inputs' %in% partners) {
     fpsin=
-      neuprintr::neuprint_connection_table(ids, partners = "in", summarise = T, details = details, conn=conn, threshold = threshold) %>%
+      neuprintr::neuprint_connection_table(ids, partners = "in", details = details, conn=conn, threshold = threshold) %>%
       filter(...) %>%
       dplyr::mutate(direction='in')
     fami <- coconat::partner_summary2adjacency_matrix(
@@ -86,7 +86,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
     famicos=coconat::cosine_sim(fami, transpose = F)
   }
   if("outputs" %in% partners) {
-    fpsout=neuprintr::neuprint_connection_table(ids, partners = "out", summarise = T, details = details, threshold = threshold, conn=conn) %>%
+    fpsout=neuprintr::neuprint_connection_table(ids, partners = "out", details = details, threshold = threshold, conn=conn) %>%
       dplyr::filter(...) %>%
       dplyr::mutate(direction='out')
     famo <-
