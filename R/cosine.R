@@ -121,6 +121,11 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 #' @param nas What to do with entries that have NAs. Default is to set them to 0
 #'   similarity.
 #' @param method The cluster method to use (see \code{\link{hclust}})
+#' @param heatmap A logical indicating whether or not to plot the heatmap
+#'   \emph{OR} a function to plot the heatmap whose argument names are
+#'   compatible with \code{stats::\link{heatmap}}. \code{gplots::heatmap.2} is a
+#'   good example. Defaults to \code{TRUE} therefore plotting the full heatmap
+#'   with \code{stats::\link{heatmap}}.
 #' @param labRow A vector defining the row labels. If it is a character vector
 #'   length 1 containing any curly braces it will be interpreted as a
 #'   \code{\link{glue}} string for interpolation, using the data.frame returned
@@ -132,9 +137,11 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 #' @inheritParams stats::heatmap
 #'
 #' @return The result of \code{\link{heatmap}} invisibly including the row and
-#'   column dendrograms.
+#'   column dendrograms \emph{or}, when \code{heatmap=FALSE}, a
+#'   \code{stats::\link{hclust}} object.
 #' @export
-#' @seealso \code{\link{neuprint_cosine_matrix}}
+#' @seealso \code{\link{neuprint_cosine_matrix}}, \code{\link{heatmap}},
+#'   \code{\link{hclust}}
 #' @examples
 #' \donttest{
 #' neuprint_cosine_plot("/DA[1-3].*PN", partners='in')
@@ -155,6 +162,7 @@ neuprint_cosine_plot <- function(x, partners=c('inputs', 'outputs'), threshold=5
                                           "mcquitty", "median", "centroid", "ward.D2"),
                                  group=FALSE,
                                  labRow='{type}',
+                                 heatmap=FALSE,
                                  interactive=FALSE,
                                  nas=c('zero','drop'),
                                  conn=NULL,
@@ -183,5 +191,6 @@ neuprint_cosine_plot <- function(x, partners=c('inputs', 'outputs'), threshold=5
       stop("Please install/update suggested package coconat.\n",
            "natmanager::install(pkgs = 'coconat')\n","is a good way to do this")
   }
-  coconat:::cosine_heatmap(x, interactive = interactive, labRow = labRow, method = method, ...)
+  coconat:::cosine_heatmap(x, interactive = interactive, labRow = labRow,
+                           heatmap=heatmap, method = method, ...)
 }

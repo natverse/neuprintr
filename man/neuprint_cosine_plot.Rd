@@ -12,6 +12,7 @@ neuprint_cosine_plot(
     "ward.D2"),
   group = FALSE,
   labRow = "{type}",
+  heatmap = FALSE,
   interactive = FALSE,
   nas = c("zero", "drop"),
   conn = NULL,
@@ -36,6 +37,12 @@ length 1 containing any curly braces it will be interpreted as a
 \code{\link{glue}} string for interpolation, using the data.frame returned
 by \code{\link{neuprint_get_meta}} as a source of information.}
 
+\item{heatmap}{A logical indicating whether or not to plot the heatmap
+\emph{OR} a function to plot the heatmap whose argument names are
+compatible with \code{stats::\link{heatmap}}. \code{gplots::heatmap.2} is a
+good example. Defaults to \code{TRUE} therefore plotting the full heatmap
+with \code{stats::\link{heatmap}}.}
+
 \item{interactive}{Whether to plot an interactive heatmap (allowing zooming
 and id selection). See details.}
 
@@ -51,7 +58,8 @@ used. See \code{\link{neuprint_login}} for details.}
 }
 \value{
 The result of \code{\link{heatmap}} invisibly including the row and
-  column dendrograms.
+  column dendrograms \emph{or}, when \code{heatmap=FALSE}, a
+  \code{stats::\link{hclust}} object.
 }
 \description{
 Plot cosine clustering of neuprint/hemibrain neurons
@@ -80,5 +88,6 @@ neuprint_cosine_plot("/lLN2.+",  partners='out', interactive=TRUE)
 }
 }
 \seealso{
-\code{\link{neuprint_cosine_matrix}}
+\code{\link{neuprint_cosine_matrix}}, \code{\link{heatmap}},
+  \code{\link{hclust}}
 }
