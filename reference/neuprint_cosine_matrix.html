@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -72,7 +72,6 @@
 <span>  threshold <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  partners <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"outputs"</span>, <span class="st">"inputs"</span><span class="op">)</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  groupfun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  details <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  conn <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -101,12 +100,6 @@ partner neurons (default both).</p></dd>
 <dd><p>Whether to group by cell <code>type</code> or another named column.</p></dd>
 
 
-<dt>groupfun</dt>
-<dd><p>A function which receives the metadata for all partner
-neurons and returns a single grouping vector (see the <b>details</b>
-section).</p></dd>
-
-
 <dt>details</dt>
 <dd><p>Optional character vector naming metadata columns to fetch for
 partner neurons.</p></dd>
@@ -125,23 +118,6 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 
 <p>matrix or list of two matrices (input and output)</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>For most purposes you can use <code><a href="neuprint_cosine_plot.html">neuprint_cosine_plot</a></code>
-  directly, but it can sometimes be useful to use
-  <code>neuprint_cosine_matrix</code> to have more control over how partner neurons
-  are grouped (see e.g. <code>groupfun</code>) or which partner neurons are
-  included in the results (.</p>
-<p>The <code>groupfun</code> argument can be a powerful way to construct flexible
-  grouping strategies for partner neurons. It was added in order to use
-  information present in fields such as the group, serial or instance/name
-  columns in the male VNC/CNS datasets. It will receive as input a dataframe
-  and expects to receive a single vector of length matching the number of
-  rows in the input dataframe. The input dataframe will contain the standard
-  columns returned by <code><a href="neuprint_connection_table.html">neuprint_connection_table</a></code> but you can
-  request extra columns if necessary by naming them in the <code>group</code>
-  argument.</p>
-    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="neuprint_cosine_plot.html">neuprint_cosine_plot</a></code></p></div>
@@ -150,8 +126,6 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="co"># NB the second (unnamed argument) filters the partner neurons</span></span></span>
-<span class="r-in"><span><span class="co"># so that only those with type containing the regular expression ORN are used</span></span></span>
 <span class="r-in"><span><span class="fu">neuprint_cosine_matrix</span><span class="op">(</span><span class="st">"/DA[1-3].*PN"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"ORN"</span>,<span class="va">type</span><span class="op">)</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            1734350788 1734350908 1765040289 5813039315 722817260 754534424</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1734350788  1.0000000  0.7911385  0.7838174  0.7508534 0.7478463 0.7899044</span>

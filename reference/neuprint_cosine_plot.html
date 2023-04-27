@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -74,8 +74,6 @@
 <span>    <span class="st">"ward.D2"</span><span class="op">)</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  labRow <span class="op">=</span> <span class="st">"{type}"</span>,</span>
-<span>  heatmap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  nas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"zero"</span>, <span class="st">"drop"</span><span class="op">)</span>,</span>
 <span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -113,19 +111,6 @@ length 1 containing any curly braces it will be interpreted as a
 by <code><a href="neuprint_get_meta.html">neuprint_get_meta</a></code> as a source of information.</p></dd>
 
 
-<dt>heatmap</dt>
-<dd><p>A logical indicating whether or not to plot the heatmap
-<em>OR</em> a function to plot the heatmap whose argument names are
-compatible with <code>stats::<a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></code>. <code>gplots::heatmap.2</code> is a
-good example. Defaults to <code>TRUE</code> therefore plotting the full heatmap
-with <code>stats::<a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></code>.</p></dd>
-
-
-<dt>interactive</dt>
-<dd><p>Whether to plot an interactive heatmap (allowing zooming
-and id selection). See details.</p></dd>
-
-
 <dt>nas</dt>
 <dd><p>What to do with entries that have NAs. Default is to set them to 0
 similarity.</p></dd>
@@ -147,35 +132,18 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
     
 
 <p>The result of <code><a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></code> invisibly including the row and
-  column dendrograms <em>or</em>, when <code>heatmap=FALSE</code>, a</p>
-<p></p>
-<p><code>stats::<a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code> object.</p>
-    </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>Note that when <code>interactive=TRUE</code> you must have external
-  packages including <code>InteractiveComplexHeatmap</code> installed with the
-  <code>coconat</code> package. If you are using Rstudio, we recommend using an
-  external browser (e.g. Chrome) rather than the built-in browser, especially
-  for larger heatmaps.</p>
+  column dendrograms.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="neuprint_cosine_matrix.html">neuprint_cosine_matrix</a></code>, <code><a href="https://rdrr.io/r/stats/heatmap.html" class="external-link">heatmap</a></code>,
-  <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code></p></div>
+    <div class="dont-index"><p><code><a href="neuprint_cosine_matrix.html">neuprint_cosine_matrix</a></code></p></div>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">neuprint_cosine_plot</span><span class="op">(</span><span class="st">"/DA[1-3].*PN"</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hclust(d = as.dist(1 - x), method = method)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cluster method   : ward.D </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of objects: 17 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-plt img"><img src="neuprint_cosine_plot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Considering all partners</span></span></span>
@@ -184,9 +152,6 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <span class="r-in"><span><span class="fu"><a href="neuprint_cosine_matrix.html">neuprint_cosine_matrix</a></span><span class="op">(</span><span class="st">"/lLN2.+"</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"PN"</span>,<span class="va">type</span><span class="op">)</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">neuprint_cosine_plot</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># just use PN partners for cosine distance score</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="neuprint_cosine_matrix.html">neuprint_cosine_matrix</a></span><span class="op">(</span><span class="st">"/lLN2.+"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"PN"</span>,<span class="va">type</span><span class="op">)</span>, partners<span class="op">=</span><span class="st">'in'</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">neuprint_cosine_plot</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># interactive heatmap allowing zooming and id selection</span></span></span>
-<span class="r-in"><span><span class="fu">neuprint_cosine_plot</span><span class="op">(</span><span class="st">"/lLN2.+"</span>,  partners<span class="op">=</span><span class="st">'out'</span>, interactive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
