@@ -1,4 +1,10 @@
-# neuprintr (development version)
+# neuprintr 1.3.2
+
+## What's Changed
+* Interactive heatmaps in cosine plots by @jefferis in https://github.com/natverse/neuprintr/pull/168
+* neuprint_cosine_plot can now return hclust object by @jefferis in https://github.com/natverse/neuprintr/pull/169
+
+**Full Changelog**: https://github.com/natverse/neuprintr/compare/v1.3.1...v1.3.2
 
 # neuprintr 1.3.1
 
