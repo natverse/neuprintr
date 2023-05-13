@@ -129,6 +129,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
       progress = FALSE,
       chunk=FALSE, # nb don't want to further chunk
       possibleFields=possibleFields,
+      all_segments=all_segments,
       dataset = dataset, conn = conn, ...),
       error = function(e) {warning(e); NULL}))
     d  = try(dplyr::bind_rows(ll), silent = T)
