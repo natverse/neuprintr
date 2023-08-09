@@ -182,7 +182,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
 #' neuprint_get_roiInfo(c(818983130, 1796818119))
 #' }
 neuprint_get_roiInfo <- function(bodyids, dataset = NULL, all_segments = FALSE, chunk=TRUE,progress=FALSE,conn = NULL, ...){
-  bodyids=neuprint_ids(bodyids, dataset=dataset, conn=conn)
+  bodyids=neuprint_ids(bodyids, dataset=dataset, conn=conn, unique = F)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
     unames=neuprint_get_roiInfo(bodyids=ubodyids, dataset=dataset,
