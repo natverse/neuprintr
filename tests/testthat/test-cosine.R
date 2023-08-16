@@ -9,4 +9,7 @@ test_that("neuprint_cosine_matrix works", {
     '8ea9ca29f1')
 
   expect_silent(neuprint_cosine_plot(cm))
+  expect_silent(
+    neuprint_cosine_plot("/DA[1-3].*PN", partners='o', heatmap = T)
+    )
 })
