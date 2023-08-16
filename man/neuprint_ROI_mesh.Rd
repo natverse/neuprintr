@@ -26,6 +26,16 @@ a \code{\link[rgl]{mesh3d}} object
 \description{
 Download a region of interest as a 3D mesh
 }
+\examples{
+\donttest{
+ALR=neuprint_ROI_mesh('AL(R)', dataset='hemibrain:v1.2.1')
+}
+\dontrun{
+library(nat)
+ALR
+shade3d(ALR, col='grey')
+}
+}
 \seealso{
 \code{\link{neuprint_ROIs}}, \code{\link{neuprint_ROI_hierarchy}}
 }

@@ -200,6 +200,15 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
 #' @export
 #' @return a \code{\link[rgl]{mesh3d}} object
 #' @seealso \code{\link{neuprint_ROIs}}, \code{\link{neuprint_ROI_hierarchy}}
+#' @examples
+#' \donttest{
+#' ALR=neuprint_ROI_mesh('AL(R)', dataset='hemibrain:v1.2.1')
+#' }
+#' \dontrun{
+#' library(nat)
+#' ALR
+#' shade3d(ALR, col='grey')
+#' }
 neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
@@ -219,7 +228,9 @@ neuprint_check_roi <- function(rois, superLevel = NULL, fromNeuronFields = TRUE,
   possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, fromNeuronFields = fromNeuronFields, superLevel = superLevel, ...)
   if(!all(rois%in%possible.rois)){
     stop("Regions of interest provided that are not demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
-         ". Please call neuprint_ROIs(superLevel = NULL) to see the available ROIs.")
+         ". Please call:\n",
+         "  neuprint_ROIs(fromNeuronFields=T, superLevel = NULL)\n",
+         "to see the available meshes. NB not all ROIs may have meshes.")
   }else{
     TRUE
   }
