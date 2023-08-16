@@ -51,6 +51,8 @@ jobs:
           extra-packages: any::rcmdcheck, any::pkgdown, any::covr
           needs: check
 
+      - uses: r-lib/actions/setup-pandoc@v2
+
       - uses: r-lib/actions/check-r-package@v2
 
       - name: Upload check results
