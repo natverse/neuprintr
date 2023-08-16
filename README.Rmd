@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://natverse.github.io/neuprintr/reference/)
 [![R-CMD-check](https://github.com/natverse/neuprintr/workflows/R-CMD-check/badge.svg)](https://github.com/natverse/neuprintr/actions)
 <img src="man/figures/logo.svg" align="right" height="139" /> 
-[![Codecov test coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/neuprintr?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/natverse/neuprintr?branch=master)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3843544.svg)](https://doi.org/10.5281/zenodo.3843544)
 <!-- badges: end -->
