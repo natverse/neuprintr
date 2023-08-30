@@ -104,14 +104,13 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
     raw_col=if(is.list(firstrec) && !is.null(firstrec$coordinates)) {
       # special case coordinates
       lapply(x, function(r) r[[colidx]][['coordinates']])
-    } else sapply(x, "[[", colidx)
-    if(is.list(raw_col)) {
-      raw_col[sapply(raw_col, is.null)]=NA
-      sublens=sapply(raw_col, length)
-      if(all(sublens==1))
-        raw_col=unlist(raw_col)
-      else raw_col=sapply(raw_col, paste, collapse=',')
-    }
+    } else lapply(x, "[[", colidx)
+    sublens=lengths(raw_col)
+    if(all(sublens%in% 0:1)) {
+      if(any(sublens==0))
+        raw_col[sublens==0]=NA
+      raw_col=unlist(raw_col)
+    } else raw_col=sapply(raw_col, paste, collapse=',')
     l[[cols[i]]]=raw_col
   }
   as.data.frame(l, stringsAsFactors=stringsAsFactors, check.names=check.names, ...)
