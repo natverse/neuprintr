@@ -495,7 +495,7 @@ neuprint_common_connectivity <- function(bodyids, statuses = NULL,
                             find_inputs,
                             all_segments))
   class(Payload) = "json"
-  com.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, ...)
+  com.conn = neuprint_fetch_memo(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, ...)
   partnerType <- ifelse(prepost=="POST","output","input")
   partnerNames <- sapply(com.conn$data[[1]][[1]],function(d) d[[partnerType]])
   partnerCount <- table(partnerNames)
@@ -574,7 +574,7 @@ neuprint_simple_connectivity <- function(bodyids,
                             id2json(bodyids),
                             find_inputs))
   class(Payload) = "json"
-  simp.conn = neuprint_fetch(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, simplifyVector = TRUE, ...)
+  simp.conn = neuprint_fetch_memo(path = 'api/npexplorer/commonconnectivity', body = Payload, conn = conn, simplifyVector = TRUE, ...)
   if(!length(simp.conn$data)){
     return(NULL)
   }
