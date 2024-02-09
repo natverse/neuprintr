@@ -9,6 +9,7 @@ neuprint_get_adjacency_matrix(
   inputids = NULL,
   outputids = NULL,
   threshold = 1L,
+  neurotransmitter = NULL,
   dataset = NULL,
   chunksize = 1000L,
   all_segments = FALSE,
@@ -27,6 +28,9 @@ alternative to \code{bodyids})}
 
 \item{threshold}{Return only connections greater than or equal to the
 indicated strength (default 1 returns all connections).}
+
+\item{neurotransmitter}{Return only connections with given neurotransmitter
+type.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the
