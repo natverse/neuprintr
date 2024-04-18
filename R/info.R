@@ -170,7 +170,8 @@ neuprint_ROI_hierarchy <- function(root=NULL, rval=c("edgelist","graph"),
   if(!is.null(root)) {
     if(isFALSE(root%in%names(igraph::V(g))))
       stop("Requested root does not seem to be a valid node of ROI hierarchy!")
-    selnodes=na.omit(igraph::dfs(g, root, unreachable = F)$order)
+    ord=igraph::dfs(g, root, unreachable = F)$order
+    selnodes=na.omit(ord[ord>0])
     g <- igraph::induced_subgraph(g, selnodes)
     el <- as.data.frame(igraph::as_edgelist(g), stringsAsFactors=FALSE)
     colnames(el)=colnames(roi.edgelist)
