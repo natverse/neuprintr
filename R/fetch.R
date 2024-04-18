@@ -40,12 +40,19 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
 
 # hidden
 neuprint_error_check <- function(req) {
-  if(isTRUE(httr::status_code(req) %in% c(400L, 500L))) {
+  sc=httr::status_code(req)
+  if(sc<300) return(req)
+
+  task=paste("process url:", req$url)
+  if(isTRUE(sc %in% c(400L, 500L))) {
     parsed=neuprint_parse_json(req)
     msg=as.character(unlist(parsed))
-    stop("neuPrint error: ", msg, call. = F)
+    task=paste(task, "with neuPrint error:", msg)
   }
-  httr::stop_for_status(req)
+  call <- sys.call(-1)
+  stop(httr::http_condition(req, "error",
+                            task =task,
+                            call = call))
 }
 
 #' Parse neuprint return list to a data frame
