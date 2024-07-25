@@ -331,6 +331,10 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
     where=search
   } else {
     fieldtype=neuprint_typeof(field, type = 'neo4j', conn=conn, dataset = dataset)
+    if(length(fieldtype)==0) {
+      stop("Sorry, the `", field,
+           "` field doesn't exist in neuprint database (which is case-sensitive)!")
+    }
     if(fieldtype=="STRING") {
       search=glue('\\"{search}\\"')
       operator=ifelse(fixed, ifelse(exact, "=", "CONTAINS"), "=~")
