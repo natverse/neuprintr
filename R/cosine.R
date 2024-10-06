@@ -182,7 +182,7 @@ neuprint_cosine_plot <- function(x, partners=c('inputs', 'outputs'), threshold=5
 
   if(is.character(labRow) && length(labRow)==1 && any(grepl("\\{", labRow))) {
     ci=neuprintr::neuprint_get_meta(rownames(x), conn=conn)
-    labRow <- glue::glue(labRow, .envir = ci)
+    labRow <- glue::glue_data(labRow, .x = ci)
   }
 
   if(interactive) {
