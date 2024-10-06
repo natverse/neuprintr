@@ -1,10 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   customquery: customquery.html
   hemibrain_opns: hemibrain_opns.html
-last_built: 2024-07-25T21:45Z
+last_built: 2024-10-06T09:47Z
 urls:
   reference: https://natverse.org/neuprintr/reference
   article: https://natverse.org/neuprintr/articles
