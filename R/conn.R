@@ -174,7 +174,7 @@ neuprint_connection <- function(server=NULL, token=NULL, dataset=NULL,
   # we will always add one in our calls
   neuprint_server <- remove_trailing_slash(neuprint_server)
   # Set a default token if none specified
-  neuprint_token <- if(is.null(token)) unlist(getenvoroption("token")) else token
+  neuprint_token <- if(is.null(token) || !nzchar(token)) unlist(getenvoroption("token")) else token
   # collect any curl options defined as environment variables
   config=neuprint_curl_options(config)
   conn=list(server = neuprint_server, token = neuprint_token, config=config,
