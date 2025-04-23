@@ -187,6 +187,8 @@ neuprint_read_neuron <- function(bodyid,
 #' @export
 #' @rdname neuprint_assign_connectors
 neuprint_assign_connectors <-function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...) UseMethod("neuprint_assign_connectors")
+
+#'@export
 neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL, conn = NULL, ...){
   if(is.null(bodyids)){
     bodyids = x$bodyid
@@ -197,6 +199,8 @@ neuprint_assign_connectors.neuron <- function(x, bodyids = NULL, dataset = NULL,
   n$connectors = synapses
   n
 }
+
+#'@export
 neuprint_assign_connectors.neuronlist  <- function(x, bodyids = names(x), dataset = NULL, conn = NULL, ...){
   nat::nlapply(1:length(x), function(i)
     neuprint_assign_connectors.neuron(x=x[[i]],bodyids=bodyids[i]),dataset=dataset,conn=conn,...)

@@ -50,7 +50,7 @@ used. See \code{\link{neuprint_login}} for details.}
 \value{
 a data frame, where each row is a connection between one query
   \code{bodyid} and a single \code{partner} neuron. The \code{prepost} column
-  should be interpreted as follows: \itemize{
+  should be interpreted as follows: \describe{
 
   \item{\code{prepost=0}}{ a downstream or \emph{output} partner,
   postsynaptic to the query neuron}

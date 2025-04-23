@@ -3,7 +3,6 @@
 \docType{package}
 \name{neuprintr-package}
 \alias{neuprintr-package}
-\alias{_PACKAGE}
 \alias{neuprintr}
 \title{neuprintr: R Client Utilities for Interacting with the neuPrint Connectome Analysis Service}
 \description{
