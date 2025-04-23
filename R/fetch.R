@@ -63,7 +63,7 @@ neuprint_error_check <- function(req) {
 #' @details A low level function tailored to the standard neuprint list return
 #'   format. Should handle those times when jsonlite's simplification doesn't
 #'   work. The normal return value of \code{\link{neuprint_fetch_custom}} is a
-#'   list formatted as follows: \itemize{
+#'   list formatted as follows: \describe{
 #'
 #'   \item{columns}{ List of column names}
 #'
