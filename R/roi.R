@@ -40,7 +40,7 @@ neuprint_find_neurons <- function(input_ROIs,
     Payload = gsub('"output_ROIs":\\{\\},',"",Payload)
   }
   class(Payload) = "json"
-  found.neurons = neuprint_fetch(path = 'api/npexplorer/findneurons', body = Payload, conn = conn, ...)
+  found.neurons = neuprint_fetch_memo(path = 'api/npexplorer/findneurons', body = Payload, conn = conn, ...)
   columns = unlist(found.neurons[[1]])
   keep = !columns%in%c("roiInfo","rois")
   neurons = data.frame()
@@ -127,7 +127,7 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
     results <-matrix(ifelse(statistic == 'count', 0L, 0),
                      nrow=length(rois), ncol=length(rois),
                      dimnames = list(inputs=rois,outputs=rois))
-    roi.conn = neuprint_fetch(path = 'api/cached/roiconnectivity', conn = conn, ...)
+    roi.conn = neuprint_fetch_memo(path = 'api/cached/roiconnectivity', conn = conn, ...)
     missing=setdiff(rois, unlist(roi.conn$roi_names))
     if(length(missing))
       warning("Dropping missing rois:", paste(missing, collapse = " "))
@@ -144,7 +144,7 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
                             dataset,
                             ifelse(is.null(rois),jsonlite::toJSON(list()),jsonlite::toJSON(rois))))
     class(Payload) = "json"
-    roi.conn <- neuprint_fetch(path = 'api/npexplorer/roiconnectivity', body = Payload, conn = conn, ...)
+    roi.conn <- neuprint_fetch_memo(path = 'api/npexplorer/roiconnectivity', body = Payload, conn = conn, ...)
     ll <- neuprint_list2df(roi.conn)
     # running fromJSON on many separate strings is slow, so start by
     # selecting strings that actually contain the selected ROIs
@@ -213,7 +213,7 @@ neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
   roicheck = neuprint_check_roi(rois=roi, dataset = dataset, conn = conn, ...)
-  roiQuery = neuprint_fetch(path=paste("api/roimeshes/mesh", dataset, roi,
+  roiQuery = neuprint_fetch_memo(path=paste("api/roimeshes/mesh", dataset, roi,
                                        sep="/"),
                             parse.json = FALSE,
                             include_headers = FALSE)
