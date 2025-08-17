@@ -41,8 +41,8 @@ This can be in any form understood by \code{\link{neuprint_ids}}.}
 \item{meta}{whether or not to fetch a meta data for the given bodyids, using
 \code{neuprint_get_meta}}
 
-\item{nat}{whether or not to read neurons are \code{nat::neuronlist} objects
-(TRUE) or get SWC data frame (FALSE)}
+\item{nat}{whether or not to read neurons as \code{nat::\link[nat]{neuron}}
+objects (TRUE) or get SWC data frame (FALSE)}
 
 \item{drvid}{whether or not to use \code{drvid::read.neuron.dvid} rather than
 a cypher post request to \code{neuprint_fetch_custom}, in order to read a
@@ -91,8 +91,8 @@ details.}
 }
 \value{
 a data frame in SWC format, or a
-  \code{nat::\link{neuronlist}}/\code{nat::\link{neuron}} object as used by
-  the \code{nat} and \code{catmaid} packages
+  \code{nat::\link[nat]{neuronlist}}/\code{nat::\link{neuron}} object as used
+  by the \code{nat} and \code{catmaid} packages
 }
 \description{
 \code{neuprint_read_neurons} is a full service function that

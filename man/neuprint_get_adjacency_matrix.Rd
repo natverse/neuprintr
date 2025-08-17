@@ -97,5 +97,5 @@ as.numeric(object.size(pnkcs)/object.size(pnkc))
 \code{\link{neuprint_fetch_custom}},
   \code{\link{neuprint_simple_connectivity}},
   \code{\link{neuprint_common_connectivity}},
-  \code{\link[=CsparseMatrix-class]{CsparseMatrix}})
+  \code{\link[Matrix:CsparseMatrix-class]{CsparseMatrix}})
 }

@@ -128,7 +128,7 @@ neuprint_cosine_matrix <- function(ids, ..., threshold=5,
 #'   with \code{stats::\link{heatmap}}.
 #' @param labRow A vector defining the row labels. If it is a character vector
 #'   length 1 containing any curly braces it will be interpreted as a
-#'   \code{\link{glue}} string for interpolation, using the data.frame returned
+#'   \code{\link[glue]{glue}} string for interpolation, using the data.frame returned
 #'   by \code{\link{neuprint_get_meta}} as a source of information.
 #' @param interactive Whether to plot an interactive heatmap (allowing zooming
 #'   and id selection). See details.

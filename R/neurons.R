@@ -15,8 +15,8 @@
 #'   neuron. This might be faster, and this might also enable access to
 #'   skeletons on an underlying DVID database that have not yet been ported to
 #'   neuprint.
-#' @param nat whether or not to read neurons are \code{nat::neuronlist} objects
-#'   (TRUE) or get SWC data frame (FALSE)
+#' @param nat whether or not to read neurons as \code{nat::\link[nat]{neuron}}
+#'   objects (TRUE) or get SWC data frame (FALSE)
 #' @param meta whether or not to fetch a meta data for the given bodyids, using
 #'   \code{neuprint_get_meta}
 #' @param soma whether or not to fetch a possible soma location for the given
@@ -40,8 +40,8 @@
 #' @inheritParams nat::nlapply
 #' @param ... methods passed to \code{neuprint_login}
 #' @return a data frame in SWC format, or a
-#'   \code{nat::\link{neuronlist}}/\code{nat::\link{neuron}} object as used by
-#'   the \code{nat} and \code{catmaid} packages
+#'   \code{nat::\link[nat]{neuronlist}}/\code{nat::\link{neuron}} object as used
+#'   by the \code{nat} and \code{catmaid} packages
 #' @examples
 #' \donttest{
 #' neurons = neuprint_read_neurons(c(818983130, 1796818119))

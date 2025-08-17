@@ -18,7 +18,7 @@ of the ROI hierarchy. The default (\code{root=NULL}) will return the whole
 hierarchy.}
 
 \item{rval}{Whether to return an edge list \code{data.frame} (the default) or
-an \code{\link{igraph}} object.}
+an \code{\link[igraph]{igraph}} object.}
 
 \item{dataset}{optional, a dataset you want to query. If \code{NULL}, the
 default specified by your R environ file is used or, failing that the

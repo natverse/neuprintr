@@ -34,7 +34,7 @@ partner neurons (default both).}
 
 \item{labRow}{A vector defining the row labels. If it is a character vector
 length 1 containing any curly braces it will be interpreted as a
-\code{\link{glue}} string for interpolation, using the data.frame returned
+\code{\link[glue]{glue}} string for interpolation, using the data.frame returned
 by \code{\link{neuprint_get_meta}} as a source of information.}
 
 \item{heatmap}{A logical indicating whether or not to plot the heatmap

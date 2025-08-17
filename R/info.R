@@ -103,7 +103,7 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
 #'   of the ROI hierarchy. The default (\code{root=NULL}) will return the whole
 #'   hierarchy.
 #' @param rval Whether to return an edge list \code{data.frame} (the default) or
-#'   an \code{\link{igraph}} object.
+#'   an \code{\link[igraph]{igraph}} object.
 #' @param ... additional arguments passed to \code{\link{neuprint_fetch_custom}}
 #' @inheritParams neuprint_fetch_custom
 #' @examples
