@@ -111,10 +111,11 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
   for(i in seq_along(cols)) {
     colidx=colidxs[i]
     firstrec=x[[1]][[colidx]]
-    raw_col=if(is.list(firstrec) && !is.null(firstrec$coordinates)) {
+    raw_col=lapply(x, "[[", colidx)
+    if(any(lengths(raw_col)==3) && any(grepl("coordinates", sapply(raw_col, names)))) {
       # special case coordinates
-      lapply(x, function(r) r[[colidx]][['coordinates']])
-    } else lapply(x, "[[", colidx)
+      raw_col <- lapply(raw_col, simplify_coords)
+    }
     sublens=lengths(raw_col)
     if(all(sublens%in% 0:1)) {
       if(any(sublens==0))
@@ -124,6 +125,15 @@ neuprint_list2df <- function(x, cols=NULL, return_empty_df=FALSE,
     l[[cols[i]]]=raw_col
   }
   as.data.frame(l, stringsAsFactors=stringsAsFactors, check.names=check.names, ...)
+}
+
+simplify_coords <- function(r) {
+  if(length(r)==0) NULL
+  else if('coordinates' %in% names(r))
+    r[['coordinates']]
+  else if(any(grepl("{", fixed = T, r)))
+    c(nat::xyzmatrix(r))
+  else NULL
 }
 
 #' @importFrom memoise memoise
