@@ -141,11 +141,18 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
     <h2>Value</h2>
     <p>a data frame, where each row is a connection between one query
   <code>bodyid</code> and a single <code>partner</code> neuron. The <code>prepost</code> column
-  should be interpreted as follows:</p><ul><li><p><code>prepost=0</code> a downstream or <em>output</em> partner,
-  postsynaptic to the query neuron</p></li>
-<li><p><code>prepost=1</code> an upstream or <em>input</em> partner, presynaptic
-  to the query neuron</p></li>
-</ul><p>Each connection is associated with a synapse that has its own unique
+  should be interpreted as follows:</p><dl><dt><code>prepost=0</code></dt>
+<dd><p>a downstream or <em>output</em> partner,
+  postsynaptic to the query neuron</p></dd>
+
+
+  <dt><code>prepost=1</code></dt>
+<dd><p>an upstream or <em>input</em> partner, presynaptic
+  to the query neuron</p></dd>
+
+
+
+</dl><p>Each connection is associated with a synapse that has its own unique
   <code>connector_id</code>, XYZ coordinates and a confidence in its existence.</p>
     </div>
     <div id="see-also">

@@ -114,11 +114,19 @@ factors. Note that the default of <code>FALSE</code> differs from
     <p>A low level function tailored to the standard neuprint list return
   format. Should handle those times when jsonlite's simplification doesn't
   work. The normal return value of <code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom</a></code> is a
-  list formatted as follows:</p><ul><li><p>columns List of column names</p></li>
-<li><p>data Nested list of data, with each row formatted as a single
-  sublist</p></li>
-<li><p>debug  Character vector containing query</p></li>
-</ul><p>If <code>neuprint_list2df</code> receives such a list it will use the
+  list formatted as follows:</p><dl><dt>columns</dt>
+<dd><p>List of column names</p></dd>
+
+
+  <dt>data</dt>
+<dd><p>Nested list of data, with each row formatted as a single
+  sublist</p></dd>
+
+
+  <dt>debug </dt>
+<dd><p>Character vector containing query</p></dd>
+
+</dl><p>If <code>neuprint_list2df</code> receives such a list it will use the
   <code>columns</code> to define the names for a data.frame constructed from the
   <code>data</code> field.</p>
     </div>
