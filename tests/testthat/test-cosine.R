@@ -1,5 +1,6 @@
 test_that("neuprint_cosine_matrix works", {
   skip_if_not_installed('coconat')
+  skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
   expect_known_hash(
     cm <- neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in'),
     hash='f69bb3c63d')
