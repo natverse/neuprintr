@@ -195,9 +195,11 @@ details.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data frame in SWC format, or a
-  <code>nat::<a href="https://rdrr.io/pkg/nat/man/neuronlist.html" class="external-link">neuronlist</a></code>/<code>nat::<a href="https://rdrr.io/pkg/nat/man/neuron.html" class="external-link">neuron</a></code> object as used
-  by the <code>nat</code> and <code>catmaid</code> packages</p>
+    <p><code>nat::<a href="https://rdrr.io/pkg/nat/man/neuronlist.html" class="external-link">neuronlist</a></code> containing either
+  <code><a href="https://rdrr.io/pkg/nat/man/neuron.html" class="external-link">nat::neuron</a></code> objects as used by the <code>nat</code> and
+  <code>catmaid</code> packages (when <code>nat=TRUE</code>) <em>or</em>, for each neuron,
+  a list of length containing two data frames (<code>swc,connectorts</code>in SWC
+  format. /</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
