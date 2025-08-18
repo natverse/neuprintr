@@ -7,7 +7,7 @@
 #' @param threshold Return only connections greater than or equal to the
 #'   indicated strength (default 1 returns all connections).
 #' @param sparse Whether to return a sparse adjacency matrix (of class
-#'   \code{\link[=CsparseMatrix-class]{CsparseMatrix}}). This may be a
+#'   \code{\link[Matrix:CsparseMatrix-class]{CsparseMatrix}}). This may be a
 #'   particularly good idea for large matrices of >5000 neurons, especially if a
 #'   threshold is used to eliminate very numerous weak connections. Default
 #'   \code{FALSE}.

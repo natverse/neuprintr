@@ -90,9 +90,11 @@ details.}
 \item{...}{methods passed to \code{neuprint_login}}
 }
 \value{
-a data frame in SWC format, or a
-  \code{nat::\link[nat]{neuronlist}}/\code{nat::\link{neuron}} object as used
-  by the \code{nat} and \code{catmaid} packages
+\code{nat::\link[nat]{neuronlist}} containing either
+  \code{nat::\link[neuron]{neuron}} objects as used by the \code{nat} and
+  \code{catmaid} packages (when \code{nat=TRUE}) \emph{or}, for each neuron,
+  a list of length containing two data frames (\code{swc,connectorts}in SWC
+  format. /
 }
 \description{
 \code{neuprint_read_neurons} is a full service function that
