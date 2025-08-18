@@ -1,12 +1,13 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![natverse](https://img.shields.io/badge/natverse-Part%20of%20the%20natverse-a241b6)](https://natverse.github.io)
 [![Docs](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://natverse.github.io/neuprintr/reference/)
-[![R-CMD-check](https://github.com/natverse/neuprintr/workflows/R-CMD-check/badge.svg)](https://github.com/natverse/neuprintr/actions)
+[![R-CMD-check](https://github.com/natverse/neuprintr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/natverse/neuprintr/actions/workflows/R-CMD-check.yaml)
 <img src="man/figures/logo.svg" align="right" height="139" /> [![Codecov
 test
-coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://codecov.io/gh/natverse/neuprintr?branch=master)
+coverage](https://codecov.io/gh/natverse/neuprintr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/natverse/neuprintr?branch=master)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3843544.svg)](https://doi.org/10.5281/zenodo.3843544)
@@ -41,8 +42,11 @@ project. You can also see the vignettes in this package for the same
 examples and more.
 
 <p align="center">
+
 <iframe src="https://www.slideshare.net/slideshow/embed_code/key/GcE2Blzz02nfhM" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
+
 </iframe>
+
 </p>
 
 <div align="center" style="margin-bottom:5px">
@@ -77,8 +81,12 @@ Sign in using an `@gmail` account. If you have authentication/the server
 is public, you will now be able to see your access token by going to
 ‘Account’:
 
-![access your bearer
-token](https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png)
+<figure>
+<img
+src="https://raw.githubusercontent.com/natverse/neuprintr/master/inst/images/bearertoken.png"
+alt="access your bearer token" />
+<figcaption aria-hidden="true">access your bearer token</figcaption>
+</figure>
 
 To make life easier, you can then edit your `.Renviron` file to contain
 information about the neuPrint server you want to speak with, your token
@@ -152,20 +160,20 @@ skeletons, synapse locations, connectivity matrices, etc.
 
 ## Example data
 
--   HemiBrain (hemibrain:v1.0) : from [“A Connectome of the Adult
-    Drosophila Central
-    Brain”](https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1)
-    (Xu, et al. 2020)
+- HemiBrain (hemibrain:v1.0) : from [“A Connectome of the Adult
+  Drosophila Central
+  Brain”](https://www.biorxiv.org/content/10.1101/2020.01.21.911859v1)
+  (Xu, et al. 2020)
 
--   mushroombody (mb6) : from [“A connectome of a learning and memory
-    center in the adult Drosophila
-    brain”](https://elifesciences.org/articles/26975) (Takemura, et
-    al. 2017)
+- mushroombody (mb6) : from [“A connectome of a learning and memory
+  center in the adult Drosophila
+  brain”](https://elifesciences.org/articles/26975) (Takemura, et
+  al. 2017)
 
--   medulla7column (fib25) : from [“Synaptic circuits and their
-    variations within different columns in the visual system of
-    Drosophila”](https://www.pnas.org/content/112/44/13711) (Takemura,
-    et al. 2015)
+- medulla7column (fib25) : from [“Synaptic circuits and their variations
+  within different columns in the visual system of
+  Drosophila”](https://www.pnas.org/content/112/44/13711) (Takemura, et
+  al. 2015)
 
 ## Acknowledging the data and tools
 
@@ -186,21 +194,21 @@ package as:
 
 ``` r
 citation(package = "neuprintr")
-
 To cite package 'neuprintr' in publications use:
 
-  Alexander Bates, Gregory Jefferis and Romain Franconville (2021).
-  neuprintr: R client utilities for interacting with the neuPrint
-  connectome analysis service. https://natverse.org/neuprintr,
-  https://github.com/natverse/neuprintr.
+  Bates A, Jefferis G, Franconville R (2021). _neuprintr: R Client
+  Utilities for Interacting with the neuPrint Connectome Analysis
+  Service_. R package version 1.3.2.9000,
+  <https://natverse.org/neuprintr>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
-    title = {neuprintr: R client utilities for interacting with the neuPrint connectome analysis service},
+    title = {neuprintr: R Client Utilities for Interacting with the neuPrint Connectome Analysis Service},
     author = {Alexander Bates and Gregory Jefferis and Romain Franconville},
     year = {2021},
-    note = {https://natverse.org/neuprintr, https://github.com/natverse/neuprintr},
+    note = {R package version 1.3.2.9000},
+    url = {https://natverse.org/neuprintr},
   }
 ```
 
@@ -210,7 +218,6 @@ citation details for that as follows:
 
 ``` r
 citation(package = "natverse")
-
 If you use the natverse, please cite our paper (Bates, Manton et al,
 eLife 2020). You may need to cite additional publications if you use
 specific packages that implement specialised algorithms or provide
@@ -218,11 +225,11 @@ datasets for reanalysis. Use a command like:
 citation(package="flycircuit") to see if there is a specific citation
 to use for a given package in addition to the general natverse paper.
 
-Bates AS, Manton JD, Jagannathan SR, Costa M, Schlegel P, Rohlfing T,
-Jefferis GSXE (2020). "The natverse, a versatile toolbox for combining
-and analysing neuroanatomical data." _Elife_, *9*. doi:
-10.7554/eLife.53350 (URL: https://doi.org/10.7554/eLife.53350), <URL:
-https://doi.org/10.7554/eLife.53350>.
+  Bates AS, Manton JD, Jagannathan SR, Costa M, Schlegel P, Rohlfing T,
+  Jefferis GSXE (2020). "The natverse, a versatile toolbox for
+  combining and analysing neuroanatomical data." _Elife_, *9*.
+  doi:10.7554/eLife.53350 <https://doi.org/10.7554/eLife.53350>,
+  <https://doi.org/10.7554/eLife.53350>.
 
 A BibTeX entry for LaTeX users is
 
