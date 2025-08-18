@@ -123,11 +123,15 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
     stop("It is not possible to return a full list of connecting neurons when ",
          "`cached=TRUE`!\nPlease leave `cached` with its default value (FALSE).")
   roicheck <- neuprint_check_roi(rois=rois, dataset = dataset, conn = conn, ...)
+  conn=neuprint_login(conn)
+  dataset=check_dataset(dataset, conn = conn)
   if (cached) {
     results <-matrix(ifelse(statistic == 'count', 0L, 0),
                      nrow=length(rois), ncol=length(rois),
                      dimnames = list(inputs=rois,outputs=rois))
-    roi.conn = neuprint_fetch(path = 'api/cached/roiconnectivity', conn = conn, ...)
+    roi.conn = neuprint_fetch(
+      path = paste0('api/cached/roiconnectivity?dataset=', dataset),
+      conn = conn, ...)
     missing=setdiff(rois, unlist(roi.conn$roi_names))
     if(length(missing))
       warning("Dropping missing rois:", paste(missing, collapse = " "))
@@ -144,7 +148,8 @@ neuprint_ROI_connectivity <- function(rois, full=TRUE,
                             dataset,
                             ifelse(is.null(rois),jsonlite::toJSON(list()),jsonlite::toJSON(rois))))
     class(Payload) = "json"
-    roi.conn <- neuprint_fetch(path = 'api/npexplorer/roiconnectivity', body = Payload, conn = conn, ...)
+    path=paste0('api/npexplorer/roiconnectivity?dataset=', dataset)
+    roi.conn <- neuprint_fetch(path = path, body = Payload, conn = conn, ...)
     ll <- neuprint_list2df(roi.conn)
     # running fromJSON on many separate strings is slow, so start by
     # selecting strings that actually contain the selected ROIs
