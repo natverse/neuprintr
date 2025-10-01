@@ -24,16 +24,9 @@ neuprint_fetch_custom <- function(cypher = "MATCH (n:Meta) RETURN n.dataset, n.m
   dataset = check_dataset(dataset, conn=conn)
   Payload <- sprintf('{"cypher":"%s","dataset":"%s"}', cypher, dataset)
   class(Payload) <- "json"
-  if(cache) {
-    neuprint_fetch_memo(path = 'api/custom/custom',
-                        body = Payload,
-                        conn = conn,
-                        ...)
-  } else {
-    neuprint_fetch(path = 'api/custom/custom',
-                   body = Payload,
-                   conn = conn,
-                   ...)
-  }
+  neuprint_fetch(path = 'api/custom/custom',
+                 body = Payload,
+                 conn = conn,
+                 cache=cache,
+                 ...)
 }
-
