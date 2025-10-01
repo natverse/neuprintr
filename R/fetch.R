@@ -1,19 +1,55 @@
 # hidden
-neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
-                           include_headers = TRUE, simplifyVector = FALSE,
-                           app=NULL, ...){
-  path = gsub("\\/$|^\\/","",path)
+neuprint_fetch <- function(path,
+                           body = NULL,
+                           conn = NULL,
+                           parse.json = TRUE,
+                           include_headers = TRUE,
+                           simplifyVector = FALSE,
+                           app = NULL,
+                           cache = FALSE,
+                           ...) {
+  path = gsub("\\/$|^\\/", "", path)
   conn = neuprint_login(conn)
   server = sub("\\/$", "", conn$server) # you cannot have double / in any part of path
+  conf = conn$config
+  if (cache)
+    neuprint_fetch_impl_memo(
+      path,
+      body = body,
+      server = server,
+      conf = conf,
+      parse.json = parse.json,
+      include_headers = include_headers,
+      simplifyVector = simplifyVector,
+      app = app,
+      ...
+    )
+  else
+    neuprint_fetch_impl(
+      path,
+      body = body,
+      server = server,
+      conf = conf,
+      parse.json = parse.json,
+      include_headers = include_headers,
+      simplifyVector = simplifyVector,
+      app = app,
+      ...
+    )
+}
+
+neuprint_fetch_impl <- function(path, body = NULL, server = NULL, conf = NULL,
+                               parse.json = TRUE, include_headers = TRUE,
+                               simplifyVector = FALSE, app=NULL, ...) {
   if(is.null(app))
     app=paste0("neuprintr/", utils::packageVersion('neuprintr'))
   req <-
     if (is.null(body)) {
       httr::GET(url = file.path(server, path, fsep = "/"),
-                config = conn$config, httr::user_agent(app), ...)
+                config = conf, httr::user_agent(app), ...)
     } else {
       httr::POST(url = file.path(server, path, fsep = "/"),
-           body = body, config = conn$config, httr::user_agent(app), ...)
+                 body = body, config = conf, httr::user_agent(app), ...)
     }
   neuprint_error_check(req)
   if (parse.json) {
@@ -31,7 +67,8 @@ neuprint_fetch <- function(path, body = NULL, conn = NULL, parse.json = TRUE,
   else req
 }
 
-neuprint_fetch_memo <- memoise::memoise(neuprint_fetch, ~memoise::timeout(3600))
+
+neuprint_fetch_impl_memo <- memoise::memoise(neuprint_fetch_impl, ~memoise::timeout(3600))
 
 # hidden
 neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
