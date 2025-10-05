@@ -1,4 +1,17 @@
-# neuprintr (development version)
+# neuprintr 1.3.3
+
+* fix incorrect error message in neuprint_ROI_mesh by @jefferis in https://github.com/natverse/neuprintr/pull/171
+* handle plain coordinates in neuprint_list2df by @jefferis in https://github.com/natverse/neuprintr/pull/172
+* Better error message for missing search field by @jefferis in https://github.com/natverse/neuprintr/pull/175
+* Add rstudio connection pane by @jefferis in https://github.com/natverse/neuprintr/pull/176
+* support mixed coordinate columns by @jefferis in https://github.com/natverse/neuprintr/pull/178
+* teach neuprint_ROI_connectivity to pass dataset arg by @jefferis in https://github.com/natverse/neuprintr/pull/180
+* Give neuprint_fetch a cache option by @jefferis in https://github.com/natverse/neuprintr/pull/182
+* Update test baselines for v1.2.1 by @jefferis in https://github.com/natverse/neuprintr/pull/185
+* Speed up neuprint_get_fields by @jefferis in https://github.com/natverse/neuprintr/pull/184
+
+
+**Full Changelog**: https://github.com/natverse/neuprintr/compare/v1.3.2...v1.3.3
 
 # neuprintr 1.3.2
 
