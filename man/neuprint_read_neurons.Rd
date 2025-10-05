@@ -91,17 +91,17 @@ details.}
 }
 \value{
 \code{nat::\link[nat]{neuronlist}} containing either
-  \code{nat::\link[neuron]{neuron}} objects as used by the \code{nat} and
+  \code{nat::\link[nat]{neuron}} objects as used by the \code{nat} and
   \code{catmaid} packages (when \code{nat=TRUE}) \emph{or}, for each neuron,
   a list of length containing two data frames (\code{swc,connectorts}in SWC
   format. /
 }
 \description{
 \code{neuprint_read_neurons} is a full service function that
-  tries to build as complete \code{\link{neuron}} objects as possible. Choose
-  whether or not to heal the fetched skeletons, assign a soma (if tagged in
-  neuprint) and assign synapses to approximate treenode positions, in the
-  style of neuron objects used by the rcatmaid package.
+  tries to build as complete \code{\link[nat]{neuron}} objects as possible.
+  Choose whether or not to heal the fetched skeletons, assign a soma (if
+  tagged in neuprint) and assign synapses to approximate treenode positions,
+  in the style of neuron objects used by the rcatmaid package.
 
   If \code{neuprint_read_skeletons} is used, just a simple skeleton is
   retrieved.
