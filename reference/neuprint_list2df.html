@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">neuprintr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Parse neuprint return list to a data frame</h1>
-    <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/master/R/fetch.R" class="external-link"><code>R/fetch.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/v1.3.2/R/fetch.R" class="external-link"><code>R/fetch.R</code></a></small>
     <div class="hidden name"><code>neuprint_list2df.Rd</code></div>
     </div>
 
@@ -114,19 +114,11 @@ factors. Note that the default of <code>FALSE</code> differs from
     <p>A low level function tailored to the standard neuprint list return
   format. Should handle those times when jsonlite's simplification doesn't
   work. The normal return value of <code><a href="neuprint_fetch_custom.html">neuprint_fetch_custom</a></code> is a
-  list formatted as follows:</p><dl><dt>columns</dt>
-<dd><p>List of column names</p></dd>
-
-
-  <dt>data</dt>
-<dd><p>Nested list of data, with each row formatted as a single
-  sublist</p></dd>
-
-
-  <dt>debug </dt>
-<dd><p>Character vector containing query</p></dd>
-
-</dl><p>If <code>neuprint_list2df</code> receives such a list it will use the
+  list formatted as follows:</p><ul><li><p>columns List of column names</p></li>
+<li><p>data Nested list of data, with each row formatted as a single
+  sublist</p></li>
+<li><p>debug  Character vector containing query</p></li>
+</ul><p>If <code>neuprint_list2df</code> receives such a list it will use the
   <code>columns</code> to define the names for a data.frame constructed from the
   <code>data</code> field.</p>
     </div>
