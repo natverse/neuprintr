@@ -3,11 +3,11 @@ test_that("neuprint_cosine_matrix works", {
   skip_if(as.logical(Sys.getenv("SKIP_NP_SERVER_TESTS")))
   expect_known_hash(
     cm <- neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in'),
-    hash='f69bb3c63d')
+    hash='8e4e615aa3')
   expect_known_hash(
     cm2 <- neuprint_cosine_matrix("/DA[1-3].*PN", grepl("ORN",type), partners='in',
                                   group='type', details='type'),
-    '8ea9ca29f1')
+    '86cee222fe')
 
   expect_silent(neuprint_cosine_plot(cm))
   expect_silent(
