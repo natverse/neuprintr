@@ -69,7 +69,7 @@ The main point is that you can then edit your R.environ file to contain informat
 
 `neuprint_token="YOUR_TOKEN_HERE"`
 `neuprint_server='https://neuprint.janelia.org/'`
-`neuprint_dataset='hemibrain:v1.0'`
+`neuprint_dataset='hemibrain:v1.1'`
 
 Leave a blank line at the end of the file.
 

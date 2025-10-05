@@ -109,7 +109,7 @@ Make sure you have a blank line at the end of your `.Renviron` file.
 Note that you can optionally specify a default dataset:
 
 ``` r
-neuprint_dataset = "hemibrain:v1.0"
+neuprint_dataset = "hemibrain:v1.1"
 ```
 
 if your neuPrint server has more than one dataset. For further

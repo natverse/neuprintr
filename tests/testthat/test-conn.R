@@ -18,7 +18,7 @@ test_that("neuprint_connection works", {
   skip_if_offline()
   expect_warning(expect_is(
     conn <- neuprint_login(server = "neuprint.janelia.org",
-                   dataset = 'hemibrain:v1.0.1',
+                   dataset = 'hemibrain:v1.2.1',
                    Cache = F, Force = T),
     "neuprint_connection"
   ),
