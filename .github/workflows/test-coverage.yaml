@@ -19,7 +19,7 @@ jobs:
       _R_CHECK_DONTTEST_EXAMPLES_: FALSE
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
       _R_CHECK_TESTS_NLINES_: 0
-      neuprint_dataset: hemibrain:v1.0.1
+      neuprint_dataset: hemibrain:v1.2.1
       neuprint_server: https://neuprint.janelia.org
       neuprint_token: ${{ secrets.NEUPRINT_TOKEN }}
 

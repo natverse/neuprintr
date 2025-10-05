@@ -94,7 +94,7 @@
 #'   server other than the one specified by the \code{neuprint_server}
 #'   environment variable.
 #'
-#'   \preformatted{neuprint_dataset = "hemibrain:v1.0"}
+#'   \preformatted{neuprint_dataset = "hemibrain:v1.1"}
 #'
 #' @section Options: Although setting environment variables is the recommended
 #'   approach, you can also set R startup options e.g. in your \code{.Rprofile}

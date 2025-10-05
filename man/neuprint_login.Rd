@@ -125,7 +125,7 @@ After successful login, the \code{neuprint_connection} object will
   server other than the one specified by the \code{neuprint_server}
   environment variable.
 
-  \preformatted{neuprint_dataset = "hemibrain:v1.0"}
+  \preformatted{neuprint_dataset = "hemibrain:v1.1"}
 }
 
 \section{Options}{
