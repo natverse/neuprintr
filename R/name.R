@@ -451,10 +451,17 @@ neuprint_get_fields <- function(possibleFields = c("bodyId", "pre", "post",
                                                    "somaLocation", "somaRadius","notes"),
                                 negateFields=FALSE,
                                 dataset = NULL, conn = NULL, ...){
-
+  cypher <- sprintf("MATCH (n:Meta) RETURN n.neuronProperties")
+  fields=unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn,
+                            dataset = dataset, include_headers=FALSE, ...)$data)
+  if(is.null(fields)) {
     cypher <- sprintf("MATCH (n :`Neuron`) UNWIND KEYS(n) AS k RETURN DISTINCT k AS neuron_fields")
     fields <- unlist(neuprint_fetch_custom(cypher=cypher, cache=TRUE, conn=conn, dataset = dataset, ...)$data)
-    if (negateFields){fields <- fields[!(fields %in% possibleFields)]} else {fields <- fields[fields %in% possibleFields]}
+  } else {
+    fields <- names(jsonlite::fromJSON(fields))
+  }
+
+  if (negateFields){fields <- fields[!(fields %in% possibleFields)]} else {fields <- fields[fields %in% possibleFields]}
 
   return(fields)
 }
