@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get a vector of all the ROIs in a specified dataset</h1>
-    <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/v1.3.3/R/info.R" class="external-link"><code>R/info.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/master/R/info.R" class="external-link"><code>R/info.R</code></a></small>
     <div class="hidden name"><code>neuprint_ROIs.Rd</code></div>
     </div>
 
@@ -69,8 +69,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neuprint_ROIs</span><span class="op">(</span></span>
 <span>  superLevel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fromNeuronFields <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fromNeuronFields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"neuprintr.support_hidden_rois"</span>, default <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -102,6 +103,11 @@ the <code>superLevel</code> argument is ignored</p></dd>
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
+<dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
+<dd><p>if <code>TRUE</code> will use memoisation to cache the result of the
+call for 1 hour.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

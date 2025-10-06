@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>neuprintr: R Client Utilities for Interacting with the neuPrint Connectome Analysis Service</h1>
-    <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/v1.3.3/R/neuprintr-package.R" class="external-link"><code>R/neuprintr-package.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/natverse/neuprintr/blob/master/R/neuprintr-package.R" class="external-link"><code>R/neuprintr-package.R</code></a></small>
     <div class="hidden name"><code>neuprintr-package.Rd</code></div>
     </div>
 
@@ -78,6 +78,16 @@
   <a href="https://natverse.github.io/neuprintr/" class="external-link">https://natverse.github.io/neuprintr/</a> for structured online
   documentation.</p>
     </div>
+    <div id="package-options">
+    <h2>Package Options</h2>
+    <p></p><ul><li><p><code>neuprintr.support_hidden_rois</code> In some instances rois are not
+  defined in a dataset's ROI list but only in field names. However, in these
+   circumstances, these ROI fields will not be listed in the neuprint field
+   properties for the dataset and a slower approach must be used to list
+   fields. To avoid paying a speed penalty for what is a rare circumstance
+   even with private in progress datasets, this option is provided. Set it to
+   <code>TRUE</code> to support such hidden fields if you need them.</p></li>
+</ul></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Useful links:</p><ul><li><p><a href="https://natverse.org/neuprintr">https://natverse.org/neuprintr</a></p></li>
@@ -92,6 +102,15 @@
 <li><p>Romain Franconville (<a href="https://orcid.org/0000-0002-4440-7297" class="external-link">ORCID</a>)</p></li>
 </ul></div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># List all package options</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^neuprintr"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
