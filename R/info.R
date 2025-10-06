@@ -59,7 +59,9 @@ neuprint_version <- function(conn = NULL, ...){
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}},
 #'   \code{\link{neuprint_ROI_hierarchy}}
 #' @export
-neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= FALSE, conn = NULL, ...){
+neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL,
+                          fromNeuronFields= getOption('neuprintr.support_hidden_rois', default = FALSE),
+                          conn = NULL, cache=TRUE, ...){
   if (fromNeuronFields){
     rois <- neuprint_get_fields(possibleFields = c("bodyId", "pre", "post",
                                                    "upstream", "downstream",
@@ -70,9 +72,9 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
                                 negateFields=TRUE,
                                 dataset = dataset, conn = conn, ...)
   }else{
-  ds = neuprint_datasets(conn=conn, ...)
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
+  ds = neuprint_datasets(conn=conn, cache=cache, ...)
   if(is.null(superLevel)){
     rois = c(ds[[dataset]]$superLevelROIs,ds[[dataset]]$ROIs)
     if(is.null(rois)){

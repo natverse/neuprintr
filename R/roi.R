@@ -229,13 +229,18 @@ neuprint_ROI_mesh <- function(roi, dataset = NULL, conn = NULL, ...){
 }
 
 # hidden
-neuprint_check_roi <- function(rois, superLevel = NULL, fromNeuronFields = TRUE,dataset = NULL, conn = NULL, ...){
-  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, fromNeuronFields = fromNeuronFields, superLevel = superLevel, ...)
+neuprint_check_roi <- function(
+    rois, superLevel = NULL,
+    fromNeuronFields = getOption('neuprintr.support_hidden_rois', default = FALSE),
+                               dataset = NULL, conn = NULL, ...){
+  possible.rois = neuprint_ROIs(dataset=dataset,conn=conn, fromNeuronFields = fromNeuronFields, superLevel = superLevel, cache=TRUE, ...)
   if(!all(rois%in%possible.rois)){
     stop("Regions of interest provided that are not demarcated in dataset ", dataset, " for server ", neuprint_login(conn)$server,
          ". Please call:\n",
-         "  neuprint_ROIs(fromNeuronFields=T, superLevel = NULL)\n",
-         "to see the available meshes. NB not all ROIs may have meshes.")
+         "  neuprint_ROIs(fromNeuronFields=F, superLevel = NULL)\n",
+         "to see the available meshes. NB not all ROIs may have meshes.\n",
+         "You may wish to try `fromNeuronFields=F` if you have 'hidden' meshes.\n",
+         "For hidden field support, see ?neuprintr package options section.")
   }else{
     TRUE
   }
