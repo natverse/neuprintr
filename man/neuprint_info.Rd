@@ -7,7 +7,7 @@
 \alias{neuprint_version}
 \title{Find out what some information about your neuPrint server}
 \usage{
-neuprint_datasets(conn = NULL, ...)
+neuprint_datasets(conn = NULL, cache = FALSE, ...)
 
 neuprint_database(conn = NULL, ...)
 
@@ -20,6 +20,9 @@ neuprint_version(conn = NULL, ...)
 neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
+
+\item{cache}{if \code{TRUE} will use memoisation to cache the result of the
+call for 1 hour.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }

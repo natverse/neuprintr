@@ -12,13 +12,9 @@
 #' # list details for all the available datasets
 #' neuprint_datasets()
 #' }
-neuprint_datasets <- function(conn = NULL, ...){
+neuprint_datasets <- function(conn = NULL, cache=FALSE, ...){
   neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, simplifyVector = TRUE, include_headers = FALSE, ...)
 }
-
-# memoised version
-# nb this will timeout after 1h, which seems a reasonable trade-off
-neuprint_datasets_memo <- memoise::memoise(neuprint_datasets, ~memoise::timeout(3600))
 
 #' @export
 #' @rdname neuprint_info
@@ -63,7 +59,9 @@ neuprint_version <- function(conn = NULL, ...){
 #' @seealso \code{\link{neuprint_login}}, \code{\link{neuprint_datasets}},
 #'   \code{\link{neuprint_ROI_hierarchy}}
 #' @export
-neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= FALSE, conn = NULL, ...){
+neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL,
+                          fromNeuronFields= getOption('neuprintr.support_hidden_rois', default = FALSE),
+                          conn = NULL, cache=TRUE, ...){
   if (fromNeuronFields){
     rois <- neuprint_get_fields(possibleFields = c("bodyId", "pre", "post",
                                                    "upstream", "downstream",
@@ -74,9 +72,9 @@ neuprint_ROIs <- function(superLevel = FALSE, dataset = NULL, fromNeuronFields= 
                                 negateFields=TRUE,
                                 dataset = dataset, conn = conn, ...)
   }else{
-  ds = neuprint_datasets(conn=conn, ...)
   conn=neuprint_login(conn)
   dataset = check_dataset(dataset, conn=conn)
+  ds = neuprint_datasets(conn=conn, cache=cache, ...)
   if(is.null(superLevel)){
     rois = c(ds[[dataset]]$superLevelROIs,ds[[dataset]]$ROIs)
     if(is.null(rois)){
