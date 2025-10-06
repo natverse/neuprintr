@@ -1,3 +1,5 @@
+# neuprintr (development version)
+
 # neuprintr 1.3.3
 
 * fix incorrect error message in neuprint_ROI_mesh by @jefferis in https://github.com/natverse/neuprintr/pull/171
