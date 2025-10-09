@@ -97,6 +97,7 @@ neuprint_ids provides for flexible search / specification
 <span>  fixed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -170,6 +171,13 @@ used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for deta
 <dt id="arg-unique">unique<a class="anchor" aria-label="anchor" href="#arg-unique"></a></dt>
 <dd><p>Whether to ensure that only unique ids are returned (default
 <code>TRUE</code>)</p></dd>
+
+
+<dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
+<dd><p>the query to neuPrint server, so that it does not need to be
+repeated. Of course you can save the results, but this may be helpful e.g.
+inside a wrapper function that post-processes the results like
+<code>hemibrainr::grouped_adjacency_matrix</code>.</p></dd>
 
 </dl></div>
     <div id="value">

@@ -71,6 +71,7 @@
 <span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  all_segments <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  chunk <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  possibleFields <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -103,6 +104,13 @@ current connection, is used. See <code><a href="neuprint_login.html">neuprint_lo
 neuPrint server. If NULL, the defaults set in your
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Rprofile</a></code> or <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.Renviron</a></code> are
 used. See <code><a href="neuprint_login.html">neuprint_login</a></code> for details.</p></dd>
+
+
+<dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
+<dd><p>the query to neuPrint server, so that it does not need to be
+repeated. Of course you can save the results, but this may be helpful e.g.
+inside a wrapper function that post-processes the results like
+<code>hemibrainr::grouped_adjacency_matrix</code>.</p></dd>
 
 
 <dt id="arg-chunk">chunk<a class="anchor" aria-label="anchor" href="#arg-chunk"></a></dt>
