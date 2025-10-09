@@ -84,7 +84,7 @@ neuprint_error_check <- function(req) {
   if(sc<300) return(req)
 
   task=paste("process url:", req$url)
-  if(isTRUE(sc %in% c(400L, 500L))) {
+  if(isTRUE(sc %in% c(400L, 401L, 500L))) {
     parsed=neuprint_parse_json(req)
     msg=as.character(unlist(parsed))
     task=paste(task, "with neuPrint error:", msg)
