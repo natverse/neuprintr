@@ -12,7 +12,7 @@ neuprint_fetch <- function(path,
   conn = neuprint_login(conn)
   server = sub("\\/$", "", conn$server) # you cannot have double / in any part of path
   conf = conn$config
-  if (cache)
+  if (isTRUE(cache))
     neuprint_fetch_impl_memo(
       path,
       body = body,
