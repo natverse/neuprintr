@@ -24,6 +24,7 @@ neuprint_ids(
   fixed = TRUE,
   conn = NULL,
   dataset = NULL,
+  cache = FALSE,
   ...
 )
 }
@@ -70,6 +71,11 @@ used. See \code{\link{neuprint_login}} for details.}
 
 \item{unique}{Whether to ensure that only unique ids are returned (default
 \code{TRUE})}
+
+\item{cache}{the query to neuPrint server, so that it does not need to be
+repeated. Of course you can save the results, but this may be helpful e.g.
+inside a wrapper function that post-processes the results like
+\code{hemibrainr::grouped_adjacency_matrix}.}
 }
 \value{
 a vector of body ids, or a data frame with their meta information

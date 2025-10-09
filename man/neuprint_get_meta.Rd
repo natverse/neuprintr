@@ -9,6 +9,7 @@ neuprint_get_meta(
   dataset = NULL,
   all_segments = TRUE,
   conn = NULL,
+  cache = FALSE,
   chunk = TRUE,
   progress = FALSE,
   possibleFields = NULL,
@@ -30,6 +31,11 @@ current connection, is used. See \code{\link{neuprint_login}} for details.}
 neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
+
+\item{cache}{the query to neuPrint server, so that it does not need to be
+repeated. Of course you can save the results, but this may be helpful e.g.
+inside a wrapper function that post-processes the results like
+\code{hemibrainr::grouped_adjacency_matrix}.}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
 chunks or an integer specifying the size of those chunks (which defaults to

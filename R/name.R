@@ -87,17 +87,18 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' }
 #' @importFrom glue glue_collapse glue
 neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
-                              conn = NULL, chunk=TRUE, progress=FALSE,
+                              conn = NULL, cache=FALSE,
+                              chunk=TRUE, progress=FALSE,
                               possibleFields=NULL, ...){
   conn = neuprint_login(conn)
   dataset = check_dataset(dataset=dataset, conn=conn)
 
-  bodyids <- neuprint_ids(bodyids, conn=conn, dataset = dataset, unique=FALSE, mustWork = FALSE)
+  bodyids <- neuprint_ids(bodyids, conn=conn, dataset = dataset, unique=FALSE, mustWork = FALSE, cache=cache)
   if(any(duplicated(bodyids))) {
     ubodyids=unique(bodyids)
     unames=neuprint_get_meta(bodyids=ubodyids, dataset=dataset,
                              conn=conn, all_segments=all_segments,
-                             chunk=chunk, progress=progress, possibleFields=possibleFields, ...)
+                             chunk=chunk, progress=progress, possibleFields=possibleFields, cache=cache, ...)
     res=unames[match(bodyids, ubodyids),]
     return(res)
   }
@@ -130,7 +131,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
       chunk=FALSE, # nb don't want to further chunk
       possibleFields=possibleFields,
       all_segments=all_segments,
-      dataset = dataset, conn = conn, ...),
+      dataset = dataset, conn = conn, cache=cache, ...),
       error = function(e) {warning(e); NULL}))
     d  = try(dplyr::bind_rows(ll), silent = T)
     # dplyr has got fussier about type safety e.g. mixing char and int
@@ -147,7 +148,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
                         "cropped","size","cellBodyFiber","notes")
 
   fieldNames <- neuprint_get_fields(possibleFields = possibleFields,
-                                    dataset=dataset,conn=conn)
+                                    dataset=dataset, conn=conn)
   rfields=dfFields(fieldNames)
   returnCypher <- glue("n.`{dfields}` AS `{rfields}`",
                        dfields=fieldNames)
@@ -158,7 +159,7 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
     " RETURN {returnCypher}, exists(n.somaLocation) AS soma",
     node=ifelse(all_segments,"Segment","Neuron")
   )
-  nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, ...)
+  nc <- neuprint_fetch_custom(cypher=cypher, conn = conn, dataset = dataset, include_headers = FALSE, cache=cache, ...)
   meta <- neuprint_list2df(nc, return_empty_df = TRUE)
   meta <- neuprint_fix_column_types(meta, conn=conn, dataset=dataset)
   meta <- meta[,names(meta) %in% c(rfields, "soma")]
@@ -422,10 +423,10 @@ neuprint_search <- function(search, field = "name", fixed=FALSE, exact=NULL,
 #' }
 #' @rdname neuprint_search
 #' @importFrom stats na.omit
-neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, dataset=NULL, ...) {
+neuprint_ids <- function(x, mustWork=TRUE, unique=TRUE, fixed=TRUE, conn=NULL, dataset=NULL, cache=FALSE, ...) {
   if(is.character(x) && length(x)==1 && !looks_like_bodyid(x) && !is.na(x)) {
     x <- neuprint_search(x, meta = F, field = 'type', fixed=fixed,
-                         conn=conn, dataset=dataset, ...)
+                         conn=conn, dataset=dataset, cache=cache, ...)
   }
   x <- id2char(x)
   if(isTRUE(mustWork) && isFALSE(length(na.omit(x))>0))
