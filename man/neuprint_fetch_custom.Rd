@@ -27,7 +27,7 @@ neuPrint server. If NULL, the defaults set in your
 used. See \code{\link{neuprint_login}} for details.}
 
 \item{cache}{if \code{TRUE} will use memoisation to cache the result of the
-call for 1 hour.}
+call for 24 hours.}
 
 \item{...}{methods passed to \code{neuprint_login}}
 }

@@ -68,7 +68,7 @@ neuprint_fetch_impl <- function(path, body = NULL, server = NULL, conf = NULL,
 }
 
 
-neuprint_fetch_impl_memo <- memoise::memoise(neuprint_fetch_impl, ~memoise::timeout(3600))
+neuprint_fetch_impl_memo <- memoise::memoise(neuprint_fetch_impl, ~memoise::timeout(3600*24))
 
 # hidden
 neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {

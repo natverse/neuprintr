@@ -6,7 +6,7 @@
 #' @param cypher the cypher by which to make your search, the default returns
 #'   the available datasets and the servers that host their associated mesh data
 #' @param cache if \code{TRUE} will use memoisation to cache the result of the
-#'   call for 1 hour.
+#'   call for 24 hours.
 #' @param conn optional, a neuprintr connection object, which also specifies the
 #'   neuPrint server. If NULL, the defaults set in your
 #'   \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
