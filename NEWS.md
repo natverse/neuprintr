@@ -1,4 +1,9 @@
-# neuprintr (development version)
+# neuprintr 1.3.4
+
+* Increase chunk size to speed up neuprint_get_meta by 3x for big queries
+* Fix neuprint roi checks / listing by @jefferis in https://github.com/natverse/neuprintr/pull/186
+
+**Full Changelog**: https://github.com/natverse/neuprintr/compare/v1.3.3...v1.3.4
 
 # neuprintr 1.3.3
 
