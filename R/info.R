@@ -13,7 +13,7 @@
 #' neuprint_datasets()
 #' }
 neuprint_datasets <- function(conn = NULL, cache=FALSE, ...){
-  neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, simplifyVector = TRUE, include_headers = FALSE, ...)
+  neuprint_fetch(path = 'api/dbmeta/datasets', conn = conn, simplifyVector = TRUE, include_headers = FALSE, cache=cache, ...)
 }
 
 #' @export
