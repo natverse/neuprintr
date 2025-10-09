@@ -33,7 +33,7 @@ used. See \code{\link{neuprint_login}} for details.}
 
 \item{chunk}{A logical specifying whether to split the query into multiple
 chunks or an integer specifying the size of those chunks (which defaults to
-2000 when \code{chunk=TRUE}).}
+30,000 when \code{chunk=TRUE}).}
 
 \item{progress}{default FALSE. If TRUE, the API is called separately for each
 neuron and you can assess its progress, if an error is thrown by any one

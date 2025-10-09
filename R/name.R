@@ -70,7 +70,7 @@ neuprint_get_neuron_names <- function(bodyids, dataset = NULL, all_segments = TR
 #' @inheritParams neuprint_get_adjacency_matrix
 #' @param chunk A logical specifying whether to split the query into multiple
 #'   chunks or an integer specifying the size of those chunks (which defaults to
-#'   2000 when \code{chunk=TRUE}).
+#'   30,000 when \code{chunk=TRUE}).
 #' @param progress default FALSE. If TRUE, the API is called separately for each
 #'   neuron and you can assess its progress, if an error is thrown by any one
 #'   \code{bodyid}, that \code{bodyid} is ignored.
@@ -110,9 +110,9 @@ neuprint_get_meta <- function(bodyids, dataset = NULL, all_segments = TRUE,
     # make smaller chunks when progress=T and there aren't so many bodyids
     if (chunk ==TRUE)
       if(isTRUE(progress))
-        chunksize=min(2000L, ceiling(nP/10))
+        chunksize=min(30000L, ceiling(nP/10))
       else
-        chunksize=2000L
+        chunksize=30000L
       else
         chunksize=Inf
   }
