@@ -1,3 +1,5 @@
+# neuprintr (development version)
+
 # neuprintr 1.3.4
 
 * Increase chunk size to speed up neuprint_get_meta by 3x for big queries
