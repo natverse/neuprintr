@@ -6,6 +6,8 @@
 #'   alternative to \code{bodyids})
 #' @param threshold Return only connections greater than or equal to the
 #'   indicated strength (default 1 returns all connections).
+#' @param neurotransmitter Return only connections with given neurotransmitter
+#' type.
 #' @param sparse Whether to return a sparse adjacency matrix (of class
 #'   \code{\link[Matrix:CsparseMatrix-class]{CsparseMatrix}}). This may be a
 #'   particularly good idea for large matrices of >5000 neurons, especially if a
@@ -58,6 +60,7 @@
 neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
                                           outputids=NULL,
                                           threshold=1L,
+                                          neurotransmitter=NULL,
                                           dataset = NULL,
                                           chunksize=1000L,
                                           all_segments = FALSE, conn = NULL,
@@ -110,8 +113,17 @@ neuprint_get_adjacency_matrix <- function(bodyids=NULL, inputids=NULL,
   all_segments.json = ifelse(all_segments,"Segment","Neuron")
   namefield=neuprint_name_field(conn=conn, dataset=dataset)
   checkmate::assertIntegerish(threshold, lower = 1, len = 1, any.missing = F)
+  if (!is.null(neurotransmitter)) {
+    checkmate::assertChoice(neurotransmitter, c("acetylcholine", "gaba", "glutamate"))
+    nt_filter <- glue(paste(
+      "MATCH (n:`{all_segments.json}`) WHERE n.{neurotransmitter} >= n.acetylcholine AND n.{neurotransmitter} >= n.gaba AND n.{neurotransmitter} >= n.glutamate AND n.{neurotransmitter} >= n.neither",
+      "MATCH (m:`{all_segments.json}`) WHERE m.{neurotransmitter} >= m.acetylcholine AND m.{neurotransmitter} >= m.gaba AND m.{neurotransmitter} >= m.glutamate AND m.{neurotransmitter} >= m.neither"
+    ))
+  } else
+    nt_filter <- ""
   cypher = glue(
     "WITH {id2json(inputids)} AS input, {id2json(outputids)} AS output",
+    nt_filter,
     "MATCH (n:`{all_segments.json}`)-[c:ConnectsTo]->(m)",
     "WHERE n.bodyId IN input AND m.bodyId IN output",
     ifelse(threshold>1, paste("AND c.weight>",threshold-1),""),
