@@ -75,7 +75,7 @@ neuprint_parse_json <- function (req, simplifyVector = FALSE, ...) {
   text <- httr::content(req, as = "text", encoding = "UTF-8")
   if (identical(text, ""))
     stop("No output to parse", call. = FALSE)
-  jsonlite::fromJSON(text, simplifyVector = simplifyVector, ...)
+  jsonlite::fromJSON(text, simplifyVector = simplifyVector, bigint_as_char = TRUE, ...)
 }
 
 # hidden
