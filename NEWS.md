@@ -1,4 +1,12 @@
-# neuprintr (development version)
+# neuprintr 1.4.0
+
+## What's Changed
+* Preserve precision of large (>2^53) body ids in JSON responses by [@jefferis](https://github.com/jefferis) in [#187](https://github.com/natverse/neuprintr/pull/187)
+* Add `cache` options to `neuprint_get_meta()`, `neuprint_ids()`, and `neuprint_datasets()` to speed repeated queries ([57b52f](https://github.com/natverse/neuprintr/commit/57b52ff), [01a06a](https://github.com/natverse/neuprintr/commit/01a06a9), [892a69](https://github.com/natverse/neuprintr/commit/892a69c))
+* Show detailed neuPrint error messages for HTTP 401 responses ([4d6258](https://github.com/natverse/neuprintr/commit/4d62582))
+* Increase memoised fetch/cache timeout from 1 hour to 24 hours ([be3ad4](https://github.com/natverse/neuprintr/commit/be3ad46))
+
+**Full Changelog**: [v1.3.4...v1.4.0](https://github.com/natverse/neuprintr/compare/v1.3.4...v1.4.0)
 
 # neuprintr 1.3.4
 
