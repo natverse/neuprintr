@@ -1,5 +1,7 @@
 # this should return TRUE if we have something that looks bodyid ish
 looks_like_bodyid <- function(x) {
+  if(is.character(x) && any(!grepl("^-?[0-9]+$", x[!is.na(x)])))
+    return(FALSE)
   all(is.finite(bit64::as.integer64(x)))
 }
 

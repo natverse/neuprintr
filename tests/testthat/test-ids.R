@@ -56,6 +56,11 @@ test_that("id conversion works", {
   expect_equal(neuprint_ids(NA, mustWork = F), NA_character_)
 })
 
+test_that("looks_like_bodyid handles non-id strings quietly", {
+  expect_no_warning(expect_false(looks_like_bodyid("DNp01")))
+  expect_no_warning(expect_false(looks_like_bodyid("type:DNp01")))
+})
+
 test_that("valid_id works", {
   expect_true(valid_id(1))
   expect_false(valid_id(NA))
