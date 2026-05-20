@@ -55,7 +55,8 @@ repeated. Of course you can save the results, but this may be helpful e.g.
 inside a wrapper function that post-processes the results like
 \code{hemibrainr::grouped_adjacency_matrix}.}
 
-\item{...}{methods passed to \code{neuprint_login}}
+\item{...}{arguments passed to \code{nat::nlapply} and downstream helper
+functions such as \code{neuprint_read_neuron}.}
 }
 \value{
 a n x n matrix, where the rows are input neurons and the columns are

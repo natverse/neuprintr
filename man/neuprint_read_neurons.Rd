@@ -87,14 +87,15 @@ error. The default value (\code{NA}) will result in nlapply stopping with
 an error message the moment there is an error. For other values, see
 details.}
 
-\item{...}{methods passed to \code{neuprint_login}}
+\item{...}{arguments passed to \code{nat::nlapply} and downstream helper
+functions such as \code{neuprint_read_neuron}.}
 }
 \value{
 \code{nat::\link[nat]{neuronlist}} containing either
   \code{nat::\link[nat]{neuron}} objects as used by the \code{nat} and
   \code{catmaid} packages (when \code{nat=TRUE}) \emph{or}, for each neuron,
   a list of length containing two data frames (\code{swc,connectorts}in SWC
-  format. /
+  format.
 }
 \description{
 \code{neuprint_read_neurons} is a full service function that

@@ -48,7 +48,8 @@ neuron and you can assess its progress, if an error is thrown by any one
 \item{possibleFields}{passed to \code{\link{neuprint_get_fields}} when not
 \code{NULL}, otherwise a default set are used.}
 
-\item{...}{methods passed to \code{neuprint_login}}
+\item{...}{arguments passed to \code{nat::nlapply} and downstream helper
+functions such as \code{neuprint_read_neuron}.}
 }
 \value{
 a \code{data.frame} containing the neuron's \itemize{

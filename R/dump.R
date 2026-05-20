@@ -12,6 +12,10 @@
 #' @param volumes whether or not to include neuron volume information in the dump, i.e. voxels. Currently only  works by talking to a DVID server using
 #' the package drvid
 #' @param voxel.thresh the size threshold, in number of voxels, a neuron/segment must exceed, to be included in the dump, if read from an ROI
+#' @param ... additional arguments passed to helper functions including
+#'   \code{neuprint_bodies_in_ROI}, \code{neuprint_read_neurons},
+#'   \code{neuprint_get_adjacency_matrix}, \code{neuprint_connection_table},
+#'   and \code{drvid::dv_get_voxels}.
 #' @seealso \code{\link{neuprint_get_synapses}}, \code{\link{neuprint_read_neurons}}
 #' @export
 #' @rdname neuprint_dump

@@ -30,7 +30,8 @@ neuPrint server. If NULL, the defaults set in your
 \code{\link[=Startup]{.Rprofile}} or \code{\link[=Startup]{.Renviron}} are
 used. See \code{\link{neuprint_login}} for details.}
 
-\item{...}{methods passed to \code{neuprint_login}}
+\item{...}{arguments passed to \code{nat::nlapply} and downstream helper
+functions such as \code{neuprint_read_neuron}.}
 
 \item{all_segments}{if TRUE, all bodies are considered, if FALSE, only
 'Neurons', i.e. bodies with a status roughly traced status.}

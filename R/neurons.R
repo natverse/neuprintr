@@ -38,12 +38,13 @@
 #'   resampling occurs.
 #' @inherit neuprint_fetch_custom params
 #' @inheritParams nat::nlapply
-#' @param ... methods passed to \code{neuprint_login}
+#' @param ... arguments passed to \code{nat::nlapply} and downstream helper
+#'   functions such as \code{neuprint_read_neuron}.
 #' @return \code{nat::\link[nat]{neuronlist}} containing either
 #'   \code{nat::\link[nat]{neuron}} objects as used by the \code{nat} and
 #'   \code{catmaid} packages (when \code{nat=TRUE}) \emph{or}, for each neuron,
 #'   a list of length containing two data frames (\code{swc,connectorts}in SWC
-#'   format. /
+#'   format.
 #'
 #' @examples
 #' \donttest{
@@ -80,7 +81,7 @@ neuprint_read_neurons <- function(bodyids,
   bodyids = neuprint_ids(bodyids, conn = conn, dataset = dataset)
   if(length(bodyids)==0)
     stop("No bodyids to fetch!")
-  neurons = nat::nlapply(bodyids,function(bodyid)
+  neurons = nat::nlapply(bodyids,function(bodyid, ...)
     neuprint_read_neuron(bodyid=bodyid,
                          nat=nat,
                          drvid=drvid,
@@ -91,9 +92,9 @@ neuprint_read_neurons <- function(bodyids,
                          dataset = dataset,
                          all_segments = all_segments,
                          resample = resample,
-                         conn= conn,
-                         ...),
-    OmitFailures = OmitFailures)
+                         conn=conn, ...),
+    OmitFailures = OmitFailures,
+    ...)
   neurons = neurons[!sapply(neurons,function(n) is.null(n))]
   names(neurons) = unlist(sapply(neurons,function(n) n$bodyid))
   if(length(neurons)==0){

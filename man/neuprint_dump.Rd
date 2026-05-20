@@ -93,7 +93,10 @@ error. The default value (\code{NA}) will result in nlapply stopping with
 an error message the moment there is an error. For other values, see
 details.}
 
-\item{...}{methods passed to \code{neuprint_login}}
+\item{...}{additional arguments passed to helper functions including
+\code{neuprint_bodies_in_ROI}, \code{neuprint_read_neurons},
+\code{neuprint_get_adjacency_matrix}, \code{neuprint_connection_table},
+and \code{drvid::dv_get_voxels}.}
 }
 \description{
 Download neuron morphology and connectivity data to a specified directory as .csv and .rda files
