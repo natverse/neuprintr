@@ -476,12 +476,14 @@ dfFields <- function(field_name) {
     neuprint = c(
       "bodyId",
       "instance",
-      "size"
+      "size",
+      "soma"
     ),
     rName = c(
       "bodyid",
       "name",
-      "voxels"
+      "voxels",
+      "nsoma"
     ),
     stringsAsFactors = FALSE
   )
